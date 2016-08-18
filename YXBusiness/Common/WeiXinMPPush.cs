@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using System.Configuration;
 using IntFactoryEntity.Task;
+using IntFactoryEnum;
 
 namespace IntFactoryBusiness
 {
@@ -25,31 +26,44 @@ namespace IntFactoryBusiness
         //任务完成给它下级任务推送通知
         public async void SendTaskFinishPush(string taskid)
         {
-            await SendAllPush(WeiXinMPPushType.SendTaskFinishPush,taskid);
+            await SendWeiXinMPPush(WeiXinMPPushType.SendTaskFinishPush, taskid);
         }
 
-        //新任务推送通知
+        //订单分解新任务推送通知
         public async void SendNewTasksPush(string orderid)
         {
-            await SendAllPush(WeiXinMPPushType.SendNewTaskPush, orderid);
+            await SendWeiXinMPPush(WeiXinMPPushType.SendNewTaskPush, orderid);
         }
 
-        //新订单推送通知
+        //订单更换负责人推送通知
         public async void SendChangeOrderOwnerPush(string orderid)
         {
-            await SendAllPush(WeiXinMPPushType.SendChangeOrderOwnerPush, orderid);
+            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeOrderOwnerPush, orderid);
         }
 
-        public Task<bool> SendAllPush(WeiXinMPPushType pushType, string guid)
+        //任务更换负责人推送通知
+        public async void SendChangeTaskOwnerPush(string taskid)
+        {
+            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeTaskOwnerPush, taskid);
+        }
+
+        public Task<bool> SendWeiXinMPPush(WeiXinMPPushType pushType, string guid)
         {
             string result = string.Empty;
             if (pushType == WeiXinMPPushType.SendTaskFinishPush)
             {
                 TaskEntity task = TaskBusiness.GetPushTaskForFinishTask(guid);
-                if (task != null)
+                if (!string.IsNullOrEmpty( task.OpenID))
                 {
-                    string content = GetPushContent(WeiXinMPPushType.SendTaskFinishPush, task.OpenID, task.Title, task.PreTitle, task.Owner.Name);
-                    result=SendPush(content);
+                    string content = GetPushContent(pushType, task.OpenID, task.Title, task.PreTitle, task.Owner.Name);
+                    result=SendPush(content);   
+                }
+                if (task.Order != null)
+                {
+                    var order = task.Order;
+                    pushType = WeiXinMPPushType.SendTasksFinishPush;
+                    string content = GetPushContent(pushType, order.OpenID, order.OrderCode, string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
+                    result = SendPush(content);
                 }
             }
             else if (pushType == WeiXinMPPushType.SendNewTaskPush)
@@ -59,7 +73,7 @@ namespace IntFactoryBusiness
                 {
                     foreach (var task in tasks)
                     {
-                        string content = GetPushContent(WeiXinMPPushType.SendNewTaskPush, task.OpenID, task.Title, "", "", task.EndTime);
+                        string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
                         result=SendPush(content);
                     }
                 }
@@ -69,8 +83,17 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForChangeOrderOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(WeiXinMPPushType.SendChangeOrderOwnerPush, task.OpenID, task.Title, "", "", task.EndTime);
+                    string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
                     result=SendPush(content);
+                }
+            }
+            else if (pushType == WeiXinMPPushType.SendChangeTaskOwnerPush)
+            {
+                TaskEntity task = TaskBusiness.GetPushTaskForChangeTaskOwner(guid);
+                if (task != null)
+                {
+                    string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
+                    result = SendPush(content);
                 }
             }
 
@@ -81,7 +104,10 @@ namespace IntFactoryBusiness
         public string GetPushContent(WeiXinMPPushType pushType, string openid, string title, string preTitle="", string onwerName="",DateTime? endTime=null)
         {
             string[] template_ids = new string[] { "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
-                "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs","sb_DkErldHIMGSLH0ta-ca0o43j5GluUL1mOmYbWPAc" };
+                "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs",
+                "sb_DkErldHIMGSLH0ta-ca0o43j5GluUL1mOmYbWPAc",
+                 "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs",
+                "_QG1QkmjxIS80sbrMBhrW9gnPoM52LgJ2BmmEkrqYuo"};
             Dictionary<string, object> parasObj = new Dictionary<string, object>();
             Dictionary<string, object> dataObj = new Dictionary<string, object>();
             Dictionary<string, object> firstObj = new Dictionary<string, object>() { };
@@ -96,16 +122,26 @@ namespace IntFactoryBusiness
             string keyword2 = onwerName;
             string keyword3 = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
             string remark = "请按时完成任务！";
-            if (pushType == WeiXinMPPushType.SendNewTaskPush) {
+
+            if (pushType == WeiXinMPPushType.SendNewTaskPush || pushType == WeiXinMPPushType.SendChangeTaskOwnerPush) {
                 first = "您收到了一个新任务！";
+                if (pushType == WeiXinMPPushType.SendChangeTaskOwnerPush)
+                {
+                    first = "有一个任务将您设为负责人！";
+                }
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
-                remark = "请尽快处理！";
+                remark = "请按时完成任务！";
             }
             else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
             {
-                first = "您有一个新的订单，请尽快处理";
+                first = "有一个订单将您设为负责人！";
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
+            }
+            else if (pushType == WeiXinMPPushType.SendTasksFinishPush)
+            {
+                first = "您有一个订单的所有任务已完成！";
+                remark = "请确认！";
             }
             firstObj.Add("value", first);
             firstObj.Add("color", color);
@@ -245,7 +281,11 @@ namespace IntFactoryBusiness
 
         SendNewTaskPush=1,
 
-        SendChangeOrderOwnerPush = 2
+        SendChangeOrderOwnerPush = 2,
+
+        SendChangeTaskOwnerPush = 3,
+
+        SendTasksFinishPush = 4
     }
 
     //微信公众号token实体

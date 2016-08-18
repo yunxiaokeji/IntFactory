@@ -32,7 +32,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
-
+                obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
             JsonDictionary.Add("orders",objs);
@@ -63,7 +63,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
             obj.Add("clientID", item.ClientID);
-
+            obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();
             foreach (var d in item.Details) {

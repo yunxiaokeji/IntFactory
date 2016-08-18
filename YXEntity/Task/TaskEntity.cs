@@ -39,6 +39,9 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string OwnerID { get; set; }
 
+        [Property("Lower")]
+        public string OrderOwnerID { get; set; }
+
         public CacheUserEntity Owner { get; set; }
 
         public DateTime EndTime { get; set; }

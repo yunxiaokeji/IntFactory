@@ -154,6 +154,8 @@ namespace IntFactoryEntity
 
         public string OrderCode { get; set; }
 
+        public string GoodsID { get; set; }
+
         public string GoodsCode { get; set; }
 
         public string Title { get; set; }
@@ -242,6 +244,8 @@ namespace IntFactoryEntity
         public string ProcessCategoryName { get; set; }
 
         public string CategoryName { get; set; }
+
+        public string OpenID { get; set; }
 
         public int TurnTimes { get; set; }
         /// <summary>
