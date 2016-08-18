@@ -134,6 +134,7 @@
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
+        $("#Platemak table").find("tr td ").css("line-height","28px");
         $("#Platemak table").find("tr:first").addClass("fontbold");
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");
@@ -146,8 +147,7 @@
         $("#Platemak table").find("tr:first").find("td:last").css("margin-left", "10%");
     };
 
-    Objects.getOrderRemork = function (order) {
-        
+    Objects.getOrderRemork = function (order) {        
         var tableModel = {}, xattr = [], yattr = [],xyattr=[],xy=[];
         for (var i = 0; i < order.OrderGoods.length; i++) {            
             if ($.inArray(order.OrderGoods[i].XRemark, xattr) == -1 ) {
