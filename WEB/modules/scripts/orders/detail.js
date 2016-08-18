@@ -849,6 +849,7 @@
                             if (data.status) {
                                 alert("保存成功！");
                                 $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
+                                _self.model.CostPrice = _self.model.CostPrice + $("#iptCostPrice").val() * 1;
                                 _self.getCosts();
                             } else {
                                 alert("成本添加失败，请刷新页面重试！");
