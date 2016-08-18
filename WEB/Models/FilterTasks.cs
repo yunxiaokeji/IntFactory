@@ -13,9 +13,7 @@ namespace YXERP.Models
     {
         public string keyWords = string.Empty;
 
-        public bool isMy = true;
-
-        public bool isParticipate = false;
+        public int filtertype = 1;
 
         public string userID { get; set; }
 

@@ -221,9 +221,8 @@ namespace IntFactoryBusiness
             return list;
         }
 
-
         public static TaskEntity GetPushTaskForFinishTask(string taskid) { 
-            TaskEntity model = null;
+            TaskEntity model = new TaskEntity();
             DataSet ds = TaskDAL.BaseProvider.GetPushTaskForFinishTask(taskid);
             DataTable taskTB = ds.Tables["OrderTask"];
             if (taskTB.Rows.Count == 1)
@@ -231,6 +230,13 @@ namespace IntFactoryBusiness
                 model = new TaskEntity();
                 model.FillData(taskTB.Rows[0]);
                 model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+            }
+            DataTable orderTB = ds.Tables["Order"];
+            if (orderTB != null && orderTB.Rows.Count == 1)
+            {
+                OrderEntity order = new OrderEntity();
+                order.FillData(orderTB.Rows[0]);
+                model.Order = order;
             }
 
             return model;
@@ -266,6 +272,20 @@ namespace IntFactoryBusiness
 
             return model;
         }
+
+        public static TaskEntity GetPushTaskForChangeTaskOwner(string taskid)
+        {
+            TaskEntity model = null;
+            DataSet ds = TaskDAL.BaseProvider.GetPushTaskForChangeTaskOwner(taskid);
+            DataTable taskTB = ds.Tables["OrderTask"];
+            if (taskTB.Rows.Count == 1)
+            {
+                model = new TaskEntity();
+                model.FillData(taskTB.Rows[0]);
+            }
+
+            return model;
+        }
         #endregion
 
         #region 改
@@ -284,6 +304,9 @@ namespace IntFactoryBusiness
                 var user = OrganizationBusiness.GetUserByUserID(ownerID, clientid);
                 string msg = "将任务负责人更改为:"+(user!=null?user.Name:ownerID);
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+
+                //任务更换负责人推送通知
+                WeiXinMPPush.BasePush.SendChangeTaskOwnerPush(taskID);
             }
 
             return flag;
