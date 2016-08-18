@@ -8,7 +8,7 @@
     require("pager");
     require("switch");
     require("autocomplete");
-    require("menu");
+    require("chooseordercategory");
     var Params = {
         PageIndex: 1,
         keyWords: "",
@@ -55,64 +55,70 @@
                 }
             }
         });
+        $.post("/Products/GetChildCategorysByID", {
+            categoryid: ''
+        }, function (data) {
+            //绑定设置类别控件
+            $("#productMenuChange").chooseMenu({
+                data: data.Items,
+                onHeaderChange: function (items) {
 
-        //绑定设置类别控件
-        $("#productMenuChange").chooseMenu({
-            onHeaderChange: function (items) {
+                },
+                onCategroyChange: function (items) {
 
-            },
-            onCategroyChange: function (items) {
-                $(".productsalesattr").remove();
-                $(".product-attr").remove();
-                $(".child-product-li .tr-header").nextAll().remove();
-                var id = items[items.length - 1].id;
-                _self.categoryID = id;
-                if (id) {
-                    Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
-                        doT.exec("template/products/product-property.html", function (template) {
-                            var innerHtml = template(data.Model.AttrLists);
-                            innerHtml = $(innerHtml);
-                            $("#smallUnit").parent().before(innerHtml);
-                        });
+                    //$(".productsalesattr").remove();
+                    //$(".product-attr").remove();
+                    //$(".child-product-li .tr-header").nextAll().remove();
+                    //var id = items[items.length - 1].id;
+                    //_self.categoryID = id;
+                    //if (id) {
+                    //    Global.post("/Products/GetCategoryDetailsByID", { categoryid: id }, function (data) {
+                    //        doT.exec("template/products/product-property.html", function (template) {
+                    //            var innerHtml = template(data.Model.AttrLists);
+                    //            innerHtml = $(innerHtml);
+                    //            $("#smallUnit").parent().before(innerHtml);
+                    //        });
 
-                        doT.exec("template/products/sales-and-attr.html", function (template) {
-                            var innerHtml = template(data.Model.SaleAttrs);
-                            innerHtml = $(innerHtml);
-                            //监听输入自定义规格
-                            innerHtml.find("#attrLayout").change(function () {
-                                var _this = $(this);
-                                if (_this.val()) {
-                                    var b1 = false;
-                                    $(".productsalesattr input[type=checkbox]").each(function () {
-                                        if (_this.val() == $(this).data('text')) {
-                                            b1 = true;
-                                            return false;
-                                        }
-                                    });
-                                    if (!b1) {
-                                        var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
-                                        html.find('.attritem').click(function () {
-                                            Product.bindChooseChildEvent();
-                                        });
-                                        _this.parent().before(html);
-                                        html.find('.attritem').click();
-                                    } else {
-                                        alert("该规格已存在");
-                                    }
-                                    _this.val("");
-                                }
-                            });
-                            //组合子产品
-                            innerHtml.find(".attritem").click(function () {
-                                Product.bindChooseChildEvent();
-                            });
-                            $(".child-product-li").before(innerHtml);
-                        });
-                    });
+                    //        doT.exec("template/products/sales-and-attr.html", function (template) {
+                    //            var innerHtml = template(data.Model.SaleAttrs);
+                    //            innerHtml = $(innerHtml);
+                    //            //监听输入自定义规格
+                    //            innerHtml.find("#attrLayout").change(function () {
+                    //                var _this = $(this);
+                    //                if (_this.val()) {
+                    //                    var b1 = false;
+                    //                    $(".productsalesattr input[type=checkbox]").each(function () {
+                    //                        if (_this.val() == $(this).data('text')) {
+                    //                            b1 = true;
+                    //                            return false;
+                    //                        }
+                    //                    });
+                    //                    if (!b1) {
+                    //                        var html = $('<label class="mRight10"><input type="checkbox" class="attritem" data-id="attr.AttrID" data-text="' + _this.val() + '" value="|" />' + _this.val() + '</label> ');
+                    //                        html.find('.attritem').click(function () {
+                    //                            Product.bindChooseChildEvent();
+                    //                        });
+                    //                        _this.parent().before(html);
+                    //                        html.find('.attritem').click();
+                    //                    } else {
+                    //                        alert("该规格已存在");
+                    //                    }
+                    //                    _this.val("");
+                    //                }
+                    //            });
+                    //            //组合子产品
+                    //            innerHtml.find(".attritem").click(function () {
+                    //                Product.bindChooseChildEvent();
+                    //            });
+                    //            $(".child-product-li").before(innerHtml);
+                    //        });
+                    //    });
+                    //}
                 }
-            }
-        });
+            });
 
+        });
+       
 
         VerifyObject = Verify.createVerify({
             element: ".verify",

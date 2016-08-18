@@ -113,60 +113,63 @@
             }
 
             /*子分类数据处理*/
-            for (var i = 0; i < data.length; i++) {
-                var item = data[i];
-                var _childMenu = $('<li class="hand categategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
-                $(".change-menu-content").find('ul').append(_childMenu);
-                _childMenu.click(function () {
-                    var _this = $(this);
-                    var id = $(this).data("id");
-                    if (_this.data('layer') < options.layer) {
-                        var item = getCacheDataByID(id);
-                        var headerData = {
-                            headerText: _this.text(),
-                            headerID: _this.data("id"),
-                            headerLayer: _this.data("layer")
-                        };
-                        $(".change-menu-content").find('ul').empty();
-                        if (!item) {
-                            $(".change-menu-content").append('<div class="nodata-txt">暂无分类信息！</div>');
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var _childMenu = $('<li class="hand categategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
+                    $(".change-menu-content").find('ul').append(_childMenu);
+                    _childMenu.click(function () {
+                        var _this = $(this);
+                        var id = $(this).data("id");
+                        if (_this.data('layer') < options.layer) {
+                            var item = getCacheDataByID(id);
+                            var headerData = {
+                                headerText: _this.text(),
+                                headerID: _this.data("id"),
+                                headerLayer: _this.data("layer")
+                            };
+                            $(".change-menu-content").find('ul').empty();
+                            if (!item) {
+                                $(".change-menu-content").append('<div class="nodata-txt">暂无分类信息！</div>');
+                                bindObj(item, obj, headerData);
+                            } else {
+                                $(".change-menu-content").find('.nodata-txt').remove();
+                                bindObj(item, obj, headerData);
+                            }
                         } else {
-                            $(".change-menu-content").find('.nodata-txt').remove();
-                            bindObj(item, obj, headerData);
+                            $(".change-menu-header").find('li:last-child').html(_this.text());
+                            $(".change-menu-body").hide();
                         }
-                    } else {
-                        $(".change-menu-header").find('li:last-child').html(_this.text());
-                        $(".change-menu-body").hide();
-                    }
 
-                    /*保存文本框中填入值的层级、id、name*/
-                    var _layer = _this.data('layer');
-                    menuData[_layer - 1].id = _this.data('id');
-                    menuData[_layer - 1].name = _this.data('name');
-                    for (var k = 0; k < menuData.length; k++) {
-                        var itemMD = menuData[k];
-                        if (itemMD.layer <= _layer) {
-                            continue;
+                        /*保存文本框中填入值的层级、id、name*/
+                        var _layer = _this.data('layer');
+                        menuData[_layer - 1].id = _this.data('id');
+                        menuData[_layer - 1].name = _this.data('name');
+                        for (var k = 0; k < menuData.length; k++) {
+                            var itemMD = menuData[k];
+                            if (itemMD.layer <= _layer) {
+                                continue;
+                            }
+                            itemMD.id = '';
+                            itemMD.name = '';
                         }
-                        itemMD.id = '';
-                        itemMD.name = '';
-                    }
 
-                    /*拼接文本框中的值*/
-                    var _desc = "";
-                    for (var j = 0; j < menuData.length; j++) {
-                        var itemMD = menuData[j];
-                        if (!itemMD.id) {
-                            continue;
+                        /*拼接文本框中的值*/
+                        var _desc = "";
+                        for (var j = 0; j < menuData.length; j++) {
+                            var itemMD = menuData[j];
+                            if (!itemMD.id) {
+                                continue;
+                            }
+                            if (_desc) {
+                                _desc += "/";
+                            }
+                            _desc += itemMD.name;
                         }
-                        if (_desc) {
-                            _desc += "/";
-                        }
-                        _desc += itemMD.name;
-                    }
-                    obj.val(_desc);
-                    !options.onCategroyChange || options.onCategroyChange(CacheCategory[id]);
-                });
+                        obj.val(_desc);
+                        !options.onCategroyChange || options.onCategroyChange(CacheCategory[id]);
+                    });
+                }
             }
         };
 
