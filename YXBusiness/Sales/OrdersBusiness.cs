@@ -668,7 +668,29 @@ namespace IntFactoryBusiness
             bool bl = OrdersDAL.BaseProvider.UpdateProductQuantity(orderid, autoid, quantity, operateid, clientid);
             if (bl)
             {
-                string msg = "修改材料" + name + "消耗量：" + quantity;
+                string msg = "修改材料" + name + "单件消耗量：" + quantity;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateProductOrderQuantity(string orderid, string autoid, string name, int quantity, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateProductOrderQuantity(orderid, autoid, quantity, operateid, clientid);
+            if (bl)
+            {
+                string msg = "修改材料" + name + "下单量：" + quantity;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateProductPlanQuantity(string orderid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateProductPlanQuantity(orderid, autoid, quantity, operateid, clientid);
+            if (bl)
+            {
+                string msg = "修改材料" + name + "采购量：" + quantity;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, clientid);
             }
             return bl;

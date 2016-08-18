@@ -407,6 +407,19 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateProductOrderQuantity(string orderid, string autoid, int quantity, string operateid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@AutoID",autoid),
+                                     new SqlParameter("@Quantity",quantity),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateProductOrderQuantity", paras, CommandType.StoredProcedure) > 0;
+        }
+
         public bool UpdateProductQuantity(string orderid, string autoid, decimal quantity, string operateid,string clientid)
         {
             SqlParameter[] paras = { 
@@ -418,6 +431,19 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderProductQuantity", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool UpdateProductPlanQuantity(string orderid, string autoid, decimal quantity, string operateid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@AutoID",autoid),
+                                     new SqlParameter("@Quantity",quantity),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateProductPlanQuantity", paras, CommandType.StoredProcedure) > 0;
         }
 
         public bool UpdateProductLoss(string orderid, string autoid, decimal quantity, string operateid, string clientid)

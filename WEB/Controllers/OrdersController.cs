@@ -474,6 +474,28 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateProductPlanQuantity(string orderid, string autoid, string name, decimal quantity)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductPlanQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateProductOrderQuantity(string orderid, string autoid, string name, int quantity)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductOrderQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateProductLoss(string orderid, string autoid, string name, decimal quantity)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateProductLoss(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
