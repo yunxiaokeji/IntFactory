@@ -6,7 +6,7 @@
         Verify = require("verify"), VerifyObject,
         ChooseCustomer = require("choosecustomer"),
         moment = require("moment");
-
+    require("chooseordercategory");
     var ObjectJS = {}, CacheCategory = [], CacheChildCategory = [], CacheItems = [];
 
     //初始化
@@ -18,7 +18,6 @@
         if ($(".category-item").length == 1) {
             $(".category-item").addClass("hover");
         }
-
         if (categoryitem != null) {
             var categoryitems = JSON.parse(categoryitem.replace(/&quot;/g, '"'));
             ObjectJS.categoryitems = categoryitems;
@@ -28,7 +27,15 @@
             _self.bigCategoryValue = _self.categoryitems[0].CategoryID;
             _self.categoryValue = "";
         }
-
+        $("#chooseOrderCategory").chooseMenu({
+            layer: 2,
+            url: "/Orders/GetChildCategorysByID",
+            data: ObjectJS.categoryitems,
+            onHeaderChange: function (data) {
+            },
+            onCategroyChange:function(data){
+            }
+        });
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
                 if (data.model.CustomerID) {
@@ -412,7 +419,7 @@
     };
 
     //绑定小品类
-    ObjectJS.bindCategory = function (item) {
+    ObjectJS.bindCategory = function () {
         var _self = this;
         var isOnce = true;
 
