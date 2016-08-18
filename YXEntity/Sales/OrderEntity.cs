@@ -154,6 +154,8 @@ namespace IntFactoryEntity
 
         public string OrderCode { get; set; }
 
+        public string GoodsID { get; set; }
+
         public string GoodsCode { get; set; }
 
         public string Title { get; set; }

@@ -7,12 +7,13 @@ for(var i=0;i<$data.length;i++)
     <span class="column-name">{%=item.AttrName+'：'%}</span>
     <select>
         {%
+            if(item.AttrValues){
             for(var j=0;j < item.AttrValues.length;j++)
             {
                 var value=item.AttrValues[j];
             %}
             <option value="{%=value.ValueID%}">{%=value.ValueName%}</option> 
-        {%}%}
+        {%}}%}
     </select>
 </li>
 {%}%}
