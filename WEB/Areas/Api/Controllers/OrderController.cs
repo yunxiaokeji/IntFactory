@@ -32,7 +32,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
-
+                obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
             JsonDictionary.Add("orders",objs);
