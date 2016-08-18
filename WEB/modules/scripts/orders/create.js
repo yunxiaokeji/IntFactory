@@ -23,9 +23,10 @@
             ObjectJS.categoryitems = categoryitems;
         }
         $("#chooseOrderCategory").chooseMenu({
-            layer: 3,
+            layer: 2,
             data: ObjectJS.categoryitems,
             onCategroyChange: function (data) {
+                console.log(data);
                 if (data) {
                     _self.categoryValue = data.CategoryID;
                     _self.categoryModel = data;

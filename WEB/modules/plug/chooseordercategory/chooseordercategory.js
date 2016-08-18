@@ -189,6 +189,12 @@
             for (var i = 0; i < items.length; i++) {
                 if (!CacheCategory[items[i].CategoryID]) {
                     CacheCategory[items[i].CategoryID] = items[i];
+                    for (var key in items) {
+                        var model = items[key];
+                        if (model.ChildCategory) {
+                            CacheChildCategory[model.CategoryID] = model.ChildCategory;
+                        }
+                    }
                 }
             }
         };
