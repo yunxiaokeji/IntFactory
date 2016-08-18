@@ -294,6 +294,7 @@
     <Content Include="modules\plug\choosemenu\choosemenu.js" />
     <Content Include="modules\plug\choosecolor\spectrum.css" />
     <Content Include="modules\plug\choosecolor\spectrum.js" />
+    <Content Include="modules\plug\chooseordercategory\chooseordercategory.html" />
     <Content Include="modules\plug\chooseproduct\chooseproductin.html" />
     <Content Include="modules\plug\chooseproduct\productin.html" />
     <Content Include="modules\plug\colormark\colormark.js" />
