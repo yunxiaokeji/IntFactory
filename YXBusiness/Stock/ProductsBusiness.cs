@@ -365,7 +365,7 @@ namespace IntFactoryBusiness
             var list = GetCategorys();
             if (list.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).Count() > 0)
             {
-                return list.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type).ToList();
+                return list.Where(m => m.PID.ToLower() == categoryid.ToLower() && m.CategoryType == (int)type && m.Status == 1).ToList();
             }
             return new List<Category>();
         }
