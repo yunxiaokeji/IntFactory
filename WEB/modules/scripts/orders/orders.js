@@ -233,7 +233,7 @@
         });
 
         //切换订单来源类型
-        $(".search-entrustclientid li").click(function () {
+        $(".search-entrustclientid .item").click(function () {
             var _this = $(this);
 
             //快速点击屏蔽

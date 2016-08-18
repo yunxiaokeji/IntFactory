@@ -1,6 +1,12 @@
 ﻿{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
+    if(i==2)
+    { 
+        console.log(item.StockIn);
+        console.log(item.StockOut);
+        console.log(item.StockIn-item.StockOut);
+     }
 %}
 <tr class="list-item">
     <td>
@@ -14,6 +20,6 @@
     <td>{%=item.DepotCode%}</td>
     <td class="center">{%=item.StockIn%}</td>
     <td class="center">{%=item.StockOut%}</td>
-    <td class="center">{%=item.StockIn-item.StockOut%}</td>
+    <td class="center">{%=(item.StockIn-item.StockOut).toFixed(2)%}</td>
 </tr>
 {% } %}

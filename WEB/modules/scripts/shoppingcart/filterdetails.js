@@ -20,7 +20,7 @@ define(function (require, exports, module) {
         
         _self.model = model;
         _self.productid = model.ProductID;
-        $("#productStockQuantity").text(model.StockIn - model.LogicOut);
+        $("#productStockQuantity").text((model.StockIn - model.LogicOut).toFixed(2));
 
         _self.depotID = depots[0].DepotID;
         _self.depots = depots;
@@ -76,7 +76,7 @@ define(function (require, exports, module) {
                         } else {
                             $("#productimg").attr("src", model.ProductDetails[i].ProductImage);
                         }
-                        $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
+                        $("#productStockQuantity").text((model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut).toFixed(2));
                         
                         ObjectJS.showDepotStock();
                         return;
@@ -270,7 +270,7 @@ define(function (require, exports, module) {
                 if (model.ProductDetails[i].ImgS) {
                     $("#productimg").attr("src", model.ProductDetails[i].ImgS);
                 }
-                $("#productStockQuantity").text(model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut);
+                $("#productStockQuantity").text((model.ProductDetails[i].StockIn - model.ProductDetails[i].LogicOut).toFixed(2));
                 break;
             }
         }
