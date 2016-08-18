@@ -73,11 +73,11 @@ define(function (require, exports, module) {
                         verifyType: "data-type",
                         regText: "data-text"
                     });
-                    if (OrderDetail.Account.PayStatus == 0) {
-                        $('#type').html('<option value="1">收款</option>');
-                    } else if (OrderDetail.Account.PayStatus == 1 || OrderDetail.Account.PayStatus>2) {
-                        $('#type').html('<option value="2">退款</option>');
-                    } 
+                    //if (OrderDetail.Account.PayStatus == 0) {
+                    //    $('#type').html('<option value="1">收款</option>');
+                    //} else if (OrderDetail.Account.PayStatus == 1 || OrderDetail.Account.PayStatus>2) {
+                    //    $('#type').html('<option value="2">退款</option>');
+                    //} 
                 });
         });
     };
@@ -115,7 +115,7 @@ define(function (require, exports, module) {
                 $("#lblYears").text(item.Years);
                 $("#lblStatus").text(item.Status == 0 ?"未审核": item.Status==1?"已审核":"已关闭");
                 $("#lblPayStatus").text(item.PayStatus == 0 ? "未支付" : item.PayStatus == 1 ? "已支付" : item.PayStatus == 2 ? "部分付款" : item.PayStatus == 3 ? "部分退款" : "全额退款");
-                $("#lblAmount").text(item.Amount);
+                $("#lblAmount").text(item.RealAmount);
                 $("#lblPayFee").text(item.PayFee);
                 $("#lblReFundFee").text(item.ReFundFee);
                 $("#lblCreateTime").text(item.CreateTime.toDate("yyyy-MM-dd"));
