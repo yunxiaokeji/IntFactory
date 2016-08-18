@@ -1,9 +1,10 @@
-﻿//使用方法：$(obj).chooseMenu();
-define(function (require, exports, module) {
-    require("plug/choosemenu/choosemenu.css");
+﻿define(function (require, exports, module) {
+    require("plug/chooseordercategory/chooseordercategory.css");
     (function () {
         var menuData = [];
         var cacheData = [];
+        var CacheChildCategory = [];
+        var CacheCategory = [];
         var options;
         var _eleHeader;
         var _menuContent;
@@ -12,16 +13,20 @@ define(function (require, exports, module) {
             return this.each(function () {
                 var _this = $(this);
                 options = $.extend({}, $.fn.chooseMenu.default, option);
+                cacheData = options.data;
                 if (options.isInit) {
                     $(".change-menu-body").remove();
                     menuData = [];
                 }
+                for (var i = 0; i < cacheData.length; i++) {
+                    CacheChildCategory[cacheData[i].CategoryID] = cacheData[i].ChildCategory;
+                }
                 for (var i = 1; i <= options.layer; i++) {
                     var data = {
-                        layer:  i,
+                        layer: i,
                         id: "",
                         name: ""
-                    }
+                    };
                     menuData.push(data);
                 }
                 $.fn.chooseMenu.bindMenu(_this);
@@ -30,15 +35,14 @@ define(function (require, exports, module) {
 
         $.fn.chooseMenu.default = {
             width: 400,
-            data: "",
+            data: [],
             layer: 3,
-            isInit:false,/*是否初始化控件*/
+            isInit: false,/*是否初始化控件*/
             defaults: {
                 headerText: "请选择",
                 headerID: ""
             },
             onHeaderChange: function () {
-
             },
             onCategroyChange: function () {
             }
@@ -50,32 +54,28 @@ define(function (require, exports, module) {
                 "background": "url('/modules/images/ico-dropdown.png') no-repeat right 5px center"
             });
 
-            $.post("/Products/GetChildCategorysByID", {
-                categoryid: ''
-            }, function (data) {
-                obj.click(function () {
-                    var _this = $(this);
-                    var offset = obj.offset();
-                    if ($(".change-menu-body").length == 0) {
-                        var _closeMenu = $("<div title='关闭' class='close-layer iconfont right mRight10 hand color999'>&#xe606;</div>");
-                        var _menuBody = $("<div class='change-menu-body' style='width:" + options.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>");
-                        _eleHeader = $("<div class='change-menu-header'><ul></ul></div>");
-                        _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
-                        var _clearFloat = "<div class='clear'></div>";
-                        _eleHeader.append(_closeMenu).append(_clearFloat);
-                        _menuContent.append(_clearFloat);
-                        _menuBody.append(_eleHeader).append(_menuContent);
-                        $('body').append(_menuBody);
-                        bindObj(data.Items, obj, options.defaults);
+            obj.click(function () {
+                var _this = $(this);
+                var offset = obj.offset();
+                if ($(".change-menu-body").length == 0) {
+                    var _closeMenu = $("<div title='关闭' class='close-layer iconfont right mRight10 hand color999'>&#xe606;</div>");
+                    var _menuBody = $("<div class='change-menu-body' style='width:" + options.width + "px;left:" + offset.left + "px;top:" + (offset.top + 27) + "px;'></div>");
+                    _eleHeader = $("<div class='change-menu-header'><ul></ul></div>");
+                    _menuContent = $("<div class='change-menu-content'><ul></ul></div>");
+                    var _clearFloat = "<div class='clear'></div>";
+                    _eleHeader.append(_closeMenu).append(_clearFloat);
+                    _menuContent.append(_clearFloat);
+                    _menuBody.append(_eleHeader).append(_menuContent);
+                    $('body').append(_menuBody);
+                    bindObj(cacheData, obj, options.defaults);
 
-                        _closeMenu.click(function () {
-                            _menuBody.hide();
-                        });
-                    } else {
-                        $(".change-menu-body").css({ "left": offset.left + "px", "top": (offset.top + 27) + "px" }).show();
-                    }
-                    return false;
-                });
+                    _closeMenu.click(function () {
+                        _menuBody.hide();
+                    });
+                } else {
+                    $(".change-menu-body").css({ "left": offset.left + "px", "top": (offset.top + 27) + "px" }).show();
+                }
+                return false;
             });
         };
 
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
             if (_headerData.headerText) {
                 _eleHeader.find('li').removeClass('hover');
                 _eleHeader.find('li:last-child').html(_headerData.headerText);
-                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '" data-layer="' + (_headerData.headerLayer || 0) + '" >请选择</li>');
+                var _headerMenu = $('<li class="hand hover" data-id="' + _headerData.headerID + '">请选择</li>');
                 _eleHeader.find('ul').append(_headerMenu);
                 _headerMenu.click(function () {
                     if (!$(this).hasClass('hover')) {
@@ -99,20 +99,13 @@ define(function (require, exports, module) {
                         $(this).html("请选择");
                         _menuContent.find('ul').empty();
                         var id = $(this).data("id");
-                        var item = cacheData[id];
+                        var item = getCacheDataByID(id);
                         if (!item) {
-                            _menuContent.append('<div class="data-loading"></div>');
-                            $.post("/Products/GetChildCategorysByID", {
-                                categoryid: id
-                            }, function (callBackData) {
-                                _menuContent.find('.data-loading').remove();
-                                cacheData[id] = callBackData.Items;
-                                bindObj(callBackData.Items, obj, headerData);
-                                !options.onHeaderChange || options.onHeaderChange(menuData);
-                            });
+                            _menuContent.append('<div class="nodata-txt">暂无分类信息！</div>');
                         } else {
+                            _menuContent.find('.nodata-txt').remove();
                             bindObj(item, obj, headerData);
-                            !options.onHeaderChange || options.onHeaderChange(menuData);
+                            !options.onHeaderChange || options.onHeaderChange(CacheCategory[id] || "");
                         }
                     }
                 });
@@ -121,13 +114,13 @@ define(function (require, exports, module) {
             /*子分类数据处理*/
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
-                var _childMenu = $('<li class="hand gategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
+                var _childMenu = $('<li class="hand categategory-item" data-layer="' + item.Layers + '" data-name="' + item.CategoryName + '" data-id="' + item.CategoryID + '">' + item.CategoryName + '</li>');
                 _menuContent.find('ul').append(_childMenu);
                 _childMenu.click(function () {
                     var _this = $(this);
-                    if (_this.data('layer') < 3) {
-                        var id = $(this).data("id");
-                        var item = cacheData[id];
+                    var id = $(this).data("id");
+                    if (_this.data('layer') < options.layer) {
+                        var item = getCacheDataByID(id);
                         var headerData = {
                             headerText: _this.text(),
                             headerID: _this.data("id"),
@@ -135,15 +128,9 @@ define(function (require, exports, module) {
                         };
                         _menuContent.find('ul').empty();
                         if (!item) {
-                            _menuContent.append('<div class="data-loading"></div>');
-                            $.post("/Products/GetChildCategorysByID", {
-                                categoryid: _this.data("id")
-                            }, function (callBackData) {
-                                _menuContent.find('.data-loading').remove();
-                                cacheData[id] = callBackData.Items;
-                                bindObj(callBackData.Items, obj, headerData);
-                            });
+                            _menuContent.append('<div class="nodata-txt">暂无分类信息！</div>');
                         } else {
+                            _menuContent.find('.nodata-txt').remove();
                             bindObj(item, obj, headerData);
                         }
                     } else {
@@ -177,15 +164,35 @@ define(function (require, exports, module) {
                         _desc += itemMD.name;
                     }
                     obj.val(_desc);
-                    !options.onCategroyChange || options.onCategroyChange(menuData);
+                    !options.onCategroyChange || options.onCategroyChange(CacheCategory[id]);
                 });
+            }
+        };
+
+        //获取子分类
+        var getCacheDataByID = function (id) {
+            if (!id)
+                return cacheData;
+            if (CacheChildCategory[id]) {
+                getCategoryCache(CacheChildCategory[id]);
+                return CacheChildCategory[id];
+            }
+        };
+
+        //获取分类缓存
+        var getCategoryCache = function (obj) {
+            var items = obj;
+            for (var i = 0; i < items.length; i++) {
+                if (!CacheCategory[items[i].CategoryID]) {
+                    CacheCategory[items[i].CategoryID] = items[i];
+                }
             }
         };
 
         $(document).click(function (e) {
             var ele = $(e.target);
             if (!ele.parents().hasClass('change-menu-body') && !ele.hasClass('change-menu-body')
-                && !ele.parents().hasClass('change-menu-content')&& !ele.hasClass('gategory-item')) {
+                && !ele.parents().hasClass('change-menu-content')&& !ele.hasClass('categategory-item')) {
                 $(".change-menu-body").hide();
             }
         });

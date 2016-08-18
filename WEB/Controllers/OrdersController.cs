@@ -318,6 +318,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetChildCategorysByID(string categoryid)
+        {
+            var items = ProductsBusiness.BaseBusiness.GetChildCategorysByID(categoryid, EnumCategoryType.Order);
+            JsonDictionary.Add("Items", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrderPlans(bool isMy, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;

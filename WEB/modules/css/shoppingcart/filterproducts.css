@@ -52,7 +52,7 @@
 
 .product-item .price { color:#B10000; height:30px; line-height:30px; font-size:16px; }
 
-.product-item .name { height:35px; overflow:hidden; color:#333; }
+.product-item .name {color:#333; }
 .product-item .name:hover { text-decoration:underline; color:#B10000; }
 
 .product-item .btnAddCart { height:35px; line-height:35px; width:100%; color:#999; position:absolute; cursor:pointer; 
