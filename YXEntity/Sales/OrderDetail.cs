@@ -56,6 +56,10 @@ namespace IntFactoryEntity
 
         public decimal UseQuantity { get; set; }
 
+        public int OrderQuantity { get; set; }
+
+        public decimal PlanQuantity { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

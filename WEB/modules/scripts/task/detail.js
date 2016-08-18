@@ -54,7 +54,7 @@
         ObjectJS.orderimages = orderimages;
         ObjectJS.isPlate = true;//任务是否制版
         ObjectJS.mark = task.Mark;//任务标记 用于做标记任务完成的限制条件
-        ObjectJS.materialMark = 0;//任务材料标记 用于算材料列表的金额统计
+        ObjectJS.materialMark = 0;//任务材料标记 0 非编辑状态 1打样材料 2大货材料
         ObjectJS.lockStatus = task.LockStatus;
         ObjectJS.isLoading = true;
 
@@ -847,7 +847,7 @@
             }
         });
 
-        //编辑数量
+        //编辑消耗量
         $("#navProducts .quantity").change(function () {
             if (!ObjectJS.isLoading) {
                 return;
@@ -855,6 +855,32 @@
 
             if ($(this).val().isDouble() && $(this).val() > 0) {
                 ObjectJS.editQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
+        //编辑下单量
+        $("#navProducts .order-quantity").change(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+
+            if ($(this).val().isInt() && $(this).val() > 0) {
+                ObjectJS.editOrderQuantity($(this));
+            } else {
+                $(this).val($(this).data("value"));
+            }
+        });
+
+        //编辑采购量
+        $("#navProducts .plan-quantity").change(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+
+            if ($(this).val().isDouble() && $(this).val() > 0) {
+                ObjectJS.editPlanQuantity($(this));
             } else {
                 $(this).val($(this).data("value"));
             }
@@ -945,12 +971,7 @@
     ObjectJS.editQuantity = function (ele) {
         var _self = this;
         ObjectJS.isLoading = false;
-        ObjectJS.isLoading = false;
-        ele.data('value', ele.val());
-        var lossRata = ((ele.parents('tr').find('.tr-loss').find("input").val() * 1) / (ele.val() * 1)).toFixed(3);
-        var amount = (ele.val() * 1) + (ele.parents('tr').find('.tr-loss').find("input").val() * 1);
-        ele.parents('tr').find('.tr-lossrate').html(lossRata);
-        ele.parents('tr').find('.amount-count').html(amount);
+
         Global.post("/Orders/UpdateProductQuantity", {
             orderid: _self.guid,
             autoid: ele.data("id"),
@@ -960,8 +981,55 @@
             if (!data.status) {
                 ele.val(ele.data("value"));
                 alert("当前订单状态,不能进行修改");
+            } else {
+                ele.data("value", ele.val());
+                var tr = ele.parents('tr');
+                tr.find(".plan-quantity").data("value", tr.find(".order-quantity").val() * ele.val()).val(tr.find(".order-quantity").val() * ele.val());
+                _self.getProductAmount();
             }
-            else {
+            ObjectJS.isLoading = true;
+        });
+    }
+
+    //更改下单量
+    ObjectJS.editOrderQuantity = function (ele) {
+        var _self = this;
+        ObjectJS.isLoading = false;
+
+        Global.post("/Orders/UpdateProductOrderQuantity", {
+            orderid: _self.guid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            quantity: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("当前订单状态,不能进行修改");
+            } else {
+                ele.data("value", ele.val());
+                var tr = ele.parents('tr');
+                tr.find(".plan-quantity").data("value", tr.find(".quantity").val() * ele.val()).val(tr.find(".quantity").val() * ele.val());
+                _self.getProductAmount();
+            }
+            ObjectJS.isLoading = true;
+        });
+    }
+
+    //更改消耗量
+    ObjectJS.editPlanQuantity = function (ele) {
+        var _self = this;
+        ObjectJS.isLoading = false;
+
+        Global.post("/Orders/UpdateProductPlanQuantity", {
+            orderid: _self.guid,
+            autoid: ele.data("id"),
+            name: ele.data("name"),
+            quantity: ele.val()
+        }, function (data) {
+            if (!data.status) {
+                ele.val(ele.data("value"));
+                alert("当前订单状态,不能进行修改");
+            } else {
                 ele.data("value", ele.val());
                 _self.getProductAmount();
             }
@@ -1029,7 +1097,7 @@
                 amount += _this.html() * 1;
             }
             else if (ObjectJS.materialMark == 2) {
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1 ) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
+                _this.html(((_this.prevAll(".tr-plan-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
                 amount += _this.html() * 1;
             }
         });

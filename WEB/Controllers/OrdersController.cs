@@ -318,6 +318,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetChildCategorysByID(string categoryid)
+        {
+            var items = ProductsBusiness.BaseBusiness.GetChildCategorysByID(categoryid, EnumCategoryType.Order);
+            JsonDictionary.Add("Items", items);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrderPlans(bool isMy, string beginDate, string endDate, int pageSize, int pageIndex)
         {
             int pageCount = 0;
@@ -466,6 +477,28 @@ namespace YXERP.Controllers
         public JsonResult UpdateProductQuantity(string orderid, string autoid, string name, decimal quantity)
         {
             var bl = OrdersBusiness.BaseBusiness.UpdateProductQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateProductPlanQuantity(string orderid, string autoid, string name, decimal quantity)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductPlanQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateProductOrderQuantity(string orderid, string autoid, string name, int quantity)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductOrderQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
