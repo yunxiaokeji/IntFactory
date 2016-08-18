@@ -4,6 +4,7 @@
         var menuData = [];
         var cacheData = [];
         var CacheChildCategory = [];
+        var CacheCategory = [];
         var options;
         var _eleHeader;
         var _menuContent;
@@ -104,7 +105,7 @@
                         } else {
                             _menuContent.find('.nodata-txt').remove();
                             bindObj(item, obj, headerData);
-                            !options.onHeaderChange || options.onHeaderChange(menuData);
+                            !options.onHeaderChange || options.onHeaderChange(CacheCategory[id] || "");
                         }
                     }
                 });
@@ -117,8 +118,8 @@
                 _menuContent.find('ul').append(_childMenu);
                 _childMenu.click(function () {
                     var _this = $(this);
+                    var id = $(this).data("id");
                     if (_this.data('layer') < options.layer) {
-                        var id = $(this).data("id");
                         var item = getCacheDataByID(id);
                         var headerData = {
                             headerText: _this.text(),
@@ -163,22 +164,29 @@
                         _desc += itemMD.name;
                     }
                     obj.val(_desc);
-                    !options.onCategroyChange || options.onCategroyChange(_this.data('layer') == options.layer ? "" : "");
+                    !options.onCategroyChange || options.onCategroyChange(CacheCategory[id]);
                 });
             }
         };
 
+        //获取子分类
         var getCacheDataByID = function (id) {
             if (!id)
                 return cacheData;
+            if (CacheChildCategory[id]) {
+                getCategoryCache(CacheChildCategory[id]);
+                return CacheChildCategory[id];
+            }
+        };
 
-            for (var i = 0; i < cacheData.length; i++) {
-                var item = cacheData[i];
-                if (item.CategoryID == id) {
-                    return item.ChildCategory;
+        //获取分类缓存
+        var getCategoryCache = function (obj) {
+            var items = obj;
+            for (var i = 0; i < items.length; i++) {
+                if (!CacheCategory[items[i].CategoryID]) {
+                    CacheCategory[items[i].CategoryID] = items[i];
                 }
             }
-            return "";
         };
 
         $(document).click(function (e) {
