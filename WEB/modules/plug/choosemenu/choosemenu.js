@@ -13,6 +13,7 @@
         $.fn.chooseMenu = function (option) {
             return this.each(function () {
                 var _this = $(this);
+                _this.val('');
                 options = $.extend({}, $.fn.chooseMenu.default, option);
                 cacheData = options.data;
                 if (options.isInit) {
