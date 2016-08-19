@@ -22,7 +22,6 @@ namespace WeiXin.Sdk
                 foreach (var key in paras.Keys) {
                     paraStr += key+"="+paras[key] +"&";
                 }
-                
             }
 
             string strResult = string.Empty;
@@ -88,9 +87,7 @@ namespace WeiXin.Sdk
                 response.Close();
             }
 
-
             return strResult;
-
         }
 
         public static string SendPush(string url,string paras)

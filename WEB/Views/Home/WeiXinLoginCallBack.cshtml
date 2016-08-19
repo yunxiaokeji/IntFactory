@@ -18,7 +18,8 @@
         }
     }
     else if (navigator.userAgent.indexOf("Firefox") > 0) {
-        window.location.href = 'about:blank ';
+        //window.location.href = 'about:blank ';
+        window.opener = null; window.open('', '_self'); window.close();
     }
     else {
         window.opener = null; window.open('', '_self'); window.close();
