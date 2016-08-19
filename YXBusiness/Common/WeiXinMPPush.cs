@@ -61,7 +61,7 @@ namespace IntFactoryBusiness
                 if (task.Order != null)
                 {
                     var order = task.Order;
-                    pushType = WeiXinMPPushType.SendTasksFinishPush;
+                    pushType = WeiXinMPPushType.SendAllTaskFinishPush;
                     string content = GetPushContent(pushType, order.OpenID, order.OrderCode, string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
                     result = SendPush(content);
                 }
@@ -129,7 +129,7 @@ namespace IntFactoryBusiness
                 {
                     first = "有一个任务将您设为负责人！";
                 }
-                keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
+                keyword2 = endTime.Value.ToString("yyyy-MM-dd")=="0001-01-01" ? "未设置" : endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请按时完成任务！";
             }
             else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
@@ -138,7 +138,7 @@ namespace IntFactoryBusiness
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
             }
-            else if (pushType == WeiXinMPPushType.SendTasksFinishPush)
+            else if (pushType == WeiXinMPPushType.SendAllTaskFinishPush)
             {
                 first = "您有一个订单的所有任务已完成！";
                 remark = "请确认！";
@@ -285,7 +285,7 @@ namespace IntFactoryBusiness
 
         SendChangeTaskOwnerPush = 3,
 
-        SendTasksFinishPush = 4
+        SendAllTaskFinishPush = 4
     }
 
     //微信公众号token实体

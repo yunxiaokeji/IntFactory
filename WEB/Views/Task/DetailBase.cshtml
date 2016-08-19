@@ -30,7 +30,9 @@
 </div>
 
 <div class="content-title">
-    <div class="left titlename">订单款式：<a class="font14" href="/Orders/OrderDetail/@(order.OrderID)" >@(order.GoodsName+"-"+order.IntGoodsCode)</a></div>
+    <div class="left titlename">订单款式：<a class="font14" href="/Orders/OrderDetail/@(order.OrderID)" >
+        @(string.IsNullOrEmpty(order.GoodsName+order.IntGoodsCode)?order.OrderCode:order.GoodsName+"-"+order.IntGoodsCode)
+    </a></div>
     <ul class="right">
         <li title="任务完成状态">
             <span class="left"> 任务状态：</span>
