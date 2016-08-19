@@ -107,12 +107,12 @@ namespace YXERP.Controllers
                 if (source == "app")
                 {
                     loginUrl = IntFactoryAppUrl + "/home/login";
-                    registerUrl = IntFactoryAppUrl + "/home/register?source=app";
+                    registerUrl = "/home/register?source=app";
                 }
                 else if (source == "wxmp")
                 {
                     loginUrl = IntFactoryAppUrl + "/home/WeiXinMPLogin";
-                    registerUrl = IntFactoryAppUrl + "/home/register?source=wxmp";
+                    registerUrl = "/home/register?source=wxmp";
                 }
             }
             ViewBag.LoginUrl = loginUrl;
