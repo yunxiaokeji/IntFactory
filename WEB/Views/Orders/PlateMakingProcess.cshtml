@@ -74,7 +74,7 @@
                         </table>
                     </td>
                     <td>
-                        <table class="no-border order-information" style="height:170px;width:410px;">
+                        <table class="no-border order-information" style="width:410px;">
                             <tr>
                                 <td class="width100" >款号：</td>
                                 <td style="overflow: hidden;text-overflow: ellipsis;max-width:200px">@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
@@ -127,7 +127,7 @@
                         </table>
                     </td>                
                     <td>
-                        <table class="time-order no-border" style="height:180px;width:235px;">
+                        <table class="time-order no-border" style="height:180px;width:234px;">
                             <tr>
                                 <td style="height:30px;">下单日期：</td>
                                 <td class="no-border-right">@(order.OrderTime.ToString("yyyy-MM-dd"))</td>
@@ -178,14 +178,14 @@
                     {
                         <tr class="products">
                             <td>@(detail.ProductName)</td>
-                            <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                            <td>@(detail.DetailsCode!="" ? detail.DetailsCode: detail.DetailsCode==""?detail.ProductCode:"--")</td>
                             <td colspan="2">@(detail.Remark==""?"--":detail.Remark)</td>
                             <td>@(detail.UnitName)</td>
                             <td>@((detail.Quantity * order.PlanQuantity).ToString("f3"))</td>
                             <td>@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
                             <td>@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
                             <td class="center" style="max-width:300px;">
-                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;height:24px;line-height:20px;vertical-align:middle;"></textarea>                                
+                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;vertical-align:middle;"></textarea>                                
                                 <span class="span hide"></span>
                             </td>
                         </tr>

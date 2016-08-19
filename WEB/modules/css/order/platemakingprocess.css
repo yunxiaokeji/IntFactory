@@ -15,16 +15,16 @@ table .titlename{font-size:22px;text-align:center;}
 .order-information tr td:last-child { border-right:0;}
 .time-order tr:first-child td{border-top:0;}
 .order-information tr:first-child td {border-top:0;line-height:30px;height:30px; }
-.order-information tr td { height:28px;line-height:28px;}
+.order-information tr td { height:28px;line-height:27px;}
 .img-order .order-image { position:relative;border-bottom:0;}
 .img-order .order-image .layer-upload {position:absolute;right:2px;top:2px; }
-.img-order img { width:120px;height:130px;}
-.img-order tr td {height:28px;line-height:28px}
+.img-order img { width:120px;height:130px;margin-top:10px}
+/*.img-order tr td {height:28px;line-height:28px}*/
 .img-order { width:307px;height:180px;}
 
 .navsenddoc { width:636px;}
 .navgoods tr td {width:89px; }
-.navproducts { width:955px;}
+.navproducts { width:954px;}
 .remark tr td {height:25px; }
 
 .information {line-height:25px;}
