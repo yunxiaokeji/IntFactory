@@ -10,7 +10,7 @@
         <td class='pLeft10 tLeft no-border-top head'><i class='iconfont icon-delete processplates' data-name="{%=item.TypeName%}">&#xe613;</i><span class="plate-name">{%=item.TypeName%}</span></td>  
     {% typeName=item.TypeName;} %}          
         <td><img style="width:30px;height:30px;margin-top:1px;margin-bottom:-8px" src='{%=item.Icon==""?"/modules/images/img-noimg.png":item.Icon%}' /></td>
-        <td colspan="2" class="center" style="max-width:150px;word-wrap:break-word;">{%=item.Title%}</td>
-        <td colspan="4" class="tLeft pLeft5" style="max-width:700px; word-wrap:break-word;line-height:150%;width:700px;">{%=item.Remark%}</td>       
+        <td colspan="2" class="tLeft pLeft5" style="max-width:150px;word-wrap:break-word;">{%=item.Title%}</td>
+        <td colspan="4" class="tLeft" style="max-width:700px; word-wrap:break-word;line-height:150%;width:700px;padding:10px 7px;">{%=item.Remark%}</td>       
     </tr>
 {% } %}

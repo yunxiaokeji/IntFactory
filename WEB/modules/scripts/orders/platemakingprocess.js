@@ -98,12 +98,12 @@
                 $(this).next().hide();
                 $(this).parent().find('.span').html(nameresponsible);
             });
-            $(".span").show();
+            $(".span").show();           
             $(".btn-ok").remove();
             $(".icon-delete").hide();
             $(".layer-upload").hide();
 
-            $(".order-information tr:not(:first-child) td").css({ "height": "29px", "line-height": "29px" });
+            $(".order-information tr:not(:first-child) td").css({ "height": "29px", "line-height": "28px" });
 
             $(".information").each(function () {
                 _this=$(this);
