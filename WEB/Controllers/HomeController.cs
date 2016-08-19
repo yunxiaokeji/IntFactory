@@ -76,13 +76,48 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult Register()
+        public ActionResult Register(string source)
         {
+            string loginUrl = "/home/login";
+            string successUrl = "/home/index";
+            if (!string.IsNullOrEmpty(source)) {
+                source=source.ToLower();
+                if (source== "app") {
+                    successUrl=loginUrl = YXERP.Common.Common.IntFactoryAppUrl + "/home/login";
+                }
+                else if (source == "wxmp") {
+                    successUrl=loginUrl = YXERP.Common.Common.IntFactoryAppUrl + "/home/WeiXinMPLogin";
+                }
+            }
+            ViewBag.LoginUrl = loginUrl;
+            ViewBag.SuccessUrl = successUrl;
+
             return View();
         }
 
-        public ActionResult FindPassword()
+        public ActionResult FindPassword(string source)
         {
+            string IntFactoryAppUrl = YXERP.Common.Common.IntFactoryAppUrl;
+            string loginUrl = "/home/login";
+            string registerUrl ="/home/register";
+            
+            if (!string.IsNullOrEmpty(source))
+            {
+                source = source.ToLower();
+                if (source == "app")
+                {
+                    loginUrl = IntFactoryAppUrl + "/home/login";
+                    registerUrl = IntFactoryAppUrl + "/home/register?source=app";
+                }
+                else if (source == "wxmp")
+                {
+                    loginUrl = IntFactoryAppUrl + "/home/WeiXinMPLogin";
+                    registerUrl = IntFactoryAppUrl + "/home/register?source=wxmp";
+                }
+            }
+            ViewBag.LoginUrl = loginUrl;
+            ViewBag.RegisterUrl = registerUrl;
+
             return View();
         }
 
