@@ -103,7 +103,8 @@ namespace IntFactoryBusiness
         //获取推送内容
         public string GetPushContent(WeiXinMPPushType pushType, string openid, string title, string preTitle="", string onwerName="",DateTime? endTime=null)
         {
-            string[] template_ids = new string[] { "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
+            string[] template_ids = new string[] { 
+                "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
                 "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs",
                 "sb_DkErldHIMGSLH0ta-ca0o43j5GluUL1mOmYbWPAc",
                  "9wgmCkkS2fxIKsPIB2hEYEJcmYkfEiPZVZKokNrWtzs",

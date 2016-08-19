@@ -2,13 +2,11 @@
     var Global = require("global");
 
     var ObjectJS = {};
-
     //初始化
-    ObjectJS.init = function () {
-        var _self = this;
-        _self.placeholderSupport();
-        _self.bindEvent();
-        
+    ObjectJS.init = function (loginUrl) {
+        ObjectJS.placeholderSupport();
+        ObjectJS.bindEvent();
+        ObjectJS.loginUrl = loginUrl;
     }
 
     //绑定事件
@@ -16,6 +14,16 @@
         $(document).on("keypress", function (e) {
             if (e.keyCode == 13) {
                 $("#btnUpdateUserPwd").click();
+            }
+        });
+
+        //手机号
+        $("#loginName").blur(function () {
+            var _self = $(this);
+            if (_self.val() == '' || !Global.validateMobilephone(_self.val())) {
+                _self.addClass("errIpt");
+            } else {
+                _self.removeClass("errIpt");
             }
         });
 
@@ -33,20 +41,19 @@
 
         //密码
         $("#loginPWD").blur(function () {
-            if ($("#loginPWD").val() == '') {
+            var _self = $(this);
+            if (_self.val() == '') {
                 $("#txtBoxPassword").show();
-                $("#loginPWD").next().fadeIn().find(".error-msg").html("密码不能为空");
+                _self.addClass("errIpt");
             }
             else {
                 if ($("#loginPWD").val().length < 6 || $("#loginPWD").val().length > 25) {
-                    $("#loginPWD").next().fadeIn().find(".error-msg").html("密码，6-25位");
-                }
-                else {
+                    _self.addClass("errIpt");
+                }else {
                     if (Global.passwordLevel($("#loginPWD").val()) == 1) {
-                        $("#loginPWD").next().fadeIn().find(".error-msg").html("密码至少两种不同组合");
-                    }
-                    else {
-                        $("#loginPWD").next().hide().find(".error-msg").html("");
+                        _self.addClass("errIpt");
+                    }else {
+                        _self.removeClass("errIpt");
                     }
                 }
             }
@@ -54,110 +61,99 @@
 
         //确认密码
         $("#loginSurePWD").blur(function () {
-            if ($("#loginSurePWD").val() == '') {
+            var _self = $(this);
+            if (_self.val() == '') {
                 $("#txtBoxSurePassword").show();
-                $("#loginSurePWD").next().fadeIn().find(".error-msg").html("确认密码不能为空");
-            }
-            else {
+                _self.addClass("errIpt");
+            } else {
                 if ($("#loginSurePWD").val() != $("#loginPWD").val()) {
-                    $("#loginSurePWD").next().fadeIn().find(".error-msg").html("密码不一致");
-                }
-                else {
-
-                    $("#loginSurePWD").next().hide().find(".error-msg").html("");
+                    _self.addClass("errIpt");
+                } else {
+                    _self.removeClass("errIpt");
                 }
             }
         }).focus(function () {
-            if ($("#loginSurePWD").val() == '') {
+            var _self = $(this);
+            if (_self.val() == '') {
                 $("#txtBoxSurePassword").hide();
             }
         });
 
         //发送验证码
         $("#btnSendMsg").click(function () {
+
             if ($("#loginName").val() == '') {
-                $("#code-error").fadeIn().find(".error-msg").html("手机号不能为空");
+                $(".registerErr").html("手机号不能为空").slideDown();
                 return;
-            }
-            else {
+            }else {
                 if (Global.validateMobilephone($("#loginName").val())) {
                     Global.post("/Home/IsExistLoginName", { loginName: $("#loginName").val() }, function (data) {
                         if (data.Result == 0) {
-                            $("#code-error").fadeIn().find(".error-msg").html("手机号不存在");
+                            $(".registerErr").html("手机号不存在").slideDown();
                         }
                         else {
-                            $("#code-error").hide().find(".error-msg").html("");
+                            $(".registerErr").html("").hide();
                             ObjectJS.SendMobileMessage("btnSendMsg", $("#loginName").val());
                         }
                     });
-                }
-                else {
-                    $("#code-error").fadeIn().find(".error-msg").html("手机号格式不对");
+                }else {
+                    $(".registerErr").html("请输入正确手机号").slideDown();
                     return;
                 }
             }
-
         });
 
         //重置密码
         $("#btnUpdateUserPwd").click(function () {
             ObjectJS.validateData();
         });
-
     }
 
     //验证数据
     ObjectJS.validateData = function () {
         if ($("#loginName").val() == '') {
-            $("#loginName").next().fadeIn().find(".error-msg").html("手机号不能为空");
+            $(".registerErr").html("手机号不能为空").slideDown();
         }
         else {
             if (Global.validateMobilephone($("#loginName").val())) {
                 Global.post("/Home/IsExistLoginName", { loginName: $("#loginName").val() }, function (data) {
                     if (data.Result == 0) {
-                        $("#loginName").next().fadeIn().find(".error-msg").html("手机号没有注册");
-                    }
-                    else {
-                        $("#loginName").next().hide().find(".error-msg").html("");
+                        $(".registerErr").html("手机号没有注册").slideDown();
+                    }else {
+                        $("#loginName").removeClass("errIpt");
 
                         //验证码
                         if ($("#code").val() == '') {
-                            $("#code-error").fadeIn().find(".error-msg").html("验证码不能为空");
-                        }
-                        else {
+                            $(".registerErr").html("验证码不能为空").slideDown();
+                        }else {
                             Global.post("/Home/ValidateMobilePhoneCode", { mobilePhone: $("#loginName").val(), code: $("#code").val() }, function (data) {
                                 if (data.Result == 0) {
-                                    $("#code-error").fadeIn().find(".error-msg").html("验证码有误");
-                                }
-                                else {
-                                    $("#code-error").hide().find(".error-msg").html("");
+                                    $(".registerErr").html("验证码有误").slideDown();
+                                }else {
+                                    $("#code-error").removeClass("errIpt");
 
                                     //密码
                                     if ($("#loginPWD").val() == '') {
-                                        $("#loginPWD").next().fadeIn().find(".error-msg").html("密码不能为空");
-                                    }
-                                    else {
+                                        $(".registerErr").html("密码不能为空").slideDown();
+                                    }else {
                                         if ($("#loginPWD").val().length < 6 || $("#loginPWD").val().length > 25) {
-                                            $("#loginPWD").next().fadeIn().find(".error-msg").html("密码，6-25位");
+                                            $(".registerErr").html("密码，6-25位").slideDown();
                                         }
                                         else {
                                             if (Global.passwordLevel($("#loginPWD").val()) == 1) {
-                                                $("#loginPWD").next().fadeIn().find(".error-msg").html("密码至少两种不同组合");
-                                            }
-                                            else {
-                                                $("#loginPWD").next().hide().find(".error-msg").html("");
+                                                $(".registerErr").html("密码必须含字母+数字").slideDown();
+                                            }else {
+                                                $("#loginPWD").removeClass("errIpt");
 
                                                 //确认密码
                                                 if ($("#loginSurePWD").val() == '') {
-                                                    $("#loginSurePWD").next().fadeIn().find(".error-msg").html("确认密码不能为空");
+                                                    $(".registerErr").html("确认密码不能为空").slideDown();
                                                 }
                                                 else {
                                                     if ($("#loginSurePWD").val() != $("#loginPWD").val()) {
-                                                        $("#loginSurePWD").next().fadeIn().find(".error-msg").html("密码不一致");
-                                                    }
-                                                    else {
-                                                        $("#loginSurePWD").next().hide().find(".error-msg").html("");
-                                                        
+                                                        $(".registerErr").html("密码不一致").slideDown();
+                                                    }else {
+                                                        $("#loginSurePWD").removeClass("errIpt");
                                                         ObjectJS.updateUserPwd();
                                                     }
                                                 }
@@ -165,17 +161,13 @@
                                             }
                                         }
                                     }
-
-
                                 }
                             });
                         }
-
                     }
                 });
-            }
-            else {
-                $("#loginName").next().fadeIn().find(".error-msg").html("输入正确手机号");
+            }else {
+                $(".registerErr").html("输入正确手机号").slideDown();
             }
         }
 
@@ -185,28 +177,23 @@
     //保存实体
     ObjectJS.updateUserPwd = function () {
         $("#btnUpdateUserPwd").html("重置中...");
-
         var paras = {
             loginName: $("#loginName").val(),
             code: $("#code").val(),
             loginPwd: $("#loginPWD").val()
-
         };
 
         Global.post("/Home/UpdateUserPwd", paras, function (data) {
             $("#btnUpdateUserPwd").html("重置");
 
             if (data.Result == 1) {
-                location.href = "/Home/Index";
-            }
-            else if (data.Result == 0) {
+                location.href = ObjectJS.loginUrl;
+            }else if (data.Result == 0) {
                 alert("重置失败");
-            }
-            else if (data.Result == 2) {
-                $("#loginName").next().fadeIn().find(".error-msg").html("手机号没有注册");
-            }
-            else if (data.Result == 3) {
-                $("#code-error").fadeIn().find(".error-msg").html("验证码有误");
+            } else if (data.Result == 2) {
+                $(".registerErr").html("手机号没有注册").slideDown();
+            } else if (data.Result == 3) {
+                $(".registerErr").html("验证码有误").slideDown();
             }
         })
     }
@@ -266,7 +253,6 @@
 
         });
     }
-
 
     module.exports = ObjectJS;
 });
