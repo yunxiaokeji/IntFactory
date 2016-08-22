@@ -3,12 +3,11 @@
         Easydialog = require("easydialog");
 
     var ObjectJS = {};
-
     //初始化
-    ObjectJS.init = function () {
-        var _self = this;
-        _self.placeholderSupport();
-        _self.bindEvent();
+    ObjectJS.init = function (loginUrl) {
+        ObjectJS.placeholderSupport();
+        ObjectJS.bindEvent();
+        ObjectJS.loginUrl = loginUrl;
     }
 
     //绑定事件
@@ -19,48 +18,51 @@
             }
         });
 
-        //公司名称
-        $("#companyName").blur(function ()
-        {
-            if ($("#companyName").val() == '') {
-                $("#companyName").next().fadeIn().find(".error-msg").html("公司名称不能为空");
+        //手机号
+        $("#loginName").blur(function () {
+            var _self = $(this);
+            if (_self.val() == '' || !Global.validateMobilephone(_self.val()) ) {
+                _self.addClass("errIpt");
+            } else {
+                _self.removeClass("errIpt");
             }
-            else
-            {
-                $("#companyName").next().hide().find(".error-msg").html("");
+        });
+
+        //公司名称
+        $("#companyName").blur(function () {
+            var _self = $(this);
+            if (_self.val() == '') {
+                _self.addClass("errIpt");
+            } else {
+                _self.removeClass("errIpt");
             }
         });
 
         //用户名称
-        $("#name").blur(function ()
-        {
-            if ($("#name").val() == '') {
-                $("#name").next().fadeIn().find(".error-msg").html("姓名不能为空");
-            }
-            else 
-            {
-                $("#name").next().hide().find(".error-msg").html("");
+        $("#name").blur(function (){
+            var _self = $(this);
+            if (_self.val() == '') {
+                _self.addClass("errIpt");
+            } else {
+                _self.removeClass("errIpt");
             }
         });
 
         //密码
-        $("#loginPWD").blur(function ()
-        {
-            if ($("#loginPWD").val() == '')
+        $("#loginPWD").blur(function () {
+            var _self = $(this);
+            if (_self.val() == '')
             {
                 $("#txtBoxPassword").show();
-                $("#loginPWD").next().fadeIn().find(".error-msg").html("密码不能为空");
-            }
-            else {
+                _self.addClass("errIpt");
+            } else {
                 if ($("#loginPWD").val().length < 6 || $("#loginPWD").val().length >25) {
-                    $("#loginPWD").next().fadeIn().find(".error-msg").html("密码，6-25位");
-                }
-                else {
+                    _self.addClass("errIpt");
+                }else {
                     if (Global.passwordLevel($("#loginPWD").val()) == 1) {
-                        $("#loginPWD").next().fadeIn().find(".error-msg").html("密码至少包含字母/数字/符号两种不同组合");
-                    }
-                    else {
-                        $("#loginPWD").next().hide().find(".error-msg").html("");
+                        _self.addClass("errIpt");
+                    }else {
+                        _self.removeClass("errIpt");
                     }
                 }
             }
@@ -68,21 +70,20 @@
 
         //确认密码
         $("#loginSurePWD").blur(function () {
-            if ($("#loginSurePWD").val() == '') {
+            var _self = $(this);
+            if (_self.val() == '') {
                 $("#txtBoxSurePassword").show();
-                $("#loginSurePWD").next().fadeIn().find(".error-msg").html("确认密码不能为空");
-            }
-            else {
+                _self.addClass("errIpt");
+            }else {
                 if ($("#loginSurePWD").val() != $("#loginPWD").val()) {
-                    $("#loginSurePWD").next().fadeIn().find(".error-msg").html("密码不一致");
-                }
-                else {
-                    
-                    $("#loginSurePWD").next().hide().find(".error-msg").html("");
+                    _self.addClass("errIpt");
+                }else {
+                    _self.removeClass("errIpt");
                 }
             }
         }).focus(function () {
-            if ($("#loginSurePWD").val() == '') {
+            var _self = $(this);
+            if (_self.val() == '') {
                 $("#txtBoxSurePassword").hide();
             }
         });
@@ -90,25 +91,24 @@
         //发送验证码
         $("#btnSendMsg").click(function () {
             if ($("#loginName").val() == '') {
-                $("#code-error").fadeIn().find(".error-msg").html("手机号不能为空");
+                $(".registerErr").html("手机号不能为空").slideDown();
                 return;
             }
             else {
                 if (Global.validateMobilephone($("#loginName").val())) {
                     Global.post("/Home/IsExistLoginName", { loginName: $("#loginName").val() }, function (data) {
                         if (data.Result == 1) {
-                            $("#code-error").fadeIn().find(".error-msg").html("手机号已被注册");
+                            $(".registerErr").html("手机号已被注册").slideDown();
                             return;
                         }
                         else {
-                            $("#code-error").hide().find(".error-msg").html("");
-
+                            $(".registerErr").html("").hide();
                             ObjectJS.SendMobileMessage("btnSendMsg", $("#loginName").val());
                         }
                     });
                 }
                 else {
-                    $("#code-error").fadeIn().find(".error-msg").html("请输入正确手机号");
+                    $(".registerErr").html("请输入正确手机号").slideDown();
                     return;
                 }
             }
@@ -130,82 +130,67 @@
         $("#btnRegister").click(function () {
             ObjectJS.validateData();
         });
-
-
     }
 
     //验证数据
     ObjectJS.validateData = function () {
-
         //手机号
-        if ($("#loginName").val() == ''){
-            $("#loginName").next().fadeIn().find(".error-msg").html("手机号不能为空");
+        if ($("#loginName").val() == '') {
+            $(".registerErr").html("手机号不能为空").slideDown();
         }
         else {
             if (Global.validateMobilephone($("#loginName").val())){
                 Global.post("/Home/IsExistLoginName", { loginName: $("#loginName").val() }, function (data){
                     if (data.Result == 1){
-                        $("#loginName").next().fadeIn().find(".error-msg").html("手机号已被注册");
+                        $(".registerErr").html("手机号已被注册").slideDown();
                     }
                     else{
-                        $("#loginName").next().hide().find(".error-msg").html("");
-
+                        $("#loginName").removeClass("errIpt");
                         //code
                         if ($("#code").val() == '') {
-                            $("#code-error").fadeIn().find(".error-msg").html("验证码不能为空");
-                        }
-                        else {
+                            $(".registerErr").html("验证码不能为空").slideDown();
+                        }else {
                             Global.post("/Home/ValidateMobilePhoneCode", { mobilePhone: $("#loginName").val(), code: $("#code").val() }, function (data) {
                                 if (data.Result == 0) {
-                                    $("#code-error").fadeIn().find(".error-msg").html("验证码有误");
-                                }
-                                else {
-                                    $("#code-error").hide().find(".error-msg").html("");
+                                    $(".registerErr").html("验证码有误").slideDown();
+                                }else {
+                                    $("#code-error").removeClass("errIpt");
 
                                     //公司名称
                                     if ($("#companyName").val() == '') {
-                                        $("#companyName").next().fadeIn().find(".error-msg").html("公司名称不能为空");
-                                    }
-                                    else {
-                                        $("#companyName").next().hide().find(".error-msg").html("");
+                                        $(".registerErr").html("公司名称不能为空").slideDown();
+                                    }else {
+                                        $("#companyName").removeClass("errIpt");
 
                                         //姓名
                                         if ($("#name").val() == '') {
-                                            $("#name").next().fadeIn().find(".error-msg").html("姓名不能为空");
-                                        }
-                                        else {
-                                            $("#name").next().hide().find(".error-msg").html("");
+                                            $(".registerErr").html("姓名不能为空").slideDown();
+                                        }else {
+                                            $("#name").removeClass("errIpt");
 
                                             //密码
                                             if ($("#loginPWD").val() == '') {
-                                                $("#loginPWD").next().fadeIn().find(".error-msg").html("密码不能为空");
-                                            }
-                                            else {
+                                                $(".registerErr").html("密码不能为空").slideDown();
+                                            }else {
                                                 if ($("#loginPWD").val().length < 6 || $("#loginPWD").val().length > 25) {
-                                                    $("#loginPWD").next().fadeIn().find(".error-msg").html("密码，6-25位");
-                                                }
-                                                else {
+                                                    $(".registerErr").html("密码，6-25位").slideDown();
+                                                }else {
                                                     if (Global.passwordLevel($("#loginPWD").val()) == 1) {
-                                                        $("#loginPWD").next().fadeIn().find(".error-msg").html("密码至少两种不同组合");
-                                                    }
-                                                    else {
-                                                        $("#loginPWD").next().hide().find(".error-msg").html("");
+                                                        $(".registerErr").html("密码必须含字母+数字").slideDown();
+                                                    }else {
+                                                        $("#loginPWD").removeClass("errIpt");
 
                                                         //确认密码
                                                         if ($("#loginSurePWD").val() == '') {
-                                                            $("#loginSurePWD").next().fadeIn().find(".error-msg").html("确认密码不能为空");
-                                                        }
-                                                        else {
+                                                            $(".registerErr").html("确认密码不能为空").slideDown();
+                                                        }else {
                                                             if ($("#loginSurePWD").val() != $("#loginPWD").val()) {
-                                                                $("#loginSurePWD").next().fadeIn().find(".error-msg").html("密码不一致");
-                                                            }
-                                                            else {
-                                                                $("#loginSurePWD").next().hide().find(".error-msg").html("");
-
+                                                                $(".registerErr").html("密码不一致").slideDown();
+                                                            }else {
+                                                                $("#loginSurePWD").removeClass("errIpt");
                                                                 ObjectJS.registerClient();
                                                             }
                                                         }
-
                                                     }
                                                 }
                                             }
@@ -216,9 +201,8 @@
                         }
                     }
                 });
-            }
-            else{
-                $("#loginName").next().fadeIn().find(".error-msg").html("输入正确手机号");
+            } else {
+                $(".registerErr").html("输入正确手机号").slideDown();
             }
         }
 
@@ -227,41 +211,24 @@
     //保存实体
     ObjectJS.registerClient = function () {
         $("#btnRegister").html("注册中...");
-
         var Paras = {
             loginName: $("#loginName").val(),
             code: $("#code").val(),
             companyName: $("#companyName").val(),
             name: $("#name").val(),
             loginPWD: $("#loginPWD").val()
-
         };
 
         Global.post("/Home/RegisterClient", Paras, function (data) {
             $("#btnRegister").html("注册");
             if (data.Result == 1) {
-                location.href = "/Home/Index";
-                return;
-                //var html = "<div>您已成功注册,是否立即完善公司信息？</div><div class='pAll20'>";
-                //html += "<div class='btn left' onclick='location.href=\"/Home/Index\"'>进入首页</div>";
-                //html += "<div class='btn right' onclick='location.href=\"/System/Client/2\"'>立即完善</div>";
-                //html += "<div class='clear'></div></div>";
-                //Easydialog.open({
-                //    container: {
-                //        id: "",
-                //        header: "注册提示",
-                //        content: html
-                //    }
-                //});
-            }
-            else if (data.Result == 0) {
+                location.href = ObjectJS.loginUrl;
+            }else if (data.Result == 0) {
                 alert("注册失败");
-            }
-            else if (data.Result == 2) {
-                $("#loginName").next().fadeIn().find(".error-msg").html("手机号已被注册");
-            }
-            else if (data.Result == 3) {
-                $("#code-error").fadeIn().find(".error-msg").html("验证码有误");
+            } else if (data.Result == 2) {
+                $(".registerErr").html("手机号已被注册").slideDown();
+            } else if (data.Result == 3) {
+                $(".registerErr").html("验证码有误").slideDown();
             }
         })
     }

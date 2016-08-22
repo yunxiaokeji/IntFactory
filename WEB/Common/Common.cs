@@ -17,8 +17,9 @@ namespace YXERP.Common
         public static string AlipayNotifyPage = System.Configuration.ConfigurationManager.AppSettings["AlipayNotifyPage"] ?? string.Empty;
         //七牛云存储
         public static string QNBucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
-        public static string QNDomianUrl = System.Configuration.ConfigurationManager.AppSettings["QNDomianUrl"] ?? "http://o9h6bx3r4.bkt.clouddn.com/"; 
-
+        public static string QNDomianUrl = System.Configuration.ConfigurationManager.AppSettings["QNDomianUrl"] ?? "http://o9h6bx3r4.bkt.clouddn.com/";
+        //智能工厂移动端路径
+        public static string IntFactoryAppUrl = System.Configuration.ConfigurationManager.AppSettings["IntFactoryAppUrl"] ?? "http://mdev.intfactory.cn";
        /// <summary>
        /// 获取请求方ip
        /// </summary>
