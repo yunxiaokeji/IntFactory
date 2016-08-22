@@ -161,35 +161,34 @@
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
-            doT.exec("template/orders/plate-making-list.html", function (template) {
-                var html = template(tableModel);
-                html = $(html);
-                $(".plate-list").append(html);
-                html.find(".icon-delete").click(function () {
-                    if (!$(this).hasClass("hover")) {
-                        $(this).addClass("hover");
-                    } else {
-                        $(this).removeClass("hover");
-                    }
-                });
+        doT.exec("template/orders/plate-making-list.html", function (template) {
+            var html = template(tableModel);
+            html = $(html);
+            $(".plate-list").append(html);
+            html.find(".icon-delete").click(function () {
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                } else {
+                    $(this).removeClass("hover");
+                }
+            });
                 
-                $(".quantity").each(function () {
-                    var _this = $(this), remark = _this.data("remark");
-                    if ($.inArray(remark,xy)==-1) {
-                        _this.html("");
-                    } else {
-                        for (var i = 0; i < xyattr.length; i++) {
-                            if (remark==xyattr[i].xy) {
-                                _this.html(xyattr[i].quantity);
-                            }
+            $(".quantity").each(function () {
+                var _this = $(this), remark = _this.data("remark");
+                if ($.inArray(remark,xy)==-1) {
+                    _this.html("");
+                } else {
+                    for (var i = 0; i < xyattr.length; i++) {
+                        if (remark==xyattr[i].xy) {
+                            _this.html(xyattr[i].quantity);
                         }
                     }
-                });
-
-                $(".goosddoc tr").find("td:last").addClass("no-border-right");
-                $(".goosddoc").find("tr:last td").addClass("no-border-bottom");
+                }
             });
-        
+
+            $(".goosddoc tr").find("td:last").addClass("no-border-right");
+            $(".goosddoc").find("tr:last td").addClass("no-border-bottom");
+        });        
     }
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
@@ -209,7 +208,7 @@
                         }
                     });
 
-                    /*获取工艺下有几个步骤*/
+                    /*获取工艺下有几个阶段*/
                     var innerHtml=[], name = [], number = [];
                     html.find(".plate-name").each(function () {
                         _this = $(this);
