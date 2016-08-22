@@ -136,7 +136,6 @@
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        //$("#Platemak table").find("tr td ").css("line-height","28px");
         $("#Platemak table").find("tr:first").addClass("fontbold");
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");
@@ -146,7 +145,6 @@
             $(this).find("td:first").css("border-left", "0");
         });
         $("#Platemak table").css("border", "0");
-        //$("#Platemak table").find("tr:first").find("td:last").css("margin-left", "10%");
     };
 
     Objects.getOrderRemork = function (order) {        
@@ -226,7 +224,7 @@
                     }
                 });
             } else {
-                $(".processplate").append('<tr><td colspan="11"><div class="nodata-txt"></div></td></tr>');
+                $(".processplate").hide();
             }
         });    
     };
