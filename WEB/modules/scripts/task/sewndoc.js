@@ -77,14 +77,20 @@
                                     _thisBtn.text("保存");
                                     _thisBtn.data('isSubmit', 0);
                                     if (data.result == 1) {
-                                        alert("" + ObjectJS.taskDesc + "退回成功");
+                                        var totalReturnCount = 0;
                                         $(".swen-quantity-" + id).each(function () {
                                             var quantity = ($(this).prev().text() * 1) + ($(this).find('input').val() * 1);
+                                            totalReturnCount += quantity * 1;
                                             $(this).prev().text(quantity);
                                         });
+                                        var objTotal = $(".input-swen-box-" + id).eq(0).next();
+                                        objTotal.text(objTotal.data('quantity') * 1 - totalReturnCount * 1);
+
                                         $(".btn-save-" + id).remove();
                                         $(".btn-cancel-" + id).remove();
                                         $(".swen-quantity-" + id).remove();
+
+                                        alert("退回成功");
                                     } else if (data.result==2) {
                                         alert("退回数不能多于" + ObjectJS.taskDesc + "数");
                                     } else {

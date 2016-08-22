@@ -38,20 +38,26 @@ for(var j=0;j<item.Details.length;j++)
     <td class="tLeft bBottom">
         {%=detail.Remark%}
     </td>
-    <td class="center bBottom swen-total">
+    <td class="center bBottom swen-total"">
         {%=detail.Quantity%}
     </td>
     {%if(item.DocType==11){%}
     <td class="tLeft bBottom input-swen-box-{%=item.DocID%}">
-        <div class="mLeft2" style="display:inline-block;">{%=detail.ReturnQuantity%}</div>
+        <div class="mLeft2 left mTop4">{%=detail.ReturnQuantity%}</div>
     </td>
     {%}%}
     {%
     if(j==0)
     {
+        var total=item.Quantity;
+        for(var k=0;k<item.Details.length;k++)
+        {
+            var quantity=item.Details[k].ReturnQuantity;
+            total-=quantity;
+        }
     %}
-    <td class="center bBottom bLeft cut1" rowspan="{%=item.Details.length%}">
-        {%=item.Quantity%}
+    <td class="center bBottom bLeft cut1" data-quantity="{%=item.Quantity%}" rowspan="{%=item.Details.length%}">
+        {%=total%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
