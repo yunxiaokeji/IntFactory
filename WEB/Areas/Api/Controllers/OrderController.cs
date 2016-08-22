@@ -260,5 +260,18 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        //获取订单详情
+        public JsonResult GetOrderDetailsByOrderID(string orderID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(orderID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
     }
 }

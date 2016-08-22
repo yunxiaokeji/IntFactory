@@ -49,15 +49,17 @@ for(var j=0;j<item.Details.length;j++)
     {%
     if(j==0)
     {
-        var total=item.Quantity;
-        for(var k=0;k<item.Details.length;k++)
-        {
-            var quantity=item.Details[k].ReturnQuantity;
-            total-=quantity;
+        if(item.DocType==11){
+            var total=item.Quantity;
+            for(var k=0;k<item.Details.length;k++)
+            {
+                var quantity=item.Details[k].ReturnQuantity;
+                total-=quantity;
+            }
         }
     %}
     <td class="center bBottom bLeft cut1" data-quantity="{%=item.Quantity%}" rowspan="{%=item.Details.length%}">
-        {%=total%}
+        {%=item.DocType==11?total:item.Quantity%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}
