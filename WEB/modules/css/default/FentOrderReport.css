@@ -4,7 +4,7 @@
 .taskplate {line-height:50px;font-size:20px; }
 .titlename{ font-size:22px;height:50px;line-height:50px;}
 table{border:1px solid #000;border-collapse:collapse;}
-table tr td{border:1px solid #000;text-align:center;height:35px;line-height:35px;color:#000;}
+table tr td{border:1px solid #000;text-align:center;line-height:35px;color:#000;}
 table img{margin-right:20px;margin-left:20px;max-height:200px;max-width:200px;}
 .table-list tr:not(:first-child) td { padding:0px !important;line-height:25px;}
 
@@ -17,7 +17,7 @@ table img{margin-right:20px;margin-left:20px;max-height:200px;max-width:200px;}
 .order-information tr td { height:28px;line-height:27px;text-align:left;padding-left:10px;}
 .img-order .order-image { position:relative;border-bottom:0;}
 .img-order .order-image .layer-upload {position:absolute;right:2px;top:2px; }
-.img-order img { width:130px;height:130px;margin-top:10px}
+.img-order img { width:130px;height:120px;margin-top:10px}
 .img-order { width:400px;height:100%}
 .style-information tr td{text-align:left;padding-left:10px;}
 
