@@ -1,9 +1,11 @@
 ﻿define(function (require,exports,module) {
-    var ObjectJS = {};
-    ObjectJS.init = function (plate, price, costprice, finalPrice, profitPrice,img) {
+    var ObjectJS = {},
+        Global = require("global");
+        Upload = require("upload");
+    ObjectJS.init = function (plate, price, costprice, finalPrice, profitPrice,img,orderID) {
         ObjectJS.bindEvent(plate, price, costprice, finalPrice, profitPrice);
         ObjectJS.removeTaskPlateOperate();
-        ObjectJS.addTaskPlateCss();
+        ObjectJS.getPriceRange(orderID);
         if (img!="") {
             var img = img.split("?")[0];
             $("#tabletoexcel tr td img").attr("src",img);
@@ -16,6 +18,42 @@
         if (plate != "") {
             $("#Platemak").html(decodeURI(plate));
         }
+
+        //工艺说明录入上传附件
+        Upload.uploader({
+            browse_button: 'upLoadOneImg',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "OneImgBox",
+            maxSize: 5,
+            multi_selection: false,
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadOneImg").prev().find("img").attr('src', src);
+                }
+            }
+        });
+
+        //工艺说明录入上传附件
+        Upload.uploader({
+            browse_button: 'upLoadTwoImg',
+            file_path: "/Content/UploadFiles/Product/",
+            picture_container: "TwoImgBox",
+            maxSize: 5,
+            multi_selection: false,
+            auto_callback: false,
+            fileType: 1,
+            init: {
+                "FileUploaded": function (up, file, info) {
+                    var info = JSON.parse(info);
+                    var src = file.server + info.key;
+                    $("#upLoadTwoImg").prev().find("img").attr('src', src);
+                }
+            }
+        });
 
         var conclusion = (Number(price) + Number(costPrice)) * (profitPrice / 100 + 1);        
         var finalPrice = Number(finalPrice);        
@@ -78,7 +116,7 @@
     //删除行操作按钮(制版工艺)
     ObjectJS.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        
+        $("#Platemak table").find("tr:first").addClass("head");
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");        
         $("#Platemak table tr").each(function () {
@@ -91,10 +129,27 @@
         $("#Platemak table").find("tr:first").find("td:last").css("margin-left","10%");
     };
 
-    ObjectJS.addTaskPlateCss = function () {
-        $(".Processing").find("tr:last").find("td").addClass("no-border-bottom");
-    }
+    ObjectJS.getPriceRange = function (orderid) {
+        Global.post("/Orders/GetOrderPriceRanges", { orderid: orderid }, function (data) {
+            if (data.items.length>0) {
+                for (var i = 0; i < data.items.length; i++) {
+                    var item = data.items;
+                    var nextitem = [];
+                    if (item.length == 1 || i == item.length - 1) {
+                        nextitem.MinQuantity = "无上限";
+                    }else {
+                        nextitem.MinQuantity = Number(item[i + 1].MinQuantity) - 1;
+                    }
 
+                    if (nextitem.MinQuantity == "无上限") {
+                        $("#price-range").append("<div class='color000'>数量 大于" + item[i].MinQuantity + "，" + item[i].Price + "/件</div>");
+                    } else {
+                        $("#price-range").append("<div class='color000'>数量 在" + item[i].MinQuantity + "到" + nextitem.MinQuantity + "之间，" + item[i].Price + "/件</div>");
+                    }                    
+                }
+            };
+        });
+    };
     
     module.exports = ObjectJS;
 });
