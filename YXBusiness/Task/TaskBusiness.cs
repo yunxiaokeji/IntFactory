@@ -24,18 +24,28 @@ namespace IntFactoryBusiness
             int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             List<TaskEntity> list = new List<TaskEntity>();
-            DataTable dt = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, filterType, status, finishStatus, invoiceStatus, preFinishStatus,
+            DataSet ds = TaskDAL.BaseProvider.GetTasks(keyWords, ownerID, filterType, status, finishStatus, invoiceStatus, preFinishStatus,
                 colorMark, taskType, beginDate, endDate, beginEndDate,endEndDate,
                 orderType, orderProcessID, orderStageID,
                 (int)taskOrderColumn, isAsc, clientID, 
                 pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataTable dt = ds.Tables["Tasks"];
+            DataTable orders = ds.Tables["Orders"];
 
             foreach (DataRow dr in dt.Rows)
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
-
                 model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+                if (orders.Rows.Count > 0)
+                {
+                    foreach (DataRow dr2 in orders.Select(" OrderID='" + model.OrderID + "'"))
+                    {
+                        OrderEntity order = new OrderEntity();
+                        order.FillData(dr2);
+                        model.Order = order;
+                    }
+                }
 
                 if (model.FinishStatus == 1)
                 {
@@ -78,15 +88,14 @@ namespace IntFactoryBusiness
             DataSet ds = TaskDAL.BaseProvider.GetTasksByEndTime(startEndTime, endEndTime, 
                 orderType, filterType, finishStatus,preFinishStatus,taskType,
                 userID, clientID, pageSize, pageIndex, ref totalCount, ref pageCount);
-
             DataTable dt = ds.Tables["Tasks"];
             DataTable orders = ds.Tables["Orders"];
+
             foreach (DataRow dr in dt.Rows)
             {
                 TaskEntity model = new TaskEntity();
                 model.FillData(dr);
                 model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
-
                 if (orders.Rows.Count > 0)
                 {
                     foreach (DataRow dr2 in orders.Select(" OrderID='" + model.OrderID + "'"))
