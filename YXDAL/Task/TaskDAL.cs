@@ -12,7 +12,7 @@ namespace IntFactoryDAL
     {
         public static TaskDAL BaseProvider = new TaskDAL();
 
-        public DataTable GetTasks(string keyWords, string ownerID, int filterType, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
+        public DataSet GetTasks(string keyWords, string ownerID, int filterType, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID, int taskOrderColumn, int isAsc, string clientID,
             int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
@@ -40,22 +40,17 @@ namespace IntFactoryDAL
                                        new SqlParameter("@TaskOrderColumn",taskOrderColumn),
                                        new SqlParameter("@IsAsc",isAsc),
                                        new SqlParameter("@PageSize",pageSize),
-                                       new SqlParameter("@PageIndex",pageIndex),
-   
+                                       new SqlParameter("@PageIndex",pageIndex)
                                    };
-            
             paras[0].Value = totalCount;
             paras[1].Value = pageCount;
-
             paras[0].Direction = ParameterDirection.InputOutput;
             paras[1].Direction = ParameterDirection.InputOutput;
-
-            DataSet ds = GetDataSet("P_GetTasks", paras, CommandType.StoredProcedure);
-
+            DataSet ds = GetDataSet("P_GetTasks", paras, CommandType.StoredProcedure,"Tasks|Orders");
             totalCount = Convert.ToInt32(paras[0].Value);
             pageCount = Convert.ToInt32(paras[1].Value);
 
-            return ds.Tables[0];
+            return ds;
         }
 
         public DataSet GetTasksByEndTime(string startEndTime, string endEndTime,

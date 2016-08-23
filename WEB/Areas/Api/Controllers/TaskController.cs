@@ -41,8 +41,8 @@ namespace YXERP.Areas.Api.Controllers
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
                 paras.pageSize, paras.pageIndex, ref totalCount, ref pageCount);
-
             var lables = SystemBusiness.BaseBusiness.GetLableColor(clientID, EnumMarkType.Tasks).ToList();
+
             List<Dictionary<string, object>> tasks = new List<Dictionary<string, object>>();
             string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
             foreach (var item in list)
@@ -64,8 +64,7 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("pEndTime", item.PEndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.PEndTime.ToString("yyyy-MM-dd") : "");
                 task.Add("orderType", item.OrderType);
                 var orderImg = item.OrderImg;
-                if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com"))
-                {
+                if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com")){
                     orderImg = domainUrl + item.OrderImg;
                 }
                 task.Add("orderImg", orderImg);
@@ -73,6 +72,13 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("endTime",item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd"):"");
                 task.Add("completeTime",item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd"):"");
                 task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd"));
+
+                Dictionary<string, object> order = new Dictionary<string, object>();
+                var orderItem = item.Order;
+                order.Add("goodsName", orderItem.GoodsName);
+                order.Add("goodsCode", orderItem.IntGoodsCode);
+                order.Add("planTime", orderItem.PlanTime.ToString("yyyy-mm-dd"));
+                task.Add("order", order);
                 tasks.Add(task);
             }
             JsonDictionary.Add("tasks", tasks);
