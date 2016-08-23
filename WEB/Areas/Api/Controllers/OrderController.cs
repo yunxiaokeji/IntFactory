@@ -32,6 +32,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
+                obj.Add("clientName", item.Client.CompanyName); 
                 obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
@@ -62,7 +63,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
-            obj.Add("clientID", item.ClientID);
+            obj.Add("clientID", item.ClientID); 
             obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();
