@@ -60,7 +60,7 @@
                 var _this = $(this);
                 var offset = obj.offset();
                 if ($(".change-menu-body").length == 0) {
-                    DoT.exec("../modules/plug/choosemenu/choosemenu.html", function (template) {
+                    DoT.exec("plug/choosemenu/choosemenu.html", function (template) {
                         var innerText = template();
                         innerText = $(innerText);
                         innerText.css({
