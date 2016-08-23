@@ -53,7 +53,6 @@
                         $(".btn-cancel-" + id).remove();
                         $(".swen-quantity-" + id).remove();
                     });
-
                     _save.click(function () {
                         var _thisBtn = $(this);
                         if (_thisBtn.data('isSubmit') != 1) {
