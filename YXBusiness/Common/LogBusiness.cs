@@ -32,7 +32,31 @@ namespace IntFactoryBusiness
             return list;
 
         }
+        public List<OtherSyncTaskRecord> GetSyncTaskRecord(int type, int status,string orderid, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        {
+            string sqlWhere = "a.Status<>9";
+            if (!string.IsNullOrEmpty(orderid))
+                sqlWhere += " and ( a.OrderID ='" + orderid + "' )";
+            if (!string.IsNullOrEmpty(clientid))
+                sqlWhere += " and ( a.ClientID ='" + clientid + "' )"; 
+            if (type > 0)
+                sqlWhere += " and ( a.Type ='" + type + "' )";
+            if (status > 0)
+                sqlWhere += " and ( a.Status ='" + status + "' )";
+            string sqlColumn = @" * ";
+            DataTable dt = CommonBusiness.GetPagerData("OtherSyncTaskRecord a", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
+            List<OtherSyncTaskRecord> list = new List<OtherSyncTaskRecord>();
 
+            foreach (DataRow dr in dt.Rows)
+            {
+                OtherSyncTaskRecord entity = new OtherSyncTaskRecord();
+                entity.FillData(dr);
+                list.Add(entity);
+            }
+
+            return list;
+
+        }
         /// <summary>
         /// 获取日志
         /// </summary>
@@ -127,8 +151,14 @@ namespace IntFactoryBusiness
         {
             await LogDAL.AddActionLog((int)systemtype, (int)objecttype, (int)actiontype, operateip, userid, clientid);
         }
-
-
+        public static async void AddOtherRecord(int type, string orderid,string othersysid, string content,string remark, string userid, string clientid)
+        {
+            await LogDAL.AddOtherRecord(type, orderid, othersysid, content, remark, userid, clientid);
+        }
+        public static bool UpdateOtherRecord(int autoid, int status, string errormsg)
+        {
+            return LogDAL.updateOtherRecord(autoid, status, errormsg);
+        }
         #endregion
     }
 }

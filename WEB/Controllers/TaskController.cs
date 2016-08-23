@@ -512,9 +512,9 @@ namespace YXERP.Controllers
         }
 
         //添加大货订单发货、打样订单发货
-        public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark)
+        public JsonResult CreateOrderSendDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string othersysid="",string jsonparas="")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark,"", CurrentUser.UserID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, "", CurrentUser.UserID, CurrentUser.ClientID, jsonparas, othersysid);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {

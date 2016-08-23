@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -121,6 +122,35 @@ namespace IntFactoryDAL
                                    };
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
         }
+
+        public static Task<bool> AddOtherRecord(int type, string orderid, string othersysid, string content,
+            string remark, string userid, string clientid)
+        {
+            string sqlText = "insert into OtherSyncTaskRecord(Type,Status,OrderID,OtherSysID,CreateTime,Content,Remark,CreateUserID,ClientID) " +
+                                       " values(@Type,0,@OrderID,@OtherSysID,GETDATE(),@Content,@Remark,@UserID,@ClientID)";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@Type" , type), 
+                                     new SqlParameter("@OrderID" , orderid),
+                                     new SqlParameter("@OtherSysID" , othersysid),
+                                     new SqlParameter("@Content" , content),
+                                     new SqlParameter("@Remark" , remark),
+                                     new SqlParameter("@UserID" , userid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
+        }
+        public static bool updateOtherRecord(int autoid, int status, string errormsg="")
+        {
+            string sqlText =
+                "update OtherSyncTaskRecord set Status=@Status,SyncTime=getdate(),ErrorMsg=isnull(ErrorMsg,'')+@ErrorMsg where AutoID=@AutoID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@Status" , status), 
+                                     new SqlParameter("@AutoID" , autoid),
+                                     new SqlParameter("@ErrorMsg" , errormsg)
+                                   };
+             return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; 
+        }
+
 
     }
 }
