@@ -37,18 +37,18 @@ namespace IntFactoryBusiness
         }
 
         //订单更换负责人推送通知
-        public async void SendChangeOrderOwnerPush(string orderid)
+        public async void SendChangeOrderOwnerPush(string orderid, string operateName)
         {
-            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeOrderOwnerPush, orderid);
+            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeOrderOwnerPush, orderid, operateName);
         }
 
         //任务更换负责人推送通知
-        public async void SendChangeTaskOwnerPush(string taskid)
+        public async void SendChangeTaskOwnerPush(string taskid, string operateName)
         {
-            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeTaskOwnerPush, taskid);
+            await SendWeiXinMPPush(WeiXinMPPushType.SendChangeTaskOwnerPush, taskid, operateName);
         }
 
-        public Task<bool> SendWeiXinMPPush(WeiXinMPPushType pushType, string guid)
+        public Task<bool> SendWeiXinMPPush(WeiXinMPPushType pushType, string guid, string operateName="")
         {
             string result = string.Empty;
             if (pushType == WeiXinMPPushType.SendTaskFinishPush)
@@ -58,17 +58,24 @@ namespace IntFactoryBusiness
                 {
                     string content = GetPushContent(pushType, task.OpenID, task.Title, 
                         task.GoodsName,task.OrderType,
-                        task.PreTitle, task.Owner.Name);
-                    result=SendPush(content);   
+                        task.PreTitle, task.Owner.Name,null,task.TaskID,operateName);
+                    result=SendPush(content);
+
+                    ApiCloudPush.BasePush.SendPush("您的" + task.Title + "上级任务：" + task.PreTitle + "标记完成", task.OwnerID);
                 }
                 if (task.Order != null)
                 {
                     var order = task.Order;
-                    pushType = WeiXinMPPushType.SendAllTaskFinishPush;
-                    string content = GetPushContent(pushType, order.OpenID, order.OrderCode,
-                         task.GoodsName, task.OrderType,
-                        string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
-                    result = SendPush(content);
+                    if (!string.IsNullOrEmpty(order.OpenID))
+                    {
+                        pushType = WeiXinMPPushType.SendAllTaskFinishPush;
+                        string content = GetPushContent(pushType, order.OpenID, order.OrderCode,
+                             task.GoodsName, task.OrderType,
+                            string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
+                        result = SendPush(content);
+                    }
+
+                    ApiCloudPush.BasePush.SendPush("您的" + task.GoodsName + "所有任务已完成", order.OwnerID);
                 }
             }
             else if (pushType == WeiXinMPPushType.SendNewTaskPush)
@@ -78,10 +85,15 @@ namespace IntFactoryBusiness
                 {
                     foreach (var task in tasks)
                     {
-                        string content = GetPushContent(pushType, task.OpenID, task.Title,
-                             task.GoodsName, task.OrderType,
-                            "", "", task.EndTime,guid);
-                        result=SendPush(content);
+                        if (!string.IsNullOrEmpty(task.OpenID))
+                        {
+                            string content = GetPushContent(pushType, task.OpenID, task.Title,
+                                 task.GoodsName, task.OrderType,
+                                "", "", task.EndTime, guid);
+                            result = SendPush(content);
+                        }
+
+                        ApiCloudPush.BasePush.SendPush("您收到了一个新任务:" + task.Title, task.OwnerID);
                     }
                 }
             }
@@ -90,10 +102,15 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForChangeOrderOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(pushType, task.OpenID, task.Title,
-                         task.GoodsName, task.OrderType,
-                        "", "", task.EndTime);
-                    result=SendPush(content);
+                    if (!string.IsNullOrEmpty(task.OpenID))
+                    {
+                        string content = GetPushContent(pushType, task.OpenID, task.Title,
+                             task.GoodsName, task.OrderType,
+                            "", "", task.EndTime,"",operateName);
+                        result = SendPush(content);
+                    }
+                    
+                    ApiCloudPush.BasePush.SendPush(operateName + "将您设为订单：" + task.GoodsName + "的负责人！", task.OwnerID);
                 }
             }
             else if (pushType == WeiXinMPPushType.SendChangeTaskOwnerPush)
@@ -101,10 +118,15 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForChangeTaskOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(pushType, task.OpenID, task.Title,
-                         task.GoodsName, task.OrderType,
-                        "", "", task.EndTime,guid);
-                    result = SendPush(content);
+                    if (!string.IsNullOrEmpty(task.OpenID))
+                    {
+                        string content = GetPushContent(pushType, task.OpenID, task.Title,
+                             task.GoodsName, task.OrderType,
+                            "", "", task.EndTime, guid,operateName);
+                        result = SendPush(content);
+                    }
+
+                    ApiCloudPush.BasePush.SendPush(operateName + "将您设为任务：" + task.Title + "的负责人！", task.OwnerID);
                 }
             }
 
@@ -112,7 +134,7 @@ namespace IntFactoryBusiness
         }
 
         //获取推送内容
-        public string GetPushContent(WeiXinMPPushType pushType, string openid, string title,string orderTitle,int orderType, string preTitle="", string onwerName="",DateTime? endTime=null,string guid="")
+        public string GetPushContent(WeiXinMPPushType pushType, string openid, string title, string orderTitle, int orderType, string preTitle = "", string onwerName = "", DateTime? endTime = null, string guid = "", string operateName="")
         {
             string[] template_ids = new string[] { 
                 "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
@@ -139,15 +161,20 @@ namespace IntFactoryBusiness
                 first = "您收到了一个新任务，";
                 if (pushType == WeiXinMPPushType.SendChangeTaskOwnerPush)
                 {
-                    first = "有一个任务将您设为负责人，";
+                    first = operateName+"将您设为任务负责人，";
                 }
+
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd")=="0001-01-01" ? "未设置" : endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请按时完成任务！";
                 parasObj.Add("url", IntFactoryAppUrl + "/home/WeiXinMPLogin?returnUrl=" + IntFactoryAppUrl + "/task/detail/" + guid);
             }
+            else if (pushType == WeiXinMPPushType.SendTaskFinishPush)
+            {
+                parasObj.Add("url", IntFactoryAppUrl + "/home/WeiXinMPLogin?returnUrl=" + IntFactoryAppUrl + "/task/detail/" + guid);
+            }
             else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
             {
-                first = "有一个订单将您设为负责人，";
+                first = operateName + "将您设为订单负责人，";
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
             }
@@ -157,6 +184,7 @@ namespace IntFactoryBusiness
                 remark = "请确认！";
             }
             first += "订单款式："+orderTitle+"，订单类型："+(orderType==1?"打样":"大货");
+
             firstObj.Add("value", first);
             firstObj.Add("color", color);
             keyword1Obj.Add("value", title);
