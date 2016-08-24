@@ -355,6 +355,18 @@ namespace YXERP.Areas.Api.Controllers
         }
         #endregion
 
+        //车缝、裁剪录入
+        public JsonResult CreateOrderGoodsDoc(string orderID, string taskID, int docType, int isOver, string details, string remark, string ownerID, string operateID, string clientID, string expressID, string expressCode)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderID, taskID, (EnumGoodsDocType)docType, isOver, expressID, expressCode, details, remark, ownerID, operateID, clientID);
+            JsonDictionary.Add("result", id);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #region common
         public Dictionary<string, object> GetUserBaseObj(IntFactoryEntity.CacheUserEntity user) 
         {
