@@ -767,7 +767,7 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string clientid)
+        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string operateName, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, clientid);
             if (bl)
@@ -777,7 +777,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, clientid);
 
                 //通知负责人有新任务
-                WeiXinMPPush.BasePush.SendChangeOrderOwnerPush(orderid);
+                WeiXinMPPush.BasePush.SendChangeOrderOwnerPush(orderid,operateName);
             }
             return bl;
         }

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Agents\AgentsBusiness.cs" />
     <Compile Include="AliOrder\AliOrderBusiness.cs" />
+    <Compile Include="Common\ApiCloudPush.cs" />
     <Compile Include="Common\LogBusiness.cs" />
     <Compile Include="Common\WeiXinMPPush.cs" />
     <Compile Include="Common\ReplyBusiness.cs" />
