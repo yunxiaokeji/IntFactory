@@ -14,9 +14,7 @@ namespace IntFactoryBusiness
 {
     public class TaskBusiness
     {
-
         #region 查
-
         public static List<TaskEntity> GetTasks(string keyWords, string ownerID, int filterType, int status, int finishStatus, int invoiceStatus, int preFinishStatus,
             int colorMark, int taskType, string beginDate, string endDate, string beginEndDate, string endEndDate,
             int orderType, string orderProcessID, string orderStageID,
