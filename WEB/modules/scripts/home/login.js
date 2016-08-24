@@ -54,7 +54,7 @@ define(function (require, exports, module) {
                 $(".registerErr").html("请输入密码").slideDown();
                 return;
             }
-            if (Home.bindAccountType == 0)
+            if (Home.bindAccountType == 0 || Home.bindAccountType == 10000 )
                 $(this).html("登录中...").attr("disabled", "disabled");
             else
                 $(this).html("绑定中...").attr("disabled", "disabled");
@@ -66,19 +66,20 @@ define(function (require, exports, module) {
             },
             function (data)
             {
-                if (Home.bindAccountType == 0) {
+                if (Home.bindAccountType == 0 || Home.bindAccountType ==10000) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
-                }
-                else {
+                }else {
                     $("#btnLogin").html("绑定").removeAttr("disabled");
                 }
-
+                debugger
                 if (data.result == 1)
                 {
+                    if (Home.bindAccountType == 10000) {
+                        Home.returnUrl = Home.returnUrl + "?sign=" + data.sign + "&userid=" + data.userid + "&clientid=" + data.clientid;
+                    }
                     if (Home.returnUrl) {
                         location.href = Home.returnUrl;
-                    }
-                    else {
+                    }else {
                         location.href = "/Home/Index";
                     }
                 }
