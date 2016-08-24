@@ -51,6 +51,7 @@ namespace IntFactoryBusiness
             {
                 OtherSyncTaskRecord entity = new OtherSyncTaskRecord();
                 entity.FillData(dr);
+                entity.Content = string.IsNullOrEmpty(entity.Content) ? "" : entity.Content.Replace("“", "\"");
                 list.Add(entity);
             }
 
