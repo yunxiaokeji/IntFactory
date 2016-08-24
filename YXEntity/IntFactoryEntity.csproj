@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Log\OtherSyncTaskRecord.cs" />
     <Compile Include="Log\Report_AgentAction_Day.cs" />
     <Compile Include="AliOrder\AliOrderDownloadLog.cs" />
     <Compile Include="AliOrder\AliOrderDownloadPlan.cs" />
