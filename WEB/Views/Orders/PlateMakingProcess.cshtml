@@ -74,7 +74,7 @@
                         </table>
                     </td>
                     <td>
-                        <table class="no-border order-information" style="width:410px;">
+                        <table class="no-border order-information" style="width:310px;">
                             <tr>
                                 <td class="width100" >款号：</td>
                                 <td style="overflow: hidden;text-overflow: ellipsis;max-width:200px">@(order.IntGoodsCode==""?order.OrderCode:order.IntGoodsCode)</td>
@@ -185,7 +185,8 @@
                             <td>@((detail.Loss * order.PlanQuantity).ToString("f3"))</td>
                             <td>@(((detail.Quantity * order.PlanQuantity)+(detail.Loss * order.PlanQuantity)).ToString("f3"))</td>
                             <td class="center" style="max-width:300px;">
-                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:90%;min-height:20px;vertical-align:middle;"></textarea>                                
+                                <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:92%;min-height:18px;vertical-align:middle;height:18px;
+line-height:18px !important;border-color:#666"></textarea>                                
                                 <span class="span hide"></span>
                             </td>
                         </tr>
@@ -207,20 +208,20 @@
            
             <table class="processplate no-border" style="width:955px">
                 <tr>
-                    <td class="no-border-top head" style="width:105px;">工艺</td>
+                    <td class="no-border-top head tLeft pLeft10" style="width:95px;">工艺</td>
                     <td class="no-border-top head width50">图标</td>
-                    <td colspan="2" class="no-border-top head width50">名称</td>
+                    <td colspan="2" class="no-border-top head width50 tLeft pLeft5">名称</td>
                     <td colspan="4" class="no-border-top head">描述</td>
                 </tr>                
             </table>  
             <table style="width:955px" class="remark no-border">
                 <tr>
-                    <td colspan="10"  class="font18 no-border-top tLeft head pLeft30">备注</td>
+                    <td colspan="10"  class="font14 no-border-top tLeft head pLeft30">备注</td>
                 </tr>
                 <tr>
                     <td colspan="10" style="padding:5px;">
-                        <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:95%;min-height:20px;height:24px;line-height:20px;min-height:100px;vertical-align:middle;padding:5px;box-sizing:border-box;"></textarea>                                
-                        <span class="span hide"></span>
+                        <textarea class="input" onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" class="textarea" style="width:95%;min-height:20px;height:24px;line-height:20px;min-height:100px;vertical-align:middle;margin:10px;box-sizing:border-box;"></textarea>                                
+                        <div class="span hide" style="text-align:left;padding-left:25px;"></div>
                     </td>
                 </tr>
             </table> 

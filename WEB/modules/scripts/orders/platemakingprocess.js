@@ -98,12 +98,12 @@
                 $(this).next().hide();
                 $(this).parent().find('.span').html(nameresponsible);
             });
-            $(".span").show();
+            $(".span").show();           
             $(".btn-ok").remove();
             $(".icon-delete").hide();
             $(".layer-upload").hide();
 
-            $(".order-information tr:not(:first-child) td").css({ "height": "29px", "line-height": "29px" });
+            $(".order-information tr:not(:first-child) td").css({ "height": "29px", "line-height": "28px" });
 
             $(".information").each(function () {
                 _this=$(this);
@@ -136,7 +136,6 @@
     //删除行操作按钮(制版工艺)
     Objects.removeTaskPlateOperate = function () {
         $("span.ico-dropdown").remove();
-        //$("#Platemak table").find("tr td ").css("line-height","28px");
         $("#Platemak table").find("tr:first").addClass("fontbold");
         $("#Platemak table").find("tr:first").find("td").css({ "border-top": "0", "border-bottom": "1px solid", "font-size": "16px" });
         $("#Platemak table").find("tr").find("td").removeClass("tLeft");
@@ -146,7 +145,6 @@
             $(this).find("td:first").css("border-left", "0");
         });
         $("#Platemak table").css("border", "0");
-        //$("#Platemak table").find("tr:first").find("td:last").css("margin-left", "10%");
     };
 
     Objects.getOrderRemork = function (order) {        
@@ -163,35 +161,34 @@
         }
         tableModel.xAttr = xattr;
         tableModel.yAttr = yattr;
-            doT.exec("template/orders/plate-making-list.html", function (template) {
-                var html = template(tableModel);
-                html = $(html);
-                $(".plate-list").append(html);
-                html.find(".icon-delete").click(function () {
-                    if (!$(this).hasClass("hover")) {
-                        $(this).addClass("hover");
-                    } else {
-                        $(this).removeClass("hover");
-                    }
-                });
+        doT.exec("template/orders/plate-making-list.html", function (template) {
+            var html = template(tableModel);
+            html = $(html);
+            $(".plate-list").append(html);
+            html.find(".icon-delete").click(function () {
+                if (!$(this).hasClass("hover")) {
+                    $(this).addClass("hover");
+                } else {
+                    $(this).removeClass("hover");
+                }
+            });
                 
-                $(".quantity").each(function () {
-                    var _this = $(this), remark = _this.data("remark");
-                    if ($.inArray(remark,xy)==-1) {
-                        _this.html("");
-                    } else {
-                        for (var i = 0; i < xyattr.length; i++) {
-                            if (remark==xyattr[i].xy) {
-                                _this.html(xyattr[i].quantity);
-                            }
+            $(".quantity").each(function () {
+                var _this = $(this), remark = _this.data("remark");
+                if ($.inArray(remark,xy)==-1) {
+                    _this.html("");
+                } else {
+                    for (var i = 0; i < xyattr.length; i++) {
+                        if (remark==xyattr[i].xy) {
+                            _this.html(xyattr[i].quantity);
                         }
                     }
-                });
-
-                $(".goosddoc tr").find("td:last").addClass("no-border-right");
-                $(".goosddoc").find("tr:last td").addClass("no-border-bottom");
+                }
             });
-        
+
+            $(".goosddoc tr").find("td:last").addClass("no-border-right");
+            $(".goosddoc").find("tr:last td").addClass("no-border-bottom");
+        });        
     }
 
     Objects.processPlate = function (orderid, OriginalID, ordertype) {        
@@ -211,7 +208,7 @@
                         }
                     });
 
-                    /*获取工艺下有几个步骤*/
+                    /*获取工艺下有几个阶段*/
                     var innerHtml=[], name = [], number = [];
                     html.find(".plate-name").each(function () {
                         _this = $(this);
@@ -226,7 +223,7 @@
                     }
                 });
             } else {
-                $(".processplate").append('<tr><td colspan="11"><div class="nodata-txt"></div></td></tr>');
+                $(".processplate").hide();
             }
         });    
     };

@@ -28,6 +28,8 @@ namespace IntFactoryEntity.Task
         [Property("Lower")]
         public string OrderCode { get; set; }
 
+        public string GoodsName { get; set; }
+
         public string OrderImg { get; set; }
 
         [Property("Lower")]

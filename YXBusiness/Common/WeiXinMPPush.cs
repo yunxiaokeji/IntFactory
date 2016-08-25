@@ -20,6 +20,7 @@ namespace IntFactoryBusiness
         public static string WeiXinMPApiUrl = ConfigurationManager.AppSettings["WeiXinMPApiUrl"] ?? "https://api.weixin.qq.com";
         public static string WeiXinMPAppKey = ConfigurationManager.AppSettings["WeiXinMPAppKey"] ?? "wxa69a4127f24be469";
         public static string WeiXinMPAppSecret = ConfigurationManager.AppSettings["WeiXinMPAppSecret"] ?? "28e5342f879a312ff666f0e3b23f6a78";
+        public static string IntFactoryAppUrl = ConfigurationManager.AppSettings["IntFactoryAppUrl"] ?? "http://mdev.intfactory.cn";
         public static string WeiXinMPToken = string.Empty;
         public static DateTime WeiXinMPTokenExpiresTime =DateTime.Now;
 
@@ -55,14 +56,18 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForFinishTask(guid);
                 if (!string.IsNullOrEmpty( task.OpenID))
                 {
-                    string content = GetPushContent(pushType, task.OpenID, task.Title, task.PreTitle, task.Owner.Name);
+                    string content = GetPushContent(pushType, task.OpenID, task.Title, 
+                        task.GoodsName,task.OrderType,
+                        task.PreTitle, task.Owner.Name);
                     result=SendPush(content);   
                 }
                 if (task.Order != null)
                 {
                     var order = task.Order;
                     pushType = WeiXinMPPushType.SendAllTaskFinishPush;
-                    string content = GetPushContent(pushType, order.OpenID, order.OrderCode, string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
+                    string content = GetPushContent(pushType, order.OpenID, order.OrderCode,
+                         task.GoodsName, task.OrderType,
+                        string.Empty, CommonBusiness.GetEnumDesc((EnumOrderStageStatus)order.Status));
                     result = SendPush(content);
                 }
             }
@@ -73,7 +78,9 @@ namespace IntFactoryBusiness
                 {
                     foreach (var task in tasks)
                     {
-                        string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
+                        string content = GetPushContent(pushType, task.OpenID, task.Title,
+                             task.GoodsName, task.OrderType,
+                            "", "", task.EndTime,guid);
                         result=SendPush(content);
                     }
                 }
@@ -83,7 +90,9 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForChangeOrderOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
+                    string content = GetPushContent(pushType, task.OpenID, task.Title,
+                         task.GoodsName, task.OrderType,
+                        "", "", task.EndTime);
                     result=SendPush(content);
                 }
             }
@@ -92,7 +101,9 @@ namespace IntFactoryBusiness
                 TaskEntity task = TaskBusiness.GetPushTaskForChangeTaskOwner(guid);
                 if (task != null)
                 {
-                    string content = GetPushContent(pushType, task.OpenID, task.Title, "", "", task.EndTime);
+                    string content = GetPushContent(pushType, task.OpenID, task.Title,
+                         task.GoodsName, task.OrderType,
+                        "", "", task.EndTime,guid);
                     result = SendPush(content);
                 }
             }
@@ -101,7 +112,7 @@ namespace IntFactoryBusiness
         }
 
         //获取推送内容
-        public string GetPushContent(WeiXinMPPushType pushType, string openid, string title, string preTitle="", string onwerName="",DateTime? endTime=null)
+        public string GetPushContent(WeiXinMPPushType pushType, string openid, string title,string orderTitle,int orderType, string preTitle="", string onwerName="",DateTime? endTime=null,string guid="")
         {
             string[] template_ids = new string[] { 
                 "IJx0o_kXBfNhTmCkQrsZ42MSON0MX9wfyGUTLoVYZfQ", 
@@ -118,32 +129,34 @@ namespace IntFactoryBusiness
             Dictionary<string, object> remarkObj = new Dictionary<string, object>() { };
 
             string color = "#173177";
-            string first = "您好，您有一个上级任务" + preTitle + "已提交完成！";
+            string first = "您有一个上级任务" + preTitle + "标记完成，";
             string keyword1 = title;
             string keyword2 = onwerName;
             string keyword3 = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
             string remark = "请按时完成任务！";
 
             if (pushType == WeiXinMPPushType.SendNewTaskPush || pushType == WeiXinMPPushType.SendChangeTaskOwnerPush) {
-                first = "您收到了一个新任务！";
+                first = "您收到了一个新任务，";
                 if (pushType == WeiXinMPPushType.SendChangeTaskOwnerPush)
                 {
-                    first = "有一个任务将您设为负责人！";
+                    first = "有一个任务将您设为负责人，";
                 }
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd")=="0001-01-01" ? "未设置" : endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请按时完成任务！";
+                parasObj.Add("url", IntFactoryAppUrl + "/home/WeiXinMPLogin?returnUrl=" + IntFactoryAppUrl + "/task/detail/" + guid);
             }
             else if (pushType == WeiXinMPPushType.SendChangeOrderOwnerPush)
             {
-                first = "有一个订单将您设为负责人！";
+                first = "有一个订单将您设为负责人，";
                 keyword2 = endTime.Value.ToString("yyyy-MM-dd hh:mm");
                 remark = "请尽快处理！";
             }
             else if (pushType == WeiXinMPPushType.SendAllTaskFinishPush)
             {
-                first = "您有一个订单的所有任务已完成！";
+                first = "您有一个订单的所有任务已完成，";
                 remark = "请确认！";
             }
+            first += "订单款式："+orderTitle+"，订单类型："+(orderType==1?"打样":"大货");
             firstObj.Add("value", first);
             firstObj.Add("color", color);
             keyword1Obj.Add("value", title);

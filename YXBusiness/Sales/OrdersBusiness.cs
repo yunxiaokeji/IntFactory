@@ -131,7 +131,7 @@ namespace IntFactoryBusiness
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
-
+                model.Client = ClientBusiness.GetClientDetail(model.ClientID);
                 list.Add(model);
             }
 

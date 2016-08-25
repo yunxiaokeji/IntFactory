@@ -1,16 +1,32 @@
 ﻿body {background-color:#fff; }
-.report { width:1100px;margin:30px auto;padding-bottom:20px;}
+.report { width:1000px;margin:30px auto;padding-bottom:20px;}
+.report::after{display:block;content:"";clear:both;}
 .taskplate {line-height:50px;font-size:20px; }
 .titlename{ font-size:22px;height:50px;line-height:50px;}
 table{border:1px solid #000;border-collapse:collapse;}
-table tr td{border:1px solid #000;text-align:center;width:200px;height:50px;}
+table tr td{border:1px solid #000;text-align:center;line-height:35px;color:#000;height:35px;}
 table img{margin-right:20px;margin-left:20px;max-height:200px;max-width:200px;}
-table:first-child tr td:last-child{width:120px;}
-.style-information tr td { height:35px;font-size:15px;}
-.style-information tr td:last-child{ font-size:12px;}
+.table-list tr:not(:first-child) td { padding:0px !important;line-height:25px;}
+
+.order-information tr td:first-child,.time-order tr td:first-child{border-left:0;}
+.time-order tr:last-child td{border-bottom:0;}
+.time-order tr:first-child td{border-top:0;}
+.time-order tr td{text-align:left;padding-left:10px;}
+.order-information tr td:last-child { border-right:0;}
+.order-information tr:first-child td {border-top:0;line-height:30px;height:30px; }
+.order-information tr td { height:28px;line-height:27px;text-align:left;padding-left:10px;}
+.img-order .order-image { position:relative;border-bottom:0;}
+.img-order .order-image .layer-upload {position:absolute;right:2px;top:2px; }
+.img-order img { width:130px;height:120px;margin-top:10px}
+.img-order { width:400px;height:100%}
+.style-information tr td{text-align:left;padding-left:10px;}
+
+.Processing tr:last-child td { border-bottom:0;}
+
+.Processing { width:100%;}
 .export span { font-size:24px;color:#666;}
 .Processing tr td:last-child{border-right:none; }
-.icon-delete { float:left;margin-left:5px;margin-top:2px;color:#666;cursor:pointer;margin-right:-20px;}
+.icon-delete { float:left;color:#666;cursor:pointer;margin-right:5px;margin-top:-2px;padding-left:5px;}
 .offer { width:60%;}
 .no-select {color:#bbb; }
 .btn { background-color:#888;}

@@ -649,9 +649,9 @@
         $("#btnSaveSwen").click(function () {
             var id = ObjectJS.docID;
             if ($(".btn-save-" + id).length <= 0) {
-                var _save = $('<div class="hand btn-link mLeft10 btn-save-' + id + '" style="display:inline-block;" data-id="' + id + '">保存</div>');
-                var _cancel = $('<div class="hand btn-link mLeft10 btn-cancel-' + id + '" style="display:inline-block;" data-id="' + id + '">取消</div>');
-                var _input = $('<div style="display:inline-block;" class="mLeft10 swen-quantity-' + id + '"><input class="mLeft10 quantity" type="text" style="width:40px;" value="0" /></div>');
+                var _save = $('<div class="hand btn-link right mLeft10 btn-save-' + id + '" data-id="' + id + '">保存</div>');
+                var _cancel = $('<div class="hand btn-link right mLeft10 btn-cancel-' + id + '" data-id="' + id + '">取消</div>');
+                var _input = $('<div class="right mLeft10 swen-quantity-' + id + '"><input class="mLeft10 quantity" type="text" style="width:40px;" value="0" /></div>');
 
                 _cancel.click(function () {
                     $(".btn-save-" + id).remove();
@@ -681,14 +681,21 @@
                                 _thisBtn.text("保存");
                                 _thisBtn.data('isSubmit', 0);
                                 if (data.result == 1) {
-                                    alert("车缝退回成功");
+                                    
+                                    var totalReturnCount = 0;
                                     $(".swen-quantity-" + id).each(function () {
                                         var quantity = ($(this).prev().text() * 1) + ($(this).find('input').val() * 1);
+                                        totalReturnCount += quantity * 1;
                                         $(this).prev().text(quantity);
                                     });
+                                    var objTotal = $(".input-swen-box-" + id).eq(0).next();
+                                    objTotal.text(objTotal.data('quantity') * 1 - totalReturnCount * 1);
+
                                     $(".btn-save-" + id).remove();
                                     $(".btn-cancel-" + id).remove();
                                     $(".swen-quantity-" + id).remove();
+
+                                    alert("退回成功");
                                 } else if (data.result == 2) {
                                     alert("退回数不能多于车缝数");
                                 } else {
@@ -715,7 +722,7 @@
                     }
                     return false;
                 });
-                $(".btn-swen-box-" + id).append(_save).append(_cancel);
+                $(".btn-swen-box-" + id).append(_cancel).append(_save);
                 $(".input-swen-box-" + id).append(_input);
             }
         });
