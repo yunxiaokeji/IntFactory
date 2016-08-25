@@ -227,9 +227,10 @@
                 $("#OfficePhone").html(item.OfficePhone == "" ? "--" : item.OfficePhone);                
                 $("#lblReamrk").html(item.Address || "--");
                 $("#address").html(item.City ? item.City.Description : "--");
-                var s = window.location.href.toString();
-                var http = s.substr(0, s.length - 13);
-                $("#cid").attr("href", http + "Home/SelfOrder/" + item.ClientID).html(http + "Home/SelfOrder/" + item.ClientID);
+                // var s = window.location.href.toString();
+                // var http = s.substr(0, s.length - 13);
+                var http = $("#cid").data("url");
+                $("#cid").attr("href", http + "IntFactoryOrder/Orders?id=" + item.ClientID + "%26name=在线下单").html(http + "IntFactoryOrder/Orders?id=" + item.ClientID);
                 if (item.Logo){
                     $("#PosterDisImg").show().attr("src", item.Logo);
                 }
