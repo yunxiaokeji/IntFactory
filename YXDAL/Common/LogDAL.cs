@@ -142,7 +142,7 @@ namespace IntFactoryDAL
         public static bool updateOtherRecord(int autoid, int status, string errormsg="")
         {
             string sqlText =
-                "update OtherSyncTaskRecord set Status=@Status,SyncTime=getdate(),ErrorMsg=isnull(ErrorMsg,'')+@ErrorMsg where AutoID=@AutoID";
+                "update OtherSyncTaskRecord set Status=@Status,SyncTime=getdate(),ErrorMsg=@ErrorMsg where AutoID=@AutoID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@Status" , status), 
                                      new SqlParameter("@AutoID" , autoid),

@@ -26,7 +26,8 @@
     </script>
 }
 @{Html.RenderPartial("DetailBase", taskModel);}
-
+<input type="text" hidden="hidden" id="YXOrderID" class="hide" value="@order.YXOrderID"/>
+<input type="text"  id="GoodsID" hidden="hidden"class="hide" value="@order.GoodsID"/>
 <div class="taskContent" style="padding:0 0 60px 0;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
         <div class="mTop20 mLeft10" id="taskReplys">

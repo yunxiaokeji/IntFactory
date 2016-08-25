@@ -25,7 +25,7 @@ namespace YXERP.Common
             TimeSpan span = LuckTime - DateTime.Now;
             if (span < TimeSpan.Zero)
             {
-                span = LuckTime.AddMinutes(6) - DateTime.Now;
+                span = LuckTime.AddMinutes(50) - DateTime.Now;
             }
             //按需传递的状态或者对象。   
             object state = new object();
@@ -37,6 +37,7 @@ namespace YXERP.Common
 
         public void AuditWorking(object state)
         {
+            WriteLog("-------------EDJOrderPush-----Begin-----------------", 1);
             int totalcount = 0, pagecount = 0;
             List<OtherSyncTaskRecord> list = LogBusiness.BaseBusiness.GetSyncTaskRecord(1, 0, "", "", Int32.MaxValue, 1,
                 ref totalcount, ref pagecount);
@@ -64,7 +65,7 @@ namespace YXERP.Common
                 }
                 LogBusiness.UpdateOtherRecord(obj.AutoID, status,string.IsNullOrEmpty(errormsg) ? "" : errormsg);
             }
-
+            WriteLog("-------------EDJOrderPush-----End-----------------", 1);
         }
 
         public void OnStop()
