@@ -155,6 +155,18 @@ namespace YXERP.Areas.Api.Controllers
           };
         }
 
+        //获取大货下单明细
+        public JsonResult GetOrderGoods(string orderID)
+        {
+            List<OrderGoodsEntity> items = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrderGoods(orderID);
+            JsonDictionary.Add("items", items);
+            return new JsonResult
+            {
+                Data = items,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         //
         public JsonResult CreateOrder(string entity, string clientid, string opearid)
         {
