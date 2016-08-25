@@ -168,7 +168,7 @@
                     ObjectJS.getNeedOrderList();
                     ObjectJS.getTaskOrOrderEcceedCount();
                 } else {
-                    alert("数据加载中，请稍等 !");
+                    alert("数据加载中，请稍等 !", 2);
                 }
             }
         });
@@ -215,7 +215,7 @@
                             ObjectJS.getDataList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         } else {
-                            alert("数据加载中，请稍等 !");
+                            alert("数据加载中，请稍等 !", 2);
                         }
                     }
                 }
@@ -267,7 +267,7 @@
                             ObjectJS.getDataList();
                             ObjectJS.getTaskOrOrderEcceedCount();
                         } else {
-                            alert("数据加载中，请稍等 !");
+                            alert("数据加载中，请稍等 !", 2);
                         }
                     }
                 }
@@ -284,7 +284,7 @@
                 }
             }
             else {
-                alert("数据加载中，请稍等 !");
+                alert("数据加载中，请稍等 !", 2);
             }
         });
 
@@ -298,7 +298,7 @@
                 }
             }
             else {
-                alert("数据加载中，请稍等 !");
+                alert("数据加载中，请稍等 !", 2);
             }
 
         });
@@ -310,7 +310,7 @@
                 ObjectJS.getDataList();
             }
             else {
-                alert("数据加载中，请稍等 !");
+                alert("数据加载中，请稍等 !", 2);
             }
         });        
     }
@@ -453,7 +453,7 @@
                         ObjectJS.getOrdersByTypeAndTime();
                     }
                     else {
-                        alert("数据加载中，请稍等 !");
+                        alert("数据加载中，请稍等 !", 2);
                     }
                 }
             });
@@ -574,7 +574,7 @@
                                 showMsg = "已超出订单交货时间,确定设置?";
                             }
                             if ($("#UpdateTaskEndTime").val() == "") {
-                                alert("任务到期时间不能为空");
+                                alert("任务到期时间不能为空", 2);
                                 return false;
                             }
                             confirm(showMsg, function () {
@@ -583,13 +583,13 @@
                                     endTime: $("#UpdateTaskEndTime").val()
                                 }, function (data) {
                                     if (data.result == 0) {
-                                        alert("操作无效");
+                                        alert("操作无效", 2);
                                     }
                                     else if (data.result == 2) {
-                                        alert("任务已接受,不能操作");
+                                        alert("任务已接受,不能操作", 2);
                                     }
                                     else if (data.result == 3) {
-                                        alert("没有权限操作");
+                                        alert("没有权限操作", 2);
                                     }
                                     else {
                                         alert("接受成功");
@@ -599,7 +599,7 @@
                                         $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
                                     }
                                 });
-                            });
+                            },"设置");
 
                         }
                     }
@@ -629,13 +629,13 @@
                 endTime: ""
             }, function (data) {
                 if (data.result == 0) {
-                    alert("操作无效");
+                    alert("操作无效", 2);
                 }
                 else if (data.result == 2) {
-                    alert("任务已接受,不能操作");
+                    alert("任务已接受,不能操作", 2);
                 }
                 else if (data.result == 3) {
-                    alert("没有权限操作");
+                    alert("没有权限操作", 2);
                 }
                 else {
                     $(".btn-accept[data-id=" + taskid + "]").next(0).html('--');
@@ -785,7 +785,7 @@
 
     ObjectJS.markOrdersOrTasks = function (ids, mark, callback, type) {
         if (mark < 0) {
-            alert("不能标记此选项!");
+            alert("不能标记此选项!", 2);
             return false;
         }
         var url = type == 2 ? "/Task/UpdateTaskColorMark" : "/Orders/UpdateOrderMark";
@@ -794,7 +794,7 @@
             mark: mark
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有标记权限！");
+                alert("您没有标记权限！", 2);
                 callback && callback(false);
             } else {
                 callback && callback(data.status);

@@ -114,7 +114,7 @@ define(function (require, exports, module) {
                 }
                 !!_self.setting.callback && _self.setting.callback(Attr);
             } else {
-                alert("操作失败,请稍后重试!");
+                alert("操作失败,请稍后重试!", 2);
             }
         });
     }

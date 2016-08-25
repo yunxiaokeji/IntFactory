@@ -47,10 +47,10 @@
                     if (status) {
                         location.href = location.href;
                     } else {
-                        alert("删除失败，阶段至少保留一个");
+                        alert("删除失败，阶段至少保留一个", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
         //编辑阶段
@@ -108,10 +108,10 @@
                     if (data.status) {
                         $("#" + _this.data("id")).remove();
                     } else {
-                        alert("系统异常!");
+                        alert("系统异常!", 2);
                     }
                 })
-            });
+            }, "删除");
         });
 
     }
@@ -128,11 +128,11 @@
                     content: innerText,
                     yesFn: function () {
                         if (!$("#iptStageName").val().trim()) {
-                            alert("阶段名称不能为空");
+                            alert("阶段名称不能为空", 2);
                             return false;
                         }
                         if (!$("#iptNeedDays").val().trim().isInt() || $("#iptNeedDays").val().trim() < 0) {
-                            alert("完成天数只能是正整数");
+                            alert("完成天数只能是正整数", 2);
                             return false;
                         }
                         var model = {
@@ -251,7 +251,7 @@
                     }
                     _this.parent().hide();
                 } else {
-                    alert("系统异常!");
+                    alert("系统异常!", 2);
                 }
             });
 
@@ -280,7 +280,7 @@
             if (data.status == 1) {
                 location.href = location.href;
             } else {
-                alert("网络异常，请稍后重试");
+                alert("网络异常，请稍后重试", 2);
             }
         });
     }

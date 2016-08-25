@@ -33,11 +33,11 @@
                             return false;
                         }
                         if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
-                            alert("请重新选择材料供应商!");
+                            alert("请重新选择材料供应商!", 2);
                             return false;
                         }
                         if (!_self.categoryID && $("#productMenuChange").val()) {
-                            alert("材料类别选择有误，请重新选择");
+                            alert("材料类别选择有误，请重新选择", 2);
                             return false;
                         }
                         var Product = {
@@ -78,7 +78,7 @@
                             saleAttrValue += _this.find('.salesattr').data("id") + ":" + _this.find(".drop-item").data("id") + ",";
                             if (_this.find(".drop-item").data("id") == "|" && !_this.find(".drop-item").parent().next().val()) {
                                 isNull = true;
-                                alert("请输入自定义规格");
+                                alert("请输入自定义规格", 2);
                                 return false;
                             }
                         });
@@ -108,7 +108,7 @@
                                     alert("添加成功");
                                     Easydialog.close();
                                 } else {
-                                    alert("网络异常，请重试");
+                                    alert("网络异常，请重试", 2);
                                 }
                                 _self.setting.callback && _self.setting.callback((data));
                             });
@@ -256,7 +256,7 @@
                 }, function (data) {
                     if (data.Status) {
                         _this.val("");
-                        alert("材料编码已存在,请重新输入!");
+                        alert("材料编码已存在,请重新输入!", 2);
                         _this.focus();
                     }
                 });

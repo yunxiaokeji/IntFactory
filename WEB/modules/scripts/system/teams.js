@@ -55,10 +55,10 @@
                     if (data.status) {
                         _self.getList();
                     } else {
-                        alert("团队删除失败!");
+                        alert("团队删除失败!", 2);
                     }
                 });
-            });
+            }, "删除");
 
            
         });
@@ -101,7 +101,7 @@
                         location.href = location.href;
                     }
                 });
-            });
+            }, "移出");
         });
     }
 
@@ -125,7 +125,7 @@
                     content: html,
                     yesFn: function () {
                         if (!$("#teamname").val().trim()) {
-                            alert("团队名称不能为空!");
+                            alert("团队名称不能为空!", 2);
                             return false;
                         }
                         var entity = {

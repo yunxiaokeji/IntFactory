@@ -64,7 +64,7 @@
 
                         if ((!$("#expressid").data("id") || !$("#expressCode").val())
                              && $("#expressid").data('id') != 'fd090820-541a-4a7a-a2c5-00ed5e72f84f') {
-                            alert("请完善快递信息!");
+                            alert("请完善快递信息!", 2);
                             return false;
                         }
 
@@ -84,10 +84,10 @@
                                 Common.getGetGoodsDoc("navSendDYDoc", 2);
                             }
                             else if (data.result == "10001") {
-                                alert("您没有操作权限!")
+                                alert("您没有操作权限!", 2)
                             }
                             else {
-                                alert("发货失败！");
+                                alert("发货失败！", 2);
                             }
                         });
                     }

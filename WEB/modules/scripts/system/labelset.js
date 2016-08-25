@@ -49,18 +49,18 @@
                         alert("标签删除成功");
                         ObjectJS.bindColorList();
                     } else if (result == 10002) {
-                        alert("标签已关联客户，删除失败");
+                        alert("标签已关联客户，删除失败", 2);
                     } else if (result == -100) {
-                        alert("标签不能全部删除,操作失败");
+                        alert("标签不能全部删除,操作失败", 2);
                     } else if (result == -200) {
-                        alert("标签已经被删除,请刷新查看");
+                        alert("标签已经被删除,请刷新查看", 2);
                     } else if (result == 2) {
-                        alert("标签已有关联，请先移交");
+                        alert("标签已有关联，请先移交", 2);
                     }else {
-                        alert("删除失败");
+                        alert("删除失败", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
         /*编辑颜色*/
@@ -158,13 +158,13 @@
         var _self = this;
         Global.post("/System/SaveLableColor", { lablecolor: JSON.stringify(model), lableType: tableID }, function (data) {
             if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                alert("您没有此操作权限，请联系管理员帮您添加权限！", 2);
                 return;
             }
             if (data.ID > 0) {
                 ObjectJS.bindColorList();
             } else {
-                alert("系统已存在相同标签颜色！");
+                alert("系统已存在相同标签颜色！", 2);
                 return;
             }
         });

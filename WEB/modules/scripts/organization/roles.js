@@ -40,10 +40,10 @@
                     if (status == 1) {
                         _self.getList();
                     } else if (status == 10002) {
-                        alert("此角色存在员工，请移除员工后重新操作！");
+                        alert("此角色存在员工，请移除员工后重新操作！", 2);
                     }
                 });
-            })
+            }, "删除")
         });
         //编辑
         $("#updateObject").click(function () {
@@ -183,7 +183,7 @@
                 if (data.status) {
                     alert("角色权限设置成功！");
                 } else {
-                    alert("角色权限设置失败！");
+                    alert("角色权限设置失败！", 2);
                 }
             });
         });

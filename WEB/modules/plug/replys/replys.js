@@ -35,7 +35,7 @@
                 var txt = $("#txtContent");
                 if (txt.val().trim()) {
                     if ($('.taskreply-box .task-file li').find('.mark-progress').length > 0) {
-                        alert("文件上传中，请稍等");
+                        alert("文件上传中，请稍等", 2);
                         return false;
                     }
 
@@ -64,7 +64,7 @@
                     $('.taskreply-box .task-file').empty();
                 }
                 else {
-                    alert("请输入讨论内容");
+                    alert("请输入讨论内容", 2);
                 }
             });
 
@@ -236,7 +236,7 @@
             var _this = $(this);
             if ($("#Msg_" + _this.data("replyid")).val().trim()) {
                 if ($('.upload-files-' + _this.data("replyid") + ' li').find('.mark-progress').length > 0) {
-                    alert("文件上传中，请稍等");
+                    alert("文件上传中，请稍等", 2);
                     return false;
                 }
 
@@ -267,7 +267,7 @@
                 _this.parents('.reply-box').find(".task-file").empty();
             }
             else {
-                alert("请输入讨论内容");
+                alert("请输入讨论内容", 2);
             }
             $("#Msg_" + _this.data("replyid")).val('');
 

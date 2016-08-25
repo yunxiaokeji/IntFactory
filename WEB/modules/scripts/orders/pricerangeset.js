@@ -42,11 +42,11 @@
                 });
                 innerText.find('.add-range').click(function () {
                     if (!ObjectJS.isLoading) {
-                        alert("数据提交中，请稍等");
+                        alert("数据提交中，请稍等", 2);
                         return;
                     }
                     if ($(".center-range li:last").data("rangeid") == "") {
-                        alert("请保存后再试.");
+                        alert("请保存后再试.", 2);
                         return;
                     }
                     $(".center-range .nodata-txt").remove();
@@ -87,7 +87,7 @@
             }
             var prevObj = _this.parent().parent().prev();
             if (prevObj.find('.min-number').val() && (_this.val() * 1 <= prevObj.find('.min-number').val() * 1)) {
-                alert("数量必须大于上一区间启始值");
+                alert("数量必须大于上一区间启始值", 2);
                 _this.val(_this.data('num'));
             } else {
                 //prevObj.find('.max-number').val((_this.val() * 1 - 1));
@@ -129,11 +129,11 @@
             var price = _this.find(".price").val().trim();
             
             if (minNumber == "" ||maxNumber=="") {
-                alert("数字不能为空");
+                alert("数字不能为空", 2);
                 return false;
             }
             if (price == "") {
-                alert("价格不能为空");
+                alert("价格不能为空", 2);
                 return false;
             }            
             var model = {
@@ -157,7 +157,7 @@
                         _this.find(".cancel-price-range").remove();
                     }
                 } else {
-                    alert("网络连接失败");
+                    alert("网络连接失败", 2);
                 }
             });    
         });

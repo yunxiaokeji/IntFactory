@@ -123,10 +123,10 @@ define(function (require, exports, module) {
                         Params.pageIndex = 1;
                         _self.getList();
                     } else {
-                        alert("作废失败！");
+                        alert("作废失败！", 2);
                     }
                 });
-            });
+            }, "作废");
         });
 
         $("#delete").click(function () {
@@ -136,10 +136,10 @@ define(function (require, exports, module) {
                         Params.pageIndex = 1;
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
     }
@@ -251,11 +251,11 @@ define(function (require, exports, module) {
                         alert("采购单删除成功");
                         location.href = location.href;
                     } else {
-                        alert("采购单删除失败");
+                        alert("采购单删除失败", 2);
                         location.href = location.href
                     }
                 });
-            });
+            }, "删除");
         });
 
         //完成采购单
@@ -273,9 +273,9 @@ define(function (require, exports, module) {
                             alert("操作成功!");
                             location.href = location.href;
                         } else if (data.result == "10001") {
-                            alert("您没有操作权限!")
+                            alert("您没有操作权限!", 2)
                         } else {
-                            alert("操作失败！");
+                            alert("操作失败！", 2);
                         }
                     });
                 });
@@ -303,9 +303,9 @@ define(function (require, exports, module) {
                             alert("操作成功!");
                             location.href = location.href;
                         } else if (data.result == "10001") {
-                            alert("您没有操作权限!")
+                            alert("您没有操作权限!", 2)
                         } else {
-                            alert("操作失败！");
+                            alert("操作失败！", 2);
                         }
                     });
                 });
@@ -366,7 +366,7 @@ define(function (require, exports, module) {
                             }
                         });
                         if (isContinue) {
-                            alert("请选择货位");
+                            alert("请选择货位", 2);
                             return false;
                         }
                         $("#showAuditStorageIn .list-item").each(function () {
@@ -388,15 +388,15 @@ define(function (require, exports, module) {
                                 remark: $("#expressRemark").val().trim()
                             }, function (data) {
                                 if (data.status) {
-                                    alert("入库成功!", location.href);
+                                    alert("入库成功!",1, location.href);
                                 } else if (data.result == "10001") {
-                                    alert("您没有操作权限!")
+                                    alert("您没有操作权限!", 2)
                                 } else {
-                                    alert("审核入库失败！");
+                                    alert("审核入库失败！", 2);
                                 }
                             });
                         } else {
-                            alert("请输入采购入库数量！");
+                            alert("请输入采购入库数量！", 2);
                             return false;
                         }
                     },
@@ -422,7 +422,7 @@ define(function (require, exports, module) {
                     return false;
                 }
                 if ((_this.parents('.list-item').find('.total').html()) * 1 - ((_this.parents('.list-item').find('.complete-count').html()) * 1 + _this.val() * 1) < 0) {
-                    alert("该材料入库数已超出计划采购数量");
+                    alert("该材料入库数已超出计划采购数量", 2);
                 }
             });
 

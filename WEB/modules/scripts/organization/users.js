@@ -127,7 +127,7 @@
                         _self.getList();
                     }
                 });
-            });
+            }, "注销");
         });
         //设置角色
         $("#setObjectRole").click(function () {
@@ -194,10 +194,10 @@
                         console.log($("#passLayer").val());
 
                         if (!$("#passLayer").val() || $("#passLayer").val().trim().length < 6) {
-                            alert("密码不能小于6位数");
+                            alert("密码不能小于6位数", 2);
                             return false;
                         } else if ($("#confirmPassLayer").val() != $("#passLayer").val()) {
-                            alert("密码不一致,请重新输入");
+                            alert("密码不一致,请重新输入", 2);
                             return false;
                         } else {
                             Global.post("/Organization/UpdateUserPwd", {
@@ -207,7 +207,7 @@
                                 if (data.status) {
                                     alert("密码重置成功");
                                 } else {
-                                    alert("服务器繁忙！请稍后再试");
+                                    alert("服务器繁忙！请稍后再试", 2);
                                     return false;
                                 }
                             });
@@ -235,10 +235,10 @@
                         alert("手机号解绑成功");
                     }
                     else if (data.result == 3) {
-                        alert("没有绑定手机号");
+                        alert("没有绑定手机号", 2);
                     }
                     else {
-                        alert("服务器繁忙！请稍后再试");
+                        alert("服务器繁忙！请稍后再试", 2);
                     }
                 });
 
@@ -284,7 +284,7 @@
                                     alert("修改成功");
                                 }
                                 else {
-                                    alert("修改失败");
+                                    alert("修改失败", 2);
                                 }
                             })
 
@@ -421,7 +421,7 @@
             if (_this.val().trim() && _this.val().trim().length >= 6) {
                 Global.post("/Organization/IsExistLoginName", { loginname: _this.val() }, function (data) {
                     if (data.status) {
-                        alert("账号已存在，请重新输入！");
+                        alert("账号已存在，请重新输入！", 2);
                         _this.focus().data("status", "1");
                     } else {
                         _this.data("status", "0");
@@ -433,7 +433,7 @@
         $("#confirmpass").change(function () {
             var _this = $(this);
             if (_this.val() != $("#loginpass").val()) {
-                alert("确认密码与原密码不一致");
+                alert("确认密码与原密码不一致", 2);
             }
         });
 
@@ -443,22 +443,22 @@
             }
 
             if ($("#loginname").val().trim().length < 6) {
-                alert("账号长度不能低于6位！");
+                alert("账号长度不能低于6位！", 2);
                 return false;
             }
 
             if ($("#loginpass").val().trim().length < 6) {
-                alert("密码长度不能低于6位！");
+                alert("密码长度不能低于6位！", 2);
                 return false;
             }
 
             if ($("#confirmpass").val() != $("#loginpass").val()) {
-                alert("确认密码与原密码不一致");
+                alert("确认密码与原密码不一致", 2);
                 return false;
             }
 
             if ($("#loginname").data("status") == 1) {
-                alert("账号已存在，请重新输入！");
+                alert("账号已存在，请重新输入！", 2);
                 return false;
             }
 
@@ -491,11 +491,11 @@
                     location.href = "/Organization/Users";
                 });
             } else if (data.result == 2) {
-                alert("员工保存失败，登录账号已存在！");
+                alert("员工保存失败，登录账号已存在！", 2);
             } else if (data.result == 3) {
-                alert("公司员工数已达到购买人数上限，请先选择购买人数！");
+                alert("公司员工数已达到购买人数上限，请先选择购买人数！", 2);
             }
-        });
+        }, "添加");
     }
 
     module.exports = ObjectJS;

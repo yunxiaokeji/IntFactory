@@ -50,10 +50,10 @@ define(function (require, exports, module) {
                     if (data.Status) {
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {
@@ -196,7 +196,7 @@ define(function (require, exports, module) {
             status: status ? 0 : 1
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                alert("您没有此操作权限，请联系管理员帮您添加权限！", 2);
                 return;
             }
             !!callback && callback(data.Status);

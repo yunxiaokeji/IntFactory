@@ -224,7 +224,7 @@
             if (data.Result == 1) {
                 location.href = ObjectJS.loginUrl;
             }else if (data.Result == 0) {
-                alert("注册失败");
+                alert("注册失败", 2);
             } else if (data.Result == 2) {
                 $(".registerErr").html("手机号已被注册").slideDown();
             } else if (data.Result == 3) {
@@ -280,7 +280,7 @@
 
         Global.post("/Home/SendMobileMessage", { mobilePhone: mobilePhone }, function (data) {
             if (data.Result == 0) {
-                alert("验证码发送失败");
+                alert("验证码发送失败", 2);
             }
 
         });

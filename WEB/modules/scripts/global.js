@@ -71,21 +71,45 @@
     }
 
     /*重写alert*/
-    window.alert = function (msg, url) {
-        $("#window_alert").remove();
+    window.alert = function (msg,type, url) {
+        //$("#window_alert").remove();
+        //var _alter = $("<div id='window_alert' class='alert'></div>");
+        //var _header = $("<div class='alert-header'>厂盟提示</div>");
+        //var _wrap = $("<div class='alert-wrap'></div>").html(msg);
+        //var _bottom = $("<div class='alert-bottom'></div>"),
+        //    _close = $("<div class='confirm right'>立即关闭</div>");
+        //_bottom.append(_close);
+        //_alter.append(_header).append(_wrap);
+        //_alter.appendTo("body");
 
+        //var left = $(window).width() / 2 - (_alter.width() / 2);
+        //_alter.offset({ left: left });
+        //_close.click(function () {
+        //    _alter.remove();
+        //    if (url) {
+        //        location.href = url;
+        //    }
+        //});
+        //setTimeout(function () {
+        //    _alter.remove();
+        //    if (url) {
+        //        location.href = url;
+        //    }
+        //}, 500000);
+
+        $("#window_alert").remove();
         var _alter = $("<div id='window_alert' class='alert'></div>");
-        var _header = $("<div class='alert-header'>提示</div>");
-        var _wrap = $("<div class='alert-wrap'></div>").html(msg);
-        var _bottom = $("<div class='alert-bottom'></div>"),
-            _close = $("<div class='confirm right'>立即关闭</div>");
-        _bottom.append(_close);
-        _alter.append(_header).append(_wrap).append(_bottom);
+        var _wrap = $("<div class='alert-wrap'></div>");
+        var _wrapIcon = $("<div class='" + (type == 2 ? "alert-icon-warn" : "alert-icon-right") + " iconfont'></div>"),
+            _wrapMsg = $("<div class='alert-msg'></div>").html(msg),
+            __wrapClose = $("<div class='alert-close right iconfont'></div>");
+        _wrap.append(_wrapIcon).append(_wrapMsg).append(__wrapClose);
+        _alter.append(_wrap);
         _alter.appendTo("body");
 
         var left = $(window).width() / 2 - (_alter.width() / 2);
         _alter.offset({ left: left });
-        _close.click(function () {
+        __wrapClose.click(function () {
             _alter.remove();
             if (url) {
                 location.href = url;
@@ -96,22 +120,52 @@
             if (url) {
                 location.href = url;
             }
-        }, 5000);
+        }, 3000);
     }
 
     /*重写confirm*/
-    window.confirm = function (msg, confirm, cancel) {
-        $("#window_confirm").remove();
-        var _layer = $("<div class='alert-layer'><div>")
-        var window_confirm = $("<div id='window_confirm' class='alert'></div>");
-        var _header = $("<div class='alert-header'>提示</div>");
-        var _wrap = $("<div class='alert-wrap'></div>").html(msg);
-        var _bottom = $("<div class='alert-bottom'></div>"),
-            _close = $("<div class='close mLeft10'>取消</div>"),
-            _confirm = $("<div class='confirm mRight10'>确认</div>");
+    window.confirm = function (msg, confirm, sureBtnTxt, cancel) {
+        //$("#window_confirm").remove();
+        //var _layer = $("<div class='alert-layer'><div>")
+        //var window_confirm = $("<div id='window_confirm' class='alert'></div>");
+        //var _header = $("<div class='alert-header'>提示</div>");
+        //var _wrap = $("<div class='alert-wrap'></div>").html(msg);
+        //var _bottom = $("<div class='alert-bottom'></div>"),
+        //    _close = $("<div class='close mLeft10'>取消</div>"),
+        //    _confirm = $("<div class='confirm mRight10'>确认</div>");
 
-        _bottom.append(_confirm).append(_close);
-        window_confirm.append(_header).append(_wrap).append(_bottom);
+        //_bottom.append(_confirm).append(_close);
+        //window_confirm.append(_header).append(_wrap).append(_bottom);
+
+        //_layer.appendTo("body");
+        //window_confirm.appendTo("body");
+
+        //$("input").blur();
+
+        //var left = $(window).width() / 2 - (window_confirm.width() / 2);
+        //window_confirm.offset({ left: left });
+
+        //_close.click(function () {
+        //    _layer.remove();
+        //    window_confirm.remove();
+        //    cancel && cancel();
+        //});
+        //_confirm.click(function () {
+        //    _layer.remove();
+        //    window_confirm.remove();
+        //    confirm && confirm();
+        //});
+
+        $("#window_confirm").remove();
+        var _layer = $("<div class='confirm-layer'><div>")
+        var window_confirm = $("<div id='window_confirm' class='confirm'></div>");
+        var _wrap = $("<div class='confirm-wrap'></div>").html(msg);
+        var _bottom = $("<div class='confirm-bottom'></div>"),
+            _close = $("<div class='close'>取消</div>"),
+            _confirm = $("<div class='sure'>" + (sureBtnTxt ? sureBtnTxt : "确认") + "</div>");
+
+        _bottom.append(_close).append(_confirm);
+        window_confirm.append(_wrap).append(_bottom);
 
         _layer.appendTo("body");
         window_confirm.appendTo("body");

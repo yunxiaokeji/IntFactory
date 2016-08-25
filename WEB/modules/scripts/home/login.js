@@ -18,6 +18,7 @@ define(function (require, exports, module) {
     var Home = {};
     //登陆初始化
     Home.initLogin = function (status, bindAccountType, returnUrl) {
+        
         Home.bindAccountType = 0;
         if (bindAccountType) {
             Home.bindAccountType = bindAccountType;
@@ -28,9 +29,9 @@ define(function (require, exports, module) {
         Home.placeholderSupport();
 
         if (status == 2) {
-            alert("您的账号已在其它地点登录，如不是本人操作，请及时通知管理员对账号冻结！");
+            alert("您的账号已在其它地点登录，如不是本人操作，请及时通知管理员对账号冻结！", 2);
         } else if (status == 1) {
-            alert("尊敬的明道用户，您尚未被管理员添加到智能工厂系统，请及时联系管理员！");
+            alert("尊敬的明道用户，您尚未被管理员添加到智能工厂系统，请及时联系管理员！", 2);
         }
         Home.bindLoginEvent();
     }
@@ -97,7 +98,7 @@ define(function (require, exports, module) {
                     $(".registerErr").html("该系统已绑定过阿里账户,不能再绑定").slideDown();
                 }
                 else if (data.result == 5) {
-                    alert("请重新阿里授权");
+                    alert("请重新阿里授权", 2);
                     setTimeout(function () { location.href = "/home/login"; }, 500);
                 }
                 else if (data.result == 9) {

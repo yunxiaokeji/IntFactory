@@ -53,10 +53,10 @@ define(function (require, exports, module) {
                         Params.pageIndex = 1;
                         _self.getList();
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "驳回");
         });
         $("#audit").click(function () {
             var _this = $(this);
@@ -66,10 +66,10 @@ define(function (require, exports, module) {
                         Params.pageIndex = 1;
                         _self.getList();
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "审核");
         });
         $("#btnSearch").click(function () {
             Params.PageIndex = 1;

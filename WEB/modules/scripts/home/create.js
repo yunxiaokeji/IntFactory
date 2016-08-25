@@ -192,7 +192,7 @@
             if (data.id) {
                 location.href = "/Home/OrderSuccess/" + data.id;                
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
         });
     }

@@ -159,7 +159,7 @@
                     if (data.result) {
                         location.href = location.href;
                     } else {
-                        alert("添加失败");
+                        alert("添加失败", 2);
                     }
                 }
             });
@@ -322,7 +322,7 @@
     //加入购物车
     ObjectJS.showDetail = function (pid, did) {
         if (isLoadding) {
-            alert("数据加载中,请稍候");
+            alert("数据加载中,请稍候", 2);
             return false;
         }
         var _self = this;
