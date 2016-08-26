@@ -32,7 +32,7 @@ namespace YXERP.Controllers
             //任务对应的订单详情
             var order = task.Order;
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
-
+            
             ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
             ViewBag.Modules = item.CategoryItems.FindAll(m => m.Type == 3);
             if (task.Mark == 11)

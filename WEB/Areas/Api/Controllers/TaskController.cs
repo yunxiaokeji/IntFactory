@@ -112,6 +112,8 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("colorMark", item.ColorMark);
                     task.Add("finishStatus", item.FinishStatus);
                     task.Add("orderType", item.OrderType);
+                    task.Add("taskMembers", item.TaskMembers);
+                    task.Add("lockStatus", item.LockStatus);
                     string orderImg = string.Empty;
                     if (!string.IsNullOrEmpty(item.OrderImg))
                     {
@@ -313,6 +315,18 @@ namespace YXERP.Areas.Api.Controllers
             TaskBusiness.FinishTask(taskID, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        //锁定任务
+        public JsonResult LockTask(string taskID, string operateID, string clientID)
+        {
+            int result;
+            TaskBusiness.LockTask(taskID, operateID, "", clientID, out result);
+            JsonDictionary.Add("result", result);
             return new JsonResult
             {
                 Data = JsonDictionary,
