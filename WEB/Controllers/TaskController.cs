@@ -27,6 +27,11 @@ namespace YXERP.Controllers
             TaskModel taskModel = new Models.TaskModel();
             //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
+            if (task == null)
+            {
+                Response.Write("<script>alert('任务不存在');location.href='/Task/MyTask';</script>");
+                Response.End();
+            }
             taskModel.Task = task;
            
             //任务对应的订单详情
