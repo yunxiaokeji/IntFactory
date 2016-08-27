@@ -13,19 +13,20 @@
 <div class="header-box">
     <span class="header-title left">员工工量统计</span>
 </div>
-<div class="search-header">
-    <div class="left" title="日期">
-        <input type="text" id="iptCreateTime" placeholder="日期" class="ipt-date"  />
-    </div>
-</div>
 <div class="content-body pBottom50">
-    <table id="userTotalRPT" class="table-list">
+    <div class="search-items">
+        <div class="left mRight20" id="chooseBranch"></div>
+        <div class="left">
+            <input type="text" id="iptCreateTime" placeholder="交货日期"  class="ipt-date"  />
+        </div>
+    </div>
+    <table id="userTotalRPT" class="table-list-rpt">
         <tr class="tr-header">
-            <td class="tLeft">员工</td>
-            <td>总工量</td>
-            <td>裁片（织机）</td>
-            <td>车缝（缝盘）</td>
-            <td>车缝（缝盘）退回</td>
+            <td class="tLeft" style="width:20%;">员工</td>
+            <td style="width:20%;">总工量</td>
+            <td style="width:20%;">裁片（织机）</td>
+            <td style="width:20%;">车缝（缝盘）</td>
+            <td style="width:20%;">车缝（缝盘）退回</td>
         </tr>
     </table>
 </div>

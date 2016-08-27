@@ -1,10 +1,13 @@
 ﻿
 define(function (require, exports, module) {
     var Global = require("global"),
-        doT = require("dot");
+        doT = require("dot"),
+        ChooseUser = require("chooseuser"),
+        moment = require("moment");
+    require("daterangepicker");
 
     var Params = {
-        beginTime: new Date().setMonth(new Date().getMonth() - 1).toString().toDate("yyyy-MM-dd"),
+        beginTime: Date.now().toString().toDate("yyyy-MM-01"),
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
         UserID: "",
         TeamID: ""
@@ -23,6 +26,41 @@ define(function (require, exports, module) {
     //绑定列表页事件
     ObjectJS.bindEvent = function () {
         var _self = this;
+
+        //日期插件
+        $("#iptCreateTime").daterangepicker({
+            showDropdowns: true,
+            empty: true,
+            opens: "right",
+            ranges: {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '上周': [moment().subtract(6, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')]
+            }
+        }, function (start, end, label) {
+            Params.beginTime = start ? start.format("YYYY-MM-DD") : "";
+            Params.endTime = end ? end.format("YYYY-MM-DD") : "";
+            _self.getList();
+        });
+
+        $("#iptCreateTime").val(Params.beginTime + ' 至 ' + Params.endTime);
+
+        require.async("choosebranch", function () {
+            $("#chooseBranch").chooseBranch({
+                prevText: "人员-",
+                defaultText: "全部",
+                defaultValue: "",
+                userid: "-1",
+                isTeam: true,
+                width: "170",
+                onChange: function (data) {
+                    Params.UserID = data.userid;
+                    Params.TeamID = data.teamid;
+                    _self.getList();
+                }
+            });
+        });
     }
 
     //获取列表

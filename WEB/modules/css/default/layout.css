@@ -200,13 +200,14 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .batch-operate li{ float:left;}
 
 /*表格样式-rpt*/
-.table-list-rpt { width:100%; border-top:solid 1px #ccc;border-left:solid 1px #ccc; border-collapse:collapse;border-spacing:0;}
+.table-list-rpt { width:100%; border-top:solid 1px #ccc; border-collapse:collapse;border-spacing:0;}
 .table-list-rpt tr{ height:25px; line-height:25px;  background-color: #fff;}
 .table-list-rpt tr:hover { background-color: #eee; }
 .table-list-rpt td{ border-bottom:solid 1px #ccc;border-right:solid 1px #ccc; padding:5px 10px; vertical-align:middle;  }
+.table-list-rpt tr td:last-child {  border-right:none; }
 .table-list-rpt a{ color:#333;  vertical-align:middle;}
 .table-list-rpt a:hover{ color:red; text-decoration:underline; }
-.table-list-rpt .tr-header{ text-align:center;font-weight:bold; height:35px; }
+.table-list-rpt .tr-header{ text-align:center;font-weight:bold; height:35px;}
 .table-list-rpt .tr-header td{ background-color:#eee; color:#2a3441;}
 
 /*排序*/
