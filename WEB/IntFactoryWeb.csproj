@@ -163,6 +163,7 @@
     <Compile Include="Controllers\StorageOutController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\UserReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -544,6 +545,7 @@
     <Content Include="modules\plug\umeditor\ueditor.parse.min.js" />
     <Content Include="modules\plug\choosemenu\choosemenu.css" />
     <Content Include="modules\plug\choosemenu\choosemenu.js" />
+    <Content Include="modules\scripts\report\userworkload.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
@@ -774,6 +776,7 @@
     <Content Include="modules\plug\quicklyaddproduct\product_qulickly_add.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
+    <Content Include="modules\template\report\user-workload.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
@@ -1321,6 +1324,7 @@
     <Content Include="Views\MyAccount\WXLogin.cshtml" />
     <Content Include="Views\Home\WeiXinLoginCallBack.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Orders\UserLoadReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
