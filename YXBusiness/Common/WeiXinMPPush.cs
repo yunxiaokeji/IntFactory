@@ -89,7 +89,7 @@ namespace IntFactoryBusiness
                         {
                             string content = GetPushContent(pushType, task.OpenID, task.Title,
                                  task.GoodsName, task.OrderType,
-                                "", "", task.EndTime, guid);
+                                "", "", task.EndTime, task.TaskID);
                             result = SendPush(content);
                         }
 
