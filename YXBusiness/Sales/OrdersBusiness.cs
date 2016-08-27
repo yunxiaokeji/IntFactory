@@ -624,10 +624,10 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public bool CreateGoodsDocReturn(string orderID, string taskID, EnumDocType docType, string details, string originalID, string clientID,ref int result)
+        public bool CreateGoodsDocReturn(string orderID, string taskID, EnumDocType docType, string details, string originalID, string operateid, string clientID, ref int result)
         {
             string id = Guid.NewGuid().ToString();
-            bool b1 = OrdersDAL.BaseProvider.CreateGoodsDocReturn(id, orderID, taskID, (int)docType, details, originalID, clientID,ref result);
+            bool b1 = OrdersDAL.BaseProvider.CreateGoodsDocReturn(id, orderID, taskID, (int)docType, details, originalID, operateid, clientID, ref result);
             return b1;
         }
 

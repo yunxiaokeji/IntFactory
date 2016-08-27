@@ -498,7 +498,7 @@ namespace YXERP.Controllers
         public JsonResult CreateGoodsDocReturn(string orderID, string taskID, int docType, string details, string originalID)
         {
             int result = 0;
-            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.ClientID, ref result);
+            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.UserID, CurrentUser.ClientID, ref result);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {
