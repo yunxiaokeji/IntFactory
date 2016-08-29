@@ -119,6 +119,7 @@
                     $(".btn-swen-box-" + id).append(_cancel).append(_save);
                     $(".input-swen-box-" + id).append(_input);
                 }
+                $(this).parent().hide();
             });
         }
     }

@@ -46,7 +46,6 @@
     }
     //获取用户详情
     ObjectJS.getDetail = function (departs) {
-
         Global.post("/MyAccount/GetAccountDetail", null, function (data) {
             if (data) {
                 var item = data;
@@ -80,7 +79,7 @@
                 $("#Email").val(item.Email);
 
             }
-        })
+        });
     }
 
     //保存基本信息
