@@ -46,6 +46,8 @@
                     data.items.taskDesc = taskDesc;
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
+
+                    /*车缝退回操作*/
                     if ($("#btnSewnOrder").length == 1 && type == 11) {
                         innerhtml.find(".ico-dropdown").click(function () {
                             var _this = $(this);
@@ -58,6 +60,7 @@
                             return false;
                         });
                     } else {
+                        /*无权限删除车缝退回操作*/
                         innerhtml.find(".ico-dropdown").remove();
                     }
                     $tr_header.after(innerhtml);
