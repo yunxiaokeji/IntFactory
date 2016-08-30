@@ -57,6 +57,8 @@
 
                 <div class="btnLogin" id="btnLogin">登录</div>
 
+                @{
+                    if (ViewBag.BindAccountType!=10000){
                 <div class="other-account">
                     <div class="other-text">使用其他账号登录</div>
                     <div class="accounts">
@@ -66,7 +68,8 @@
                         </a>
                     </div>
                 </div>
-             
+                }
+                }
             </div>
         </div>
         <div class="copyright">

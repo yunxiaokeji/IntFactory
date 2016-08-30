@@ -302,7 +302,7 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="OwnerID"></param>
         /// <returns></returns>
-        public static bool UpdateTaskOwner(string taskID, string ownerID, string operateid, string ip, string clientid, out int result)
+        public static bool UpdateTaskOwner(string taskID, string ownerID, string operateid, string operateName,string ip, string clientid, out int result)
         {
             bool flag = TaskDAL.BaseProvider.UpdateTaskOwner(taskID, ownerID, out result);
 
@@ -313,7 +313,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
 
                 //任务更换负责人推送通知
-                WeiXinMPPush.BasePush.SendChangeTaskOwnerPush(taskID);
+                WeiXinMPPush.BasePush.SendChangeTaskOwnerPush(taskID, operateName);
             }
 
             return flag;

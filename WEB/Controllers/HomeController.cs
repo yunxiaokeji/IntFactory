@@ -11,7 +11,7 @@ using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Manage;
 using System.Web.Script.Serialization;
 using IntFactoryEnum;
-
+using YXERP.Common;
 namespace YXERP.Controllers
 {
     public class HomeController : Controller
@@ -139,9 +139,8 @@ namespace YXERP.Controllers
                 cook["status"] = "0";
                 Response.Cookies.Add(cook);
             }
-            
-
             Session["ClientManager"] = null;
+
             return Redirect("/Home/Login?Status=" + Status);
         }
 
@@ -165,6 +164,36 @@ namespace YXERP.Controllers
             }
 
             return View();
+        }
+
+        public JsonResult GetSign(string redirect_uri)
+        {
+            Dictionary<string, object> resultObj = new Dictionary<string, object>();
+            resultObj.Add("sign", Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, redirect_uri));
+
+            return new JsonResult
+            {
+                Data = resultObj,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public ActionResult Authorize(string sign, string redirect_uri)
+        {
+            if (!string.IsNullOrEmpty(sign) && !string.IsNullOrEmpty(redirect_uri))
+            {
+                if (sign.Equals(Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, redirect_uri), StringComparison.OrdinalIgnoreCase))
+                {
+                    ViewBag.Status = 0;
+                    ViewBag.ReturnUrl = redirect_uri ?? string.Empty;
+                    ViewBag.BindAccountType = 10000;
+
+                    return View("Login");
+                }
+            }
+
+            Response.Write("<script>alert('参数有误');location.href='http://edj.yunxiaokeji.com';</script>");
+            Response.End();
+            return View("Login");
         }
 
         public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
@@ -508,7 +537,10 @@ namespace YXERP.Controllers
                         HttpCookie cook = new HttpCookie("intfactory_system");
                         cook["username"] = userName;
                         cook["pwd"] = pwd;
-                        cook["status"] = remember;
+                        if (remember == "1")
+                        {
+                            cook["status"] = remember;
+                        }
                         cook.Expires = DateTime.Now.AddDays(7);
                         Response.Cookies.Add(cook);
 
@@ -521,6 +553,13 @@ namespace YXERP.Controllers
                         else if (bindAccountType == 2) 
                         {
                             result = BindWeiXin(model);
+                        }
+                        else if (bindAccountType == 10000)
+                        {
+                            result = 1;
+                            resultObj.Add("userid",model.UserID);
+                            resultObj.Add("clientid", model.ClientID);
+                            resultObj.Add("sign", Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, model.UserID));
                         }
                         else
                         {

@@ -624,10 +624,10 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public bool CreateGoodsDocReturn(string orderID, string taskID, EnumDocType docType, string details, string originalID, string clientID,ref int result)
+        public bool CreateGoodsDocReturn(string orderID, string taskID, EnumDocType docType, string details, string originalID, string operateid, string clientID, ref int result)
         {
             string id = Guid.NewGuid().ToString();
-            bool b1 = OrdersDAL.BaseProvider.CreateGoodsDocReturn(id, orderID, taskID, (int)docType, details, originalID, clientID,ref result);
+            bool b1 = OrdersDAL.BaseProvider.CreateGoodsDocReturn(id, orderID, taskID, (int)docType, details, originalID, operateid, clientID, ref result);
             return b1;
         }
 
@@ -762,7 +762,7 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string ip, string clientid)
+        public bool UpdateOrderOwner(string orderid, string userid, string operateid, string operateName, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderOwner(orderid, userid, operateid, clientid);
             if (bl)
@@ -772,7 +772,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, userid, clientid);
 
                 //通知负责人有新任务
-                WeiXinMPPush.BasePush.SendChangeOrderOwnerPush(orderid);
+                WeiXinMPPush.BasePush.SendChangeOrderOwnerPush(orderid,operateName);
             }
             return bl;
         }

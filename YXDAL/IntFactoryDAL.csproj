@@ -59,7 +59,7 @@
     <Compile Include="Manage\ExpressCompanyDAL.cs" />
     <Compile Include="Manage\SystemDAL.cs" />
     <Compile Include="Open\ApiModuleDAL.cs" />
-    <Compile Include="Report\CustomerRPTDAL.cs" />
+    <Compile Include="Report\UserRPTDAL.cs" />
     <Compile Include="Report\SalesRPTDAL.cs" />
     <Compile Include="Sales\OrdersDAL.cs" />
     <Compile Include="Stock\AgentOrderDAL.cs" />

@@ -20,7 +20,11 @@ namespace YXERP.Common
         public static string QNDomianUrl = System.Configuration.ConfigurationManager.AppSettings["QNDomianUrl"] ?? "http://o9h6bx3r4.bkt.clouddn.com/";
         //智能工厂移动端路径
         public static string IntFactoryAppUrl = System.Configuration.ConfigurationManager.AppSettings["IntFactoryAppUrl"] ?? "http://mdev.intfactory.cn";
-       /// <summary>
+       //云销对接密钥
+        public static string YXAppKey = "f64bd98d-dc45-4d3b-891d-7601f4ee71b4";
+        public static string YXAppSecret = "ff6a2c17-2937-4a21-a7f1-ae74c4836315";
+
+        /// <summary>
        /// 获取请求方ip
        /// </summary>
        /// <param name="request"></param>

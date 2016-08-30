@@ -326,7 +326,7 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateGoodsDocReturn(string guid, string orderID, string taskID, int docType, string details, string originalID, string clientID, ref int result)
+        public bool CreateGoodsDocReturn(string guid, string orderID, string taskID, int docType, string details, string originalID, string operateid, string clientID, ref int result)
         {
             SqlParameter[] paras ={ 
                                     new SqlParameter("@Result",result),
@@ -337,6 +337,7 @@ namespace IntFactoryDAL
                                     new SqlParameter("@DocCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                     new SqlParameter("@GoodDetails",details),
                                     new SqlParameter("@OriginalID",originalID),
+                                    new SqlParameter("@OperateID",operateid),
                                     new SqlParameter("@ClientID",clientID)
                                   };
             paras[0].Direction = ParameterDirection.Output;
