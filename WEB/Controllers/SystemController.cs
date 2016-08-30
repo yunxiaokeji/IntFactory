@@ -105,7 +105,7 @@ namespace YXERP.Controllers
             {
                 ViewBag.Option = id;
             }
-
+            ViewBag.YXUrl = Common.Common.YXApiUrl;
             return View();
         }
 

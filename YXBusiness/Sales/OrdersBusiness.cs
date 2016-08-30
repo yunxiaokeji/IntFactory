@@ -13,6 +13,7 @@ using System.IO;
 using System.Web;
 using IntFactoryBusiness.Manage;
 using IntFactoryEntity.Task;
+using Newtonsoft.Json.Converters;
 
 namespace IntFactoryBusiness
 {
@@ -610,7 +611,7 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string CreateOrderGoodsDoc(string orderid, string taskid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid)
+        public string CreateOrderGoodsDoc(string orderid, string taskid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid,string jsonParas="",string  othersysid="")
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
@@ -619,6 +620,10 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, clientid);
+                if(!string.IsNullOrEmpty(othersysid))
+                {
+                    LogBusiness.AddOtherRecord(1, orderid, othersysid, jsonParas, "发货单自动生成第三方入库单", operateid, clientid);
+                }
                 return id;
             }
             return "";

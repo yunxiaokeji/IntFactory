@@ -12,7 +12,7 @@
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
-<tr data-id="{%=item.AutoID%}" class="list-item">
+<tr data-id="{%=item.AutoID%}" data-remark="{%=item.Remark%}" class="list-item">
     <td class="">{%=item.Remark%}</td>
     <td class="center">{%=item.Quantity.toFixed(0)%}</td>
     <td class="center">{%=item.Complete.toFixed(0)%}</td>
