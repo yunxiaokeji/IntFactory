@@ -231,6 +231,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult UserLoadReport()
+        {
+            return View();
+        }
+
         #region Ajax
 
         public JsonResult GetOrders(string filter)
@@ -429,7 +434,7 @@ namespace YXERP.Controllers
             string[] list = ids.Split(',');
             foreach (var id in list)
             {
-                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderOwner(id, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID))
+                if (!string.IsNullOrEmpty(id) && OrdersBusiness.BaseBusiness.UpdateOrderOwner(id, userid, CurrentUser.UserID,CurrentUser.Name, OperateIP, CurrentUser.ClientID))
                 {
                     bl = true;
                 }

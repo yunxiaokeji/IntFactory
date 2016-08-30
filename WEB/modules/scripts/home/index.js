@@ -563,44 +563,31 @@
                         header: "设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
-                            var showMsg = "任务到期时间不可逆，确定设置?";
-                            var planTime = new Date(ObjectJS.planTime).getTime();
-                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
-
-                            //判断该任务的订单是否超期
-                            var isExceed = new Date().getTime() < planTime ? true : false;
-
-                            if (planTime < endTime && isExceed) {
-                                showMsg = "已超出订单交货时间,确定设置?";
-                            }
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空");
                                 return false;
                             }
-                            confirm(showMsg, function () {
-                                Global.post("/Task/UpdateTaskEndTime", {
-                                    id: taskid,
-                                    endTime: $("#UpdateTaskEndTime").val()
-                                }, function (data) {
-                                    if (data.result == 0) {
-                                        alert("操作无效");
-                                    }
-                                    else if (data.result == 2) {
-                                        alert("任务已接受,不能操作");
-                                    }
-                                    else if (data.result == 3) {
-                                        alert("没有权限操作");
-                                    }
-                                    else {
-                                        alert("接受成功");
-                                        $(".btn-accept[data-id=" + taskid + "]").next().html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
-                                        $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-status').html('进行中').css({ "color": "#02C969" });
-                                        $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
-                                        $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
-                                    }
-                                });
+                            Global.post("/Task/UpdateTaskEndTime", {
+                                id: taskid,
+                                endTime: $("#UpdateTaskEndTime").val()
+                            }, function (data) {
+                                if (data.result == 0) {
+                                    alert("操作无效");
+                                }
+                                else if (data.result == 2) {
+                                    alert("任务已接受,不能操作");
+                                }
+                                else if (data.result == 3) {
+                                    alert("没有权限操作");
+                                }
+                                else {
+                                    alert("接受成功");
+                                    $(".btn-accept[data-id=" + taskid + "]").next().html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
+                                    $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-status').html('进行中').css({ "color": "#02C969" });
+                                    $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
+                                    $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
+                                }
                             });
-
                         }
                     }
                 });
@@ -608,15 +595,11 @@
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
                 minDate = minDate + " 23:59:59"
-                //if (ObjectJS.planTime <= minDate) {
-                //    ObjectJS.planTime = '';
-                //}
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
                     format: 'YYYY/MM/DD hh:mm:ss',
                     min: minDate,
-                    //max: ObjectJS.planTime,
                     istime: true,
                     istoday: false
                 };

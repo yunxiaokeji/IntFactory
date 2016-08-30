@@ -27,14 +27,24 @@ namespace YXERP.Controllers
             TaskModel taskModel = new Models.TaskModel();
             //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
+            if (task == null)
+            {
+                Response.Write("<script>alert('任务不存在');location.href='/Task/MyTask';</script>");
+                Response.End();
+            }
             taskModel.Task = task;
            
             //任务对应的订单详情
             var order = task.Order;
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(order.BigCategoryID);
-            
-            ViewBag.plateMarkItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
-            ViewBag.Modules = item.CategoryItems.FindAll(m => m.Type == 3);
+            List<CategoryItemsEntity> categoryItems = new List<CategoryItemsEntity>();
+            List<CategoryItemsEntity> categoryItems2 = new List<CategoryItemsEntity>();
+            if (item.CategoryItems != null) {
+                categoryItems = item.CategoryItems.FindAll(m => m.Type == 4).ToList();
+                categoryItems2=item.CategoryItems.FindAll(m => m.Type == 3);
+            }
+            ViewBag.plateMarkItems = categoryItems;
+            ViewBag.Modules = categoryItems2;
             if (task.Mark == 11)
             {
                 order.Details = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(task.OrderID);
@@ -318,7 +328,7 @@ namespace YXERP.Controllers
         public JsonResult UpdateTaskOwner(string taskid, string userid)
         {
             int result = 0;
-            bool bl = TaskBusiness.UpdateTaskOwner(taskid, userid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID, out result);
+            bool bl = TaskBusiness.UpdateTaskOwner(taskid, userid, CurrentUser.UserID,CurrentUser.Name, OperateIP, CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", bl);
 
             return new JsonResult
@@ -488,7 +498,7 @@ namespace YXERP.Controllers
         public JsonResult CreateGoodsDocReturn(string orderID, string taskID, int docType, string details, string originalID)
         {
             int result = 0;
-            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.ClientID, ref result);
+            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.UserID, CurrentUser.ClientID, ref result);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {
