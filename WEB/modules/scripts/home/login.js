@@ -1,6 +1,4 @@
-﻿
-
-define(function (require, exports, module) {
+﻿define(function (require, exports, module) {
     require("jquery");
     var Global = require("global"),
         doT = require("dot");
@@ -72,7 +70,7 @@ define(function (require, exports, module) {
                 }else {
                     $("#btnLogin").html("绑定").removeAttr("disabled");
                 }
-                debugger
+
                 if (data.result == 1)
                 { 
                     if (Home.bindAccountType == 10000) {

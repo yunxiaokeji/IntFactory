@@ -64,6 +64,7 @@
     <Compile Include="Manage\ModulesProductBusiness.cs" />
     <Compile Include="Manage\ManageSystemBusiness.cs" />
     <Compile Include="Open\ApiModuleBusiness.cs" />
+    <Compile Include="Report\UserRptBusiness.cs" />
     <Compile Include="Sales\OrdersBusiness.cs" />
     <Compile Include="Manage\IndustryBusiness.cs" />
     <Compile Include="Stock\AgentOrderBusiness.cs" />

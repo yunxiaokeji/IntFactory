@@ -27,6 +27,11 @@ namespace YXERP.Controllers
             TaskModel taskModel = new Models.TaskModel();
             //任务详情
             var task = TaskBusiness.GetTaskDetail(id);
+            if (task == null)
+            {
+                Response.Write("<script>alert('任务不存在');location.href='/Task/MyTask';</script>");
+                Response.End();
+            }
             taskModel.Task = task;
            
             //任务对应的订单详情
@@ -493,7 +498,7 @@ namespace YXERP.Controllers
         public JsonResult CreateGoodsDocReturn(string orderID, string taskID, int docType, string details, string originalID)
         {
             int result = 0;
-            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.ClientID, ref result);
+            OrdersBusiness.BaseBusiness.CreateGoodsDocReturn(orderID, taskID, (EnumDocType)docType, details, originalID, CurrentUser.UserID, CurrentUser.ClientID, ref result);
             JsonDictionary.Add("result", result);
             return new JsonResult
             {

@@ -1,0 +1,12 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.UserName%}</td>
+    <td class="center">{%=item.TotalQuantity%}</td>
+    <td class="center">{%=item.CutQuantity%}</td>
+    <td class="center">{%=item.SewnQuantity%}</td>
+    <td class="center">{%=item.SewnReturn%}</td>
+</tr>
+{% } %}

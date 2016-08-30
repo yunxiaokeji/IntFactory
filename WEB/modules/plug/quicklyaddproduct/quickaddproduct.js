@@ -36,7 +36,7 @@
                             alert("请重新选择材料供应商!", 2);
                             return false;
                         }
-                        if (!_self.categoryID && $("#productMenuChange").val()) {
+                        if (!_self.categoryID && $("#chooseCategory").val()) {
                             alert("材料类别选择有误，请重新选择", 2);
                             return false;
                         }
@@ -100,7 +100,9 @@
                         };
                         details.push(modelDetail);
                         Product.ProductDetails = details;
-                        confirm("材料分类：" + $("#chooseCategory").val() + "，选择后不能更改！", function () {
+                        var showMsg = !$("#chooseCategory").val() ? "未选择材料分类,确定继续?" :
+                                                                    "材料分类：" + $("#chooseCategory").val() + "，选择后不能更改！";
+                        confirm(showMsg, function () {
                             Global.post("/Products/SavaProduct", {
                                 product: JSON.stringify(Product)
                             }, function (data) {

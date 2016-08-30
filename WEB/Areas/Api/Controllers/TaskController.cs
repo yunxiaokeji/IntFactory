@@ -112,6 +112,8 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("colorMark", item.ColorMark);
                     task.Add("finishStatus", item.FinishStatus);
                     task.Add("orderType", item.OrderType);
+                    task.Add("taskMembers", item.TaskMembers);
+                    task.Add("lockStatus", item.LockStatus);
                     string orderImg = string.Empty;
                     if (!string.IsNullOrEmpty(item.OrderImg))
                     {
@@ -319,6 +321,18 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+        //锁定任务
+        public JsonResult LockTask(string taskID, string operateID, string clientID)
+        {
+            int result;
+            TaskBusiness.LockTask(taskID, operateID, "", clientID, out result);
+            JsonDictionary.Add("result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         [ValidateInput(false)]
         public JsonResult SavaTaskReply(string reply, string userID, string clientID,string taskID)
@@ -354,6 +368,18 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
         #endregion
+
+        //车缝、裁剪录入
+        public JsonResult CreateOrderGoodsDoc(string orderID, string taskID, int docType, int isOver, string details, string remark, string ownerID, string operateID, string clientID, string expressID, string expressCode)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderID, taskID, (EnumGoodsDocType)docType, isOver, expressID, expressCode, details, remark, ownerID, operateID, clientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         #region common
         public Dictionary<string, object> GetUserBaseObj(IntFactoryEntity.CacheUserEntity user) 

@@ -36,6 +36,7 @@
                 _self.showAttrForOrder();
             }
         });
+
         if (customerid) {
             Global.post("/Customer/GetCustomerByID", { customerid: customerid }, function (data) {
                 if (data.model.CustomerID) {

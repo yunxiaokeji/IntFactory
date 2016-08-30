@@ -53,7 +53,6 @@
                         $(".btn-cancel-" + id).remove();
                         $(".swen-quantity-" + id).remove();
                     });
-
                     _save.click(function () {
                         var _thisBtn = $(this);
                         if (_thisBtn.data('isSubmit') != 1) {
@@ -120,6 +119,7 @@
                     $(".btn-swen-box-" + id).append(_cancel).append(_save);
                     $(".input-swen-box-" + id).append(_input);
                 }
+                $(this).parent().hide();
             });
         }
     }

@@ -231,6 +231,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult UserLoadReport()
+        {
+            return View();
+        }
+
         #region Ajax
 
         public JsonResult GetOrders(string filter)
