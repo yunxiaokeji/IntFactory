@@ -41,8 +41,8 @@ namespace YXERP.Areas.Api.Controllers
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
                 paras.pageSize, paras.pageIndex, ref totalCount, ref pageCount);
-
             var lables = SystemBusiness.BaseBusiness.GetLableColor(clientID, EnumMarkType.Tasks).ToList();
+
             List<Dictionary<string, object>> tasks = new List<Dictionary<string, object>>();
             string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
             foreach (var item in list)
@@ -64,8 +64,7 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("pEndTime", item.PEndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.PEndTime.ToString("yyyy-MM-dd") : "");
                 task.Add("orderType", item.OrderType);
                 var orderImg = item.OrderImg;
-                if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com"))
-                {
+                if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com")){
                     orderImg = domainUrl + item.OrderImg;
                 }
                 task.Add("orderImg", orderImg);
@@ -73,6 +72,13 @@ namespace YXERP.Areas.Api.Controllers
                 task.Add("endTime",item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd"):"");
                 task.Add("completeTime",item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd"):"");
                 task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd"));
+
+                Dictionary<string, object> order = new Dictionary<string, object>();
+                var orderItem = item.Order;
+                order.Add("goodsName", orderItem.GoodsName);
+                order.Add("goodsCode", orderItem.IntGoodsCode);
+                order.Add("planTime", orderItem.PlanTime.ToString("yyyy-MM-dd"));
+                task.Add("order", order);
                 tasks.Add(task);
             }
             JsonDictionary.Add("tasks", tasks);
@@ -106,15 +112,17 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("colorMark", item.ColorMark);
                     task.Add("finishStatus", item.FinishStatus);
                     task.Add("orderType", item.OrderType);
+                    task.Add("taskMembers", item.TaskMembers);
+                    task.Add("lockStatus", item.LockStatus);
                     string orderImg = string.Empty;
                     if (!string.IsNullOrEmpty(item.OrderImg))
                     {
                         orderImg = domainUrl + item.OrderImg;
                     }
                     task.Add("orderImg", orderImg);
-                    task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd hh:mm:ss") : "");
-                    task.Add("endTime", item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd hh:mm:ss") : "");
-                    task.Add("completeTime", item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd hh:mm:ss") : "");
+                    task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd") : "");
+                    task.Add("endTime", item.EndTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.EndTime.ToString("yyyy-MM-dd") : "");
+                    task.Add("completeTime", item.CompleteTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.CompleteTime.ToString("yyyy-MM-dd") : "");
                     task.Add("createTime", item.CreateTime.ToString("yyyy-MM-dd hh:mm:ss"));
                     task.Add("ownerUser", GetUserBaseObj(item.Owner));
 
@@ -125,6 +133,9 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("orderID", orderDetail.OrderID);
                         order.Add("originalID", orderDetail.OriginalID);
                         order.Add("orderType", orderDetail.OrderType);
+                        order.Add("goodsName", orderDetail.GoodsName);
+                        order.Add("goodsCode", orderDetail.IntGoodsCode);
+                        order.Add("planTime", orderDetail.PlanTime.ToString("yyyy-MM-dd") != "0001-01-01" ? orderDetail.PlanTime.ToString("yyyy-MM-dd") : "");
                         order.Add("orderCode", orderDetail.OrderCode);
                         string orderdetailImg = string.Empty;
                         if (!string.IsNullOrEmpty(orderDetail.OrderImage))
@@ -136,25 +147,6 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("platemaking", orderDetail.Platemaking);
                         order.Add("remark", orderDetail.Remark);
                         task.Add("order", order);
-
-                        if (orderDetail.Details != null)
-                        {
-                            foreach (var d in orderDetail.Details)
-                            {
-                                Dictionary<string, object> detail = new Dictionary<string, object>();
-                                detail.Add("code", d.DetailsCode);
-                                detail.Add("productImage", d.ProductImage);
-                                detail.Add("productName", d.ProductName);
-                                detail.Add("remark", d.Remark);
-                                detail.Add("unitName", d.UnitName);
-                                detail.Add("price", d.Price);
-                                detail.Add("quantity", d.Quantity);
-                                detail.Add("loss", d.Loss);
-                                detail.Add("totalMoney", d.TotalMoney);
-
-                                details.Add(detail);
-                            }
-                        }
                     }
                     var moduleName = string.Empty;
                     if (item.Mark > 0)
@@ -167,7 +159,6 @@ namespace YXERP.Areas.Api.Controllers
                     JsonDictionary.Add("moduleName", moduleName);
                     JsonDictionary.Add("task", task);
                     JsonDictionary.Add("domainUrl", domainUrl);
-                    JsonDictionary.Add("materialList", details);
                 }
             }
 
@@ -330,6 +321,18 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+        //锁定任务
+        public JsonResult LockTask(string taskID, string operateID, string clientID)
+        {
+            int result;
+            TaskBusiness.LockTask(taskID, operateID, "", clientID, out result);
+            JsonDictionary.Add("result", result);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         [ValidateInput(false)]
         public JsonResult SavaTaskReply(string reply, string userID, string clientID,string taskID)
@@ -365,6 +368,18 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
         #endregion
+
+        //车缝、裁剪录入
+        public JsonResult CreateOrderGoodsDoc(string orderID, string taskID, int docType, int isOver, string details, string remark, string ownerID, string operateID, string clientID, string expressID, string expressCode)
+        {
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderID, taskID, (EnumGoodsDocType)docType, isOver, expressID, expressCode, details, remark, ownerID, operateID, clientID);
+            JsonDictionary.Add("id", id);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         #region common
         public Dictionary<string, object> GetUserBaseObj(IntFactoryEntity.CacheUserEntity user) 

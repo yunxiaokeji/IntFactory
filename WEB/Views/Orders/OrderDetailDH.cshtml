@@ -320,8 +320,7 @@
                 <td class="width80">单位</td>
                 <td class="tLeft">单价</td>
                 <td class="">单件消耗</td>
-                <td class="">待采购</td>
-                <td class="">已采购</td>
+                <td class="">待入库</td>
                 <td class="">已入库</td>
                 <td>已消耗</td>
                 <td class="tRight">采购小计</td>
@@ -345,7 +344,6 @@
                     <td class="center">@(detail.UnitName)</td>
                     <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="center">@((detail.Quantity).ToString("f3"))</td>
-                    <td class="center">@((detail.PlanQuantity).ToString("f3"))</td>
                     <td class="center">@((detail.PurchaseQuantity).ToString("f3"))</td>
                     <td class="center">@((detail.InQuantity).ToString("f3"))</td>
                     <td class="center">@((detail.UseQuantity.ToString("f3")))</td>
@@ -353,14 +351,14 @@
                 </tr>
                 }
             <tr class="total-item bold">
-                <td colspan="9"></td>
+                <td colspan="8"></td>
                 <td class="tRight">合计：</td>
                 <td class="tRight" data-class="moneytotal"></td>
             </tr>
             }
             else
             {
-                <tr><td colspan="9"><div class="nodata-txt">暂无数据!</div></td></tr>
+                <tr><td colspan="10"><div class="nodata-txt">暂无数据!</div></td></tr>
             }
             
         </table>

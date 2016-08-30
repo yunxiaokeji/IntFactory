@@ -283,7 +283,16 @@
                     </td>
                     <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
                     <td class="center">@(detail.UnitName)</td>
-                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
+                    <td class="center tr-quantity">
+                         @if (ExpandClass.IsLimits(HttpContext.Current, "102019002") != "nolimits" && model.Status < 3)
+                        {
+                            <input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" />
+                         }
+                        else
+                        {
+                            <label>@(detail.Quantity.ToString("f3"))</label>
+                        }
+                    </td>
                     <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
                     <td class="tRight moneytotal">@((detail.TotalMoney).ToString("f3"))</td>
                 </tr>

@@ -32,6 +32,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
+                obj.Add("clientName", item.Client.CompanyName); 
                 obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
@@ -62,7 +63,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
-            obj.Add("clientID", item.ClientID);
+            obj.Add("clientID", item.ClientID); 
             obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();
@@ -152,6 +153,18 @@ namespace YXERP.Areas.Api.Controllers
               Data = JsonDictionary,
               JsonRequestBehavior = JsonRequestBehavior.AllowGet
           };
+        }
+
+        //获取大货下单明细
+        public JsonResult GetOrderGoods(string orderID)
+        {
+            List<OrderGoodsEntity> items = IntFactoryBusiness.OrdersBusiness.BaseBusiness.GetOrderGoods(orderID);
+            JsonDictionary.Add("items", items);
+            return new JsonResult
+            {
+                Data = items,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         //
@@ -251,6 +264,19 @@ namespace YXERP.Areas.Api.Controllers
         public JsonResult GetPlateMakings(string orderID)
         {
             var list = TaskBusiness.GetPlateMakings(orderID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        //获取订单详情
+        public JsonResult GetOrderDetailsByOrderID(string orderID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(orderID);
             JsonDictionary.Add("items", list);
 
             return new JsonResult

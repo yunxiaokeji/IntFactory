@@ -47,17 +47,22 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    innerhtml.find(".ico-dropdown").click(function () {
-                        var _this = $(this);
-                        ObjectJS.docID = _this.data('id');
-                        var position = _this.position();
-                        $("#setReturnSewn li").data("columnname", _this.data("columnname"));
-                        $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
-                            $(this).hide();
+                    /*车缝退回操作*/
+                    if ($("#btnSewnOrder").length == 1 && type == 11) {
+                        innerhtml.find(".ico-dropdown").click(function () {
+                            var _this = $(this);
+                            ObjectJS.docID = _this.data('id');
+                            var position = _this.position();
+                            $("#setReturnSewn li").data("columnname", _this.data("columnname"));
+                            $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                                $(this).hide();
+                            });
+                            return false;
                         });
-                        return false;
-                    });
-
+                    } else {
+                        /*无权限删除车缝退回操作*/
+                        innerhtml.find(".ico-dropdown").remove();
+                    }
                     $tr_header.after(innerhtml);
 
                     var total = 0;
