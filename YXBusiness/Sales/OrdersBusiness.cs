@@ -543,7 +543,7 @@ namespace IntFactoryBusiness
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
-            if (ordertype == 2)
+            if (ordertype == 2 && string.IsNullOrEmpty(yxOrderID))
             {
                 if (!UpdateOrderDiscount(orderid, discount, price, operateid, "", clientid))
                 {

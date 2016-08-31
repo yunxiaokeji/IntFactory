@@ -187,7 +187,9 @@ namespace IntFactoryEnum
         [DescriptionAttribute("阿里")]
         AliOrder = 3,
         [DescriptionAttribute("自动生成")]
-        Auto = 4
+        Auto = 4,
+        [DescriptionAttribute("二当家")]
+        ErDangJia = 5
     }
 
     /// <summary>

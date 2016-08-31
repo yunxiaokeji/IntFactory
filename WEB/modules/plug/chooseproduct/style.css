@@ -3,8 +3,8 @@
 .chooseuser-header { margin-bottom: 10px; }
 
 /**/
-.chooseuser-body { width:700px; overflow:auto; border-bottom:solid 1px #ccc; padding-bottom:15px; margin-bottom:15px;  }
-.chooseuser-body .choosecustomer { width:700px; }
+.chooseproduct-body { width:852px; overflow:auto; border-bottom:solid 1px #ccc; padding-bottom:15px; margin-bottom:15px;  }
+.chooseproduct-body .choosecustomer { width:850px; }
 .chooseproduct .fillter-type { border-bottom:solid 3px #ccc; height:30px; }
 .chooseproduct .fillter-type li{ height:30px; line-height:30px; font-size:12px;  border-bottom:solid 3px #ccc; margin-bottom:-3px; }
 .chooseproduct .fillter-type li span{ float:left; display:inline-block; }
