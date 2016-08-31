@@ -138,6 +138,7 @@
     <Compile Include="Common\MessageSend.cs" />
     <Compile Include="Common\ApiCloudPush.cs" />
     <Compile Include="Common\Signature.cs" />
+    <Compile Include="Common\SyncTaskRecord.cs" />
     <Compile Include="Common\UserAuthorize.cs" />
     <Compile Include="Common\ApiAuthorize.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
@@ -168,6 +169,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
+    <Content Include="Common\ApiSetting.xml" />
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\task.png" />
     <Content Include="Content\menuico\taskhover.png" />
@@ -1506,6 +1508,10 @@
     <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CloudSales.Sdk\CloudSales.Sdk.csproj">
+      <Project>{f0a05162-14e3-4816-8c49-706abfc94439}</Project>
+      <Name>CloudSales.Sdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntFactory.Service\IntFactory.Service.csproj">
       <Project>{313e5872-f99a-4b77-9987-a01dff27b758}</Project>
       <Name>IntFactory.Service</Name>

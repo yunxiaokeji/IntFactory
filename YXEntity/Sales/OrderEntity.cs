@@ -139,6 +139,8 @@ namespace IntFactoryEntity
         [Property("Lower")] 
         public string ClientID { get; set; }
 
+        public string YXOrderID { get; set; }
+
         public IntFactoryEntity.Manage.Clients Client { get; set; }
 
         /// <summary>

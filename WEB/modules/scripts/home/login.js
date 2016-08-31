@@ -62,8 +62,8 @@
                 remember: $(".cb-remember-password").hasClass("ico-checked") ? 1 : 0,
                 bindAccountType: Home.bindAccountType
             },
-            function (data)
-            {
+            function (data) {
+                console.log(data);
                 if (Home.bindAccountType == 0 || Home.bindAccountType ==10000) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
                 }else {
@@ -71,7 +71,7 @@
                 }
 
                 if (data.result == 1)
-                {
+                { 
                     if (Home.bindAccountType == 10000) {
                         Home.returnUrl = Home.returnUrl + "?sign=" + data.sign + "&userid=" + data.userid + "&clientid=" + data.clientid;
                     }

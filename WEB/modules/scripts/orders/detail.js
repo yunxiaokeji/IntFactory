@@ -24,7 +24,7 @@
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         if (list) {
             _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
-        }       
+        } 
         _self.bindStyle(_self.model);
         _self.bindEvent();
         _self.getAmount();
@@ -1610,8 +1610,10 @@
                     header: btnObject.data("name"),
                     content: innerText,
                     yesFn: function () {
-
-                        var details = "", bl = true;
+                        var othersysid = _self.model.YXOrderID;
+                        var jsonparas = {};
+                        jsonparas.orderid = othersysid; 
+                        var details = "", bl = true, guge = _self.model.GoodsID+":", nums = "";
                         $("#showSendOrderGoods .list-item").each(function () {
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
@@ -1620,9 +1622,12 @@
                                     bl = false;
                                 }
                                 details += _this.data("id") + "-" + quantity + ",";
+                                nums += quantity + ",";
+                                guge += _this.data("remark")+",";
                             }
                         });
-
+                        jsonparas.remarks = guge.replace("【", "[").replace("】", "]");
+                        jsonparas.nums = nums;
                         if (!bl) {
                             alert("数量输入过大");
                             return false;
@@ -1640,7 +1645,9 @@
                                 expressid: $("#expressid").data("id"),
                                 expresscode: $("#expressCode").val(),
                                 details: details,
-                                remark: $("#expressRemark").val().trim()
+                                remark: $("#expressRemark").val().trim(),
+                                othersysid:othersysid,
+                                jsonparas: JSON.stringify(jsonparas)
                             }, function (data) {
                                 if (data.id) {
                                     alert("数据录入成功!", location.href);
