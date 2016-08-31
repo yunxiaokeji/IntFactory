@@ -12,8 +12,8 @@ namespace YXERP.Common
 {
     public class ApiAuthorize : AuthorizeAttribute
     {
-        public static string AppKey = Common.YXAppKey;// "BC6802E9-285C-471C-8172-3867C87803E2";
-        public static string AppSecret = Common.YXAppSecret;//"9F8AF979-8A3B-4E23-B19C-AB8702988466";
+        public static string AppKey = YXERP.Common.Common.YXAppKey;/// "BC6802E9-285C-471C-8172-3867C87803E2";
+        public static string AppSecret = YXERP.Common.Common.YXAppSecret;///"9F8AF979-8A3B-4E23-B19C-AB8702988466";
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             string signature = HttpContext.Current.Request["signature"];
