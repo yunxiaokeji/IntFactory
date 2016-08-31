@@ -1,0 +1,2 @@
+﻿/*供应商名字过长高度会有问题*/
+.provider-box ul li { height:initial !important;}

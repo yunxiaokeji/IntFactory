@@ -3,6 +3,7 @@
     var Easydialog = require("easydialog");
     var dot = require("dot");
     require("autocomplete");
+    require("plug/quicklyaddproduct/product_qulickly_add.css");
     require("menu");
     require("dropdown");
     var Global = require("global");

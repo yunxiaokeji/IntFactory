@@ -3,6 +3,7 @@
         doT = require("dot"),
         ChooseUser = require("chooseuser"),
         Easydialog = require("easydialog");
+    require("tiplayer");
     var Model = {};
 
     var ObjectJS = {};

@@ -310,6 +310,7 @@
     <Content Include="modules\plug\logs\logs.html" />
     <Content Include="modules\plug\logs\logs.js" />
     <Content Include="modules\plug\logs\style.css" />
+    <Content Include="modules\plug\quicklyaddproduct\product_qulickly_add.css" />
     <Content Include="modules\plug\replys\replys.html" />
     <Content Include="modules\plug\replys\replys.js" />
     <Content Include="modules\plug\replys\replysitem.html" />

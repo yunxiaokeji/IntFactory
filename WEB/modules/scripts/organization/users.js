@@ -5,6 +5,7 @@
         City = require("city"), CityObject,
         Easydialog = require("easydialog"),
         ChooseUser = require("chooseuser");
+    require("tiplayer");
     require("pager");
 
     var Model = {}, CacheRole = [];
@@ -181,8 +182,8 @@
             var userid = _this.data("id");
             var tr = $(".list-item .dropdown[data-id=" + _this.data("id") + "]").parent();
             var html = "<div>";
-            html += "<div><span style='display:inline-block;width:80px;'>密码：</span><input id='passLayer' type='password' /></div>";
-            html += "<div class='mTop5'><span style='display:inline-block;width:80px;'>确认密码：</span><input id='confirmPassLayer' type='password' /></div>";
+            html += "<div><span style='display:inline-block;width:80px;'>密码：</span><input id='passLayer' maxlength='20' type='password' /></div>";
+            html += "<div class='mTop5'><span style='display:inline-block;width:80px;'>确认密码：</span><input id='confirmPassLayer' maxlength='20' type='password' /></div>";
             html += "</div>";
             Easydialog.open({
                 container: {
@@ -421,7 +422,7 @@
             if (_this.val().trim() && _this.val().trim().length >= 6) {
                 Global.post("/Organization/IsExistLoginName", { loginname: _this.val() }, function (data) {
                     if (data.status) {
-                        alert("账号已存在，请重新输入！");
+                        $("#loginname").showTipLayer({ content: "账号已存在，请重新输入！" });
                         _this.focus().data("status", "1");
                     } else {
                         _this.data("status", "0");
@@ -430,39 +431,58 @@
             }
         });
 
+        $("#loginpass").change(function () {
+            var _this = $(this);
+            if (_this.val().length < 6) {
+                _this.css({ "border-color": "red" });
+                _this.showTipLayer({
+                    content: "密码不能小于6位"
+                });
+            } else {
+                _this.css({ "border-color": "#ccc" });
+            }
+        });
+
         $("#confirmpass").change(function () {
             var _this = $(this);
             if (_this.val() != $("#loginpass").val()) {
-                alert("确认密码与原密码不一致");
+                _this.css({ "border-color": "red" });
+                _this.showTipLayer({
+                    content: "确认密码与原密码不一致"
+                });
+            } else {
+                _this.css({ "border-color": "#ccc" });
             }
         });
 
         $("#btnSave").click(function () {
+            var isContinue = true;
             if (!VerifyObject.isPass()) {
                 return false;
             }
 
             if ($("#loginname").val().trim().length < 6) {
-                alert("账号长度不能低于6位！");
-                return false;
+                $("#loginname").showTipLayer({ content: "账号长度不能少于6位！" });
+                isContinue = false;
             }
 
             if ($("#loginpass").val().trim().length < 6) {
-                alert("密码长度不能低于6位！");
-                return false;
+                $("#loginpass").showTipLayer({ content: "密码长度不能少于6位！" });
+                isContinue = false;
             }
 
             if ($("#confirmpass").val() != $("#loginpass").val()) {
-                alert("确认密码与原密码不一致");
-                return false;
+                $("#confirmpass").showTipLayer({ content: "确认密码与原密码不一致" });
+                isContinue = false;
             }
 
             if ($("#loginname").data("status") == 1) {
-                alert("账号已存在，请重新输入！");
-                return false;
+                $("#loginname").showTipLayer({ content: "账号已存在，请重新输入！" });
+                isContinue = false;
             }
-
-            _self.saveUser();
+            if (isContinue) {
+                _self.saveUser();
+            }
         });
 
     }

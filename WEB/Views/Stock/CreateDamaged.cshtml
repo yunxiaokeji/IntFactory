@@ -36,7 +36,7 @@
                     <td class="bBottom tLeft"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductCode)</a></td>
                     <td class="bBottom tLeft">@(model.Description)</td>
                     <td class="center bBottom">@(model.DepotCode)</td>
-                    <td class="center bBottom tr-quantity"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
+                    <td class="center bBottom tr-quantity"><input maxlength="20" type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f3"))" /></td>
                     <td class="center bBottom">
                         <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
                     </td>
@@ -51,7 +51,7 @@
    <div class="mTop20" style="padding:0px 20px 50px 20px;">
         <div class="right hide" id="chooseWare"></div>
         <div class="clear"></div>
-        <textarea placeholder="备注" id="remark" class="width500 mTop10 right"></textarea>
+        <textarea placeholder="备注" maxlength="1000" id="remark" class="width500 mTop10 right"></textarea>
         <div class="clear"></div>
         <div class="mTop20">
             <div class="btn right" id="btnconfirm">提交消耗单</div>

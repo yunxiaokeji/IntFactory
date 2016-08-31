@@ -31,7 +31,6 @@ define(function (require, exports, module) {
     ObjectJS.showCreate = function (callback) {
         var _self = this;
         doT.exec("template/system/depotseat_add.html", function (templateFun) {
-
             var html = html = templateFun([]);
 
             Easydialog.open({
@@ -40,7 +39,6 @@ define(function (require, exports, module) {
                     header: EntityModel.DepotID == "" ? "新建货位" : "编辑货位",
                     content: html,
                     yesFn: function () {
-
                         if (!VerifyObject.isPass("#depotseat-add-div")) {
                             return false;
                         }
