@@ -21,18 +21,13 @@ namespace YXERP.Common
 
         public void OnStart()
         {
-            DateTime LuckTime = DateTime.Now.AddMinutes(-3);
-            TimeSpan span = LuckTime - DateTime.Now;
-            if (span < TimeSpan.Zero)
-            {
-                span = LuckTime.AddMinutes(50) - DateTime.Now;
-            }
             //按需传递的状态或者对象。   
             object state = new object();
             //定义计时器   
+            TimeSpan delayTime = new TimeSpan(0, 20, 0);
             syncTimer = new Timer(
                 new TimerCallback(AuditWorking), state,
-                span, TimeSpan.FromTicks(TimeSpan.TicksPerMinute));
+                delayTime, TimeSpan.FromTicks(TimeSpan.TicksPerMinute));
         }
 
         public void AuditWorking(object state)
@@ -90,7 +85,7 @@ namespace YXERP.Common
             {
                 infohead = "[Error] ";
             }
-            infohead += DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+            infohead += DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             if (!Directory.Exists(@"d:\log\" + directoryName))
             {
                 Directory.CreateDirectory(@"d:\log\" + directoryName);
