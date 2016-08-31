@@ -103,7 +103,7 @@
                     });
                     _input.find('.quantity').change(function () {
                         var _this = $(this);
-                        if (!_this.val().isDouble() || _this.val() * 1 <= 0) {
+                        if (!_this.val().isInt() || _this.val() * 1 <= 0) {
                             _this.val(0);
                             return false;
                         }
