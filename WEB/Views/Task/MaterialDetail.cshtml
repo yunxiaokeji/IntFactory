@@ -32,7 +32,7 @@
                     @{
                         if (isRoot)
                         {
-                            <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
+                            <td class="center tr-quantity"><input type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" maxlength="20" /></td>
                             <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
                             <td class="center">
                                 <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>

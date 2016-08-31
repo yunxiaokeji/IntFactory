@@ -98,7 +98,7 @@
         </li>
         <li>
             <span class="column-title">价格（单件）：</span>
-            <span><input type="text" maxlength="10" id="planPrice"  data-empty="必填" data-type="double" class="input verify" /></span>
+            <span><input type="text" maxlength="10" id="planPrice" data-text="请输入数字"  data-empty="必填" data-type="double" class="input verify" /></span>
         </li>
         <li>
             <span class="column-title">交货日期：</span>
@@ -119,7 +119,7 @@
         </li>
          <li>
             <span class="column-title">详细需求：</span>
-            <textarea id="remark" style="height:24px;min-height:20px;line-height:20px;"
+            <textarea id="remark" maxlength="1000" style="height:24px;min-height:20px;line-height:20px;"
                 placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏"  
                 onpropertychange="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';" 
                 oninput="this.style.height=this.value.split('\n').length*20 + 'px';this.style.height=this.scrollHeight + 'px';"></textarea>
@@ -143,7 +143,7 @@
         </li>
         <li>
             <span class="column-title">联系电话：</span> 
-            <span><input type="text" maxlength="11" id="contactMobile" data-empty="必填" data-type="mobile" class="input verify" /></span>
+            <span><input type="text" maxlength="11" id="contactMobile" data-text="手机号格式有误" data-empty="必填" data-type="mobile" class="input verify" /></span>
         </li>
         <li>
             <span class="column-title">邮寄地址：</span> 

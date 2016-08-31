@@ -17,7 +17,7 @@
     <td class="center">{%=item.Quantity%}</td>
     <td class="center">{%=item.CutQuantity%}</td>
     <td class="center">{%=item.Complete%}</td>
-    <td class="center"><input class="width60 quantity" type="text" data-max="{%=item.CutQuantity-item.Complete%}" value="0" /></td>
+    <td class="center"><input class="width60 quantity" maxlength="10" type="text" data-max="{%=item.CutQuantity-item.Complete%}" value="0" /></td>
 </tr>
 {% } %}
 
@@ -35,7 +35,7 @@
     </li>
     <li>
         <span class="width80">备注：</span>
-        <textarea id="expressRemark">
+        <textarea id="expressRemark" maxlength="1000">
             
         </textarea>
     </li>

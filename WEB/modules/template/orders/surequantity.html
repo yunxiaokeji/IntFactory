@@ -21,7 +21,7 @@
            
         {% } %}
             <span>
-                <input class="change-attr center width50" data-id="{%=attr.AttrID%}" data-type="1" type="text" placeholder="自定义" />
+                <input class="change-attr center width50" maxlength="20" data-id="{%=attr.AttrID%}" data-type="1" type="text" placeholder="自定义" />
             </span>
         </div>
         <div class="clear"></div>
@@ -45,7 +45,7 @@
            
         {% } %}
         <span>
-            <input class="change-attr center width50" data-id="{%=attr.AttrID%}" data-type="2" type="text" placeholder="自定义" />
+            <input class="change-attr center width50" maxlength="20" data-id="{%=attr.AttrID%}" data-type="2" type="text" placeholder="自定义" />
         </span>
         </div>
         <div class="clear"></div>
@@ -60,11 +60,11 @@
     </li>
     <li>
         <span class="width80">下单折扣：</span>
-        <input type="text" value="1.00" class="width60" data-value="1.00" id="iptOrderDiscount" />
+        <input type="text" maxlength="10" value="1.00" class="width60" data-value="1.00" id="iptOrderDiscount" />
     </li>
     <li>
         <span class="width80">大货单价：</span>
-        <input type="text" class="width60" data-value="" id="iptOrderNewPrice" />
+        <input type="text" maxlength="10" class="width60" data-value="" id="iptOrderNewPrice" />
     </li>
     <li>
         <span class="width80 red">注意：</span>
