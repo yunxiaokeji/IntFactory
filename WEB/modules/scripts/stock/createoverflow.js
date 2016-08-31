@@ -81,7 +81,7 @@ define(function (require, exports, module) {
             }, function (data) {
                 if (!data.status) {
                     _this.val(_this.data("value"));
-                    alert("系统异常，请重新操作！");
+                    alert("系统异常，请重新操作！", 2);
                 } else {
                     _this.data("value", _this.val());
                 }
@@ -95,23 +95,23 @@ define(function (require, exports, module) {
                     autoid: _this.data("id")
                 }, function (data) {
                     if (!data.Status) {
-                        alert("系统异常，请重新操作！");
+                        alert("系统异常，请重新操作！", 2);
                     } else {
                         _this.parents("tr.item").remove();
                     }
                 });
-            });
+            }, "删除");
         });
 
         //提交订单
         $("#btnconfirm").click(function () {
             if ($(".cart-item").length == 0) {
-                alert("请选择报溢材料！");
+                alert("请选择报溢材料！", 2);
                 return;
             }
             confirm("报溢单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
-            });
+            }, "提交");
 
         });
     }
@@ -124,7 +124,7 @@ define(function (require, exports, module) {
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+                alert("系统异常，请重新操作！", 2);
             } else {
                 ele.data("value", ele.val());
             }
@@ -135,7 +135,7 @@ define(function (require, exports, module) {
         var _self = this;
         //单据明细
         if ($(".cart-item").length == 0) {
-            alert("请选择报溢材料！");
+            alert("请选择报溢材料！", 2);
             return;
         }
         Global.post("/Stock/SubmitOverflowDoc", {

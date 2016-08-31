@@ -254,13 +254,13 @@
                                                 if (data.result == 1) {
                                                     alert("登记成功");
                                                 } else {
-                                                    alert("网络异常，请重试");
+                                                    alert("网络异常，请重试", 2);
                                                     return false;
                                                 }
                                             });
                                         } else {
                                             isContinue = true;
-                                            alert("登记数量必须大于0");
+                                            alert("登记数量必须大于0", 2);
                                             return false;
                                         }
                                     }
@@ -378,7 +378,7 @@
                         content: innerHtml,
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
-                                alert("任务到期时间不能为空");
+                                alert("任务到期时间不能为空", 2);
                                 return;
                             }
                             ObjectJS.isLoading = false;
@@ -422,11 +422,11 @@
                 endTime: ""
             }, function (data) {
                 if (data.result == 0) {
-                    alert("操作无效");
+                    alert("操作无效", 2);
                 }else if (data.result == 2) {
-                    alert("任务已接受,不能操作");
+                    alert("任务已接受,不能操作", 2);
                 } else if (data.result == 3) {
-                    alert("没有权限操作");
+                    alert("没有权限操作", 2);
                 }else {
                     location.href = location.href;
                 }
@@ -486,20 +486,20 @@
                        location.href = location.href;
                    }
                    else if (data.result == 2) {
-                       alert("前面阶段任务有未完成,不能标记完成");
+                       alert("前面阶段任务有未完成,不能标记完成", 2);
                    }
                    else if (data.result == 3) {
-                       alert("无权限操作");
+                       alert("无权限操作", 2);
                    }
                    else if (data.result == 4) {
-                       alert("任务没有接受，不能设置完成");
+                       alert("任务没有接受，不能设置完成", 2);
                    }
                    else if (data.result == -1) {
-                       alert("保存失败");
+                       alert("保存失败", 2);
                    }
                    ObjectJS.isLoading = true;
                });
-        });
+        },"完成");
     }
 
     //锁定任务
@@ -513,10 +513,10 @@
                 if (data == 1) {
                     location.href = location.href;
                 } else {
-                    alert("网络繁忙,解锁失败");
+                    alert("网络繁忙,解锁失败", 2);
                 }
             });
-        })
+        }, "锁定");
     }
 
     //添加任务成员
@@ -527,7 +527,7 @@
             memberIDs: memberIDs
         }, function (data) {
             if (data.result == 0) {
-                alert("添加失败");
+                alert("添加失败", 2);
             }
             else {
                 //任务负责人更改成员权限
@@ -549,7 +549,7 @@
             memberID: memberID
         }, function (data) {
             if (data.result == 0) {
-                alert(memberIDs);
+                alert("保存失败", 2);
             }
             else {
                 $(".memberlist tr[data-id='" + memberID + "']").remove();
@@ -579,10 +579,10 @@
                             _this.parents('tr').find('.check-lump').removeClass('hover');
                             _this.addClass('hover');
                         } else {
-                            alert('授权失败');
+                            alert('授权失败', 2);
                         }
                     })
-                });
+                },"设置");
             }
         });
     }
@@ -598,7 +598,7 @@
 
             confirm(confirmMsg, function () {
                 ObjectJS.removeTaskMember(memberID);
-            });
+            }, "删除");
         });
     }
 
@@ -885,7 +885,7 @@
             if (ObjectJS.orderType == 2) {
                 var count = (_this.parents('tr').find('.purchase-count').text() * 1) + (_this.parents('tr').find('.inquantity').text() * 1);
                 if (count > 0) {
-                    alert("材料存在使用记录，无法删除！");
+                    alert("材料存在使用记录，无法删除！", 2);
                     return false;
                 }
             }
@@ -896,14 +896,14 @@
                     name: _this.data("name")
                 }, function (data) {
                     if (!data.status) {
-                        alert("材料存在使用记录，无法删除！");
+                        alert("材料存在使用记录，无法删除！", 2);
                     }
                     else {
                         _this.parents("tr.item").remove();
                         ObjectJS.getProductAmount();
                     }
                 });
-            });
+            }, "移除");
         });
 
         //生成采购单
@@ -932,7 +932,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             }
             else {
                 ele.data("value", ele.val());
@@ -955,7 +955,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             } else {
                 ele.data("value", ele.val());
                 var tr = ele.parents('tr');
@@ -979,7 +979,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             } else {
                 ele.data("value", ele.val());
                 var tr = ele.parents('tr');
@@ -1003,7 +1003,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             } else {
                 ele.data("value", ele.val());
                 _self.getProductAmount();
@@ -1030,7 +1030,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             }
             else {
                 ele.data("value", ele.val());
@@ -1052,7 +1052,7 @@
                 }
                 ObjectJS.isLoading = true;
             });
-        }, function () {
+        }, "生成", function () {
             ObjectJS.isLoading = true;
         })
       
@@ -1236,11 +1236,11 @@
             var $column = $("#platemakingBody .table-list td[data-columnname='" + $(this).data("columnname") + "']");
             var $td = $column.eq(0);
             if ($td.hasClass("td-normal-plate")) {
-                alert("当前为标码列,不能删除");
+                alert("当前为标码列,不能删除", 2);
                 return;
             }
             if ($("#platemakingBody .tr-header td").length == 3) {
-                alert("只剩最后一列,不能删除");
+                alert("只剩最后一列,不能删除", 2);
                 return;
             }
 
@@ -1289,7 +1289,7 @@
     ObjectJS.bindRemoveRow = function () {
         $("div.btn-removeRow").unbind().bind('click', function () {
             if ($("div.btn-removeRow").length == 1) {
-                alert("只剩最后一行,不能删除");
+                alert("只剩最后一行,不能删除", 2);
                 return;
             }
 
@@ -1517,7 +1517,7 @@
                 ObjectJS.isPlate = true;
             }
             else {
-                alert("保存失败");
+                alert("保存失败", 2);
             }
         });
     }
@@ -1554,7 +1554,7 @@
                 innerHtml.find('.save-plate').click(function () {
                     var _thisTr = $(this).parents('tr');
                     if (!_thisTr.find('.txt-name').val().trim()) {
-                        alert("工艺名称不能为空");
+                        alert("工艺名称不能为空", 2);
                         return false;
                     }
                     var Plate = {
@@ -1568,7 +1568,7 @@
                     };
                     Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                         if (data.result == 0) {
-                            alert("保存失败，请重试");
+                            alert("保存失败，请重试", 2);
                         } else {
                             /*修改制版处理缓存*/
                             item.Icon = Plate.Icon;
@@ -1740,7 +1740,7 @@
     //快捷添加一条制版工艺说明
     ObjectJS.qulicklyAddPlateMarkings = function (_this) {
         if (_this.parents().prev().find('.save-plate').length > 0) {
-            alert("请先保存上一次编辑信息");
+            alert("请先保存上一次编辑信息", 2);
             return false;
         }
         DoT.exec("template/task/platemarting-quickly-add.html", function (templateFun) {
@@ -1750,7 +1750,7 @@
             innerHtml.find('.save-plate').click(function () {
                 var _thisTr = $(this).parents('tr');
                 if (!_thisTr.find('.txt-name').val().trim()) {
-                    alert("工艺名称不能为空");
+                    alert("工艺名称不能为空", 2);
                     return false;
                 }
                 var Plate = {
@@ -1765,7 +1765,7 @@
 
                 Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                     if (data.result == 0) {
-                        alert("保存失败，请重试");
+                        alert("保存失败，请重试", 2);
                     } else {
                         /*缓存制版信息*/
                         var cachePlate = {
@@ -1899,7 +1899,7 @@
             var _this = $(this);
             var isContinue = true;
             if (!_this.val().trim()) {
-                alert("制版类型不能为空");
+                alert("制版类型不能为空", 2);
                 _this.val('');
                 return false;
             }
@@ -1918,7 +1918,7 @@
                 }
             });
             if (!isContinue) {
-                alert("制版类型已存在");
+                alert("制版类型已存在", 2);
                 return false;
             }
             var roleItem = $('<li class="role-item hover" data-type="10" data-text="' + _this.val().trim() + '">' + _this.val().trim() + '</li>');
@@ -1966,11 +1966,11 @@
                     content: html,
                     yesFn: function () {
                         if ($("#plateTitle").val() == '') {
-                            alert("工艺不能为空");
+                            alert("工艺不能为空", 2);
                             return false;
                         }
                         if ($("#plateRemark").val().length > 200) {
-                            alert("描述不能超过200字");
+                            alert("描述不能超过200字", 2);
                             return false;
                         }
                         var Plate = {
@@ -1985,7 +1985,7 @@
                     
                         Global.post("/Task/SavePlateMaking", { plate: JSON.stringify(Plate) }, function (data) {
                             if (data.result == 0) {
-                                alert("保存失败");
+                                alert("保存失败", 2);
                             }
                             else {
                                 ObjectJS.getPlateMakings();
@@ -2040,13 +2040,13 @@
                 title: title
             }, function (data) {
                 if (data.result == 0) {
-                    alert("删除失败");
+                    alert("删除失败", 2);
                 }
                 else {
                     $("#tr-plate-" + plateID).fadeOut(500);
                 }
             });
-        });
+        }, "删除");
     }
 
     module.exports = ObjectJS;

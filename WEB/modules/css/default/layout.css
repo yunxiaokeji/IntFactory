@@ -405,19 +405,37 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 
 /*alert 弹出层样式*/
-.alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
-
+/*.alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
 .alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
          min-width: 330px; max-width:450px; box-shadow: 0 0 2px #666; overflow:auto; }
-
 .alert .alert-header { height:30px;line-height:30px; font-weight:bold; font-size:14px; color:#fff; text-indent:15px; background-color:#2F73B8;}
 .alert .alert-wrap { line-height:20px; margin:20px 15px;word-wrap: break-word;  word-break:break-all; text-align:center; }
 .alert .alert-bottom { height:25px; margin:10px 15px 15px; text-align:center; }
-
 .alert .confirm { padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
 .alert .confirm:hover {  background-color:#2F73B8;  }
 .alert .close { padding:5px 10px; background-color:#ccc; color:#666; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
-.alert .close:hover {  background-color:#999; color:#fff; }
+.alert .close:hover {  background-color:#999; color:#fff; }*/
+
+.alert {background-color: #333;opacity:0.8; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
+         padding:20px;padding-left:40px;  overflow:auto; border-radius:5px;min-width:140px;}
+.alert .alert-wrap { word-wrap: break-word;  word-break:break-all;color:#fff;font-size:14px;}
+.alert-wrap .alert-icon-right:before {content:"\e613";}
+.alert-wrap .alert-icon-right {display:inline-block;color:#fefefe;font-size:20px;}
+.alert-wrap .alert-icon-warn:before {content:"\e64a";}
+.alert-wrap .alert-icon-warn {display:inline-block;color:#fefefe;font-size:20px;}
+.alert-wrap .alert-msg {display:inline-block;color:#fff;font-size:16px;line-height:16px; padding:0 20px 0 15px;}
+.alert-wrap .alert-close:before {content:"\e628";}
+.alert-wrap .alert-close {display:inline-block;color:#ddd;font-size:16px;padding-top:4px;cursor:pointer;}
+.alert-wrap .alert-close:hover {color:#fff;}
+
+.confirm-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#000; opacity:0.7;}
+.confirm { border: 1px solid #ccc; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; width:360px; overflow:auto;padding:24px;border-radius:3px; }
+.confirm .confirm-wrap { word-wrap: break-word;  word-break:break-all;font-size:16px;  }
+.confirm .confirm-bottom { margin-top:20px; text-align:right; }
+.confirm-bottom .sure { padding:10px 24px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:3px; }
+.confirm-bottom .sure:hover {  background-color:#2F73B8;  }
+.confirm-bottom .close { padding:5px 40px; color:#999; border:none; cursor:pointer; display:inline-block; }
+.confirm-bottom .close:hover {color:#4a98e7; }
 
 
 /*下拉菜单样式*/

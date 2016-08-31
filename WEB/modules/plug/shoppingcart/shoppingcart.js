@@ -73,7 +73,8 @@ define(function (require, exports, module) {
                         //删除产品
                         innerText.find(".ico-del").click(function () {
                             var _this = $(this);
-                            confirm("确认从清单中移除此材料吗？", function () {
+                            confirm("确认从清单中移除此材料吗？",
+                                function () {
                                 if (opts.ordertype == 11) {
                                     Global.post("/Orders/DeleteProduct", {
                                         orderid: opts.guid,
@@ -81,7 +82,7 @@ define(function (require, exports, module) {
                                         name: _this.parents('tr').find('.productname').text()
                                     }, function (data) {
                                         if (!data.status) {
-                                            alert("系统异常，请重新操作！");
+                                            alert("系统异常，请重新操作！", 2);
                                         }
                                         else {
                                             _this.parents("tr.item").remove();
@@ -92,14 +93,14 @@ define(function (require, exports, module) {
                                         autoid: _this.data("id")
                                     }, function (data) {
                                         if (!data.Status) {
-                                            alert("系统异常，请重新操作！");
+                                            alert("系统异常，请重新操作！", 2);
                                         } else {
                                             _this.parents("tr.item").remove();
                                             obj.find(".totalcount").html(obj.find(".totalcount").html() - 1);
                                         }
                                     });
                                 }
-                            });
+                            },"移除");
                         });
 
                         if (opts.ordertype == 1) {

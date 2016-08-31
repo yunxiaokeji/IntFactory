@@ -116,7 +116,7 @@
                 $("#LoginConfirmPWD").val("");
             }
             else {
-                alert("保存失败");
+                alert("保存失败", 2);
             }
         });
     }

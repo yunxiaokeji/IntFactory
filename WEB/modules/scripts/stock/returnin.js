@@ -164,7 +164,7 @@ define(function (require, exports, module) {
                 batch: _this.val().trim()
             }, function (data) {
                 if (!data.status) {
-                    alert("操作失败,请刷新页面重新操作！");
+                    alert("操作失败,请刷新页面重新操作！", 2);
                 };
             });
         });
@@ -176,10 +176,10 @@ define(function (require, exports, module) {
                     if (data.result == 1) {
                         location.href = "/Stock/ReturnIn";
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "审核");
         })
     }
 
@@ -214,7 +214,7 @@ define(function (require, exports, module) {
                 depotid: depot.val()
             }, function (data) {
                 if (!data.Status) {
-                    alert("操作失败,请刷新页面重新操作！");
+                    alert("操作失败,请刷新页面重新操作！", 2);
                 };
             });
         });

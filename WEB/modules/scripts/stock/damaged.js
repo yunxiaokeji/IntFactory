@@ -141,10 +141,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
     }
@@ -226,10 +226,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
                     } else {
-                        alert("作废失败！");
+                        alert("作废失败！", 2);
                     }
                 });
-            });
+            }, "作废");
         });
 
         $("#btnDelete").click(function () {
@@ -238,10 +238,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Damaged";
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
         $("#btnAudit").click(function () {
@@ -250,10 +250,10 @@ define(function (require, exports, module) {
                     if (data.result == 1) {
                         location.href = "/Stock/Damaged";
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "审核");
         });
     }
 

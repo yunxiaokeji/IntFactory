@@ -61,12 +61,12 @@
             }
 
             if ($(".category-item.hover").length != 1) {
-                alert("请选择加工品类");
+                alert("请选择加工品类", 2);
                 return;
             }
 
             if (!_self.categoryValue) {
-                alert("请重新选择的订单分类");
+                alert("请重新选择的订单分类", 2);
                 return false;
             }
 
@@ -153,12 +153,12 @@
                         var isContinue = true;
                         _this.parents('.attr-box').find('.check-box').each(function () {
                             if (!_this.val().trim()) {
-                                alert("自定义规格不能为空");
+                                alert("自定义规格不能为空", 2);
                                 isContinue = false;
                                 return false;
                             }
                             if (_this.val().trim() == $(this).text().trim()) {
-                                alert("该规格已存在");
+                                alert("该规格已存在", 2);
                                 isContinue = false;
                                 return false;
                             }
@@ -461,7 +461,7 @@
             if (data.id) {
                 location.href = "/Orders/OrderDetail/" + data.id;
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
         });
     }

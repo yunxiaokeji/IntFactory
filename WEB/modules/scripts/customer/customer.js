@@ -215,7 +215,7 @@
                     });
 
                 } else {
-                    alert("您尚未选择客户");
+                    alert("您尚未选择客户", 2);
                 }
             }
         });
@@ -250,7 +250,7 @@
                         if (_this.data("userid") != items[0].id) {
                             _self.ChangeOwner(_this.data("id"), items[0].id);
                         } else {
-                            alert("请选择不同人员进行更换!");
+                            alert("请选择不同人员进行更换!", 2);
                         }
                     }
                 }
@@ -280,13 +280,13 @@
                             if (ids.length > 0) {
                                 _self.ChangeOwner(ids, userid);
                             } else {
-                                alert("请选择不同人员进行更换!");
+                                alert("请选择不同人员进行更换!", 2);
                             }
                         }
                     }
                 });
             } else {
-                alert("您尚未选择客户!")
+                alert("您尚未选择客户!", 2)
             }
         });
 
@@ -447,14 +447,14 @@
                 _self.getList();
 
             } else {
-                alert("客户创建失败,联系电话已存在!");
+                alert("客户创建失败,联系电话已存在!", 2);
             }
         });
     }
     //标记客户
     ObjectJS.markCustomer = function (ids, mark, callback) {
         if (mark < 0) {
-            alert("不能标记此选项!");
+            alert("不能标记此选项!", 2);
             return false;
         }
         ObjectJS.isLoading = false;

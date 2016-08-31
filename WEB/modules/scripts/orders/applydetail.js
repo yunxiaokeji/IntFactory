@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         $("#btnconfirm").click(function () {
             confirm("退货申请提交后不能撤销，确认提交吗？", function () {
                 _self.submitOrder();
-            });
+            },"提交");
             
         });        
     }
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("订单状态已变更，请刷新页面后重试！");
+                alert("订单状态已变更，请刷新页面后重试！", 2);
             } else {
                 ele.data("value", quantity);
             }
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
             }
         });
         if (!bl) {
-            alert("退货数量不能全部为0！")
+            alert("退货数量不能全部为0！", 2)
             return;
         }
         Global.post("/Orders/ApplyReturnProduct", { orderid: _self.orderid }, function (data) {

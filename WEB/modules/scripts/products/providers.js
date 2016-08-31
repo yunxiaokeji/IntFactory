@@ -49,10 +49,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {

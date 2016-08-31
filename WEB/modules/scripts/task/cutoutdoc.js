@@ -94,12 +94,12 @@
                                     alert("您没有操作权限!")
                                 }
                                 else {
-                                    alert("" + ObjectJS.taskDesc + "登记失败！");
+                                    alert("" + ObjectJS.taskDesc + "登记失败！", 2);
                                 }
                             });
                         }
                         else {
-                            alert("请输入" + ObjectJS.taskDesc + "数量");
+                            alert("请输入" + ObjectJS.taskDesc + "数量", 2);
                             return false;
                         }
                     }
@@ -122,7 +122,7 @@
                                 _this.prev().text(items[0].name);
                             }
                             else {
-                                alert("请选择不同人员进行更换!");
+                                alert("请选择不同人员进行更换!", 2);
                             }
                         }
                     }

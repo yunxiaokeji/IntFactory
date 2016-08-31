@@ -80,14 +80,14 @@
                         jsonparas.remarks = guge.replace("【", "[").replace("】", "]");
                         jsonparas.nums = nums;
                         if (!bl) {
-                            alert("数量输入过大");
+                            alert("数量输入过大", 2);
                             return false;
                         }
 
                         if (details.length > 0) {
                             if ((!$("#expressid").data("id") || !$("#expressCode").val())
                              && $("#expressid").data('id') != 'fd090820-541a-4a7a-a2c5-00ed5e72f84f') {
-                                alert("请完善快递信息!");
+                                alert("请完善快递信息!", 2);
                                 return false;
                             }
 
@@ -113,14 +113,14 @@
                                     Common.getOrderGoods();
                                 }
                                 else if (data.result == "10001") {
-                                    alert("您没有操作权限!")
+                                    alert("您没有操作权限!", 2)
                                 }
                                 else {
-                                    alert("发货失败！");
+                                    alert("发货失败！", 2);
                                 }
                             });
                         } else {
-                            alert("请输入数量");
+                            alert("请输入数量", 2);
                             return false;
                         }
                     }

@@ -71,16 +71,16 @@
                         _self.getList();
                     }
                     else if (data.result == 2) {
-                        alert("流程有对应的订单,不能删除");
+                        alert("流程有对应的订单,不能删除", 2);
                     }
                     else if (data.result == 3) {
-                        alert("默认流程不能删除");
+                        alert("默认流程不能删除", 2);
                     }
                     else {
-                        alert("删除失败");
+                        alert("删除失败", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {
@@ -124,7 +124,7 @@
                 if (data.status) {
                     _self.getList();
                 } else {
-                    alert("系统异常，请稍后重试!");
+                    alert("系统异常，请稍后重试!", 2);
                 }
             })
         });
@@ -146,7 +146,7 @@
                             return false;
                         }
                         if ($("#processCategory .role-item.hover").length == 0 && !model) {
-                            alert("请选择品类");
+                            alert("请选择品类", 2);
                             return false;
                         }
                         var entity = {};
@@ -254,7 +254,7 @@
             if (data.model && data.model.ProcessID) {
                 _self.getList();
             } else {
-                alert("网络异常，请稍后重试!");
+                alert("网络异常，请稍后重试!", 2);
             }
         })
     }

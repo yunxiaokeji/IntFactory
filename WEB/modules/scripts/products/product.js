@@ -99,7 +99,7 @@
                                         _this.parent().before(html);
                                         html.find('.attritem').click();
                                     } else {
-                                        alert("该规格已存在");
+                                        alert("该规格已存在", 2);
                                     }
                                     _this.val("");
                                 }
@@ -128,12 +128,12 @@
                 return;
             }
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
-                alert("请重新选择材料供应商!");
+                alert("请重新选择材料供应商!", 2);
                 return;
             }
             _self.saveType = $(this).data('id');
             if (!_self.categoryID && $("#productMenuChange").val()) {
-                alert("材料类别选择有误，请重新选择");
+                alert("材料类别选择有误，请重新选择", 2);
             } else {
                 var model = {};
                 model.productName = $("#productName").val().trim();
@@ -171,7 +171,7 @@
                 }, function (data) {
                     if (data.Status) {
                         _this.val("");
-                        alert("材料编码已存在,请重新输入!");
+                        alert("材料编码已存在,请重新输入!", 2);
                         _this.focus();
                     }
                 });
@@ -242,7 +242,7 @@
                                     $("#prodiver").data("name", data.model.Name);
                                     $("#prodiver").find("input").val(data.model.Name);
                                 } else {
-                                    alert("供应商添加失败！")
+                                    alert("供应商添加失败！", 2)
                                 }
                             });
                         },
@@ -283,7 +283,7 @@
             }
         });
         if (!bl) {
-            alert("属性尚未设置值!");
+            alert("属性尚未设置值!", 2);
             return false;
         }
         _self.ProductImage = $("#productImg").data("src") || '';
@@ -364,9 +364,9 @@
                     }
                 }
             } else if (data.result == 2) {
-                alert("材料编码已存在");
+                alert("材料编码已存在", 2);
             } else {
-                alert("保存失败,请稍后再试");
+                alert("保存失败,请稍后再试", 2);
             }
         });
     }
@@ -505,7 +505,7 @@
                     var _this = $(this);
                     confirm("确认删除此规格吗？", function () {
                         _this.parents("tr.list-item").remove();
-                    })
+                    }, "删除")
                 });
             });
         }
@@ -628,12 +628,12 @@
                                 if (data.result == 1) {
                                     _this.parents('tr').remove();
                                 } else if (data.result == 10002) {
-                                    alert("材料正在使用");
+                                    alert("材料正在使用", 2);
                                 } else {
-                                    alert("删除失败");
+                                    alert("删除失败", 2);
                                 }
                             });
-                        });
+                        }, "删除");
                     });
                     //绑定启用插件
                     innerText.find(".status").switch({
@@ -788,7 +788,7 @@
                     }, function (data) {
                         if (data.Status) {
                             _this.val("");
-                            alert("材料编码已存在,请重新输入!");
+                            alert("材料编码已存在,请重新输入!", 2);
                             _this.focus();
                         }
                     });
@@ -841,7 +841,7 @@
                                             _this.parent().before(html);
                                             html.find('.attritem').click();
                                         } else {
-                                            alert("该规格已存在");
+                                            alert("该规格已存在", 2);
                                         }
                                         _this.val("");
                                     }
@@ -865,11 +865,11 @@
             }
             _self.saveType = $(this).data('id');
             if ($(".autocomplete-text").val() && !$("#prodiver").data("id")) {
-                alert("请重新选择材料供应商!");
+                alert("请重新选择材料供应商!", 2);
                 return false;
             }
             if (!_self.categoryID && $("#productMenuChange").val()) {
-                alert("材料类别选择有误，请重新选择");
+                alert("材料类别选择有误，请重新选择", 2);
             } else {
                 Product.savaProduct();
             }
@@ -966,12 +966,12 @@
                             if (data.result == 1) {
                                 _this.parents('tr').remove();
                             } else if (data.result == 10002) {
-                                alert("该材料存在入库信息");
+                                alert("该材料存在入库信息", 2);
                             } else {
-                                alert("删除失败");
+                                alert("删除失败", 2);
                             }
                         });
-                    });
+                    }, "删除");
                 });
 
                 //绑定启用插件
@@ -1026,7 +1026,7 @@
                             //desc += "[" + _this.find(".attrname").html() + _this.find("select option:selected").text() + "]";
                             if (_this.find("select").val() == "|" && !_this.find("select").next().val()) {
                                 isNull = true;
-                                alert("请输入自定义规格");
+                                alert("请输入自定义规格", 2);
                                 return false;
                             }
                         });
@@ -1050,7 +1050,7 @@
                             Description: desc
                         };
                         if (!desc) {
-                            alert("规格不能为空！");
+                            alert("规格不能为空！", 2);
                             return false;
                         }
                         Global.post("/Products/SavaProductDetail", {

@@ -30,7 +30,7 @@
             }
             
             if ($(".checkbox.hover").length == 0) {
-                alert("请至少选择一种品类");
+                alert("请至少选择一种品类", 2);
                 return;
             }
             var ids = "", names = "";
@@ -94,7 +94,7 @@
                 ids += $(this).data("id") + ",";
             });
             if (ids.length == 0) {
-                alert("请选择订单品类");
+                alert("请选择订单品类", 2);
                 return;
             }
             _self.isPost = true;

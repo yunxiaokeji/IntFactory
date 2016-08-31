@@ -125,10 +125,10 @@ define(function (require, exports, module) {
                     if (data.Status) {
                         _self.getList();
                     } else {
-                        alert("货位已存在产品，不能删除！");
+                        alert("货位已存在产品，不能删除！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
         //编辑
@@ -195,7 +195,7 @@ define(function (require, exports, module) {
                                 }
                                 _self.hideUpDown();
                             } else {
-                                alert("优先级调整失败", function () {
+                                alert("优先级调整失败",2, function () {
                                     location.href = location.href;
                                 });
                             }
@@ -250,7 +250,7 @@ define(function (require, exports, module) {
             status: status ? 0 : 1
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                alert("您没有此操作权限，请联系管理员帮您添加权限！", 2);
                 return;
             }
             !!callback && callback(data.Status);

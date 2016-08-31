@@ -22,11 +22,11 @@
         $("#btn-feedback").click(function () {
             var _this = $(this);
             if ($(".txt-title").val() == "") {
-                alert("标题不能为空");
+                alert("标题不能为空", 2);
                 return false;
             }
             if ($(".txt-description").val().length >= 1000) {
-                alert("问题描述请在1000个字符以内");
+                alert("问题描述请在1000个字符以内", 2);
                 return false;
             }
 

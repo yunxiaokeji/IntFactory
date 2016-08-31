@@ -14,7 +14,7 @@
         $(".inquire-form-btn").click(function () {
             var mobilePhone = $(".inquire-form-phone").val();
             if (mobilePhone == '') {
-                alert("手机号不能为空");
+                alert("手机号不能为空", 2);
                 return;
             }
             else {
@@ -33,7 +33,7 @@
                     
                 }
                 else {
-                    alert("手机号格式有误");
+                    alert("手机号格式有误", 2);
                 }
             }
         });
@@ -45,7 +45,7 @@
             if (phoneLogin != "" || phonevalidation != null) {
                 Global.post("/Inquire/ValidateMobilePhoneCode", { mobilePhone: phoneLogin, code: phonevalidation }, function (code) {
                     if (code.Result == 0) {
-                        alert("验证码有误");                       
+                        alert("验证码有误", 2);
                     } else {
                         $(".img-loading").remove();
                         $(".info").remove();
@@ -54,7 +54,7 @@
                 });   
 
             } else {
-                alert("手机号或验证码不能为空");               
+                alert("手机号或验证码不能为空", 2);
             }
         });
         
@@ -130,7 +130,7 @@
             });
         }
         else {
-            alert("数据正在加载，请稍等");
+            alert("数据正在加载，请稍等", 2);
         }
          
     }

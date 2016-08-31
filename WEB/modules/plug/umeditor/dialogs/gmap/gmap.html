@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -46,7 +46,7 @@
                         map.fitBounds(bounds);
                         marker.setPosition(results[0].geometry.location);
                         marker.setTitle(address);
-                    } else alert(lang.searchError);
+                    } else alert(lang.searchError, 2);
                 });
             }
             $G('address').onkeydown = function (evt){

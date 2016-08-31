@@ -90,10 +90,10 @@
                         var ele = $("#navInvoices tr[data-id='" + _this.data("id") + "']");
                         ele.remove();
                     } else {
-                        alert("申请已通过审核，不能删除!");
+                        alert("申请已通过审核，不能删除!", 2);
                     }
                 });
-            });
+            },"删除");
         });
 
         $("#auditInvoice").click(function () {
@@ -172,7 +172,7 @@
                         };
                         confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
                             _self.saveBillPay(entity);
-                        });
+                        },"提交");
                         return false;
                         
                     },
@@ -226,7 +226,7 @@
                             ExpressCode: $("#expresscode").val().trim()
                         };
                         if (entity.InvoiceMoney <= 0) {
-                            alert("开票金额必须大于0！");
+                            alert("开票金额必须大于0！", 2);
                             return false;
                         }
                         _self.saveInvoice(entity);
@@ -275,7 +275,7 @@
                 $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + data.item.PayMoney).toFixed(2));
                 _self.getPays([data.item], false)
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
         });
     }
@@ -289,7 +289,7 @@
                 ele.find(".invoicestatus").html("已审核");
                 $("#infoInvoiceMoney").html(model.InvoiceMoney);
             } else {
-                alert("开票申请已通过审核或已删除，请刷新页面重新操作！")
+                alert("开票申请已通过审核或已删除，请刷新页面重新操作！", 2)
             }
         });
     }

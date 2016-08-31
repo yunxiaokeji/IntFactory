@@ -25,7 +25,7 @@
 
         $("#bindLoginMobile").click(function () {
             if (!$("#S_LoginName").html()) {
-                alert("请先设置账号");
+                alert("请先设置账号", 2);
                 return;
             }
             var S_BindMobile = $("#S_BindMobile").html();
@@ -96,7 +96,7 @@
         //取消微信绑定
         $("#unBindWeiXin").click(function () {
             if (!$("#S_LoginName").html() && !$("#S_BindMobile").html()) {
-                alert("您账号和手机都未设置,不能取消微信绑定");
+                alert("您账号和手机都未设置,不能取消微信绑定", 2);
                 return;
             }
             confirm("确定要取消绑定微信号?", function () {
@@ -105,10 +105,10 @@
                         location.href = location.href + "?" + (new Date().getMilliseconds());
                     }
                     else {
-                        alert("取消绑定失败");
+                        alert("取消绑定失败", 2);
                     }
                 });
-            });
+            },"取消");
         });
 
         //微信绑定
@@ -135,31 +135,31 @@
                         }
                         var _this = $("#LoginName");
                         if (  !(_this.val() && _this.val().length > 5 ) ) {
-                            alert("账号长度不能低于6位！");
+                            alert("账号长度不能低于6位！", 2);
                             return false;
                         } 
 
                         if (!$("#S_BindMobile").html().trim()) {
                             if ($("#LoginPWD").val() == "") {
-                                alert("密码不能为空！");
+                                alert("密码不能为空！", 2);
                                 return false;
                             } else if ($("#LoginPWD").val().length < 6) {
-                                alert("密码长度不能低于6位！");
+                                alert("密码长度不能低于6位！", 2);
                                 return false;
                             } else if (Global.passwordLevel($("#LoginPWD").val()) == 1) {
-                                alert("密码至少包含字母大小写、数字、字符两种组合！");
+                                alert("密码至少包含字母大小写、数字、字符两种组合！", 2);
                                 return false;
                             }
 
                             if ($("#LoginConfirmPWD").val() != $("#LoginPWD").val()) {
-                                alert("确认密码输入不一致！");
+                                alert("确认密码输入不一致！", 2);
                                 return false;
                             }
                         }
 
                         Global.post("/MyAccount/IsExistLoginName", { loginName: $("#LoginName").val() }, function (data) {
                             if (data.result) {
-                                alert("账号已存在，请重新输入！");
+                                alert("账号已存在，请重新输入！", 2);
                                 $("#LoginName").val("");
                             } else {
                                 Global.post("/MyAccount/UpdateUserAccount", {
@@ -173,7 +173,7 @@
                                         $("#bindLogioName").hide();
                                     }
                                     else {
-                                        alert("账号设置失败！");
+                                        alert("账号设置失败！", 2);
                                     }
                                 });
                             }
@@ -197,12 +197,12 @@
                 if (_this.val() && _this.val().length > 5) {
                     Global.post("/MyAccount/IsExistLoginName", { loginName: $("#LoginName").val() }, function (data) {
                         if (data.result) {
-                            alert("账号已存在，请重新输入！");
+                            alert("账号已存在，请重新输入！", 2);
                             $("#LoginName").val("");
                         }
                     });
                 } else if (_this.val()) {
-                    alert("账号长度不能低于6位！");
+                    alert("账号长度不能低于6位！", 2);
                 }
             });
 
@@ -221,7 +221,7 @@
     ObjectJS.saveAccountBindMobile = function () {
 
         if (!$("#S_LoginName").html()) {
-            alert("请先设置账号！");
+            alert("请先设置账号！", 2);
             return;
         }
 
@@ -270,10 +270,10 @@
                                                 $("#BindMobileCodeError").html("验证码有误");
                                             }
                                             else if (data.result == 0) {
-                                                alert("保存失败");
+                                                alert("保存失败", 2);
                                             }
                                             else if (data.result == 3) {
-                                                alert("请先设置账号");
+                                                alert("请先设置账号", 2);
                                             }
                                         });
                                     }
@@ -319,10 +319,10 @@
                                 $("#BindMobileCodeError").html("验证码有误");
                             }
                             else if (data.Result == 0) {
-                                alert("保存失败");
+                                alert("保存失败", 2);
                             }
                             else if (data.result == 3) {
-                                alert("请先设置账号");
+                                alert("请先设置账号", 2);
                             }
                         });
                     }
@@ -360,7 +360,7 @@
             }
             else {
                 var $btnSendCode = $("#" + id);
-                alert("验证码发送失败");
+                alert("验证码发送失败", 2);
                 $btnSendCode.removeAttr("disabled");
             }
 

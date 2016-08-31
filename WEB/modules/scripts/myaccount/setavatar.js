@@ -68,7 +68,7 @@
                     $("#currentUser .avatar").attr("src", data.avatar + "?t=" + new Date().toLocaleString());
                 }
                 else {
-                    alert("保存失败");
+                    alert("保存失败", 2);
                 }
             });
         });

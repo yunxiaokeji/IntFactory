@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -64,7 +64,7 @@
                 newIframe = editor.document.createElement("iframe"),
                 div;
         if(!url){
-            alert(lang.enterAddress);
+            alert(lang.enterAddress, 2);
             return false;
         }
         newIframe.setAttribute("src",/http:\/\/|https:\/\//ig.test(url) ? url : "http://"+url);

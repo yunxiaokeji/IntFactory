@@ -51,10 +51,10 @@ define(function (require, exports, module) {
                     if (data.Status) {
                         _self.getList();
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {
@@ -139,7 +139,7 @@ define(function (require, exports, module) {
                             _self.IcoPath = data.Items[0];
                             $("#brandImg").attr("src", data.Items[0] + "?" + Global.guid());
                         } else {
-                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！", 2);
                         }
                     }
                 });
@@ -158,7 +158,7 @@ define(function (require, exports, module) {
                             _self.IcoPath = data.Items[0];
                             $("#brandImg").attr("src", data.Items[0]);
                         } else {
-                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！");
+                            alert("只能上传jpg/png/gif类型的图片，且大小不能超过5M！", 2);
                         }
                     }
                 });

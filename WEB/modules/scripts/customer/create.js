@@ -80,10 +80,10 @@
         };
         Global.post("/Customer/SaveCustomer", { entity: JSON.stringify(model) }, function (data) {
             if (data.model.CustomerID) {
-                alert("客户创建成功!", "/Customer/Detail/" + data.model.CustomerID);
+                alert("客户创建成功!",1, "/Customer/Detail/" + data.model.CustomerID);
                 
             } else {
-                alert("客户创建失败,联系电话已存在!");
+                alert("客户创建失败,联系电话已存在!", 2);
             }
         });
     }

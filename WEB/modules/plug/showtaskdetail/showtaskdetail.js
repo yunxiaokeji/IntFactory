@@ -111,11 +111,11 @@ define(function (require, exports, module) {
                                                 window.location = window.location;
                                                 _this.data("lock", 2).html("锁定任务");
                                             } else {
-                                                alert("任务重启失败");
+                                                alert("任务重启失败", 2);
                                             }
                                             
                                         });
-                                    });
+                                    },"重启");
                                 } else {
                                     confirm("任务锁定后不可继续操作，确认锁定吗？", function () {
                                         Global.post("/Orders/UpdateTaskLockStatus", {
@@ -126,10 +126,10 @@ define(function (require, exports, module) {
                                                 window.location = window.location;
                                                 _this.data("lock", 1).html("重启任务");
                                             } else {
-                                                alert("任务锁定失败");
+                                                alert("任务锁定失败", 2);
                                             }
                                         });
-                                    });
+                                    },"锁定");
                                 }
                             });
                         } else {
@@ -172,7 +172,7 @@ define(function (require, exports, module) {
                                                 }
                                             });
                                         } else {
-                                            alert("请选择不同人员进行更换!");
+                                            alert("请选择不同人员进行更换!", 2);
                                         }
                                     }
                                 }

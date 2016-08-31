@@ -63,19 +63,19 @@ define(function (require, exports, module) {
                     autoid: _this.data("id")
                 }, function (data) {
                     if (!data.Status) {
-                        alert("系统异常，请重新操作！");
+                        alert("系统异常，请重新操作！", 2);
                     } else {
                         _this.parents("tr.item").remove();
                     }
                 });
-            });
+            }, "删除");
         });
 
         //提交订单
         $("#btnconfirm").click(function () {
             confirm("出库单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
-            });
+            }, "提交");
 
         });
     }
@@ -88,7 +88,7 @@ define(function (require, exports, module) {
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+                alert("系统异常，请重新操作！", 2);
             } else {
                 ele.data("value", ele.val());
             }
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
             bl = true;
         });
         if (!bl) {
-            alert("请选择出库产品！");
+            alert("请选择出库产品！", 2);
             return;
         }
         Global.post("/Stock/SubmitHandOutDoc", {
