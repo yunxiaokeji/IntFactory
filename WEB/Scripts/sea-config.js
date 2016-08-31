@@ -92,7 +92,8 @@ seajs.config({
         //快速添加材料插件
         "quicklyproduct": "plug/quicklyaddproduct/quickaddproduct.js",
         //显示明细弹出层
-        "detaillayer": "plug/detaillayer/detaillayer.js"
+        "detaillayer": "plug/detaillayer/detaillayer.js",
+        //提示浮层插件
+        "tiplayer": "plug/tip_layer/tip_layer.js"
     }
 });
-

@@ -312,6 +312,8 @@
     <Content Include="modules\plug\replys\replys.js" />
     <Content Include="modules\plug\replys\replysitem.html" />
     <Content Include="modules\plug\replys\style.css" />
+    <Content Include="modules\plug\tip_layer\tip_layer.css" />
+    <Content Include="modules\plug\tip_layer\tip_layer.js" />
     <Content Include="modules\plug\umeditor\dialogs\anchor\anchor.html" />
     <Content Include="modules\plug\umeditor\dialogs\attachment\attachment.css" />
     <Content Include="modules\plug\umeditor\dialogs\attachment\attachment.html" />

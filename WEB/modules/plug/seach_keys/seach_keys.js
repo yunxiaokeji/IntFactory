@@ -12,7 +12,7 @@ define(function (require, exports, module) {
             return this.each(function () {
                 var _this = $(this);
                 $.fn.drawSearch(_this, callback);
-            })
+            });
         };
 
         $.fn.drawSearch = function (obj, callback) {

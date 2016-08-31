@@ -1,0 +1,3 @@
+﻿.error-alert-layer {cursor:pointer;z-index:1000;height:20px;line-height:20px; position:absolute;padding:2px 4px;border-radius:5px;background-color:rgba(255,255,255,0.8);border:1px solid #ddd;word-break:break-all;}
+.error-alert-layer .error-alert-content {display:inline-block;color:red;}
+.error-alert-layer .error-alert-lump { position:absolute;bottom:-5px;width:0;height:0;border-top:5px solid rgba(237,201,201,0.6);border-left:1px solid transparent;border-right:4px solid transparent;}

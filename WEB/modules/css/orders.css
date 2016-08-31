@@ -99,7 +99,7 @@
 .order-layer-item h1 { border-bottom:solid 1px #eee; height:35px; line-height:35px; font-size:14px; color:#666; }
 
 .order-layer-item ul { margin-bottom:30px; }
-.order-layer-item ul li{ height:30px; line-height:30px; margin-top:5px; }
+.order-layer-item ul li{line-height:30px; margin-top:5px; }
 .order-layer-item ul .column-title{ width:80px; display:inline-block; float:left; color:#999; }
 
 .order-layer-item .stage-items { }
