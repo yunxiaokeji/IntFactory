@@ -19,7 +19,7 @@
     <td class="center purchase-count">{%=item.PurchaseQuantity.toFixed(3)%}</td>
     <td class="center">{%=item.InQuantity.toFixed(3)%}</td>
     <td class="center">{%=item.UseQuantity.toFixed(3)%}</td>
-    <td class="center"><input class="width50 quantity" type="text" value="0" /></td>
+    <td class="center"><input class="width50 quantity" type="text" maxlength="20" value="0" /></td>
 </tr>
 {% } %}
 </table>

@@ -19,6 +19,7 @@
     var ChooseProduct = null;
 
     var plateMartingItem = [];//制版工艺类型缓存
+    require("tiplayer");
     ///taskid：任务id
     ///orderid:订单id
     ///stageid：订单阶段id
@@ -1173,7 +1174,7 @@
 
                             newColumn += '<td class="tLeft width100" data-columnname="columnname_' + columnnameid + '">';
                             newColumn += '<span class="tbContent"></span>';
-                            newColumn += '<input class="tbContentIpt" value="" type="text"/>';
+                            newColumn += '<input class="tbContentIpt" value="" type="text"  maxlength="20" />';
                             newColumn += '</td>';
 
                             var before = ObjectJS.getcolumnname(sort);
@@ -1336,7 +1337,9 @@
             var $td = $(this).parent().parent().find(".normal-plate");
             var markvalue = $td.find(".tbContentIpt").val();
             if (markvalue == "" || !markvalue.isDouble() ) {
-                alert("标码值有误");
+                $(this).parents('tr').find('.normal-plate .tbContentIpt').showTipLayer({
+                    content: "标码值有误"
+                });
                 $(this).val('');
                 return;
             }
@@ -1413,7 +1416,7 @@
                         var newColumn = '<tr class="tr-content">';
                         newColumn += '<td class="tLeft width100">';
                         newColumn += '<span class="tbContent"></span>';
-                        newColumn += '<input class="tbContentIpt" value="" type="text"/>';
+                        newColumn += '<input class="tbContentIpt" maxlength="20" value="" type="text"/>';
                         newColumn += '</td>';
 
                         var i = 0;
@@ -1448,7 +1451,7 @@
 
                         newColumn += '<td class="tLeft width100" >';
                         newColumn += '<span class="tbContent"></span>';
-                        newColumn += '<input class="tbContentIpt normal-plate-ipt" value="" type="text"/>';
+                        newColumn += '<input class="tbContentIpt normal-plate-ipt" maxlength="20" value="" type="text"/>';
                         newColumn += '</td>';
                         newColumn += '<td class="width150 center">';
                         newColumn += '    <div class="platemakingOperate">';
@@ -1596,7 +1599,7 @@
                     var _thisTr = $(this).parents('tr');
                     var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + item.Icon + '" /></td>';
                     plateHtml += '<td class="tLeft item bBottom">' + item.Title + '</td>';
-                    plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + item.Remark + '</td>';
+                    plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;word-break:break-all;">' + item.Remark + '</td>';
                     plateHtml += '<td class="center item width150 bBottom">' + item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') + '</td>';
                     plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + item.PlateID + '" data-index="' + index + '" data-title="' + item.Title + '"><span class="ico-dropdown"></span></td>';
                     plateHtml = $(plateHtml);
@@ -1785,7 +1788,7 @@
                         PlateMakings[index] = cachePlate;
                         var plateHtml = '<td class="tLeft item bBottom"><img style="width:30px;height:30px;text-indent:0;" src="' + (_thisTr.find('.plate-ico-img').data('src') || '') + '" /></td>';
                         plateHtml += '<td class="tLeft item bBottom">' + (_thisTr.find('.txt-name').val() || '') + '</td>';
-                        plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;">' + _thisTr.find('.desc').val() || '' + '</td>';
+                        plateHtml += '<td class="tLeft item show-all-txt bBottom" style="line-height:150%;word-break:break-all;">' + _thisTr.find('.desc').val() || '' + '</td>';
                         plateHtml += '<td class="center item width150 bBottom">' + cachePlate.CreateTime.toDate('yyyy-MM-dd hh:mm:ss') + '</td>';
                         plateHtml += '<td class="center item dropdown width150 bBottom" data-id="' + data.id + '" data-index="' + index + '" data-title="' + (_thisTr.find('.desc').val() || '') + '"><span class="ico-dropdown"></span></td>';
                         plateHtml = $(plateHtml);

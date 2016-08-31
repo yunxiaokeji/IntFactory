@@ -11,9 +11,9 @@
         $.fn.showTipLayer.defaults = {
             content: "",
             isposition: false,
-            isAutoClose: false,
+            isAutoClose: true,
             closeTime: 5,
-            zIndex: 99999,
+            zIndex: 1,
             callback: function () {
 
             }

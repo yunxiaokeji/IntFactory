@@ -286,9 +286,9 @@ namespace IntFactoryBusiness
                 }
                 Bitmap newImage = new Bitmap((int)xWidth, (int)yHeight);  
                 Graphics g = Graphics.FromImage(newImage);
-
+                
                 g.DrawImage(sourceImage, 0, 0, xWidth, yHeight);  
-                g.Dispose();  
+                g.Dispose(); 
                 newImage.Save(outputFile, myImageCodecInfo, myEncoderParameters);  
                 return true;  
             }  
