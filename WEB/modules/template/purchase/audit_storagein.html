@@ -18,7 +18,7 @@
     <td class="">{%=item.Remark%}</td>
     <td class="center total">{%=item.Quantity.toFixed(2)%}</td>
     <td class="center complete-count">{%=item.Complete.toFixed(2)%}</td>
-    <td class="center"><input class="width60 quantity" type="text"  value="" /></td>
+    <td class="center"><input class="width60 quantity" maxlength="20" type="text"  value="" /></td>
     <td class="center">
         <select data-id="{%=item.DepotID%}"></select>
     </td>
@@ -29,7 +29,7 @@
 <ul class="easydialog-create">
     <li>
         <span class="width80 mLeft10">备注：</span>
-        <textarea id="expressRemark">
+        <textarea id="expressRemark" maxlength="1000">
             
         </textarea>
     </li>

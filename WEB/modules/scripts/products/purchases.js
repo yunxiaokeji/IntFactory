@@ -4,6 +4,7 @@ define(function (require, exports, module) {
         Easydialog = require("easydialog"),
         doT = require("dot");
     require("pager");
+    require("tiplayer");
     var moment = require("moment");
     require("daterangepicker");
     //缓存货位
@@ -422,7 +423,11 @@ define(function (require, exports, module) {
                     return false;
                 }
                 if ((_this.parents('.list-item').find('.total').html()) * 1 - ((_this.parents('.list-item').find('.complete-count').html()) * 1 + _this.val() * 1) < 0) {
-                    alert("该材料入库数已超出计划采购数量");
+                    _this.showTipLayer({
+                        content: "材料入库数已超出计划采购数量",
+                        isposition: true,
+                        zIndex: 9999
+                    });
                 }
             });
 

@@ -13,6 +13,7 @@
         Easydialog = require("easydialog");
     require("pager");
     require("colormark");
+    require("tiplayer");
 
     var ObjectJS = {}, CacheItems = [];
 
@@ -716,7 +717,9 @@
                     var swenTotal = _this.parents('tr').find('.swen-total').text() * 1;
                     var swenQuantity = _this.val() * 1 + _this.parent().prev().text() * 1;
                     if (swenTotal < swenQuantity) {
-                        alert("退回数不能多于车缝数");
+                        _this.showTipLayer({
+                            content: "退回数不能大于车缝数"
+                        });
                         _this.val(0);
                         return false;
                     }
@@ -1408,7 +1411,7 @@
         doT.exec("template/orders/cutoutgoods.html", function (template) {
             /*弹出层列表显示信息*/
             var items = _self.model.OrderGoods.concat([]);
-            items.taskDesc = btnObject.data("name");
+            items.taskDesc = btnObject.data("name") || "裁剪";
             var innerText = template(items);
             Easydialog.open({
                 container: {
@@ -1479,8 +1482,10 @@
             $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
-                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
-                        _this.val(_this.data("max"));
+                    _this.showTipLayer({
+                        content: "" + items.taskDesc + "数大于下单数",
+                        zIndex: 9999,
+                        isposition: true
                     });
                 }
             });
@@ -1502,9 +1507,9 @@
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var items = _self.model.OrderGoods.concat([]);
             //车缝任务描述
-            items.taskDesc = btnObject.data("name");
+            items.taskDesc = btnObject.data("name") || "车缝";
             //裁剪任务描述
-            items.taskDescCut = btnObject.prev().data("name");
+            items.taskDescCut = btnObject.prev().data("name") || "裁剪";
             var innerText = template(items);
             Easydialog.open({
                 container: {
@@ -1581,6 +1586,11 @@
             $("#showSewnGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
+                    _this.showTipLayer({
+                        content: "" + items.taskDesc + "数量不能大于" + items.taskDescCut + "数",
+                        zIndex: 9999,
+                        isposition: true
+                    });
                     _this.addClass("bRed");
                 } else {
                     _this.removeClass("bRed");
@@ -1688,6 +1698,11 @@
             $("#showSendOrderGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
+                    _this.showTipLayer({
+                        content: "发货数不能大于完成数",
+                        zIndex: 9999,
+                        isposition: true
+                    });
                     _this.addClass("bRed");
                 } else {
                     _this.removeClass("bRed");

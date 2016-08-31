@@ -6,6 +6,7 @@
     var ChooseUser = require("chooseuser");
     var ObjectJS = {};
     var Controller = "Task";
+    require("tiplayer");
     //车缝
     ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc) {
         if (global == null) {
@@ -110,7 +111,9 @@
                         var swenTotal = _this.parents('tr').find('.swen-total').text() * 1;
                         var swenQuantity = _this.val() * 1 + _this.parent().prev().text() * 1;
                         if (swenTotal < swenQuantity) {
-                            alert("退回数不能多于" + ObjectJS.taskDesc + "数");
+                            _this.showTipLayer({
+                                content: "退回数不能多于" + ObjectJS.taskDesc + "数"
+                            });
                             _this.val(0);
                             return false;
                         }
@@ -231,6 +234,11 @@
                 $("#showSewnGoods").find(".quantity").change(function () {
                     var _this = $(this);
                     if (_this.val() > _this.data("max")) {
+                        _this.showTipLayer({
+                            content: "车缝数不能大于裁剪数",
+                            zIndex: 9999,
+                            isposition: true
+                        });
                         _this.addClass("bRed");
                     } else {
                         _this.removeClass("bRed");

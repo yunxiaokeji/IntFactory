@@ -431,16 +431,16 @@
     </li>
     @if (model.OrderStatus == 1)
     {    
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入" id="addOtherCost">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)" id="addOtherCost">
             @(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入
         </li>
-         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 13).FirstOrDefault().Name)录入" id="btnCutoutOrder">
+         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 13).FirstOrDefault().Name)" id="btnCutoutOrder">
             @(modules.Where(m => m.Mark == 13).FirstOrDefault().Name)录入
         </li>
-         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 14).FirstOrDefault().Name)录入" id="btnSewnOrder">
+         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 14).FirstOrDefault().Name)" id="btnSewnOrder">
             @(modules.Where(m => m.Mark == 14).FirstOrDefault().Name)录入
         </li>
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)录入" id="btnSendOrder">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)" id="btnSendOrder">
             @(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)录入
         </li>
     }

@@ -28,10 +28,10 @@ define(function (require, exports, module) {
 
     PlugJS.prototype.init = function () {
 
-        var _self = this, url = "/plug/chooseproduct/chooseproductin.html";
+        var _self = this, url = "plug/chooseproduct/chooseproductin.html";
 
         if (_self.setting.type == 3 || _self.setting.type == 5 || _self.setting.type == 7) {
-            url = "/plug/chooseproduct/chooseproductout.html"
+            url = "plug/chooseproduct/chooseproductout.html"
         }
         doT.exec(url, function (template) {
             var innerHtml = template({});
@@ -81,26 +81,30 @@ define(function (require, exports, module) {
             $("#chooseproductSearch").searchKeys(function (keyWords) {
                 if (true) {
                     $(".product-all .product-items").empty();
+                    $(".product-all .product-items").append('<div class="data-loading"></div>');
                     Global.post(posturl, {
                         wareid: wareid,
                         keywords: keyWords
                     }, function (data) {
                         $(".product-all .product-items").empty();
-                        doT.exec(url, function (template) {
-                            var innerHtml = template(data.items);
-                            innerHtml = $(innerHtml);
-                            innerHtml.click(function () {
-                                var _this = $(this);
-                                if (!_this.find(".check").hasClass("ico-checked")) {
-                                    _this.find(".check").removeClass("ico-check").addClass("ico-checked");
-                                } else {
-                                    _this.find(".check").removeClass("ico-checked").addClass("ico-check");
-                                }
+                        if (data.items.length > 0) {
+                            doT.exec(url, function (template) {
+                                var innerHtml = template(data.items);
+                                innerHtml = $(innerHtml);
+                                innerHtml.click(function () {
+                                    var _this = $(this);
+                                    if (!_this.find(".check").hasClass("ico-checked")) {
+                                        _this.find(".check").removeClass("ico-check").addClass("ico-checked");
+                                    } else {
+                                        _this.find(".check").removeClass("ico-checked").addClass("ico-check");
+                                    }
+                                });
+                                $(".product-all .product-items").append(innerHtml);
                             });
-                            $(".product-all .product-items").append(innerHtml);
-                        });
+                        } else {
+                            $(".product-all .product-items").append('<div class="nodata-txt">暂无数据</div>');
+                        }
                     });
-                    
                 } else {
                     $(".product-items").empty();
                 }

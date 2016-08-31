@@ -42,8 +42,8 @@
                 <td class="tLeft bBottom"><a href="/Products/ChooseDetail?pid=@(model.ProductID)&did=@(model.ProductDetailID)" target="_blank">@(model.ProductName)</a></td>
                 <td class=" bBottom">@(model.Description)</td>
                 <td class=" bBottom">@(model.ProviderName)</td>
-                <td class="tr-price  bBottom"><input type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
-                <td class="tr-quantity  bBottom"><input  type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
+                <td class="tr-price  bBottom"><input maxlength="20" type="text" data-id="@(model.AutoID)" data-value="@(model.Price.ToString("f2"))" class="price width80" value="@(model.Price.ToString("f2"))" /></td>
+                <td class="tr-quantity  bBottom"><input maxlength="20" type="text" data-id="@(model.AutoID)" data-value="@(model.Quantity)" class="quantity width50" value="@(model.Quantity.ToString("f2"))" /></td>
                 <td class="amount bBottom">@((model.Price * model.Quantity).ToString("f2"))</td>
                 <td class="center  bBottom">
                     <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-id="@(model.AutoID)"></a>
@@ -71,7 +71,7 @@
     <div class="mTop20" style="padding:0 20px;">
         <div class="right" id="chooseWare"></div>
         <div class="clear"></div>
-        <input type="text" placeholder="备注" id="remark" class="width500 mTop10 right">
+        <input type="text" maxlength="500" placeholder="备注" id="remark" class="width500 mTop10 right">
         <div class="clear"></div>
         <div class="mTop20">
         <div class="btn right" id="btnconfirm">提交采购单</div>

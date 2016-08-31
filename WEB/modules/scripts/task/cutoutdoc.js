@@ -6,6 +6,7 @@
     var ChooseUser = require("chooseuser");
     var Controller = "Task";
     var ObjectJS = {};
+    require("tiplayer");
     //裁剪
     ObjectJS.initCutoutDoc = function (orderid, taskid, global, doT, easydialog, taskDesc) {
         if (global == null) {
@@ -141,12 +142,12 @@
             $("#showCutoutGoods").find(".quantity").change(function () {
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
-                    _this.addClass("bRed");
-                    confirm("输入数量大于下单数，是否继续？", function () { }, function () {
-                        _this.val(_this.data("max"));
+                    _this.showTipLayer({
+                        content: "输入数量大于下单数",
+                        zIndex: 9999,
+                        isposition: true
                     });
                 } else {
-                    _this.removeClass("bRed");
                 }
             });
 

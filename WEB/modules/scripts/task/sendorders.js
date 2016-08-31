@@ -156,6 +156,11 @@
             $("#showSendOrderGoods").find(".quantity").blur(function () {
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
+                    _this.showTipLayer({
+                        content: "发货数不能大于完成数",
+                        zIndex: 9999,
+                        isposition: true
+                    });
                     _this.addClass("bRed");
                 } else {
                     _this.removeClass("bRed");

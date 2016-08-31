@@ -37,10 +37,10 @@
                  
                 @if (isRoot)
                 {
-                    <td class="center tr-price"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>              
-                    <td class="center tr-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
-                    <td class="center tr-order-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.OrderQuantity)" class="order-quantity width50" value="@(detail.OrderQuantity)" /></td>
-                    <td class="center tr-plan-quantity"><input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.PlanQuantity.ToString("f3"))" class="plan-quantity width50" value="@(detail.PlanQuantity.ToString("f3"))" /></td>
+                    <td class="center tr-price"><input maxlength="20" type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Price.ToString("f2"))" class="price width50" value="@(detail.Price.ToString("f2"))" /></td>              
+                    <td class="center tr-quantity"><input maxlength="20" type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" /></td>
+                    <td class="center tr-order-quantity"><input maxlength="9" type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.OrderQuantity)" class="order-quantity width50" value="@(detail.OrderQuantity)" /></td>
+                    <td class="center tr-plan-quantity"><input maxlength="20" type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.PlanQuantity.ToString("f3"))" class="plan-quantity width50" value="@(detail.PlanQuantity.ToString("f3"))" /></td>
                     <td class="tRight amount">@((detail.PlanQuantity*detail.Price).ToString("f3"))</td>
                     <td class="center"><span data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" class="ico-del hRed font20 iconfont"></span></td>
                 }
