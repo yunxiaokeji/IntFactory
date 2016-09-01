@@ -264,7 +264,7 @@ namespace IntFactoryDAL
             return result > 0;
         }
 
-        public bool CreateDHOrder(string orderid, string originalid, decimal discount, decimal price, string operateid, string clientid,string yxOrderID, SqlTransaction tran)
+        public bool CreateDHOrder(string orderid, string originalid, decimal discount, decimal price, string operateid, string clientid, string yxOrderID, SqlTransaction tran, string yxClientID, string personname, string mobiletele, string citycode, string address)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
@@ -274,7 +274,12 @@ namespace IntFactoryDAL
                                      new SqlParameter("@OrderCode",DateTime.Now.ToString("yyyyMMddHHmmssfff")),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid),
-                                     new SqlParameter("@YXOrderID" , yxOrderID)
+                                     new SqlParameter("@YXOrderID" , yxOrderID),
+                                     new SqlParameter("@YXClientID" , yxClientID),
+                                     new SqlParameter("@PersonName" , personname),
+                                     new SqlParameter("@MobileTele" , mobiletele),
+                                     new SqlParameter("@CityCode" , citycode),
+                                     new SqlParameter("@Address" , address)
                                    };
            
             bool bl = ExecuteNonQuery(tran, "P_CreateDHOrder", paras, CommandType.StoredProcedure) > 0;
