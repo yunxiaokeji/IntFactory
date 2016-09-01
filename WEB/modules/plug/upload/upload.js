@@ -61,12 +61,12 @@ define(function (require, exports, module) {
                 }
                 if (_self.setting.successItems != '') {
                     if ($(_self.setting.successItems).length + files.length > _self.setting.maxQuantity) {
-                        alert("上传文件最多" + _self.setting.maxQuantity + "个");
+                        alert("上传文件最多" + _self.setting.maxQuantity + "个", 2);
                         return false;
                     }
                 }
                 if (files.length > _self.setting.maxQuantity) {
-                    alert("上传文件最多" + _self.setting.maxQuantity + "个");
+                    alert("上传文件最多" + _self.setting.maxQuantity + "个", 2);
                     return false;
                 }
 
@@ -97,7 +97,7 @@ define(function (require, exports, module) {
                         }
                     }
                     if (!isContinue) {
-                        alert("含有不支持的文件格式！");
+                        alert("含有不支持的文件格式！", 2);
                         target.value = "";
                         return false;
                     }
@@ -106,7 +106,7 @@ define(function (require, exports, module) {
                         var filePath = target.value;
                         var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
                         if (!fileSystem.FileExists(filePath)) {
-                            alert("附件不存在，请重新上传！");
+                            alert("附件不存在，请重新上传！", 2);
                             target.value = "";
                             return false;
                         }
@@ -120,12 +120,12 @@ define(function (require, exports, module) {
 
                     var fileSize = fileSize / 1024;
                     if (fileSize > maxSize) {
-                        alert("附件大小不能大于" + maxSize / 1024 + "M！");
+                        alert("附件大小不能大于" + maxSize / 1024 + "M！", 2);
                         target.value = "";
                         return false;
                     }
                     if (fileSize <= 0) {
-                        alert("附件大小不能为0M！");
+                        alert("附件大小不能为0M！", 2);
                         target.value = "";
                         return false;
                     }

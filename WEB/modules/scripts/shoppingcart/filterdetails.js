@@ -104,7 +104,7 @@ define(function (require, exports, module) {
         //加入购物车
         $("#addcart").click(function () {
             if (!_self.detailid) {
-                alert("请选择材料规格");
+                alert("请选择材料规格", 2);
                 return;
             }
             var cart = $("#shopping-cart").offset();
@@ -177,11 +177,11 @@ define(function (require, exports, module) {
             $("#addDoc").click(function () {
                 var _this = $(this);
                 if (!_self.detailid) {
-                    alert("请选择材料规格");
+                    alert("请选择材料规格", 2);
                     return;
                 }
                 if (($("#quantity").val() * 1) <= 0) {
-                    alert("数量必须大于0");
+                    alert("数量必须大于0", 2);
                     return false;
                 }
                 ObjectJS.addDoc(false);
@@ -191,11 +191,11 @@ define(function (require, exports, module) {
             $("#addDocAndBack").click(function () {
                 var _this = $(this);
                 if (!_self.detailid) {
-                    alert("请选择材料规格");
+                    alert("请选择材料规格", 2);
                     return;
                 }
                 if (($("#quantity").val() * 1) <= 0) {
-                    alert("数量必须大于0");
+                    alert("数量必须大于0", 2);
                     return false;
                 }
                 ObjectJS.addDoc(true);
@@ -251,7 +251,7 @@ define(function (require, exports, module) {
                     location.href = href;
                 }
             } else {
-                alert("网络异常，请重试");
+                alert("网络异常，请重试", 2);
             }
         });
     };

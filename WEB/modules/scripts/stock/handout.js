@@ -88,7 +88,7 @@ define(function (require, exports, module) {
                         yesFn: function () {
                             var wareid = $(".ware-items .hover").data("id");
                             if (!wareid) {
-                                alert("请选择出库仓库！");
+                                alert("请选择出库仓库！", 2);
                                 return false;
                             } else {
                                 location.href = "/Stock/CreateHandOut/" + wareid;
@@ -194,10 +194,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/HandOut";
                     } else {
-                        alert("作废失败！");
+                        alert("作废失败！", 2);
                     }
                 });
-            });
+            }, "作废");
         });
 
         $("#btnDelete").click(function () {
@@ -206,10 +206,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/HandOut";
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //手工出库走报损逻辑
         $("#btnAudit").click(function () {
@@ -218,10 +218,10 @@ define(function (require, exports, module) {
                     if (data.result == 1) {
                         location.href = "/Stock/HandOut";
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "审核");
         });
     }
 

@@ -21,7 +21,7 @@
                     window.location = "/Home/Index";
                 }
                 else {
-                    alert("网络出现异常,请稍后重试!");
+                    alert("网络出现异常,请稍后重试!", 2);
                 }
             })
 
@@ -112,7 +112,7 @@
                                     if (data.result) {
                                         window.location = "/Default/SettingHelp";
                                     } else {
-                                        alert("网络出现异常,请稍后重试!");
+                                        alert("网络出现异常,请稍后重试!", 2);
                                     }
                                 });
                             }
@@ -154,7 +154,7 @@
             }
             else {
                 var $btnSendCode = $("#" + id);
-                alert("验证码发送失败");
+                alert("验证码发送失败", 2);
                 $btnSendCode.removeAttr("disabled");
             }
 

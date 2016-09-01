@@ -202,7 +202,7 @@ define(function (require, exports, module) {
                             alert("分享成功");
                         }
                         else {
-                            alert("分享失败");
+                            alert("分享失败", 2);
                         }
                     });
                 });
@@ -296,7 +296,7 @@ define(function (require, exports, module) {
                     });
 
                     if (OwnerID == '' || MemberID == '') {
-                        alert("请选择负责人和成员");
+                        alert("请选择负责人和成员", 2);
                         return false;
                     }
 
@@ -318,7 +318,7 @@ define(function (require, exports, module) {
                             alert("分享成功");
                         }
                         else {
-                            alert("分享失败");
+                            alert("分享失败", 2);
                         }
                     });
 
@@ -398,7 +398,7 @@ define(function (require, exports, module) {
                     });
 
                     if (MemberID == '') {
-                        alert("请选择成员");
+                        alert("请选择成员", 2);
                         return false;
                     }
 
@@ -419,7 +419,7 @@ define(function (require, exports, module) {
                             alert("分享成功");
                         }
                         else {
-                            alert("分享失败");
+                            alert("分享失败", 2);
                         }
                     });
 

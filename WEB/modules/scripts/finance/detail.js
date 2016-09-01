@@ -87,10 +87,10 @@
                         $("#infoInvoiceMoney").html(($("#infoInvoiceMoney").html() * 1 - ele.find(".money").html() * 1).toFixed(2));
                         ele.remove();
                     } else {
-                        alert("网络异常,请稍后重试!");
+                        alert("网络异常,请稍后重试!", 2);
                     }
                 });
-            });
+            },"删除");
         });
 
     }
@@ -157,7 +157,7 @@
                         };
                         confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
                             _self.savePayablePay(entity);
-                        });
+                        },"提交");
                         return false;
                         
                     },
@@ -210,7 +210,7 @@
                             Remark: $("#remark").val().trim()
                         };
                         if (entity.InvoiceMoney <= 0) {
-                            alert("开票金额必须大于0！");
+                            alert("开票金额必须大于0！", 2);
                             return false;
                         }
                         _self.savePayableInvoice(entity);
@@ -240,7 +240,7 @@
                 $("#infoPayMoney").html(($("#infoPayMoney").html() * 1 + data.item.PayMoney).toFixed(2));
                 _self.getPays([data.item], false)
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
         });
     }
@@ -253,7 +253,7 @@
                 $("#infoInvoiceMoney").html(($("#infoInvoiceMoney").html() * 1 + data.item.InvoiceMoney).toFixed(2));
                 _self.getInvoices([data.item], false)
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
         });
     }

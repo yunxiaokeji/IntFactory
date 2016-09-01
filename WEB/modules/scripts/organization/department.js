@@ -39,10 +39,10 @@
                     if (status == 1) {
                         _self.getList();
                     } else if (status == 10002) {
-                        alert("此部门存在员工，请移除员工后重新操作！");
+                        alert("此部门存在员工，请移除员工后重新操作！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {

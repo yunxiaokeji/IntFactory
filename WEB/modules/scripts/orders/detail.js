@@ -91,19 +91,19 @@
         //开始订单
         $("#btnBeginOrder").click(function () {
             if (!_self.model.IntGoodsCode) {
-                alert("款式编码不能为空");
+                alert("款式编码不能为空", 2);
                 return;
             }
             if (!_self.model.GoodsName) {
-                alert("款式名称不能为空");
+                alert("款式名称不能为空", 2);
                 return;
             }
             if (!_self.model.CategoryID) {
-                alert("需求单尚未绑定订单类别，不能转为订单");
+                alert("需求单尚未绑定订单类别，不能转为订单", 2);
                 return;
             }
             if (!_self.model.ProcessID) {
-                alert("需求单尚未绑定流程，不能转为订单");
+                alert("需求单尚未绑定流程，不能转为订单", 2);
                 return;
             }
             doT.exec("template/orders/sure_plan_time.html", function (template) {
@@ -117,7 +117,7 @@
                         yesFn: function () {
                             var time = $("#iptPlanTime").val().trim();
                             if (!time) {
-                                alert("请确认交货日期！");
+                                alert("请确认交货日期！", 2);
                                 return false;
                             }
                             _self.updateOrderBegin(time);
@@ -143,7 +143,7 @@
         //更换品类流程
         $(".btn-change-process-category").click(function () {
             if (_self.isLoading) {
-                alert("数据处理中，请稍后");
+                alert("数据处理中，请稍后", 2);
                 return false;
             }
             _self.isLoading = true;
@@ -168,7 +168,7 @@
                                 }
                             });
                         } else {
-                            alert("请选择不同流程进行更换!");
+                            alert("请选择不同流程进行更换!", 2);
                         }
                     }
                 }
@@ -188,14 +188,12 @@
                         yesFn: function () {
                             var price = $("#iptProfitPrice").val().trim();
                             if (!price.isDouble() || price < 0) {
-                                alert("利润比例必须为不小于0的数字！");
+                                alert("利润比例必须为不小于0的数字！", 2);
                                 return false;
                             } else if (price > 100) {
                                 confirm("利润比例设置大于100%，确认继续吗？", function () {
                                     _self.updateProfitPrice(price);
-                                }, function () {
-                                    return false;
-                                });
+                                },"继续");
                             } else {
                                 _self.updateProfitPrice(price);
                             }
@@ -224,7 +222,7 @@
                         yesFn: function () {
                             var price = $("#newPrice").val().trim();
                             if (!price.isDouble() || price < 0) {
-                                alert("价格必须为不小于0的数字！");
+                                alert("价格必须为不小于0的数字！", 2);
                                 return false;
                             }
                             _self.updateOrderDiscount($("#iptDiscount").val().trim(), price);
@@ -246,7 +244,7 @@
                         confirm("折扣大于1会导致价格大于样衣报价，确认继续吗？", function () {
                             $("#newPrice").val((_self.model.OriginalPrice * _discount).toFixed(2));
                             _this.data("value", _this.val());
-                        }, function () {
+                        },"继续", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
@@ -258,7 +256,7 @@
                 $("#newPrice").change(function () {
                     var _this = $(this);
                     if (!_this.val().isDouble() || _this.val() < 0) {
-                        alert("价格必须为不小于0的数字");
+                        alert("价格必须为不小于0的数字", 2);
                         _this.val(_this.data("value"));
                     } else if (_this.val() > _self.model.FinalPrice) {
                         confirm("大货价格大于样衣报价，确认继续吗？", function () {
@@ -296,7 +294,7 @@
                         yesFn: function () {
                             var price = $("#newTotalMoney").val().trim();
                             if (!price.isDouble() || price < 0) {
-                                alert("总金额必须为不小于0的数字！");
+                                alert("总金额必须为不小于0的数字！", 2);
                                 return false;
                             }
                             _self.UpdateOrderTotalMoney($("#newTotalMoney").val().trim());
@@ -316,7 +314,7 @@
             if (!_self.model.OriginalID) {
                 confirm("您尚未绑定打样单，确认大货明细后不能再绑定打样单，且订单类别不可变更，确认继续操作吗？", function () {
                     _self.createDHOrder(true);
-                });
+                },"继续");
             } else {
                 _self.createDHOrder(true);
             }
@@ -349,9 +347,9 @@
                             name: items[0].name
                         }, function (data) {
                             if (data.status) {
-                                alert("绑定客户成功！", location.href)
+                                alert("绑定客户成功！", 1,location.href)
                             } else {
-                                alert("订单已完成，不能更换客户");
+                                alert("订单已完成，不能更换客户", 2);
                             }
                         });
                     }
@@ -373,7 +371,7 @@
                             name: items[0].name
                         }, function (data) {
                             if (data.status) {
-                                alert("绑定打样订单成功!", location.href);
+                                alert("绑定打样订单成功!",1, location.href);
                             }
                         });
                     }
@@ -402,7 +400,7 @@
                             });
                         }
                         else {
-                            alert("请选择不同人员进行更换!");
+                            alert("请选择不同人员进行更换!", 2);
                         }
                     }
                 }
@@ -423,7 +421,7 @@
                             yesFn: function () {
                                 var price = $("#iptFinalPrice").val().trim();
                                 if (!price.isDouble() || price <= 0) {
-                                    alert("价格必须为大于0的数字！");
+                                    alert("价格必须为大于0的数字！", 2);
                                     return false;
                                 }
                                 _self.updateOrderStatus(3, 0, price);
@@ -452,7 +450,7 @@
             } else {
                 confirm("操作后不可撤销，确认" + _this.html() + "吗？", function () {
                     _self.updateOrderStatus(_self.status * 1 + 1);
-                });
+                },"操作");
             }
             
         });
@@ -501,11 +499,11 @@
                                 name: items[0].name
                             }, function (data) {
                                 if (data.status) {
-                                    alert("订单委托成功!", location.href);
+                                    alert("订单委托成功!",1, location.href);
                                 }
                             });
                         } else {
-                            alert("请选择不同工厂进行委托!");
+                            alert("请选择不同工厂进行委托!", 2);
                         }
                     }
                 }
@@ -519,9 +517,9 @@
                     orderid: _self.model.OrderID,
                 }, function (data) {
                     if (data.status) {
-                        alert("委托退回成功!", location.href);
+                        alert("委托退回成功!",1, location.href);
                     } else {
-                        alert("委托退回失败，请稍后重试")
+                        alert("委托退回失败，请稍后重试", 2)
                     }
                 });
             });
@@ -531,21 +529,21 @@
         $("#btndelete").click(function () {
             confirm("需求单删除后不可恢复，确认删除吗？", function () {
                 _self.deleteOrder();
-            });
+            },"删除");
         });
 
         //终止订单
         $("#btnOverOrder").click(function () {
             confirm("订单终止后不可恢复，请谨慎操作，确认终止吗？", function () {
                 _self.overOrder();
-            });
+            },"终止");
         });
 
         //绑定分类
         $("#changeOrderCategory").click(function () {
 
             if (_self.isLoading) {
-                alert("数据处理中，请稍后");
+                alert("数据处理中，请稍后", 2);
                 return false;
             }
             _self.isLoading = true;
@@ -560,7 +558,7 @@
                             content: innerText,
                             yesFn: function () {
                                 if ($("#bindOrderCategoryBox li .ico-radiobox.hover").length == 0) {
-                                    alert("请选择类别！");
+                                    alert("请选择类别！", 2);
                                     return false;
                                 }
                                 var _hover = $("#bindOrderCategoryBox li .ico-radiobox.hover").parent();
@@ -572,12 +570,12 @@
                                         name: _hover.data("name")
                                     }, function (data) {
                                         if (data.status) {
-                                            alert("订单品类绑定成功!", location.href);
+                                            alert("订单品类绑定成功!", 1,location.href);
                                         } else {
-                                            alert("订单品类绑定失败，请刷新页面重试！");
+                                            alert("订单品类绑定失败，请刷新页面重试！", 2);
                                         }
                                     });
-                                });
+                                },"绑定");
                             },
                             callback: function () {
 
@@ -610,16 +608,16 @@
                         var ele = $("#navInvoices tr[data-id='" + _this.data("id") + "']");
                         ele.remove();
                     } else {
-                        alert("申请已通过审核，不能删除!");
+                        alert("申请已通过审核，不能删除!", 2);
                     }
                 });
-            });
+            }, "撤销");
         });
 
         //订单联系人新建客户
         $("#createOrderCustomer").click(function () {
             if (!_self.model.MobileTele) {
-                alert("联系方式不能为空");
+                alert("联系方式不能为空", 2);
                 return;
             }
             confirm("确认把订单联系人信息创建为新客户吗？", function () {
@@ -627,18 +625,18 @@
                     orderid: _self.orderid 
                 }, function (data) {
                     if (data.status) {
-                        alert('客户创建成功', location.href);
+                        alert('客户创建成功', 1,location.href);
                     } else if (data.result == 2) {
-                        alert('订单已绑定客户', location.href);
+                        alert('订单已绑定客户',1, location.href);
                     } else if (data.result == 3) {
-                        alert('联系方式不能为空', location.href);
+                        alert('联系方式不能为空',1, location.href);
                     } else if (data.result == 4) {
-                        alert('联系方式已存在客户，您可以选择绑定客户');
+                        alert('联系方式已存在客户，您可以选择绑定客户', 2);
                     } else {
-                        alert("客户创建失败");
+                        alert("客户创建失败", 2);
                     }
                 });
-            });
+            }, "创建");
         });
 
         //添加成本
@@ -698,13 +696,13 @@
 
                                     alert("退回成功");
                                 } else if (data.result == 2) {
-                                    alert("退回数不能多于车缝数");
+                                    alert("退回数不能多于车缝数", 2);
                                 } else {
-                                    alert("网络繁忙，请重试");
+                                    alert("网络繁忙，请重试", 2);
                                 }
                             });
                         } else {
-                            alert("请输入退回数量");
+                            alert("请输入退回数量", 2);
                         }
                     }
                 });
@@ -844,11 +842,11 @@
                     content: innerText,
                     yesFn: function () {
                         if (!$("#iptCostPrice").val() || $("#iptCostPrice").val() * 1 <= 0) {
-                            alert("价格必须为大于0的数字！");
+                            alert("价格必须为大于0的数字！", 2);
                             return false;
                         }
                         if (!$("#iptCostDescription").val()) {
-                            alert("描述不能为空！");
+                            alert("描述不能为空！", 2);
                             return false;
                         };
                         Global.post("/Orders/CreateOrderCost", {
@@ -1085,9 +1083,9 @@
                             price: $("#iptOrderNewPrice").val().trim()
                         }, function (data) {
                             if (data.id) {
-                                alert("大货下单成功!", "/Orders/OrderDetail/" + data.id);
+                                alert("大货下单成功!",1, "/Orders/OrderDetail/" + data.id);
                             } else {
-                                alert("大货下单失败，请刷新页面重试！");
+                                alert("大货下单失败，请刷新页面重试！", 2);
                             }
                         });
                         
@@ -1105,7 +1103,7 @@
             $("#iptOrderDiscount").change(function () {
                 var _this = $(this);
                 if (!_this.val().isDouble() || _this.val() < 0) {
-                    alert("下单折扣必须为不小于0的数字");
+                    alert("下单折扣必须为不小于0的数字", 2);
                     _this.val(_this.data("value"));
                 } else if (_this.val() > 1) {
                     confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
@@ -1125,7 +1123,7 @@
             $("#iptOrderNewPrice").change(function () {
                 var _this = $(this);
                 if (!_this.val().isDouble() || _this.val() < 0) {
-                    alert("价格必须为不小于0的数字");
+                    alert("价格必须为不小于0的数字", 2);
                     _this.val(_this.data("value"));
                 } else if (_this.val() > _self.model.FinalPrice) {
                     confirm("大货价格大于样衣报价，确认继续吗？", function () {
@@ -1156,12 +1154,12 @@
                 var isContinue = true;
                 _this.parents('.productsalesattr').find('.check-box').each(function () {
                     if (!_this.val().trim()) {
-                        alert("自定义规格不能为空");
+                        alert("自定义规格不能为空", 2);
                         isContinue = false;
                         return false;
                     }
                     if (_this.val().trim() == $(this).text().trim()) {
-                        alert("该规格已存在");
+                        alert("该规格已存在", 2);
                         isContinue = false;
                         return false;
                     }
@@ -1439,15 +1437,15 @@
                                 ownerid: $("#showCutoutGoods .choose-owner").data('id')
                             }, function (data) {
                                 if (data.id) {
-                                    alert("数据录入成功!", location.href);
+                                    alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
-                                    alert("您没有操作权限!")
+                                    alert("您没有操作权限!", 2)
                                 } else {
-                                    alert("裁片登记失败！");
+                                    alert("裁片登记失败！", 2);
                                 }
                             });
                         } else {
-                            alert("请输入数量");
+                            alert("请输入数量", 2);
                             return false;
                         }
                     },
@@ -1473,7 +1471,7 @@
                                 _this.prev().text(items[0].name);
                             }
                             else {
-                                alert("请选择不同人员进行更换!");
+                                alert("请选择不同人员进行更换!", 2);
                             }
                         }
                     }
@@ -1529,7 +1527,7 @@
                             }
                         });
                         if (!bl) {
-                            alert("数量输入过大");
+                            alert("数量输入过大", 2);
                             return false;
                         }
                         if (details.length > 0) {
@@ -1544,15 +1542,15 @@
                                 ownerid:$("#showSewnGoods .choose-owner").data('id')
                             }, function (data) {
                                 if (data.id) {
-                                    alert("数据录入成功!", location.href);
+                                    alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
-                                    alert("您没有操作权限!")
+                                    alert("您没有操作权限!", 2)
                                 } else {
-                                    alert("缝制登记失败！");
+                                    alert("缝制登记失败！", 2);
                                 }
                             });
                         } else {
-                            alert("请输入数量");
+                            alert("请输入数量", 2);
                             return false;
                         }
                     },
@@ -1577,7 +1575,7 @@
                                 _this.prev().text(items[0].name);
                             }
                             else {
-                                alert("请选择不同人员进行更换!");
+                                alert("请选择不同人员进行更换!", 2);
                             }
                         }
                     }
@@ -1639,13 +1637,13 @@
                         jsonparas.remarks = guge.replace("【", "[").replace("】", "]");
                         jsonparas.nums = nums;
                         if (!bl) {
-                            alert("数量输入过大");
+                            alert("数量输入过大", 2);
                             return false;
                         }
 
                         if (details.length > 0) {
                             if (!$("#expressid").data("id") || !$("#expressCode").val()) {
-                                alert("请完善快递信息!");
+                                alert("请完善快递信息!", 2);
                                 return false;
                             }
                             Global.post("/Orders/CreateOrderSendDoc", {
@@ -1660,15 +1658,15 @@
                                 jsonparas: JSON.stringify(jsonparas)
                             }, function (data) {
                                 if (data.id) {
-                                    alert("数据录入成功!", location.href);
+                                    alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
-                                    alert("您没有操作权限!")
+                                    alert("您没有操作权限!", 2)
                                 } else {
-                                    alert("数据录入失败！");
+                                    alert("数据录入失败！", 2);
                                 }
                             });
                         } else {
-                            alert("请输入数量");
+                            alert("请输入数量", 2);
                             return false;
                         }
 
@@ -1733,7 +1731,7 @@
                     content: innerText,
                     yesFn: function () {
                         if (!$("#expressid").data("id") || !$("#expressCode").val()) {
-                            alert("请完善快递信息!");
+                            alert("请完善快递信息!", 2);
                             return false;
                         }
 
@@ -1747,11 +1745,11 @@
                             remark: $("#expressRemark").val().trim()
                         }, function (data) {
                             if (data.id) {
-                                alert("发货成功!", location.href);
+                                alert("发货成功!", 1,location.href);
                             } else if (data.result == "10001") {
-                                alert("您没有操作权限!")
+                                alert("您没有操作权限!", 2)
                             } else {
-                                alert("发货失败！");
+                                alert("发货失败！", 2);
                             }
                         });
                     },
@@ -1786,7 +1784,7 @@
             if (data.status) {
                 location.href = "/Orders/Orders";
             } else {
-                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
+                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！", 2);
             }
         });
     }
@@ -1798,9 +1796,9 @@
             if (data.status) {
                 location.href = location.href;
             } else if (data.result = "10001") {
-                alert("您没有操作权限！");
+                alert("您没有操作权限！", 2);
             } else {
-                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！");
+                alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！", 2);
             }
         });
     }
@@ -1816,7 +1814,7 @@
                 $("#profitPrice").text((profit * 1).toFixed(2));
                 _self.model.ProfitPrice = profit / 100;
             } else {
-                alert("利润比例设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+                alert("利润比例设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
             }
         });
     }
@@ -1832,7 +1830,7 @@
             if (data.status) {
                 location.href = location.href;
             } else {
-                alert("折扣设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+                alert("折扣设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
             }
         });
     }
@@ -1847,7 +1845,7 @@
             if (data.status) {
                 location.href = location.href;
             } else {
-                alert("总金额设置失败，可能因为订单状态已改变，请刷新页面后重试！");
+                alert("总金额设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
             }
         });
     }
@@ -1898,9 +1896,9 @@
                             if (data.status) {
                                 location.href = location.href;
                             } else if (data.result == 3) {
-                                alert("订单信息编辑失败，款式编码已存在！");
+                                alert("订单信息编辑失败，款式编码已存在！", 2);
                             } else {
-                                alert("订单信息编辑失败，请刷新页面重试！");
+                                alert("订单信息编辑失败，请刷新页面重试！", 2);
                             }
                         });
                     },
@@ -1931,7 +1929,7 @@
             time: time ? time : ""
         }, function (data) {
             if (!data.status) {
-                alert(data.errinfo);
+                alert(data.errinfo, 2);
             } else {
                 location.href = location.href;
             }
@@ -1948,7 +1946,7 @@
             price: price ? price : 0
         }, function (data) {
             if (!data.status) {
-                alert(data.errinfo);
+                alert(data.errinfo, 2);
             } else {
                 location.href = location.href;
             }
@@ -1989,10 +1987,10 @@
                                     }
                                     _self.getPays()
                                 } else {
-                                    alert("登记失败,请稍后重试!");
+                                    alert("登记失败,请稍后重试!", 2);
                                 }
                             });
-                        });
+                        }, "提交");
                         return false;
 
                     },
@@ -2191,7 +2189,7 @@
                                     _this.parents("tr").first().remove();
                                 }
                             });
-                        });
+                        }, "删除");
                     });
 
                 });
@@ -2257,7 +2255,7 @@
     //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
-            alert("不能标记此选项!");
+            alert("不能标记此选项!", 2);
             return false;
         }
         Global.post("/Orders/UpdateOrderMark", {
@@ -2265,7 +2263,7 @@
             mark: mark
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有标记订单的权限！");
+                alert("您没有标记订单的权限！", 2);
                 callback && callback(false);
             } else {
                 callback && callback(data.status);
@@ -2286,7 +2284,7 @@
         }, function (data) {
             if (!data.status) {
                 ele.val(ele.data("value"));
-                alert("当前订单状态,不能进行修改");
+                alert("当前订单状态,不能进行修改", 2);
             }
             else {
                 ele.data("value", ele.val());

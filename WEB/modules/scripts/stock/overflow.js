@@ -146,10 +146,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Overflow";
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
     }
@@ -238,10 +238,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Overflow";
                     } else {
-                        alert("作废失败！");
+                        alert("作废失败！", 2);
                     }
                 });
-            });
+            }, "作废");
         });
 
         $("#btnDelete").click(function () {
@@ -250,10 +250,10 @@ define(function (require, exports, module) {
                     if (data.status) {
                         location.href = "/Stock/Overflow";
                     } else {
-                        alert("删除失败！");
+                        alert("删除失败！", 2);
                     }
                 });
-            });
+            }, "删除");
         });
 
         $("#btnAudit").click(function () {
@@ -262,10 +262,10 @@ define(function (require, exports, module) {
                     if (data.result == 1) {
                         location.href = "/Stock/Overflow";
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "审核");
         });
     }
     //绑定货位
@@ -300,7 +300,7 @@ define(function (require, exports, module) {
                 depotid: depot.val()
             }, function (data) {
                 if (!data.Status) {
-                    alert("操作失败,请刷新页面重新操作！");
+                    alert("操作失败,请刷新页面重新操作！", 2);
                 };
             });
         });

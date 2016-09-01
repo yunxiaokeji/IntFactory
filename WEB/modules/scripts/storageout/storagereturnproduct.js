@@ -55,10 +55,10 @@ define(function (require, exports, module) {
                         Params.pageIndex = 1;
                         _self.getList();
                     } else {
-                        alert(data.errinfo);
+                        alert(data.errinfo, 2);
                     }
                 });
-            });
+            }, "驳回");
         });
         $("#audit").click(function () {
             var _this = $(this);
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
                     content: innerText,
                     yesFn: function () {
                         if (!$("#wares").data("id")) {
-                            alert("请选择退入仓库！");
+                            alert("请选择退入仓库！", 2);
                             return false;
                         }
                         var paras = {
@@ -107,7 +107,7 @@ define(function (require, exports, module) {
                             if (data.result == 1) {
                                 location.href = "/StorageOut/AuditReturnProduct";
                             } else {
-                                alert(data.errinfo);
+                                alert(data.errinfo, 2);
                             }
                         });
                         return false;

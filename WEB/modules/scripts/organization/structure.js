@@ -90,7 +90,7 @@
                         location.href = location.href;
                     }
                 });
-            });
+            }, "移除");
         });
         //替换人员
         $("#changeObject").click(function () {

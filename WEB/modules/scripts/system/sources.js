@@ -40,7 +40,7 @@
                         _self.getList();
                     } 
                 });
-            });
+            }, "删除");
         });
         //编辑
         $("#updateObject").click(function () {
@@ -160,7 +160,7 @@
             entity: JSON.stringify(model)
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有此操作权限，请联系管理员帮您添加权限！");
+                alert("您没有此操作权限，请联系管理员帮您添加权限！", 2);
                 return;
             }
             !!callback && callback(data.status);
@@ -173,7 +173,7 @@
             if (data.status == 1) {
                 _self.getList();
             } else if (data.status == 2) {
-                alert("保存失败,编码已存在!");
+                alert("保存失败,编码已存在!", 2);
             }
         })
     }

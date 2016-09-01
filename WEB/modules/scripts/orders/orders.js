@@ -353,13 +353,13 @@
                             if (ids.length > 0) {
                                 _self.ChangeOwner(ids, userid);
                             } else {
-                                alert("请选择不同人员进行更换!");
+                                alert("请选择不同人员进行更换!", 2);
                             }
                         }
                     }
                 });
             } else {
-                alert("您尚未选择需要更换的订单")
+                alert("您尚未选择需要更换的订单", 2)
             }
         });
 
@@ -416,12 +416,12 @@
                 $("#btn-sureDown").click(function () {
                     if ($("#downStartTime").val() == "")
                     {
-                        alert("请选择起始时间");
+                        alert("请选择起始时间", 2);
                         return;
                     }
                     else if ($("#downEndTime").val() == "")
                     {
-                        alert("请选择截止时间");
+                        alert("请选择截止时间", 2);
                         return;
                     }
 
@@ -431,7 +431,7 @@
                     var diff_day = parseInt(diff / (1000 * 60 * 60 * 24));
                     if (diff_day > 60)
                     {
-                        alert("最大下载60天内");
+                        alert("最大下载60天内", 2);
                         return;
                     }
 
@@ -444,7 +444,7 @@
                         $("#btn-sureDown").val("确定同步").removeAttr("disabled");
 
                         if (data.result == 0) {
-                            alert("同步失败");
+                            alert("同步失败", 2);
                         }
                         else if (data.result == 1) {
                             Easydialog.close();
@@ -474,13 +474,13 @@
                                 $("#downOrderBar").css("width",400 + "px");
                         }
                         else if (data.result == 2) {
-                            alert("无权同步");
+                            alert("无权同步", 2);
                         }
                         else if (data.result == 3) {
-                            alert("最大下载15天内");
+                            alert("最大下载15天内", 2);
                         }
                         else if (data.result == 4) {
-                            alert("今天已手动同步订单了,请稍后再试");
+                            alert("今天已手动同步订单了,请稍后再试", 2);
                         }
                     });
 
@@ -657,7 +657,7 @@
     //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
-            alert("不能标记此选项!");
+            alert("不能标记此选项!", 2);
             return false;
         }
         Global.post("/Orders/UpdateOrderMark", {
@@ -665,7 +665,7 @@
             mark: mark
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有标记订单的权限！");
+                alert("您没有标记订单的权限！", 2);
                 callback && callback(false);
             } else {
                 callback && callback(data.status);

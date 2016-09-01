@@ -137,7 +137,7 @@ define(function (require, exports, module) {
                     content: innerText,
                     yesFn: function () {
                         if (!$("#wares").data("id")) {
-                            alert("请选择仓库！");
+                            alert("请选择仓库！", 2);
                             return false;
                         }
 
@@ -150,7 +150,7 @@ define(function (require, exports, module) {
                         };
                         Global.post("/StorageOut/ConfirmAgentOrderOut", paras, function (data) {
                             if (data.result != 1) {
-                                alert(data.errinfo);
+                                alert(data.errinfo, 2);
                             } else {
                                 location.href = "/StorageOut/StorageOut";
                             }

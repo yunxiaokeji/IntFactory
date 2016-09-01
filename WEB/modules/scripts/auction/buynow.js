@@ -225,24 +225,24 @@
         
         if (userCount == '') {
             if (option == 1) {
-                alert("人数不能为空");
+                alert("人数不能为空", 2);
             }
             return false;
         }
 
         if (!userCount.isInt()) {
-            alert("人数填写有误");
+            alert("人数填写有误", 2);
             return false;
         }
         userCount = parseInt(userCount);
         if (userCount > 499) {
-            alert("购买人数超过500人，请联系我们，为您专业定制");
+            alert("购买人数超过500人，请联系我们，为您专业定制", 2);
             return false;
         }
 
         if (_self.actionType == 1) {
             if (userCount < 5) {
-                alert("首次购买人数不能少于5人");
+                alert("首次购买人数不能少于5人", 2);
                 return false;
             }
         }
@@ -255,7 +255,7 @@
         }
         else if (_self.actionType == 3) {
             if (userCount < parseInt($("#txt-userCount").val())) {
-                alert("续约人数小于当前用户量总数，请先删除部分用户，然后再续费");
+                alert("续约人数小于当前用户量总数，请先删除部分用户，然后再续费", 2);
                 return false;
             }
         }

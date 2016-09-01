@@ -75,7 +75,7 @@
                                             _this.parents("tr").first().remove();
                                         }
                                     });
-                                });
+                                }, "删除");
                             });
                         }
                     }
@@ -102,11 +102,11 @@
                     content: innerText,
                     yesFn: function () {
                         if (!$("#iptCostPrice").val() || $("#iptCostPrice").val() * 1 <= 0) {
-                            alert("价格必须为大于0的数字！");
+                            alert("价格必须为大于0的数字！", 2);
                             return false;
                         }
                         if (!$("#iptCostDescription").val()) {
-                            alert("描述不能为空！");
+                            alert("描述不能为空！", 2);
                             return false;
                         };
                         Global.post("/Task/CreateOrderCost", {
@@ -119,7 +119,7 @@
                                 $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
                                 _self.getCosts();
                             } else {
-                                alert("成本添加失败，请刷新页面重试！");
+                                alert("成本添加失败，请刷新页面重试！", 2);
                             }
                         });
                     },

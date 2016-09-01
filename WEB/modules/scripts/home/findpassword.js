@@ -189,7 +189,7 @@
             if (data.Result == 1) {
                 location.href = ObjectJS.loginUrl;
             }else if (data.Result == 0) {
-                alert("重置失败");
+                alert("重置失败", 2);
             } else if (data.Result == 2) {
                 $(".registerErr").html("手机号没有注册").slideDown();
             } else if (data.Result == 3) {
@@ -247,7 +247,7 @@
             }
             else {
                 var $btnSendCode = $("#" + id);
-                alert("验证码发送失败");
+                alert("验证码发送失败", 2);
                 $btnSendCode.removeAttr("disabled");
             }
 

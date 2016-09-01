@@ -92,13 +92,13 @@
 
                                         alert("退回成功");
                                     } else if (data.result==2) {
-                                        alert("退回数不能多于" + ObjectJS.taskDesc + "数");
+                                        alert("退回数不能多于" + ObjectJS.taskDesc + "数"), 2;
                                     } else {
-                                        alert("网络繁忙，请重试");
+                                        alert("网络繁忙，请重试", 2);
                                     }
                                 });
                             } else {
-                                alert("请输入退回数量");
+                                alert("请输入退回数量", 2);
                             }
                         }
                     });
@@ -157,7 +157,7 @@
                                 }
                             });
                             if (!bl) {
-                                alert("数量输入过大");
+                                alert("数量输入过大", 2);
                                 return false;
                             }
 
@@ -185,12 +185,12 @@
                                         alert("您没有操作权限!")
                                     }
                                     else {
-                                        alert("" + ObjectJS.taskDesc + "登记失败！");
+                                        alert("" + ObjectJS.taskDesc + "登记失败！", 2);
                                     }
                                 });
                             }
                             else {
-                                alert("请输入" + ObjectJS.taskDesc + "数量");
+                                alert("请输入" + ObjectJS.taskDesc + "数量", 2);
                                 return false;
                             }
                         },
@@ -216,7 +216,7 @@
                                     _this.prev().text(items[0].name);
                                 }
                                 else {
-                                    alert("请选择不同人员进行更换!");
+                                    alert("请选择不同人员进行更换!", 2);
                                 }
                             }
                         }

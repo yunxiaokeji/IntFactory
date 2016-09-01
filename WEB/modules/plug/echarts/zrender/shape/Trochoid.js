@@ -91,7 +91,7 @@ define(
                 var _math = require('../tool/math');
 
                 if (style.location && _R <= _r) {
-                    alert('参数错误');
+                    alert('参数错误', 2);
                     return;
                 }
 

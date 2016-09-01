@@ -148,7 +148,7 @@
                         }
                         ObjectJS.isLoading = true;
                     });
-                });
+                },"更换");
             });
 
             //关闭客户
@@ -164,7 +164,7 @@
                         }
                         ObjectJS.isLoading = true;
                     });
-                });
+                },"关闭");
             });
 
         } else if (model.Status == 2 || model.Status == 3) {
@@ -185,7 +185,7 @@
                         }
                         ObjectJS.isLoading = true;
                     });
-                });
+                },"恢复");
             });
 
         } else if (model.Status == 9) {
@@ -220,7 +220,7 @@
                                 ObjectJS.isLoading = true;
                             });
                         } else {
-                            alert("请选择不同人员进行更换!");
+                            alert("请选择不同人员进行更换!", 2);
                         }
                     }
                 }
@@ -321,11 +321,11 @@
                     if (data.status) {
                         _self.getContacts(_self.guid);
                     } else {
-                        alert("网络异常,请稍后重试!");
+                        alert("网络异常,请稍后重试!", 2);
                     }
                     ObjectJS.isLoading = true;
                 });
-            });
+            },"删除");
         });
 
         //默认选中标签页
@@ -571,7 +571,7 @@
             if (data.model.ContactID) {
                 _self.getContacts(model.CustomerID);
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
             ObjectJS.isLoading = true;
         });
@@ -635,7 +635,7 @@
                 location.href = location.href;
                 
             } else {
-                alert("网络异常,请稍后重试!");
+                alert("网络异常,请稍后重试!", 2);
             }
             ObjectJS.isLoading = true;
         });
@@ -644,7 +644,7 @@
     //标记订单
     ObjectJS.markOrders = function (ids, mark, callback) {
         if (mark < 0) {
-            alert("不能标记此选项!");
+            alert("不能标记此选项!", 2);
             return false;
         }
         ObjectJS.isLoading = false;
@@ -653,7 +653,7 @@
             mark: mark
         }, function (data) {
             if (data.result == "10001") {
-                alert("您没有标记订单的权限！");
+                alert("您没有标记订单的权限！", 2);
                 callback && callback(false);
             } else {
                 callback && callback(data.status);

@@ -71,7 +71,7 @@ define(function (require, exports, module) {
             }, function (data) {
                 if (!data.status) {
                     _this.val(_this.data("value"));
-                    alert("系统异常，请重新操作！");
+                    alert("系统异常，请重新操作！", 2);
                 } else {
                     _this.data("value", _this.val());
                 }
@@ -97,7 +97,7 @@ define(function (require, exports, module) {
                 }, function (data) {
                     if (!data.Status) {
                         _this.val(_this.data("value"));
-                        alert("价格编辑失败，请刷新页面后重试！");
+                        alert("价格编辑失败，请刷新页面后重试！", 2);
                     } else {
                         _this.parent().nextAll(".amount").html((_this.parent().nextAll(".tr-quantity").find("input").val() * _this.val()).toFixed(2));
                         _this.data("value", _this.val());
@@ -118,13 +118,13 @@ define(function (require, exports, module) {
                     autoid: _this.data("id")
                 }, function (data) {
                     if (!data.Status) {
-                        alert("系统异常，请重新操作！");
+                        alert("系统异常，请重新操作！", 2);
                     } else {
                         _this.parents("tr.item").remove();
                         _self.getAmount();
                     }
                 });
-            });
+            }, "移除");
         });
 
         $("#btnconfirm").click(function () {
@@ -134,12 +134,12 @@ define(function (require, exports, module) {
                 bl = true;
             });
             if (!bl) {
-                alert("请选择采购材料！");
+                alert("请选择采购材料！", 2);
                 return;
             }
             confirm("采购单提交后不可编辑，确认提交吗？", function () {
                 _self.submitOrder();
-            });
+            }, "提交");
         });
 
     }
@@ -163,7 +163,7 @@ define(function (require, exports, module) {
         }, function (data) {
             if (!data.Status) {
                 ele.val(ele.data("value"));
-                alert("系统异常，请重新操作！");
+                alert("系统异常，请重新操作！", 2);
             } else {
                 ele.parent().nextAll(".amount").html((ele.parent().prevAll(".tr-price").find("input").val() * ele.val()).toFixed(2));
                 ele.data("value", ele.val());
@@ -181,7 +181,7 @@ define(function (require, exports, module) {
             bl = true;
         });
         if (!bl) {
-            alert("请选择采购材料！");
+            alert("请选择采购材料！", 2);
             return;
         }
         Global.post("/Purchase/SubmitPurchase", {

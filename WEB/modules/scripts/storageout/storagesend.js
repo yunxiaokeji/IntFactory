@@ -138,7 +138,7 @@ define(function (require, exports, module) {
                         };
                         Global.post("/StorageOut/ConfirmAgentOrderSend", paras, function (data) {
                             if (data.result != 1) {
-                                alert(data.errinfo);
+                                alert(data.errinfo, 2);
                             } else {
                                 location.href = "/StorageOut/StorageSend";
                             }

@@ -73,7 +73,6 @@
 
         //tab切换
         $(".search-stages li").click(function () {
-            alert(111);
             if (!ObjectJS.isLoading) {
                 return;
             }
@@ -205,7 +204,7 @@
                     ObjectJS.getClientOrders();
                 }
                 else {
-                    alert("关闭失败");
+                    alert("关闭失败", 2);
                 };
                 ObjectJS.isLoading = true;
             });

@@ -41,7 +41,7 @@ define(function (require, exports, module) {
         Global.post(url, {}, function (data) {
             //从明道获取数据失败
             if (!data.status && _self.setting.type == 2) {
-                alert("您还不是明道用户，不能从明道导入用户！");
+                alert("您还不是明道用户，不能从明道导入用户！",2);
                 return;
             }
             doT.exec(templateUrl, function (template) {
@@ -105,7 +105,7 @@ define(function (require, exports, module) {
             var id = $(this).data("id");
 
             if ($("#userlistChoose li[data-id=" + id + "]").length > 0) {
-                alert("此用户已在选中列表中！")
+                alert("此用户已在选中列表中！",2)
             } else {
 
                 var ele = $(this).parent().clone();
