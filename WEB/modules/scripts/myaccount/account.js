@@ -176,7 +176,6 @@
                                 });
                             }
                         });
-                        
                     },
                     callback: function () {
 
@@ -189,22 +188,6 @@
             if ($("#S_BindMobile").html()) {
                 $(".nologinname").hide();
             }
-
-            $("#LoginName").blur(function () {
-                var _this=$(this);
-                if (_this.val() && _this.val().length > 5) {
-                    Global.post("/MyAccount/IsExistLoginName", { loginName: $("#LoginName").val() }, function (data) {
-                        if (data.result) {
-                            alert("账号已存在，请重新输入！", 2);
-                            $("#LoginName").val("");
-                        }
-                    });
-                } else if (_this.val()) {
-                    alert("账号长度不能低于6位！", 2);
-                }
-            });
-
-            
 
             VerifyObject = Verify.createVerify({
                 element: ".verify",
