@@ -10,7 +10,7 @@
             {%}%}
             <span class="mark left mTop4" data-id="{%=item.OrderID%}" data-value="{%= item.Mark %}"></span>
             
-            <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="order-goodscode long" title='{%=(item.GoodsName + item.IntGoodsCode)?(item.GoodsName+ " " + item.IntGoodsCode): item.OrderCode%}'>
+            <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="order-goodscode long" title='{%=(item.GoodsName + item.IntGoodsCode)?(item.IntGoodsCode+ " " + item.GoodsName): item.OrderCode%}'>
                 {%=(item.GoodsName + item.IntGoodsCode)?(item.IntGoodsCode+ " " + item.GoodsName): item.OrderCode%}
             </a>
             {% if(item.SourceType==3){ %}
