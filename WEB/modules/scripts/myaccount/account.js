@@ -169,6 +169,7 @@
                                         alert("账号设置成功！");
                                         $("#S_LoginName").html($("#LoginName").val());
                                         $("#bindLogioName").hide();
+                                        Easydialog.close();
                                     }
                                     else {
                                         alert("账号设置失败！", 2);
@@ -176,6 +177,7 @@
                                 });
                             }
                         });
+                        return false;
                     },
                     callback: function () {
 
