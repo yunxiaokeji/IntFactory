@@ -53,8 +53,7 @@
         })
 
         //绑定手机
-        $("#saveLoginMobile").click(function () {            
-           
+        $("#saveLoginMobile").click(function () {   
                 _self.saveAccountBindMobile();
                 //location.href = location.href + "?" + (new Date().getMilliseconds());          
         });
@@ -168,7 +167,6 @@
                                 }, function (data) {
                                     if (data.result) {
                                         alert("账号设置成功！");
-
                                         $("#S_LoginName").html($("#LoginName").val());
                                         $("#bindLogioName").hide();
                                     }

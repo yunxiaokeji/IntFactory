@@ -39,6 +39,7 @@
         var _self = this;
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
         Params.SearchOrderType = searchType;
+
         Params.SearchType = type;
 
         //需求单
