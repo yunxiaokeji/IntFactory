@@ -510,11 +510,13 @@ namespace IntFactoryBusiness
                 if (ordertype == EnumOrderType.LargeOrder && details.Count > 0)
                 {
                     SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
+                     
                     if (conn.State != ConnectionState.Open)
                     {
                         conn.Open();
                     }
                     SqlTransaction tran = conn.BeginTransaction();
+                     
                     foreach (var model in details)
                     {
                         if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
