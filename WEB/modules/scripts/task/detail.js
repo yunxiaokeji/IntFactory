@@ -381,22 +381,13 @@
                                 alert("任务到期时间不能为空", 2);
                                 return;
                             }
-                            ObjectJS.isLoading = false;
-                            Global.post("/Task/UpdateTaskEndTime", {
-                                id: ObjectJS.taskid,
-                                endTime: $("#UpdateTaskEndTime").val()
-                            }, function (data) {
-                                if (data.result == 0) {
-                                    alert("操作无效");
-                                }else if (data.result == 2) {
-                                    alert("任务已接受,不能操作");
-                                }else if (data.result == 3) {
-                                    alert("没有权限操作");
-                                }else {
-                                    location.href = location.href;
-                                }
-                                ObjectJS.isLoading = true;
-                            });
+                            var planTime = new Date(ObjectJS.planTime).getTime();
+                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
+                            if (planTime < endTime) {
+                                confirm("到期时间超过订单交货日期,确定设置?", function () { ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val()) } );
+                            } else {
+                                ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
+                            }
                         }
                     }
                 });
@@ -417,23 +408,26 @@
             });
         }
         else {
-            Global.post("/Task/UpdateTaskEndTime", {
-                id: ObjectJS.taskid,
-                endTime: ""
-            }, function (data) {
-                if (data.result == 0) {
-                    alert("操作无效", 2);
-                }else if (data.result == 2) {
-                    alert("任务已接受,不能操作", 2);
-                } else if (data.result == 3) {
-                    alert("没有权限操作", 2);
-                }else {
-                    location.href = location.href;
-                }
-                ObjectJS.isLoading = true;
-            });
+            ObjectJS.updateTaskEndTimeAjax('');
         }
     }
+
+    ObjectJS.updateTaskEndTimeAjax = function (endTime) {
+        Global.post("/Task/UpdateTaskEndTime", {
+            id: ObjectJS.taskid,
+            endTime: endTime
+        }, function (data) {
+            if (data.result == 0) {
+                alert("操作无效");
+            } else if (data.result == 2) {
+                alert("任务已接受,不能操作");
+            } else if (data.result == 3) {
+                alert("没有权限操作");
+            } else {
+                location.href = location.href;
+            }
+        });
+    };
 
     //标记任务完成
     ObjectJS.finishTask = function () {
