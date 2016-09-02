@@ -32,6 +32,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("createTime", item.CreateTime);
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
+                obj.Add("logo", item.Client.Logo);
                 obj.Add("clientName", item.Client.CompanyName); 
                 obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
