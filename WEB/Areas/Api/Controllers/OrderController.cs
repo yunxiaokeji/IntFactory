@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using IntFactoryBusiness;
+using IntFactoryBusiness.Manage;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using Newtonsoft.Json;
@@ -14,10 +15,10 @@ namespace YXERP.Areas.Api.Controllers
     public class OrderController : BaseAPIController
     {
         //获取订单列表根据二当家客户端编码
-        public JsonResult GetOrdersByYXClientCode(string yxClientCode,int pageSize, int pageIndex, string clientID = "")
+        public JsonResult GetOrdersByYXClientCode(string yxClientCode,int pageSize, int pageIndex, string clientID = "",string keywords="")
         {
             int totalCount=0, pageCount = 0;
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID,pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords,pageSize, pageIndex, ref totalCount, ref pageCount);
             var objs=new List<Dictionary<string, object>>();
             foreach (var item in list) {
                 Dictionary<string, object> obj = new Dictionary<string, object>();
@@ -33,7 +34,10 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("endTime", item.EndTime);
                 obj.Add("clientID", item.ClientID);
                 obj.Add("logo", item.Client.Logo);
-                obj.Add("clientName", item.Client.CompanyName); 
+                obj.Add("clientName", item.Client.CompanyName);
+                obj.Add("clientContactName", item.Client.ContactName);
+                obj.Add("clientCode", item.Client.ClientCode); 
+                obj.Add("clientMobile", item.Client.MobilePhone); 
                 obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
@@ -64,7 +68,12 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
-            obj.Add("clientID", item.ClientID); 
+            obj.Add("clientID", item.ClientID);
+            var client = ClientBusiness.GetClientDetail(item.ClientID);
+            obj.Add("clientName", client.CompanyName);
+            obj.Add("clientCode", client.ClientCode);
+            obj.Add("clientContactName", client.ContactName);
+            obj.Add("clientMobile", client.MobilePhone); 
             obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();

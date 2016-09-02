@@ -96,7 +96,7 @@ namespace YXERP.Common
 
             StreamWriter sw = new StreamWriter(fs);
             sw.BaseStream.Seek(0, SeekOrigin.End);
-            sw.WriteLine("SyncOtherOrderRecord: Service Started" + infohead + str + "\n");
+            sw.WriteLine("SyncOtherOrderRecord: AuditWorking " + infohead + str + "\n");
 
             sw.Flush();
             sw.Close();
