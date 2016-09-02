@@ -1327,7 +1327,9 @@
     <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
     <Content Include="Views\MyAccount\WXLogin.cshtml" />
     <Content Include="Views\Home\WeiXinLoginCallBack.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Orders\UserLoadReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
