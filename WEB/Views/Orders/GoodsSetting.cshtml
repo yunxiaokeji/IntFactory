@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "款式管理";
+    var model = (IntFactoryEntity.OrderEntity)ViewBag.Model;
+}
+@section css{
+    <link href="/modules/css/orders.css" rel="stylesheet" />
+}
+@section scripts{
+    <script type="text/javascript">
+    seajs.use(["scripts/orders/goods"], function (e) {
+        e.init('@ViewBag.GoodsID', '@ViewBag.IsPublic');
+    });
+    </script>
+}
+<div class="header-box">
+    <div class="header-title">
+        打样单编号：@(model.OrderCode)
+        <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
+    </div>
+</div>
+
+<div class="content-body" style="padding:10px;overflow:initial;">
+    <div class="order-info">
+        <div class="order-imgs-div left">
+            <div class="order-imgs" style="width:210px;height:210px;">
+                <img style="min-width:210px;min-height:210px;" id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="1" />
+            </div>
+            <ul class="order-imgs-list hide" ></ul>
+        </div>
+        <ul class="moneyinfo left">
+            <li>
+                <label class="bold font16">@(string.IsNullOrEmpty(model.GoodsName)?"暂无款式名称":model.GoodsName)</label>
+            </li>
+            <li>
+                <span class="column-title">款式编码：</span>
+                <label >@(model.IntGoodsCode)</label>
+            </li>
+            <li>
+                <span class="column-title">加工品类：</span>
+                <label>@(model.ProcessCategoryName)</label>
+            </li>
+            <li>
+                <span class="column-title">款式类别：</span>
+                <label >@(model.CategoryName)</label>
+            </li>
+        </ul>
+        <ul class="cutomerinfo right">
+            <li style="overflow:initial;">
+                <div class="left">
+                    <span class="column-title">最终报价：</span>
+                    <label>
+                        @(model.FinalPrice.ToString("f2"))
+                    </label>
+                </div>
+            </li>
+            <li>
+                <span class="column-title">材料成本：</span>
+                <label id="productMoney">@(model.Price.ToString("f2"))</label>
+            </li>
+            <li>
+                <span class="column-title">加工成本：</span>
+                <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
+            </li>
+         </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div class="module-header mTop20">
+    <ul class="module-tab left">
+        <li class="hover" data-id="navShare" >基础设置</li>
+      @*  <li  data-id="navDHOrder">下单记录</li>*@
+    </ul>
+</div>
+
+<div class="content-body" style="padding:0 0 50px 0;">
+    <div class="nav-partdiv" id="navShare">
+            <ul class="table-add pLeft10 mTop20">
+                <li>
+                    <span class="width80 left">公开客户端：</span>
+                    <div class="left radiobox hand mRight20"> <span class="iconfont ico-radiobox" data-value="1"><span></span></span> 是 </div>
+                    <div class="left radiobox hand mRight10"> <span class="iconfont ico-radiobox" data-value="0"><span></span></span> 否 </div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+
+            <div class="mTop20 mLeft20">
+                <span  class="btn" id="btnSaveShareInfo" >保存</span>
+            </div>
+    </div>
+</div>

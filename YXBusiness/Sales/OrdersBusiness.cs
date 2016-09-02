@@ -271,6 +271,29 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public OrderEntity GetOrderBaseInfoByID(string orderid)
+        {
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderByID(orderid);
+            OrderEntity model = new OrderEntity();
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
+                }
+            }
+            return model;
+        }
+
         public OrderEntity GetOrderByID(string orderid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetOrderByID(orderid, clientid);
@@ -473,6 +496,16 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public GoodsEntity GetGoodsByID(string goodsid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);
+            GoodsEntity model = new GoodsEntity();
+            if (ds.Tables["Goods"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Goods"].Rows[0]);
+            }
+            return model;
+        }
         #endregion
 
         #region 添加
@@ -986,6 +1019,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus) {
+            return OrdersDAL.BaseProvider.UpdateGoodsPublicStatus(goodsid, publicStatus);
+        } 
         #endregion
 
         #region 订单区间价位

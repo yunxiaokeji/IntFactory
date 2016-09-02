@@ -415,7 +415,11 @@
     else
     {
         <li class="sample-report" data-type="1">打样报价</li>
+        if (model.IsSelf && model.OrderStatus == 2) { 
+        <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
+        }
     }
+    
 </ul>
 
 
