@@ -158,6 +158,17 @@ namespace IntFactoryDAL
             return ds;
         }
 
+        public DataSet GetGoodsByID(string goodsid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@GoodsID",goodsid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            DataSet ds = GetDataSet("P_GetGoodsByID", paras, CommandType.StoredProcedure, "Goods");
+            return ds;
+        }
+
         public DataTable GetOrderDetailsByOrderID(string orderid)
         { 
             SqlParameter[] paras={
@@ -751,6 +762,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_DeleteOrderCost", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus)
+        {
+            string sql = " update goods set IsPublic=@IsPublic where GoodsID=@GoodsID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@GoodsID",goodsid),
+                                     new SqlParameter("@IsPublic",publicStatus)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
         #endregion
 
         #region OrderPriceRange

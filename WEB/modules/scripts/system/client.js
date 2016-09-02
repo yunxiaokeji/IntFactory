@@ -229,7 +229,7 @@
                 // var s = window.location.href.toString();
                 // var http = s.substr(0, s.length - 13);
                 var http = $("#cid").data("url");
-                $("#cid").attr("href", http + "IntFactoryOrder/Orders?id=" + item.ClientID + "%26name=在线下单").html(http + "IntFactoryOrder/Orders?id=" + item.ClientID);
+                $("#cid").attr("href", http + "/IntFactoryOrder/Orders?id=" + item.ClientID + "%26name=在线下单").html(http + "/IntFactoryOrder/Orders?id=" + item.ClientID);
                 if (item.Logo){
                     $("#PosterDisImg").show().attr("src", item.Logo);
                 }

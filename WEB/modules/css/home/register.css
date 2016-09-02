@@ -1,4 +1,5 @@
 ﻿body { background-color: #f2f4f8; }
+.register-body { background: url(/modules/images/loginMainBackground.png) no-repeat right bottom; background-size: cover; width: 100%; height: 100%; position: fixed; }
 .register-body .main { margin: 100px auto; width: 320px; background-color: #fff; padding: 30px 20px 30px 20px;}
 .register-body .register-header {
     padding-top:15px;
@@ -42,7 +43,7 @@ border:none; cursor:pointer; display:inline-block; border-radius:3px; width:320p
 .register-remember-box .cb-remember-password { cursor:pointer; padding-left:2px; color:#999; }
 
 @media only screen and ( max-width:450px) {
-    .register-body .main {margin: 30px auto;width: 280px; }
+    .register-body .main {margin: 50px auto;width: 280px; }
     .register-body .loginbar .input { width: 268px; }
     .btnRegister { width: 280px; }
     .icoMobileCode {

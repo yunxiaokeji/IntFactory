@@ -46,7 +46,7 @@
                     _self.isPost = false;
                     location.href = "/Default/Index";
                 });
-            }, function () {
+            },"确认", function () {
                 _self.isPost = false;
             });
         });

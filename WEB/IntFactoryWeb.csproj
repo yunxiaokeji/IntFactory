@@ -549,6 +549,7 @@
     <Content Include="modules\plug\umeditor\ueditor.parse.min.js" />
     <Content Include="modules\plug\choosemenu\choosemenu.css" />
     <Content Include="modules\plug\choosemenu\choosemenu.js" />
+    <Content Include="modules\scripts\orders\goods.js" />
     <Content Include="modules\scripts\report\userworkload.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
@@ -1329,6 +1330,7 @@
     <Content Include="Views\Home\WeiXinLoginCallBack.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Orders\UserLoadReport.cshtml" />
+    <Content Include="Views\Orders\GoodsSetting.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
