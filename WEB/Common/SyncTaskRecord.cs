@@ -73,9 +73,13 @@ namespace YXERP.Common
                             {
                                 status = 1;
                             }
+                            WriteLog(string.Format("系统订单ID：{0},外部单据:{1}推送成功。", obj.OrderID, obj.OtherSysID), 1);
                         }
-                        errormsg = result.error_message;
-                        WriteLog(string.Format("系统订单ID：{0},外部单据:{1}推送成功。", obj.OrderID, obj.OtherSysID), 1);
+                        else
+                        {
+                            errormsg = result.error_message;
+                            WriteLog(string.Format("错误代码：{0},错误信息:{1}", result.error_code, result.error_message), 2);
+                        }
                     }
                     catch (Exception ex)
                     {
