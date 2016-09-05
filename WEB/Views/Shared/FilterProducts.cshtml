@@ -1,5 +1,5 @@
 ﻿@{
-    
+    var version = YXERP.Common.Common.Version;
 }
 @section css{
     <link rel="stylesheet" href="/modules/css/shoppingcart/filterproducts.css" />
@@ -18,36 +18,36 @@
     {
         if (string.IsNullOrEmpty(ViewBag.TID))
         {
-             <a class="btn-back right mLeft20" href="/Orders/OrderDetail/@(ViewBag.GUID)">返回订单详情</a>
+             <a class="btn-back right mLeft10" href="/Orders/OrderDetail/@(ViewBag.GUID)">返回订单详情</a>
         }
         else
         {
-            <a class="btn-back right mLeft20" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
+            <a class="btn-back right mLeft10" href="/Task/Detail/@(ViewBag.TID)">返回任务详情</a>
         }
-        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <span class="btn-add right mLeft10" id="btnQulicklyAddMaterial">快捷添加材料</span> 
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)&tid=@(ViewBag.TID)">添加材料</a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 1)
     {
-        <a class="btn-back right mLeft20" href="/Products/ConfirmPurchase">返回采购单</a>
-        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn-back right mLeft10" href="/Products/ConfirmPurchase">返回采购单</a>
+        <span class="btn-add right mLeft10" id="btnQulicklyAddMaterial">快捷添加材料</span> 
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 3)
     {
-        <a class="btn-back right mLeft20" href="/Stock/CreateDamaged">返回消耗单</a>
-        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn-back right mLeft10" href="/Stock/CreateDamaged">返回消耗单</a>
+        <span class="btn-add right mLeft10" id="btnQulicklyAddMaterial">快捷添加材料</span> 
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else if (Convert.ToInt32(ViewBag.Type) == 4)
     {
-        <a class="btn-back right mLeft20" href="/Stock/CreateOverflow">返回报溢单</a>
-        <span class="btn-add right mLeft20" id="btnQulicklyAddMaterial">快捷添加材料</span> 
+        <a class="btn-back right mLeft10" href="/Stock/CreateOverflow">返回报溢单</a>
+        <span class="btn-add right mLeft10" id="btnQulicklyAddMaterial">快捷添加材料</span> 
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
     else
     {
-        <span class="btn-add right mRight20" id="btnQulicklyAddMaterial">快捷添加材料</span>   
+        <span class="btn-add right mRight10" id="btnQulicklyAddMaterial">快捷添加材料</span>   
         <a class="btn999 right" href="/Products/ProductAdd?type=@(ViewBag.Type)&guid=@(ViewBag.GUID)">添加材料</a>
     }
 </div>
