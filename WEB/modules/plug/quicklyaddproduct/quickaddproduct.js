@@ -72,7 +72,7 @@
                         //快捷添加子产品
                         var details = [];
                         var saleAttr = "", attrValue = "", saleAttrValue = "", desc = $("#iptRemark").val().trim(), isNull = false;
-                        $(".attr-item").each(function () {
+                        $("#qulicklyAddMaterial .attr-item").each(function () {
                             var _this = $(this);
                             saleAttr += _this.find('.salesattr').data("id") + ",";
                             attrValue += _this.find(".drop-item").data("id") + ",";
@@ -138,7 +138,7 @@
                     _self.categoryID = "";
                     if (items) {
                         _self.categoryID = items.CategoryID;
-                        $(".attr-item").remove();
+                        $("#qulicklyAddMaterial .attr-item").remove();
                         var sales = items.SaleAttrs;
                         if (sales) {
                             var _desc = "";
@@ -191,7 +191,7 @@
                                         ele.data('name', attrValue.text);
                                         ele.data('id', attrValue.value);
                                         var description = "";
-                                        $(".attr-item").each(function () {
+                                        $("#qulicklyAddMaterial .attr-item").each(function () {
                                             var _this = $(this);
                                             if (_this.find('.drop-item').data('id') == '|') {
                                                 description += "【" + _this.find('.salesattr').text() + _this.find('.customize').val() + "】";
@@ -205,7 +205,7 @@
                             }
                             $("#iptRemark").val(_desc);
                             //有规格不能自动输入
-                            if ($(".attr-item").length > 0) {
+                            if ($("#qulicklyAddMaterial .attr-item").length > 0) {
                                 $("#iptRemark").prop("disabled", "disabled").css({ "background-color": "#fff", "border": "none" });
                             } else {
                                 $("#iptRemark").prop("disabled", false).css({ "background-color": "#fff", "border": "1px solid #ccc" });
