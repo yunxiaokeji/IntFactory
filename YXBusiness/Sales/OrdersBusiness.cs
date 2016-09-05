@@ -123,10 +123,10 @@ namespace IntFactoryBusiness
         /// <param name="yxCode"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, pageSize,pageIndex,ref totalCount,ref pageCount);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords,pageSize, pageIndex, ref totalCount, ref pageCount);
             DataTable dt = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
@@ -267,6 +267,29 @@ namespace IntFactoryBusiness
             if (dt.Rows.Count > 0)
             {
                 model.FillData(dt.Rows[0]);
+            }
+            return model;
+        }
+
+        public OrderEntity GetOrderBaseInfoByID(string orderid)
+        {
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderByID(orderid);
+            OrderEntity model = new OrderEntity();
+            if (dt.Rows.Count > 0)
+            {
+                model.FillData(dt.Rows[0]);
+
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
+                }
             }
             return model;
         }
@@ -473,6 +496,16 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public GoodsEntity GetGoodsByID(string goodsid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);
+            GoodsEntity model = new GoodsEntity();
+            if (ds.Tables["Goods"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Goods"].Rows[0]);
+            }
+            return model;
+        }
         #endregion
 
         #region 添加
@@ -510,11 +543,13 @@ namespace IntFactoryBusiness
                 if (ordertype == EnumOrderType.LargeOrder && details.Count > 0)
                 {
                     SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
+                     
                     if (conn.State != ConnectionState.Open)
                     {
                         conn.Open();
                     }
                     SqlTransaction tran = conn.BeginTransaction();
+                     
                     foreach (var model in details)
                     {
                         if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
@@ -986,6 +1021,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus) {
+            return OrdersDAL.BaseProvider.UpdateGoodsPublicStatus(goodsid, publicStatus);
+        } 
         #endregion
 
         #region 订单区间价位

@@ -75,14 +75,15 @@ namespace IntFactoryDAL
         }
 
 
-        public DataSet GetOrdersByYXCode(string yxCode, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
+        public DataSet GetOrdersByYXCode(string yxCode, string clientid, string keyWords,int pageSize, int pageIndex, ref int totalCount, ref int pageCount) 
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
                                        new SqlParameter("@YXCode",yxCode),
                                        new SqlParameter("@ClientID",clientid),
-                                        new SqlParameter("@pageSize",pageSize),
+                                       new SqlParameter("@keyWords",keyWords),
+                                       new SqlParameter("@pageSize",pageSize),
                                        new SqlParameter("@pageIndex",pageIndex)
                                    };
             paras[0].Value = totalCount;
@@ -154,6 +155,17 @@ namespace IntFactoryDAL
                                    };
 
             DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Details|Goods|Tasks");
+            return ds;
+        }
+
+        public DataSet GetGoodsByID(string goodsid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@GoodsID",goodsid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            DataSet ds = GetDataSet("P_GetGoodsByID", paras, CommandType.StoredProcedure, "Goods");
             return ds;
         }
 
@@ -281,7 +293,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@CityCode" , citycode),
                                      new SqlParameter("@Address" , address)
                                    };
-
+           
             bool bl = ExecuteNonQuery(tran, "P_CreateDHOrder", paras, CommandType.StoredProcedure) > 0;
 
             return bl;
@@ -750,6 +762,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_DeleteOrderCost", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus)
+        {
+            string sql = " update goods set IsPublic=@IsPublic where GoodsID=@GoodsID";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@GoodsID",goodsid),
+                                     new SqlParameter("@IsPublic",publicStatus)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
         #endregion
 
         #region OrderPriceRange
