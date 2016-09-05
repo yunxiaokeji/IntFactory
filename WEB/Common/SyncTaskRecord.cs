@@ -44,10 +44,7 @@ namespace YXERP.Common
                     type=TimeSpan.TicksPerSecond;
                     break;
             }
-            syncTimer = new Timer(new TimerCallback(AuditWorking), state, 0, (long)delayTime.TotalMilliseconds);
-            //syncTimer = new Timer(
-            //    new TimerCallback(AuditWorking), state,
-            //    delayTime, TimeSpan.FromTicks(type));
+            syncTimer = new Timer(new TimerCallback(AuditWorking), state, 0, (long)delayTime.TotalMilliseconds); 
         }
 
         public void AuditWorking(object state)
@@ -66,7 +63,7 @@ namespace YXERP.Common
                     string errormsg = "";
                     try
                     {
-                        OperateResult result = TaskOrderBusiness.BaseBusiness.AddStockPartIn(obj.Content);
+                        OperateResult result = TaskOrderBusiness.BaseBusiness.AddStockPartIn(obj.Content, obj.ToString());
                         if (result.error_code == 0)
                         {
                             if (result.result == 1)
