@@ -121,7 +121,7 @@ define(function (require, exports, module) {
                 $("#lblCreateTime").text(item.CreateTime.toDate("yyyy-MM-dd"));
                 $('#lblCreateUser').text(item.CreateUser == null ? "--" : item.CreateUser.Name);
                 $('#lblCheckUser').text(item.CheckUser == null ? "--" : item.CheckUser.Name);
-                $('#lblCheckTime').text(item.CheckUser.Name != null ? item.CheckTime.toDate("yyyy-MM-dd") : "--");
+                $('#lblCheckTime').text(item.CheckUser!=null && item.CheckUser.CheckTime != null ? item.CheckTime.toDate("yyyy-MM-dd") : "--");
                 OrderDetail.Account = item;
                 OrderDetail.Params.clientID = item.ClientID;
                 OrderDetail.Params.orderID = item.OrderID;

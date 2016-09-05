@@ -22,10 +22,15 @@ namespace CloudSales.Sdk.Business
         ///     "nums":"数量1,数量2,数量3,","userid":""
         /// }
         /// </param>
+        /// <param name="autoID">智能工厂同步记录ID</param>
         /// <returns></returns>
-        public OperateResult AddStockPartIn(string jasonParas)
+        public OperateResult AddStockPartIn(string jasonParas,string autoID="")
         {
-            var paras=JsonConvert.DeserializeObject<Dictionary<string, object>>(jasonParas);      
+            var paras=JsonConvert.DeserializeObject<Dictionary<string, object>>(jasonParas);
+            if (!paras.ContainsKey("zngcAutoID") && !string.IsNullOrEmpty(autoID))
+            {
+                paras.Add("zngcAutoID", autoID); 
+            }
             return HttpRequest.RequestServer<OperateResult>(ApiOption.addStockPartIn, paras);
         }
     }
