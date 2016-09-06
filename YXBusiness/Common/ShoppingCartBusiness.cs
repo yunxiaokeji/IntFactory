@@ -50,13 +50,13 @@ namespace IntFactoryBusiness
         /// 加入购物车
         /// </summary>
         /// <returns></returns>
-        public static bool AddShoppingCart(EnumDocType ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string remark, string guid, string userid, string operateip)
+        public static bool AddShoppingCart(EnumDocType ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string remark, string guid, string orderAttrID, string userid, string operateip)
         {
             if (string.IsNullOrEmpty(guid))
             {
                 guid = userid;
             }
-            return ShoppingCartDAL.AddShoppingCart((int)ordertype, productid, detailsid, quantity, unitid, depotid, remark, guid, userid, operateip);
+            return ShoppingCartDAL.AddShoppingCart((int)ordertype, productid, detailsid, quantity, unitid, depotid, remark, guid, orderAttrID, userid, operateip);
         }
 
 

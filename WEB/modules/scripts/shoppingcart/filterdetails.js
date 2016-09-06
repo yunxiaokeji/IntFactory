@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     var ObjectJS = {};
 
     //添加页初始化
-    ObjectJS.init = function (model, detailid, ordertype, guid, tid, depotItem) {
+    ObjectJS.init = function (model, detailid, ordertype, guid, tid, depotItem, aid) {
         var _self = this;
         model = JSON.parse(model.replace(/&quot;/g, '"'));
         var depots = JSON.parse(depotItem.replace(/&quot;/g, '"'));
@@ -17,7 +17,7 @@ define(function (require, exports, module) {
         _self.detailid = detailid;
         _self.ordertype = ordertype;
         _self.guid = guid;
-        
+        _self.aid = aid;
         _self.model = model;
         _self.productid = model.ProductID;
         $("#productStockQuantity").text((model.StockIn - model.LogicOut).toFixed(2));
@@ -127,6 +127,7 @@ define(function (require, exports, module) {
                     ordertype: _self.ordertype,
                     depotid: _self.depotID || "",
                     guid: _self.guid,
+                    attrid: _self.aid,
                     remark: remark
                 }, function (data) {
                     if (data.Status) {

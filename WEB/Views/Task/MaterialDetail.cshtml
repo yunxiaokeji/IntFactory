@@ -5,71 +5,83 @@
     var isRoot = taskModel.IsRoot;
 }
 <div id="navProducts" class="nav-partdiv hide">
-    <table class="table-list mTop20">
-        <tr class="tr-header">
-            <td class="tLeft">材料名称</td>
-            <td class="tLeft">编码</td>
-            <td class="width80">单位</td>
-            <td class="tLeft">单价</td>
-            <td class="">消耗量</td>
-            <td class="tRight">小计</td>
-            <td>操作</td>
-        </tr>
-        @{
-            if (order.Details.Count > 0)
-            {
-
-                foreach (var detail in order.Details)
-                { 
-                    <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
-                        <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                            @(detail.ProductName)
-                            <span class="color999">@(detail.Remark)</span>
-                        </a></td>
-                        <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                        <td class="center">@(detail.UnitName)</td>
-                        <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    @{
-                        if (isRoot)
-                        {
-                            <td class="center tr-quantity"><input type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" maxlength="20" /></td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
-                            <td class="center">
-                                <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="center tr-quantity">@(detail.Quantity.ToString("f3"))</td>
-                            <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
-                            <td></td>
-                        }
-                    }
-                    </tr>
+    @if (order.OrderAttrs.Where(m => m.AttrType == 2).Count() == 0)
+    {
+         
+    }
+    else
+    {
+        foreach (var attr in order.OrderAttrs.Where(m => m.AttrType == 2).ToList())
+        {
+             <div class="talk-title mTop10" style="font-size:16px; color:#333;" >
+                @attr.AttrName
+                @if (isRoot)
+                {            
+                    <div data-id="@attr.OrderAttrID" class="btn-add btn-choose-product right mTop10 mLeft20 mRight10">快捷选择材料</div>  
+                    <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)&aid=@(attr.OrderAttrID)" id="btn-addMaterial" class="right btn-link mTop3">选择材料</a>
                 }
-                <tr class="amount-item">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tRight">成本合计：</td>
-                    <td class="tRight"><label id="amount"></label></td>
-                    <td></td>
+                <div class="clear"></div>
+             </div>
+             <table class="table-list mTop20">
+                <tr class="tr-header">
+                    <td class="tLeft">材料名称</td>
+                    <td class="tLeft width200">编码</td>
+                    <td class="width80">单位</td>
+                    <td class="tLeft width100">单价</td>
+                    <td class="width100">消耗量</td>
+                    <td class="tRight width100">小计</td>
+                    <td>操作</td>
                 </tr>
-            }
-            else
-            {
-                <tr><td colspan="8"><div class="nodata-txt">暂无材料</div></td></tr>
-            }
-        }
-    </table>
+                @{
+                    if (order.Details.Where(m => m.OrderAttrID == attr.OrderAttrID).Count() > 0)
+                    {
 
-    @{
-        if (isRoot)
-        {            
-            <div id="btnChooseProduct" class="btn-add right mTop10 mLeft20">快捷选择材料</div>  
-            <a href="/Orders/ChooseMaterial?id=@(order.OrderID)&tid=@(task.TaskID)" id="btn-addMaterial" class="right btn-link" style="margin-top:15px;">选择材料</a>
+                        foreach (var detail in order.Details.Where(m => m.OrderAttrID == attr.OrderAttrID).ToList())
+                        { 
+                            <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                                <td><a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
+                                    @(detail.ProductName)
+                                    <span class="color999">@(detail.Remark)</span>
+                                </a></td>
+                                <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                                <td class="center">@(detail.UnitName)</td>
+                                <td class="tr-price"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                            @{
+                                if (isRoot)
+                                {
+                                    <td class="center tr-quantity"><input type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" maxlength="20" /></td>
+                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
+                                    <td class="center">
+                                        <a class="ico-del iconfont font20" href="javascript:void(0)" title="删除" data-name="@(detail.ProductName)" data-id="@(detail.AutoID)"></a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="center tr-quantity">@(detail.Quantity.ToString("f3"))</td>
+                                    <td class="tRight amount">@((detail.TotalMoney).ToString("f3"))</td>
+                                    <td></td>
+                                }
+                            }
+                            </tr>
+                        }
+                        <tr class="amount-item">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="tRight">成本合计：</td>
+                            <td class="tRight"><label id="amount"></label></td>
+                            <td></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr><td colspan="8"><div class="nodata-txt">暂无材料</div></td></tr>
+                    }
+                }
+            </table>
         }
     }
+    
     <div class="clear"></div>
 </div>

@@ -2,11 +2,11 @@
 	var item = $data;
 %}
 <ul class="easydialog-create">
-    <li class="{%=((item.OrderType==2&&item.OriginalID)?'hide':'')%}">
+    <li class="{%=((item.OrderType==2)?'hide':'')%}">
         <span class="width80">款式编码：</span>
         <span><input type="text" maxlength="50" id="iptGoodsCode"  value="{%=item.IntGoodsCode%}" /></span> 
     </li>
-    <li class="{%=((item.OrderType==2&&item.OriginalID)?'hide':'')%}">
+    <li class="{%=((item.OrderType==2)?'hide':'')%}">
         <span class="width80">款式名称：</span>
         <span><input type="text" maxlength="50" id="iptGoodsName" class="width300"  value="{%=item.GoodsName%}" /></span> 
     </li>

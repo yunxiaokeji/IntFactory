@@ -91,6 +91,10 @@ namespace IntFactoryEntity
 
         public string ProviderCityCode { get; set; }
 
+        public string OrderAttrID { get; set; }
+
+        public string SalesAttr { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

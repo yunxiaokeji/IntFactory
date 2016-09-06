@@ -70,7 +70,7 @@
         return this.match(/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/);
     }
 
-    /*重写alert*/
+    /*重写alert type 1 成功提示 2错误提示*/
     window.alert = function (msg,type, url) {
         //$("#window_alert").remove();
         //var _alter = $("<div id='window_alert' class='alert'></div>");

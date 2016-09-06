@@ -37,7 +37,7 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult ProductAdd(string type = "", string guid = "", string tid = "") 
+        public ActionResult ProductAdd(string type = "", string guid = "", string tid = "", string aid = "") 
         {
             if (string.IsNullOrEmpty(type)) 
             {
@@ -46,6 +46,7 @@ namespace YXERP.Controllers
             ViewBag.Type = type;
             ViewBag.GUID = guid;
             ViewBag.TID = tid;
+            ViewBag.AID = aid;
 
             ViewBag.UnitList = new ProductsBusiness().GetUnits();
             return View();
@@ -74,7 +75,7 @@ namespace YXERP.Controllers
             return View("FilterProducts");
         }
 
-        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "", string tid = "")
+        public ActionResult ChooseDetail(string pid, string did, int type = 0, string guid = "", string tid = "", string aid = "")
         {
             if (string.IsNullOrEmpty(pid))
             {
@@ -92,6 +93,7 @@ namespace YXERP.Controllers
             ViewBag.OrderType = type;
             ViewBag.GUID = guid;
             ViewBag.TID = tid;
+            ViewBag.AID = aid;
             return View();
         }
 

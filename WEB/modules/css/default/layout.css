@@ -478,10 +478,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .wechat img { width:0;height:0;transition:0.7s;-webkit-transition:0.7s;-moz-transition:0.7s;}
 
 /*图片loading*/
-.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; background-color:#fff; }
+.data-loading { padding: 40px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; background-color:#fff; }
 
 /*暂无数据*/
-.nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; background-color:#fff; }
+.nodata-txt { padding: 30px 0px; font-size: 16px; text-align: center; color: #666; background-color:#fff; }
 
 /*置顶*/
 .back-top {

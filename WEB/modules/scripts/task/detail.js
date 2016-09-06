@@ -149,10 +149,11 @@
         //绑定任务样式图
         ObjectJS.bindOrderImages();
 
-        if ($("#btnChooseProduct").length == 1) {
+        if ($(".btn-choose-product").length > 0) {
             ChooseProduct = require("chooseproduct");
             //快捷添加产品
-            $("#btnChooseProduct").click(function () {
+            $(".btn-choose-product").click(function () {
+                var _this = $(this);
                 ChooseProduct.create({
                     title: "选择采购材料",
                     type: 11, //1采购 2出库 3报损 4报溢 5调拨
@@ -162,6 +163,7 @@
                             var entity = {}, items = [];
                             entity.guid = ObjectJS.guid;
                             entity.type = 11;
+                            entity.attrid = _this.data("id");
                             for (var i = 0; i < products.length; i++) {
                                 items.push({
                                     ProductID: products[i].pid,

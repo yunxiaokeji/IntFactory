@@ -362,7 +362,15 @@ namespace IntFactoryBusiness
                         detail.FillData(dr);
                         model.OrderGoods.Add(detail);
                     }
-                }  
+                }
+
+                model.OrderAttrs = new List<OrderAttrEntity>();
+                foreach (DataRow dr in ds.Tables["Attrs"].Rows)
+                {
+                    OrderAttrEntity attr = new OrderAttrEntity();
+                    attr.FillData(dr);
+                    model.OrderAttrs.Add(attr);
+                }
             }
             return model;
         }
@@ -496,6 +504,19 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderAttrEntity> GetOrderArrrsByOrderID(string orderid)
+        {
+            List<OrderAttrEntity> list = new List<OrderAttrEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderAttrsByOrderID(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderAttrEntity model = new OrderAttrEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         public GoodsEntity GetGoodsByID(string goodsid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);
@@ -506,6 +527,7 @@ namespace IntFactoryBusiness
             }
             return model;
         }
+
         #endregion
 
         #region 添加
@@ -540,7 +562,7 @@ namespace IntFactoryBusiness
                                                         firstimg, allimgs, citycode, address, expressCode, remark, operateid, clientid);
             if (bl)
             {
-                if (ordertype == EnumOrderType.LargeOrder && details.Count > 0)
+                if (details.Count > 0)//ordertype == EnumOrderType.LargeOrder && 
                 {
                     SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
                      
@@ -556,7 +578,7 @@ namespace IntFactoryBusiness
                         {
                             tran.Rollback();
                             conn.Dispose();
-                            return "";
+                            return id;
                         }
                     }
                     tran.Commit();
@@ -655,7 +677,7 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, clientid);
-                if(!string.IsNullOrEmpty(othersysid))
+                if (!string.IsNullOrEmpty(othersysid) && type == EnumGoodsDocType.Send)
                 {
                     LogBusiness.AddOtherRecord(1, orderid, othersysid, jsonParas, "发货单自动生成第三方入库单", operateid, clientid);
                 }
@@ -684,8 +706,8 @@ namespace IntFactoryBusiness
 
         public bool CreateProductUseQuantity(ref int result, ref string errInfo, string orderID, string details, string userID, string operateIP, string clientID)
         {
-            bool b1 = OrdersDAL.BaseProvider.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, userID, operateIP, clientID);
-            return b1;
+            bool bl = OrdersDAL.BaseProvider.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, userID, operateIP, clientID);
+            return bl;
         }
 
         #endregion

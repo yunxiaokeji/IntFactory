@@ -11,7 +11,7 @@
     <script type="text/javascript">
         seajs.use(["scripts/products/product"], function (product) {
             var um = UE.getEditor('remark');
-            product.init(um, '@(ViewBag.Type)', '@(ViewBag.GUID)', '@(ViewBag.TID)');
+            product.init(um, '@(ViewBag.Type)', '@(ViewBag.GUID)', '@(ViewBag.TID)', '@(ViewBag.AID)');
         });
     </script>
 }
@@ -20,7 +20,7 @@
     <span class="header-title left">添加材料</span>
     @if (Convert.ToInt32(ViewBag.Type) == 11)
     { 
-        <a class="back btn-back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)">
+        <a class="back btn-back right" href="/Orders/ChooseMaterial?id=@(ViewBag.GUID)&tid=@(ViewBag.TID)&aid=@(ViewBag.AID)">
            返回 
         </a>
     }

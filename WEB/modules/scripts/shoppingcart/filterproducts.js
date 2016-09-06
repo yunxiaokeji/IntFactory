@@ -25,11 +25,12 @@
     var ObjectJS = {};
     var isLoadding = false;
     //初始化
-    ObjectJS.init = function (type, guid, tid) {
+    ObjectJS.init = function (type, guid, tid, aid) {
         var _self = this;
         _self.type = type;
         _self.guid = guid;
         _self.tid = tid;
+        _self.aid = aid;
         Params.DocType = type;
 
         Global.post("/System/GetDepotSeatsByWareID", {}, function (data) {
@@ -41,7 +42,8 @@
         $(".content-body").createCart({
             ordertype: type,
             guid: guid,
-            tid: tid
+            tid: tid,
+            aid: aid
         });
     }
 
@@ -280,7 +282,7 @@
 
                         //打开产品详情页
                         html.find(".productimg,.name").each(function () {
-                            $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid);
+                            $(this).attr("href", $(this).attr("href") + "&type=" + _self.type + "&guid=" + _self.guid + "&tid=" + _self.tid + "&aid=" + _self.aid);
                         });
                         //加入购物车
                         html.find(".btnAddCart").click(function () {
@@ -465,6 +467,7 @@
                     ordertype: _self.type,
                     depotid: _self.depotid || "",
                     guid: _self.guid,
+                    attrid: _self.aid,
                     remark: remark
                 }, function (data) {
                     if (data.Status) {
