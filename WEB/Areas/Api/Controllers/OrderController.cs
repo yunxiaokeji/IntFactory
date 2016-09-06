@@ -20,7 +20,8 @@ namespace YXERP.Areas.Api.Controllers
             int totalCount=0, pageCount = 0;
             var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords,pageSize, pageIndex, ref totalCount, ref pageCount);
             var objs=new List<Dictionary<string, object>>();
-            foreach (var item in list) {
+            foreach (var item in list) 
+            {
                 Dictionary<string, object> obj = new Dictionary<string, object>();
                 obj.Add("orderID", item.OrderID);
                 obj.Add("goodsName", item.GoodsName);
@@ -37,7 +38,10 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("clientName", item.Client.CompanyName);
                 obj.Add("clientContactName", item.Client.ContactName);
                 obj.Add("clientCode", item.Client.ClientCode); 
-                obj.Add("clientMobile", item.Client.MobilePhone); 
+                obj.Add("clientMobile", item.Client.MobilePhone);
+                obj.Add("clientUserNum", "0-50人");
+                obj.Add("clientUserLables", "金牌工厂，深度验厂,交期保障");
+                obj.Add("clientCity", item.Client.City != null ? item.Client.City.City + item.Client.City.Counties : ""); 
                 obj.Add("goodsID",item.GoodsID);
                 objs.Add(obj);
             }
