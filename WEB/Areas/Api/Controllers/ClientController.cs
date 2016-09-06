@@ -36,6 +36,25 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+        public ActionResult GetAllCategorys(int layerid = -1, EnumCategoryType type = EnumCategoryType.All)
+        {
+            List<Category> obj = ProductsBusiness.BaseBusiness.GetCategorys();
+            if (layerid > -1)
+            {
+                obj = obj.Where(x => x.Layers == layerid).ToList();
+            }
+            if (type != EnumCategoryType.All)
+            {
+                int t=(int) type;
+                obj = obj.Where(x => x.CategoryType == t).ToList();
+            }
+            JsonDictionary.Add("result", obj);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         //获取分类
         public ActionResult GetClientCategorys(string categoryID, EnumCategoryType type)
         {
