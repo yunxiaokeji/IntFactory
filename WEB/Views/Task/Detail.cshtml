@@ -30,10 +30,7 @@
 <input type="text"  id="GoodsID" hidden="hidden"class="hide" value="@order.GoodsID"/>
 <div class="taskContent" style="padding:0 0 60px 0;@(task.Mark==12||task.Mark==22?"padding-left:0;padding-right:0;":"")">
     <div id="navTask" class="talk-body nav-partdiv">
-        <div class="mTop20 mLeft10" id="taskReplys">
-
-        </div>
-
+        <div class="mTop20 mLeft10" id="taskReplys"></div>
         @{
             if (task.Mark == 11 && order.OrderType == 1)
             {
@@ -98,9 +95,7 @@
                 </div>
             }
         }
-        <div id="orderTaskLogs" class="mTop15 hide">
-        </div>
-
+        <div id="orderTaskLogs" class="mTop15 hide"></div>
     </div>
 </div>
 
