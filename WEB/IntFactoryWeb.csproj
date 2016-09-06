@@ -1500,6 +1500,7 @@
     <Folder Include="Content\tempfile\" />
     <Folder Include="Content\UploadFiles\Logo\201604\" />
     <Folder Include="modules\plug\umeditor\net\Bin\" />
+    <Folder Include="obj\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
