@@ -1866,6 +1866,16 @@
                 }
             }
         });
+
+        $("#tab11 .table-list").each(function () {
+            var _attrTable = $(this), amount = 0;
+            _attrTable.find(".cart-item .moneytotal").each(function () {
+                var _this = $(this);
+                amount += _this.html() * 1;
+            });
+
+            _attrTable.find(".total-money").html(amount.toFixed(3));
+        });
     }
 
     //编辑信息
@@ -2295,15 +2305,17 @@
     }
 
     ObjectJS.getProductAmount = function () {
-        var amount = 0;
-        $("#tab11 .cart-item .moneytotal").each(function () {
-            var _this = $(this);
-            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
-            amount += _this.html() * 1;
-        });
+        $("#tab11 .table-list").each(function () {
+            var _attrTable = $(this), amount = 0;
+            _attrTable.find(".cart-item .moneytotal").each(function () {
+                var _this = $(this);
+                //_this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
+                amount += _this.html() * 1;
+            });
 
-        $("#tab11 .total-item .moneytotal").html(amount.toFixed(3));
-        $("#productMoney").text(amount.toFixed(3));
+            _attrTable.find(".total-item .moneytotal").html(amount.toFixed(3));
+        });
     }
+
     module.exports = ObjectJS;
 })
