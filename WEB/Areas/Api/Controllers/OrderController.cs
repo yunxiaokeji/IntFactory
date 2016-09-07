@@ -15,10 +15,14 @@ namespace YXERP.Areas.Api.Controllers
     public class OrderController : BaseAPIController
     {
         //获取订单列表根据二当家客户端编码
-        public JsonResult GetOrdersByYXClientCode(string yxClientCode, int pageSize, int pageIndex, string clientID = "", string keywords = "", string orderByColumn = "", int isAsc = 0)
+        public JsonResult GetOrdersByYXClientCode(string yxClientCode, int pageSize, int pageIndex, string clientID = "", string keywords = "",
+            string categoryID = "", string orderby = "", string beginPrice = "", string endPrice = "",
+            string orderByColumn = "", int isAsc = 0)
         {
             int totalCount=0, pageCount = 0;
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords, pageSize, pageIndex, ref totalCount, ref pageCount, orderByColumn, isAsc);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords, pageSize, pageIndex, ref totalCount, ref pageCount,
+                categoryID, orderby, beginPrice, endPrice,
+                orderByColumn, isAsc);
             var objs=new List<Dictionary<string, object>>();
             foreach (var item in list) 
             {
