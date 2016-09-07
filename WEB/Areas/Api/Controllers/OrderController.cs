@@ -15,10 +15,10 @@ namespace YXERP.Areas.Api.Controllers
     public class OrderController : BaseAPIController
     {
         //获取订单列表根据二当家客户端编码
-        public JsonResult GetOrdersByYXClientCode(string yxClientCode,int pageSize, int pageIndex, string clientID = "",string keywords="")
+        public JsonResult GetOrdersByYXClientCode(string yxClientCode, int pageSize, int pageIndex, string clientID = "", string keywords = "", string categoryID = "", string orderby = "", string beginPrice = "", string endPrice = "")
         {
             int totalCount=0, pageCount = 0;
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords,pageSize, pageIndex, ref totalCount, ref pageCount);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords,pageSize, pageIndex, ref totalCount, ref pageCount,categoryID,orderby,beginPrice,endPrice);
             var objs=new List<Dictionary<string, object>>();
             foreach (var item in list) 
             {
@@ -39,6 +39,8 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("clientContactName", item.Client.ContactName);
                 obj.Add("clientCode", item.Client.ClientCode); 
                 obj.Add("clientMobile", item.Client.MobilePhone);
+                obj.Add("clientAddress", item.Client.Address);
+                obj.Add("clientCityCode", item.Client.CityCode);
                 obj.Add("clientUserNum", "0-50人");
                 obj.Add("clientUserLables", "金牌工厂，深度验厂,交期保障");
                 obj.Add("clientCity", item.Client.City != null ? item.Client.City.City + item.Client.City.Counties : ""); 
@@ -77,7 +79,9 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("clientName", client.CompanyName);
             obj.Add("clientCode", client.ClientCode);
             obj.Add("clientContactName", client.ContactName);
-            obj.Add("clientMobile", client.MobilePhone); 
+            obj.Add("clientMobile", client.MobilePhone);
+            obj.Add("clientAddress", client.Address);
+            obj.Add("clientCityCode", client.CityCode);
             obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();
