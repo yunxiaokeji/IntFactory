@@ -9,7 +9,7 @@
 %}
     <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
         <span class="width80 left">{%= attr.AttrName%}：</span>
-        <div class="left" style="width:90%;">
+        <div class="left" style="max-width:700px;">
         {%
         for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
 	        var value = attr.AttrValues[ii];
@@ -20,7 +20,7 @@
             </span> 
            
         {% } %}
-            <span>
+            <span class="dy-order-change" style="display:none;">
                 <input class="change-attr center width50" maxlength="20" data-id="{%=attr.AttrID%}" data-type="1" type="text" placeholder="自定义" />
             </span>
         </div>
@@ -33,7 +33,7 @@
 %}
     <li data-id="{%=attr.AttrID%}" data-text="{%= attr.AttrName%}" class="productsalesattr">
         <span class="width80 left">{%= attr.AttrName%}：</span>
-        <div class="left" style="width:90%;">
+        <div class="left" style="max-width:700px;">
         {%
         for(var ii=0, jj=attr.AttrValues.length; ii < jj; ii++){
 	        var value = attr.AttrValues[ii];
@@ -44,7 +44,7 @@
             </span> 
            
         {% } %}
-        <span>
+        <span class="dy-order-change" style="display:none;">
             <input class="change-attr center width50" maxlength="20" data-id="{%=attr.AttrID%}" data-type="2" type="text" placeholder="自定义" />
         </span>
         </div>
@@ -54,22 +54,21 @@
     <li id="childGoodsQuantity" style="max-height:200px;  overflow:auto;">
          
     </li>
-    <li>
+    <li class="dh-order-tr hide">
         <span class="width80">打样报价：</span>
         <label id="lblOrderFinalPrice"></label>
     </li>
-    <li>
+    <li class="dh-order-tr hide">
         <span class="width80">下单折扣：</span>
         <input type="text" maxlength="10" value="1.00" class="width60" data-value="1.00" id="iptOrderDiscount" />
     </li>
-    <li>
+    <li class="dh-order-tr hide">
         <span class="width80">大货单价：</span>
         <input type="text" maxlength="10" class="width60" data-value="" id="iptOrderNewPrice" />
     </li>
     <li>
         <span class="width80 red">注意：</span>
-        
-        <label class="red">下单数量提交后不可编辑，请仔细核对</label>
+        <label class="red">数据提交后不可编辑，请仔细核对</label>
     </li>
 </ul>
 

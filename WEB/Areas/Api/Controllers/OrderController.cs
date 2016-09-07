@@ -159,7 +159,7 @@ namespace YXERP.Areas.Api.Controllers
         public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID,string yxClientID="",string personname="",string mobiletele="",string citycode="",string address="")
         {
             var productDetails = JsonConvert.DeserializeObject< List<IntFactoryEntity.OrderGoodsEntity > >(details);
-            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 1, 1, price, productDetails, string.Empty, clientID, yxOrderID, yxClientID, personname, mobiletele, citycode, address);
+            string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 2, true, 1, price, productDetails, string.Empty, clientID, yxOrderID, yxClientID, personname, mobiletele, citycode, address);
           JsonDictionary.Add("id",id);
 
           return new JsonResult

@@ -595,12 +595,12 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
+        public string CreateDHOrder(string orderid, int ordertype, bool isCreate, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
         {
             var dal = new OrdersDAL();
-            string id = Guid.NewGuid().ToString().ToLower();
 
-            if (ordertype == 2 && string.IsNullOrEmpty(yxOrderID))
+            string id = Guid.NewGuid().ToString().ToLower();
+            if (ordertype == 2 && !isCreate && string.IsNullOrEmpty(yxOrderID))
             {
                 if (!UpdateOrderDiscount(orderid, discount, price, operateid, "", clientid))
                 {
@@ -618,10 +618,18 @@ namespace IntFactoryBusiness
             
             try
             {
-                //打样单
-                if (ordertype == (int)EnumOrderType.ProofOrder)
+                //大货单
+                if (ordertype == (int)EnumOrderType.LargeOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID,personname,mobiletele,citycode,address);
+                    bool bl = true;
+                    if (isCreate)
+                    {
+                        bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID, personname, mobiletele, citycode, address);
+                    }
+                    else
+                    {
+                        id = orderid;
+                    }
                     //产品添加成功添加子产品
                     if (bl)
                     {

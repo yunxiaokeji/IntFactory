@@ -33,9 +33,13 @@
         ? "协助工厂：" + ViewBag.Client.CompanyName + "-" + ViewBag.Client.ClientCode : "本厂订单")
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
-        @if (IsDoClient && model.Status == 0)
+        @if (IsDoClient && model.Status == 0 && model.OrderAttrs.Count > 0)
         {
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
+        }
+        else if(model.IsSelf && model.Status == 0&&model.OrderAttrs.Count==0)
+        {
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnCreateOrderGoods">确认打样规格</div>
         }
         else if (model.IsSelf && model.Status == 2)
         { 
@@ -241,6 +245,7 @@
 }
 <div class="module-header mTop20">
     <ul class="module-tab left">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navGoods">打样规格</li>
         @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
         {
              <li data-id="tab@(tab.Mark)" class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">@(tab.Name)</li>
@@ -255,6 +260,50 @@
 </div>
 
 <div class="content-body" style="padding:0 0 50px 0;">
+
+    <div id="navGoods" class="nav-partdiv hide">
+        <table class="table-list mTop20">
+            @if (model.OrderAttrs.Count > 0)
+            {
+                <tr class="tr-header">
+                    <td class="tLeft width200">规格</td>
+                    @foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
+                    { 
+                        <td class="">@detail.AttrName</td>
+                    }
+                    <td class="tRight">成本</td>
+                </tr>
+                foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 2).ToList())
+                {
+                <tr class="item">
+                    <td class="tLeft">@detail.AttrName</td>
+                    @foreach (var td in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
+                    {
+                        if (model.OrderGoods.Where(m => m.XRemark == td.AttrName && m.YRemark == detail.AttrName).Count() > 0)
+                        {
+                                <td class="center">@(model.OrderGoods.Where(m => m.XRemark == td.AttrName && m.YRemark == detail.AttrName).FirstOrDefault().Quantity)</td>
+                        }
+                        else
+                        {
+                            <td class="center">0</td>
+                        }
+                    }
+                    <td class="tRight">@detail.Price</td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr class="tr-header">
+                    <td class="tLeft width200">规格</td>
+                    <td class="width200">数量</td>
+                    <td class="tRight">成本</td>
+                </tr>
+                <tr><td colspan="8"><div class="nodata-txt">暂无明细</div></td></tr>
+            }
+        </table>
+    </div>
+
     <div id="tab11" class="nav-partdiv hide">
         @if (model.OrderAttrs.Where(m => m.AttrType == 2).Count() == 0)
         {
@@ -409,8 +458,13 @@
 </ul>
 
 <ul id="ddlOperateOrder" class="dropdown-ul hide" style="">
+    @if (model.IsSelf)
+    {
+        <li class="btn-create-ordergoods" data-type="1">新建规格</li>
+    }
     @if (model.OrderStatus == 0)
     {
+        
         if (model.IsSelf && string.IsNullOrEmpty(model.EntrustClientID))
         {
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnchangeclient" >订单委托</li>
@@ -431,7 +485,7 @@
         <li class="sample-report" data-type="1">打样报价</li>
         if (model.IsSelf && model.OrderStatus == 2)
         { 
-        <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
+            <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
         }
     }
     
