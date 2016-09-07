@@ -123,10 +123,10 @@ namespace IntFactoryBusiness
         /// <param name="yxCode"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string categoryID = "", string orderby = "", string beginPrice = "", string endPrice = "")
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords,pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords, categoryID,orderby,beginPrice,endPrice, pageSize, pageIndex, ref totalCount, ref pageCount);
             DataTable dt = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
