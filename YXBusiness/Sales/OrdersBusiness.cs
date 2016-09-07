@@ -124,8 +124,8 @@ namespace IntFactoryBusiness
         /// <param name="clientid"></param>
         /// <returns></returns>
         public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, 
-            string categoryID = "", string orderby = "", string beginPrice = "", string endPrice = "",
-            string orderByColumn ="", int isAsc = 0)
+            string categoryID, string orderby, string beginPrice , string endPrice,
+            string orderByColumn, int isAsc)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, 
