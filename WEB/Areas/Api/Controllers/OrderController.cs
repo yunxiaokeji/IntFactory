@@ -43,6 +43,8 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("clientContactName", item.Client.ContactName);
                 obj.Add("clientCode", item.Client.ClientCode); 
                 obj.Add("clientMobile", item.Client.MobilePhone);
+                obj.Add("clientAddress", item.Client.Address);
+                obj.Add("clientCityCode", item.Client.CityCode);
                 obj.Add("clientUserNum", "0-50人");
                 obj.Add("clientUserLables", "金牌工厂，深度验厂,交期保障");
                 obj.Add("clientCity", item.Client.City != null ? item.Client.City.City + item.Client.City.Counties : ""); 
@@ -81,7 +83,9 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("clientName", client.CompanyName);
             obj.Add("clientCode", client.ClientCode);
             obj.Add("clientContactName", client.ContactName);
-            obj.Add("clientMobile", client.MobilePhone); 
+            obj.Add("clientMobile", client.MobilePhone);
+            obj.Add("clientAddress", client.Address);
+            obj.Add("clientCityCode", client.CityCode);
             obj.Add("goodsID", item.GoodsID);
             //材料列表
             var details = new List<Dictionary<string, object>>();
