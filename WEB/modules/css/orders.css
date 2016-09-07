@@ -52,7 +52,7 @@
 /*订单信息*/
 .order-info .moneyinfo { min-width:220px; margin-left:30px; }
 .order-info .moneyinfo li{ line-height:35px; clear:both;padding:5px; overflow:auto; }
-.order-info .moneyinfo li .column-title{ width:80px; float:left; color:#666; }
+.order-info .moneyinfo li .column-title{ width:90px; float:left; color:#666; }
 
 .order-info .cutomerinfo {  border-left:solid 1px #f6f6f6; margin-top:20px; padding:0 50px 20px 50px; max-width:400px; }
 .order-info .cutomerinfo li{ line-height:35px; clear:both; padding:5px;  }

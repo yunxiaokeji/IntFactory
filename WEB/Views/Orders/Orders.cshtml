@@ -16,7 +16,7 @@
 }
 <div class="header-box">
     <span class="header-title left">@ViewBag.Title</span>
-    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right">新建需求单</a>
+    <a href="/Orders/Create" target="_blank" id="createOrder" class="btn-add right">新建打样单</a>
     <div class="btn right mRight10 nolimits" id="downAliOrders">同步阿里订单</div>
 </div>
 <div class="search-header">
@@ -77,13 +77,9 @@
             <li class="column-name">来源：</li>
             <li data-id="-1" class="item hover">全部</li>
             <li data-id="1" class="item">工厂</li>
-            <li data-id="2" class="item">自助</li>
-            <li data-id="3" class="item">阿里</li>
-            <li data-id="5" class="item">二当家</li>
-            @if (ViewBag.SearchType == 1)
-            {
-                <li data-id="4" class="item">自动生成</li>
-            }
+            <li data-id="2" class="item">客户自助</li>
+            <li data-id="3" class="item">淘工厂</li>
+            <li data-id="5" class="item">客户端</li>
         </ul> 
     </div>
     <div class="clear"></div>

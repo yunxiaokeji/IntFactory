@@ -16,6 +16,8 @@ namespace YXERP.Models
 
         public string guid { get; set; }
 
+        public string attrid { get; set; }
+
         public List<ProductStock> Products { get; set; }
 
     }

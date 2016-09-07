@@ -34,7 +34,7 @@
 
         @if ( model.Status == 0)
         {
-            if (IsDoClient && model.OrderGoods.Count > 0)
+            if (IsDoClient && model.OrderGoods.Count > 0 && !string.IsNullOrEmpty(model.OriginalID))
             {
                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
             }
@@ -130,7 +130,7 @@
             <li class="">
                 <span class="column-title">单价：</span>
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
-                @if (model.IsSelf && model.OrderStatus < 2)
+                @if (model.IsSelf && model.OrderStatus == 1)
                 { 
                     <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                 }

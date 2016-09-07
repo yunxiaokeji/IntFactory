@@ -13,7 +13,7 @@
 @section scripts{
     <script type="text/javascript">
         seajs.use(["scripts/shoppingcart/filterdetails"], function (obj) {
-            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@type', '@ViewBag.GUID', '@ViewBag.TID', '@(Html.ToJSONString(depots))');
+            obj.init('@Html.ToJSONString(model)', '@ViewBag.DetailID', '@type', '@ViewBag.GUID', '@ViewBag.TID', '@(Html.ToJSONString(depots))', '@ViewBag.AID');
         });
     </script>
 }

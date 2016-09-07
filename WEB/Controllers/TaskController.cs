@@ -52,6 +52,10 @@ namespace YXERP.Controllers
                 {
                     order.Details = new List<IntFactoryEntity.OrderDetail>();
                 }
+                if (order.OrderType == 1)
+                {
+                    order.OrderAttrs = OrdersBusiness.BaseBusiness.GetOrderArrrsByOrderID(task.OrderID);
+                }
             }
             taskModel.Order = order;
 

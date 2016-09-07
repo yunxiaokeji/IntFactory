@@ -141,7 +141,7 @@
         $(".productsalesattr").remove();
         $("#childGoodsQuantity").empty();
         CacheItems = [];
-        if ($(".ico-radiobox.hover").data('type') == 2) {
+        if ($(".ico-radiobox.hover").data('type')) {//== 2
             if (_self.categoryModel) {
                 doT.exec("template/orders/createorder-checkattr.html", function (template) {
                     var innerhtml = template(_self.categoryModel);
@@ -438,24 +438,22 @@
         };
 
         //大货单遍历下单明细
-        if ($(".ico-radiobox.hover").data('type') == 2) {
-            $(".child-product-table .quantity").each(function () {
-                var _this = $(this);
-                if (_this.val() > 0) {
-                    var item = CacheItems[_this.data("remark")];
-                    model.OrderGoods.push({
-                        SaleAttr: item.saleAttr,
-                        AttrValue: item.attrValue,
-                        SaleAttrValue: item.ids,
-                        Quantity: _this.val(),
-                        XRemark: item.xRemark,
-                        YRemark: item.yRemark,
-                        XYRemark: item.xyRemark,
-                        Remark: item.names
-                    });
-                }
-            });
-        }
+        $(".child-product-table .quantity").each(function () {
+            var _this = $(this);
+            if (_this.val() > 0) {
+                var item = CacheItems[_this.data("remark")];
+                model.OrderGoods.push({
+                    SaleAttr: item.saleAttr,
+                    AttrValue: item.attrValue,
+                    SaleAttrValue: item.ids,
+                    Quantity: _this.val(),
+                    XRemark: item.xRemark,
+                    YRemark: item.yRemark,
+                    XYRemark: item.xyRemark,
+                    Remark: item.names
+                });
+            }
+        });
 
         Global.post("/Orders/CreateOrder", { entity: JSON.stringify(model) }, function (data) {
             if (data.id) {

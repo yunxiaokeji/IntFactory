@@ -154,7 +154,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
-            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Details|Goods|Tasks");
+            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Details|Goods|Tasks|Attrs");
             return ds;
         }
 
@@ -175,6 +175,14 @@ namespace IntFactoryDAL
                                     new SqlParameter("@OrderID",orderid)
                                  };
             return GetDataTable("select * from OrderDetail where OrderID=@OrderID", paras, CommandType.Text);
+        }
+
+        public DataTable GetOrderAttrsByOrderID(string orderid)
+        {
+            SqlParameter[] paras ={
+                                    new SqlParameter("@OrderID",orderid)
+                                 };
+            return GetDataTable("select * from OrderAttrs where OrderID=@OrderID", paras, CommandType.Text);
         }
 
         public DataSet GetOrderForFentReport(string orderid,  string clientid)

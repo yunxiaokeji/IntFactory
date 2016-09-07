@@ -149,10 +149,11 @@
         //绑定任务样式图
         ObjectJS.bindOrderImages();
 
-        if ($("#btnChooseProduct").length == 1) {
+        if ($(".btn-choose-product").length > 0) {
             ChooseProduct = require("chooseproduct");
             //快捷添加产品
-            $("#btnChooseProduct").click(function () {
+            $(".btn-choose-product").click(function () {
+                var _this = $(this);
                 ChooseProduct.create({
                     title: "选择采购材料",
                     type: 11, //1采购 2出库 3报损 4报溢 5调拨
@@ -162,6 +163,7 @@
                             var entity = {}, items = [];
                             entity.guid = ObjectJS.guid;
                             entity.type = 11;
+                            entity.attrid = _this.data("id");
                             for (var i = 0; i < products.length; i++) {
                                 items.push({
                                     ProductID: products[i].pid,
@@ -1055,23 +1057,25 @@
 
     //计算总金额
     ObjectJS.getProductAmount = function () {
-        var amount = 0;
-        $(".amount").each(function () {
-            var _this = $(this);
-            if (ObjectJS.materialMark == 0) {
-                amount += _this.html() * 1;
-            }
-            else if (ObjectJS.materialMark == 1) {
-                _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
-                amount += _this.html() * 1;
-            }
-            else if (ObjectJS.materialMark == 2) {
-                _this.html(((_this.prevAll(".tr-plan-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
-                amount += _this.html() * 1;
-            }
+        
+        $("#navProducts .table-list").each(function () {
+            var _attrTable = $(this), amount = 0;
+            _attrTable.find(".amount").each(function () {
+                var _this = $(this);
+                if (ObjectJS.materialMark == 0) {
+                    amount += _this.html() * 1;
+                }
+                else if (ObjectJS.materialMark == 1) {
+                    _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
+                    amount += _this.html() * 1;
+                }
+                else if (ObjectJS.materialMark == 2) {
+                    _this.html(((_this.prevAll(".tr-plan-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find(".price").val()).toFixed(3));
+                    amount += _this.html() * 1;
+                }
+            });
+            _attrTable.find(".attr-totalmoney").text(amount.toFixed(3));
         });
-
-        $("#amount").text(amount.toFixed(3));
     }
     //#endregion
 
