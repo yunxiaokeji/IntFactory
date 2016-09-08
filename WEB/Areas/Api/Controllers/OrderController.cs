@@ -115,41 +115,74 @@ namespace YXERP.Areas.Api.Controllers
             }
             obj.Add("plateMakings", plates);
             //订单品类
-            var category = new ProductsBusiness().GetCategoryByID(item.CategoryID);
+            
             var attrLists = new List<Dictionary<string, object>>();
-            var saleAttrs = new List<Dictionary<string, object>>();
-            foreach (var attr in category.AttrLists) {
-                Dictionary<string, object> attrObj= new Dictionary<string, object>();
-                attrObj.Add("AttrID", attr.AttrID);
-                attrObj.Add("AttrName", attr.AttrName);
-                var attrValues = new List<Dictionary<string, object>>();
-                foreach (var value in attr.AttrValues) {
-                    Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    valueObj.Add("ValueID", value.ValueID);
-                    valueObj.Add("ValueName", value.ValueName);
-
-                    attrValues.Add(valueObj);
-                }
-                attrObj.Add("AttrValues", attrValues);
-                attrLists.Add(attrObj);
-            }
-            foreach (var attr in category.SaleAttrs)
+            var saleAttrs = new List<Dictionary<string, object>>(); 
+            Dictionary<string, object> cmAttr = new Dictionary<string, object>();
+            cmAttr.Add("AttrID", item.OrderID);
+            cmAttr.Add("AttrName", "尺码");
+            var cmlist=new List<Dictionary<string, object>>();
+            item.OrderAttrs.Where(x => x.AttrType == 1).ToList().ForEach(x =>
             {
-                Dictionary<string, object> attrObj = new Dictionary<string, object>();
-                attrObj.Add("AttrID", attr.AttrID);
-                attrObj.Add("AttrName", attr.AttrName);
-                var attrValues = new List<Dictionary<string, object>>();
-                foreach (var value in attr.AttrValues)
-                {
-                    Dictionary<string, object> valueObj = new Dictionary<string, object>();
-                    valueObj.Add("ValueID", value.ValueID);
-                    valueObj.Add("ValueName", value.ValueName);
-
-                    attrValues.Add(valueObj);
-                }
-                attrObj.Add("AttrValues", attrValues);
-                saleAttrs.Add(attrObj);
+                Dictionary<string, object> valueObj = new Dictionary<string, object>();
+                valueObj.Add("ValueID", x.OrderAttrID);
+                valueObj.Add("ValueName", x.AttrName);
+                cmlist.Add(valueObj);
+            });
+            if (cmlist.Any())
+            {
+                cmAttr.Add("AttrValues",cmlist);
+                attrLists.Add(cmAttr);
             }
+            Dictionary<string, object> ysAttr = new Dictionary<string, object>();
+            ysAttr.Add("AttrID", item.OrderID);
+            ysAttr.Add("AttrName", "颜色");
+            var yslist = new List<Dictionary<string, object>>();
+            item.OrderAttrs.Where(x => x.AttrType == 2).ToList().ForEach(x =>
+            {
+                Dictionary<string, object> valueObj = new Dictionary<string, object>();
+                valueObj.Add("ValueID", x.OrderAttrID);
+                valueObj.Add("ValueName", x.AttrName);
+                yslist.Add(valueObj);
+            });
+            if (yslist.Any())
+            {
+                ysAttr.Add("AttrValues", yslist);
+                saleAttrs.Add(ysAttr);
+            }
+            //var category = new ProductsBusiness().GetCategoryByID(item.CategoryID);
+            //foreach (var attr in category.AttrLists) {
+            //    Dictionary<string, object> attrObj= new Dictionary<string, object>();
+            //    attrObj.Add("AttrID", attr.AttrID);
+            //    attrObj.Add("AttrName", attr.AttrName);
+            //    var attrValues = new List<Dictionary<string, object>>();
+            //    foreach (var value in attr.AttrValues) {
+            //        Dictionary<string, object> valueObj = new Dictionary<string, object>();
+            //        valueObj.Add("ValueID", value.ValueID);
+            //        valueObj.Add("ValueName", value.ValueName);
+
+            //        attrValues.Add(valueObj);
+            //    }
+            //    attrObj.Add("AttrValues", attrValues);
+            //    attrLists.Add(attrObj);
+            //}
+            //foreach (var attr in category.SaleAttrs)
+            //{
+            //    Dictionary<string, object> attrObj = new Dictionary<string, object>();
+            //    attrObj.Add("AttrID", attr.AttrID);
+            //    attrObj.Add("AttrName", attr.AttrName);
+            //    var attrValues = new List<Dictionary<string, object>>();
+            //    foreach (var value in attr.AttrValues)
+            //    {
+            //        Dictionary<string, object> valueObj = new Dictionary<string, object>();
+            //        valueObj.Add("ValueID", value.ValueID);
+            //        valueObj.Add("ValueName", value.ValueName);
+
+            //        attrValues.Add(valueObj);
+            //    }
+            //    attrObj.Add("AttrValues", attrValues);
+            //    saleAttrs.Add(attrObj);
+            //}
             obj.Add("AttrLists", attrLists);
             obj.Add("SaleAttrs", saleAttrs);
             JsonDictionary.Add("order",obj);
