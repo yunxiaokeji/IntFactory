@@ -135,7 +135,7 @@ namespace YXERP.Areas.Api.Controllers
                 attrLists.Add(cmAttr);
             }
             Dictionary<string, object> ysAttr = new Dictionary<string, object>();
-            ysAttr.Add("AttrID", item.OrderID);
+            ysAttr.Add("AttrID", item.GoodsID);
             ysAttr.Add("AttrName", "颜色");
             var yslist = new List<Dictionary<string, object>>();
             item.OrderAttrs.Where(x => x.AttrType == 2).ToList().ForEach(x =>
