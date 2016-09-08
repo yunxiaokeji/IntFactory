@@ -60,14 +60,14 @@
         ObjectJS.isLoading = true;
 
         //材料任务
-        if ($("#btn-addMaterial").length == 1) {
+        if ($(".btn-choose-product").length > 0) {
             ObjectJS.materialMark = 1;
             if (ObjectJS.mark == 11 && ObjectJS.orderType == 2) {
                 ObjectJS.materialMark = 2;
             }
             ObjectJS.initTaskProduct();
         }
-         //制版任务
+            //制版任务
         else if ($("#btn-updateTaskRemark").length == 1) {
             ObjectJS.bindPlatemakingEvent();
             ObjectJS.initPlateMaking();

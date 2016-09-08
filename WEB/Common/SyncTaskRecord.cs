@@ -66,18 +66,15 @@ namespace YXERP.Common
                         OperateResult result = TaskOrderBusiness.BaseBusiness.AddStockPartIn(obj.Content, obj.ToString());
                         if (result.error_code == 0)
                         {
-                            if (result.result == 1)
+                            if (result.result == 1 || result.result == -1)
                             {
                                 status = 1;
                             }
+                            errormsg = result.error_message;
                             WriteLog(string.Format("推送成功,系统订单ID：{0},外部单据:{1}。", obj.OrderID, obj.OtherSysID), 1);
                         }
                         else
-                        {
-                            if (result.result == -1)
-                            {
-                                status = 1;
-                            }
+                        { 
                             errormsg = result.error_message;
                             WriteLog(string.Format("执行失败,失败代码：{0},失败信息:{1}", result.error_code, result.error_message), 2);
                         }
