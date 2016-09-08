@@ -32,7 +32,7 @@ namespace IntFactoryBusiness
             return list;
 
         }
-        public List<OtherSyncTaskRecord> GetSyncTaskRecord(int type, int status,string orderid, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public List<OtherSyncTaskRecord> GetSyncTaskRecord(int type, string status,string orderid, string clientid, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
         {
             string sqlWhere = "a.Status<>9";
             if (!string.IsNullOrEmpty(orderid))
@@ -41,8 +41,8 @@ namespace IntFactoryBusiness
                 sqlWhere += " and ( a.ClientID ='" + clientid + "' )"; 
             if (type > 0)
                 sqlWhere += " and ( a.Type ='" + type + "' )";
-            if (status > -1)
-                sqlWhere += " and ( a.Status ='" + status + "' )";
+            if (!string.IsNullOrEmpty(status))
+                sqlWhere += " and ( a.Status in ('" + status + ")' )";
             string sqlColumn = @" * ";
             DataTable dt = CommonBusiness.GetPagerData("OtherSyncTaskRecord a", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
             List<OtherSyncTaskRecord> list = new List<OtherSyncTaskRecord>();
