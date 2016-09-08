@@ -42,7 +42,7 @@ namespace IntFactoryBusiness
             if (type > 0)
                 sqlWhere += " and ( a.Type ='" + type + "' )";
             if (!string.IsNullOrEmpty(status))
-                sqlWhere += " and ( a.Status in ('" + status + ")' )";
+                sqlWhere += " and ( a.Status in (" + status + ") )";
             string sqlColumn = @" * ";
             DataTable dt = CommonBusiness.GetPagerData("OtherSyncTaskRecord a", sqlColumn, sqlWhere, "a.AutoID", pageSize, pageIndex, out totalCount, out pageCount);
             List<OtherSyncTaskRecord> list = new List<OtherSyncTaskRecord>();
