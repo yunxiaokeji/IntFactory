@@ -126,7 +126,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 Dictionary<string, object> valueObj = new Dictionary<string, object>();
                 valueObj.Add("ValueID", x.OrderAttrID);
-                valueObj.Add("ValueName", x.AttrName);
+                valueObj.Add("ValueName", x.AttrName.Replace("【", "").Replace("】",""));
                 cmlist.Add(valueObj);
             });
             if (cmlist.Any())
@@ -142,7 +142,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 Dictionary<string, object> valueObj = new Dictionary<string, object>();
                 valueObj.Add("ValueID", x.OrderAttrID);
-                valueObj.Add("ValueName", x.AttrName);
+                valueObj.Add("ValueName", x.AttrName.Replace("【", "").Replace("】", ""));
                 yslist.Add(valueObj);
             });
             if (yslist.Any())
