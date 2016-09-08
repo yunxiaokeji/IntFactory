@@ -1837,7 +1837,7 @@
         var _self = this;
         Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
             if (data.status) {
-                location.href = "/Orders/Orders";
+                location.href = "/Orders/DemandOrders";
             } else {
                 alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！", 2);
             }

@@ -192,6 +192,7 @@
                                             model.xyRemark = "【" + _value.data("text") + "】";
                                             model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
                                             model.layer = 1;
+                                            model.sort = _value.data("sort");
                                             details.push(model);
 
                                         } else {

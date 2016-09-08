@@ -187,7 +187,7 @@ namespace IntFactoryDAL
             SqlParameter[] paras ={
                                     new SqlParameter("@OrderID",orderid)
                                  };
-            return GetDataTable("select * from OrderAttrs where OrderID=@OrderID", paras, CommandType.Text);
+            return GetDataTable("select * from OrderAttrs where OrderID=@OrderID Order by Sort", paras, CommandType.Text);
         }
 
         public DataSet GetOrderForFentReport(string orderid,  string clientid)
@@ -245,7 +245,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@OrderID",orderid)
                                    };
 
-            DataTable dt = GetDataTable("Select * from OrderGoods where OrderID=@OrderID ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select * from OrderGoods where OrderID=@OrderID Order by Sort ", paras, CommandType.Text);
             return dt;
         }
         #endregion
@@ -312,7 +312,7 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool AddOrderGoods(string orderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string xRemark, string yRemark, string xyRemark, string remark, string operateid, string clientid, SqlTransaction tran)
+        public bool AddOrderGoods(string orderid, string saleattr, string attrvalues, string saleattrvalue, decimal quantity, string xRemark, int sort, string yRemark, string xyRemark, string remark, string operateid, string clientid, SqlTransaction tran)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
@@ -321,6 +321,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@AttrValueList",saleattrvalue),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@XRemark",xRemark),
+                                     new SqlParameter("@Sort",sort),
                                      new SqlParameter("@YRemark",yRemark),
                                      new SqlParameter("@XYRemark",xyRemark),
                                      new SqlParameter("@Description",remark),

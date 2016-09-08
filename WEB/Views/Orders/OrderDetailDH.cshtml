@@ -281,7 +281,7 @@
                 foreach (var detail in model.OrderGoods)
                 { 
                 <tr class="item cart-item" >
-                    <td>@(detail.Remark)</td>
+                    <td>@(detail.YRemark+detail.XRemark)</td>
                     <td class="center good1">@(detail.Quantity)</td>
                     <td class="center good2">@(detail.CutQuantity)</td>
                     <td class="center good3">@(detail.Complete)</td>

@@ -573,10 +573,24 @@ namespace IntFactoryBusiness
                         conn.Open();
                     }
                     SqlTransaction tran = conn.BeginTransaction();
-                     
+
+                    int sort = 0;
+                    var values = ProductsBusiness.BaseBusiness.GetCategoryByID(categoryid).AttrLists[0].AttrValues;
+
                     foreach (var model in details)
                     {
-                        if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                        if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                        {
+                            if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                            {
+                                sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                            }
+                            else
+                            {
+                                sort = 999;
+                            }
+                        }
+                        if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
@@ -620,6 +634,9 @@ namespace IntFactoryBusiness
             
             try
             {
+                int sort = 0;
+                string categoryid = OrdersBusiness.BaseBusiness.GetOrderByID(orderid).CategoryID;
+                var values = ProductsBusiness.BaseBusiness.GetCategoryByID(categoryid).AttrLists[0].AttrValues;
                 //大货单
                 if (ordertype == (int)EnumOrderType.LargeOrder)
                 {
@@ -637,7 +654,18 @@ namespace IntFactoryBusiness
                     {
                         foreach (var model in details)
                         {
-                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                            if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                            {
+                                if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                                {
+                                    sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                                }
+                                else
+                                {
+                                    sort = 999;
+                                }
+                            }
+                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                             {
                                 tran.Rollback();
                                 conn.Dispose();
@@ -656,7 +684,18 @@ namespace IntFactoryBusiness
                 {
                     foreach (var model in details)
                     {
-                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                        if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                        {
+                            if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                            {
+                                sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                            }
+                            else
+                            {
+                                sort = 999;
+                            }
+                        }
+                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
