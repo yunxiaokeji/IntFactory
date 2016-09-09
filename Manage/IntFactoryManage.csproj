@@ -224,8 +224,8 @@
     <Content Include="modules\css\helpcenter\helpcenter.css" />
     <Content Include="modules\scripts\helpcenter\types.js" />
     <Content Include="modules\scripts\helpcenter\contents.js" />
-    <Content Include="modules\scripts\helpcenter\update-content.js" />
-    <Content Include="modules\template\helpcenter\content\updata-type.html" />
+    <Content Include="modules\scripts\helpcenter\editcontent.js" />
+    <Content Include="modules\template\helpcenter\type\updata-type.html" />
     <Content Include="modules\template\helpcenter\content\content-list.html" />
     <Content Include="modules\template\helpcenter\type\type-list.html" />
     <Content Include="modules\plug\city.js" />
@@ -803,6 +803,7 @@
     <Content Include="modules\template\system\setuserrole.html" />
     <Content Include="modules\template\system\users.html" />
     <Content Include="modules\template\system\user-detail.html" />
+    <Content Include="modules\template\task-file-upload-img.html" />
     <Content Include="Scripts\jquery-1.11.1.js" />
     <Content Include="Scripts\sea-config.js" />
     <Content Include="Scripts\sea.js" />

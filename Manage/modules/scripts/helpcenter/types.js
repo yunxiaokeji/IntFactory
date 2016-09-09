@@ -131,8 +131,8 @@
                     $(".category").append(innerHtml);
                     
                     innerHtml.find(".update").click(function () {
-                        var _this = $(this), typeID = _this.data("id");
-                        Dot.exec("/template/helpcenter/content/updata-type.html", function (template) {
+                        var _this = $(this), typeID = _this.data("id"), index = _this.data("index");
+                        Dot.exec("/template/helpcenter/type/updata-type.html", function (template) {
                             var innerText = template(data.items);                            
                             Easydialog.open({
                                 container: {
@@ -158,16 +158,14 @@
 
                             ObjectJS.bindSelect("update");                           
 
-                            for (var i = 0; i < data.items.length; i++) {
-                                var item = data.items[i];
-                                if (item.TypeID == typeID) {
-                                    moduleType = item.ModuleType;
-                                    $(".type").val(item.Name);
-                                    $("#select .item .check-lump").removeClass("hover");
-                                    $("#select .item .check-lump[data-id=" + item.ModuleType + "]").addClass("hover");
-                                    $("#cateGoryImages").html("<li><img src='" + item.Icon + "?imageView2/1/w/60/h/60' data-src="+item.Icon+"></li>");
-                                }
+                            var item = data.items[index];
+                            $(".type").val(item.Name);
+                            $("#select .item .check-lump").removeClass("hover");
+                            $("#select .item .check-lump[data-id=" + item.ModuleType + "]").addClass("hover");
+                            if (item.Icon) {
+                                $("#cateGoryImages").html("<li><img src='" + item.Icon + "?imageView2/1/w/60/h/60' data-src=" + item.Icon + "></li>");
                             }
+    
 
                             ObjectJS.bindUpload();
                         });
