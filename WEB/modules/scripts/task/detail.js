@@ -381,15 +381,9 @@
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
                                 alert("任务到期时间不能为空", 2);
-                                return;
+                                return false;
                             }
-                            var planTime = new Date(ObjectJS.planTime).getTime();
-                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
-                            if (planTime < endTime) {
-                                confirm("到期时间超过订单交货日期,确定设置?", function () { ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val()) } );
-                            } else {
-                                ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
-                            }
+                            ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
                         }
                     }
                 });
