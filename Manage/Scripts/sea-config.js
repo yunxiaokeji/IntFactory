@@ -34,7 +34,8 @@ seajs.config({
         "dropdown": "plug/dropdown/dropdown.js",
         //弹出层插件
         "easydialog": "plug/easydialog/easydialog.js",
-  
+        //上传
+        "upload": "plug/qiniustorage/qiniu/qiniu.js"
     }
 });
 

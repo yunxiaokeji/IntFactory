@@ -1,0 +1,80 @@
+﻿@{    
+    var list = (List<IntFactoryEntity.HelpCenter.TypeEntity>)ViewBag.List;
+    ViewBag.Title = "后台 | 内容列表";
+    ViewBag.Name = "Function";
+    ViewBag.navName = "details-List";    
+}
+@section css{    
+    <link href="/modules/css/helpcenter/helpcenter.css" rel="stylesheet" />
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+}
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["/modules/scripts/helpcenter/contents"], function (ObjectJS) {
+            ObjectJS.init(null,null);
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="header-title left">内容列表</span>
+    <div class="add-type right"><a href="/HelpCenter/AddContent" class="btn-add">添加内容</a></div>
+</div>
+<div class="content-body">
+    <div class="search-body mTop10">
+        <ul class="search-item module-source">
+            <li class="column-name">模块：</li>
+            <li data-idsource="0"class="item hover">全部</li>
+            <li data-idsource="1" class="item">功能模块</li>
+            <li data-idsource="2" class="item">常见问题</li>
+            <li data-idsource="3" class="item">新手指引</li>
+        </ul>
+    </div>
+    <div class="search-body mTop10">
+        <ul class="search-item category-source">
+            <li class="column-name">分类：</li>
+            <li class="item hover" data-id="">全部</li>
+            @foreach (var item in list)
+            {
+                <li class="item" data-id="@(item.TypeID)">@(item.Name)</li>
+            }
+            
+        </ul>
+    </div>
+    <div class="search-items mTop20">
+        <div class="left mRight20" id="chooseBranch"></div>
+        <div class="left">
+            <input type="text" id="iptCreateTime" placeholder="创建时间"  class="ipt-date"  />
+        </div>
+        <div class="right searth-module mTop5" data-text="输入关键字/标题" data-width="200"></div>
+    </div>
+    <div class="search-sort">
+        <ul class=" left">
+            <li>排序</li>
+            <li class="sort-item hover" data-column="c.CreateTime">
+                创建日期
+                <span class="asc"></span>
+                <span class="desc hover"></span>
+            </li>
+            <li class="sort-item" data-column="c.ClickNumber">
+                点击次数
+                <span class="asc"></span>
+                <span class="desc"></span>
+            </li>            
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <table class="table-list category-details mTop10">
+        <tr class="tr-header">        
+            <td width="100" style="width:15%;">标题</td> 
+            <td width="100">分类</td>
+            <td width="100" style="width:15%;">分类模块</td>
+            <td width="100">点击次数</td>
+            <td width="100">排序</td>
+            <td width="200">创建时间</td> 
+            <td width="100">操作</td> 
+        </tr>
+    </table>
+    <div id="pager" class="mTop20 mRight10"></div>
+</div>
+

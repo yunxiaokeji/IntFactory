@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "后台 | 编辑内容";
+    var list = (List<IntFactoryEntity.HelpCenter.TypeEntity>)ViewBag.List;
+    var model = (IntFactoryEntity.HelpCenter.ContentEntity) ViewBag.model;
+    ViewBag.Name = "Function";
+}
+@section css{    
+    <link href="/modules/css/helpcenter/helpcenter.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="/modules/plug/umeditor/ueditor.config.js"></script>
+    <script src="/modules/plug/umeditor/umeditor.min.js"></script>
+    <script type="text/javascript">
+        seajs.use(["/modules/scripts/helpcenter/update-content"], function (ObjectJS) {
+            var um = UE.getEditor('remark');
+            ObjectJS.init(um, '@Html.ToJSONString(model)','@Html.ToJSONString(list)');
+        });
+    </script>
+}
+<div class="header-box">
+    <a class="header-title left">编辑内容</a>   
+    <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a> 
+</div>
+<div class="content-body">
+    <div class="">
+        <ul class="table-add">
+            <li>
+                <span class="column-title left">模块:</span>
+                <div class="selector" id="selector">
+                    <div class="item">
+                        <i class="ico-radiobox check-lump" data-id="1"><span></span></i>
+                        功能模块
+                    </div>
+                    <div class="item">
+                        <i class="ico-radiobox check-lump" data-id="2"><span></span></i>
+                        常见问题
+                    </div>
+                    <div class="item">
+                        <i class="ico-radiobox check-lump" data-id="3"><span></span></i>
+                        新手指引
+                    </div>
+                </div>
+            </li>
+            <li>
+                <span class="column-title left">类型:</span> 
+                <div id="category_Down" style="margin-left:83px;"></div>
+                <div class="clear"></div>   
+            </li>
+            <li>
+                <span class="column-title">标题:</span>
+                <input type="text" class="title" />
+            </li>
+            <li>
+                <span class="column-title">排序:</span>
+                <input type="number" class="sort width80" />
+            </li>
+            <li>
+                <span class="column-title">关键字:</span>
+                <input type="text" class="keywords" />
+            </li>
+            <li>
+                <span class="column-title left">描述:</span>
+                <div style="margin-left:85px;" id="remark"></div>
+            </li>
+        </ul>
+        <div class="btn-ok update-details">保存</div>
+    </div>
+</div>
