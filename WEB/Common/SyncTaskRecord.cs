@@ -54,7 +54,7 @@ namespace YXERP.Common
             {
                 WriteLog("-------------EDJOrderPush-----Begin-----------------", 1);
                 int totalcount = 0, pagecount = 0;
-                List<OtherSyncTaskRecord> list = LogBusiness.BaseBusiness.GetSyncTaskRecord(1, 0, "", "", Int32.MaxValue,
+                List<OtherSyncTaskRecord> list = LogBusiness.BaseBusiness.GetSyncTaskRecord(1, "0,2", "", "", Int32.MaxValue,
                     1,
                     ref totalcount, ref pagecount);
                 foreach (var obj  in list)
@@ -66,22 +66,23 @@ namespace YXERP.Common
                         OperateResult result = TaskOrderBusiness.BaseBusiness.AddStockPartIn(obj.Content, obj.ToString());
                         if (result.error_code == 0)
                         {
-                            if (result.result == 1)
+                            if (result.result == 1 || result.result == -1)
                             {
                                 status = 1;
                             }
-                            WriteLog(string.Format("系统订单ID：{0},外部单据:{1}推送成功。", obj.OrderID, obj.OtherSysID), 1);
+                            errormsg = result.error_message;
+                            WriteLog(string.Format("推送成功,系统订单ID：{0},外部单据:{1}。", obj.OrderID, obj.OtherSysID), 1);
                         }
                         else
-                        {
+                        { 
                             errormsg = result.error_message;
-                            WriteLog(string.Format("错误代码：{0},错误信息:{1}", result.error_code, result.error_message), 2);
+                            WriteLog(string.Format("执行失败,失败代码：{0},失败信息:{1}", result.error_code, result.error_message), 2);
                         }
                     }
                     catch (Exception ex)
                     {
                         errormsg = ex.ToString();
-                        WriteLog(string.Format("系统订单ID：{0},外部单据:{1}" + errormsg, obj.OrderID, obj.OtherSysID), 2);
+                        WriteLog(string.Format("接口AddStockPartIn调用异常：系统订单ID：{0},外部单据:{1},AutoID:{2},参数:{3},异常原因：" + errormsg, obj.OrderID, obj.OtherSysID, obj.AutoID,obj.Content), 2);
                     }
                     LogBusiness.UpdateOtherRecord(obj.AutoID, status, string.IsNullOrEmpty(errormsg) ? "" : errormsg);
                 }

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "帮助中心 | 添加分类";
+}
+@section css{    
+    <link href="/modules/css/helpcenter/helpcenter.css" rel="stylesheet" />
+}
+@section scripts{
+    <script type="text/javascript">        
+        seajs.use(["/modules/scripts/helpcenter/types"], function (ObjectJS) {
+            ObjectJS.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <a class="header-title left">添加分类</a>  
+    <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a> 
+</div>
+
+<div class="content-body">
+    <div class="">
+        <ul class="table-add">            
+            <li>
+                <span class="category-title left">模块:</span>
+                <div class="selector" id="select">
+                    <div class="item">
+                        <i class="ico-radiobox check-lump hover" data-id="1"><span></span></i>
+                        功能模块
+                    </div>
+                    <div class="item">
+                        <i class="ico-radiobox check-lump" data-id="2"><span></span></i>
+                        常见问题
+                    </div>
+                    <div class="item">
+                        <i class="ico-radiobox check-lump" data-id="3"><span></span></i>
+                        新手指引
+                    </div>
+                </div>
+            </li>
+            <li>
+                 <span class="category-title">分类：</span> 
+                 <span><input type="text" maxlength="20" class="type"></span>
+            </li>
+            <li>
+                 <span class="category-title">描述：</span> 
+                 <span><input type="text" maxlength="20" class="desc"></span>
+            </li>
+            <li>
+                <span class="category-title">附件:</span>
+                <span id="uploadImg" class="btn" style="margin:0">图片上传</span>
+            </li>
+            <li>
+                <ul id="cateGoryImages" class="category-img hide">
+
+                </ul>
+            </li>
+        </ul>  
+        <div class="btn-ok add-category">添加</div>
+    </div>
+</div>

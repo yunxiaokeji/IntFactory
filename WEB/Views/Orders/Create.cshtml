@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "新建需求单";
+    ViewBag.Title = "新建打样单";
     var model = (IntFactoryEntity.Users)Session["ClientManager"];    
     var categoryItems = (List<IntFactoryEntity.Category>)ViewBag.Items;
 }
@@ -54,7 +54,7 @@
     </script>
 }
 <div class="header-box">
-    <span class="header-title left">新建需求单</span>
+    <span class="header-title left">新建打样单</span>
     
 </div>
 <div class="content-body mTop20">
@@ -80,24 +80,24 @@
             <span class="column-title">订单分类：</span>
             <input type="text" class="hand" readonly="true" placeholder="请选择订单分类" id="chooseOrderCategory" />
         </li>
-        <li id="checkOrderType">
+        <li id="checkOrderType" class="hide">
             <div class="mTop10 radio-info">
                 <span class="column-title">订单类型：</span>
                 <span class="ico-radiobox hover" data-type="1">
                     <span></span>
                 </span>
                 &nbsp;打样
-                <span class="ico-radiobox mLeft30" data-type="2">
+                @*<span class="ico-radiobox mLeft30" data-type="2">
                     <span></span>
                 </span>
-                &nbsp;大货
+                &nbsp;大货*@
             </div>
         </li>
         <li id="childGoodsQuantity">
 
         </li>
         <li>
-            <span class="column-title">价格（单件）：</span>
+            <span class="column-title">期望价格：</span>
             <span><input type="text" maxlength="10" id="planPrice" data-text="请输入数字"  data-empty="必填" data-type="double" class="input verify" /></span>
         </li>
         <li>
@@ -113,11 +113,11 @@
             <span class="btn" id="productIco">选择图片</span>
         </li>
         <li>
-            <ul id="orderImages" class="order-imgs addimg hide">
+            <ul id="orderImages" class="order-imgs addimg hide pLeft10">
 
             </ul>
         </li>
-         <li>
+        <li>
             <span class="column-title">详细需求：</span>
             <textarea id="remark" maxlength="1000" style="height:24px;min-height:20px;line-height:20px;"
                 placeholder="如有详细需求请注明具体内容，以免制作时产品遗漏"  
@@ -133,7 +133,6 @@
             </div>
         </li>
         <li  class="company">
-            
             <span class="column-title">姓名：</span> 
             <span><input type="text" maxlength="25" id="name" data-empty="必填" class="input verify" /></span>
             @if (string.IsNullOrEmpty(ViewBag.CID))
@@ -151,12 +150,11 @@
         </li>
         <li>
             <span class="column-title">详细地址：</span> 
-            <span><input type="text" maxlength="200" id="address" class="input" /></span>
+            <span><input type="text" maxlength="200" id="address" class="input width300" /></span>
         </li>
-        
     </ul>
     <div class="mTop10">
-        <div class="btn mLeft20" id="btnSave">保存</div>
+        <div class="btn mLeft20" id="btnSave">保存打样单</div>
     </div>
 </div>
 

@@ -118,7 +118,12 @@ namespace YXERP.Controllers
             {
                 return Redirect("/Orders/Orders");
             }
-            
+
+            if (model.OrderType == 2)
+            {
+                model.OrderAttrs = OrdersBusiness.BaseBusiness.GetOrderArrrsByOrderID(model.OriginalID);
+            }
+
             model.IsSelf = model.ClientID == CurrentUser.ClientID;
             
             if (model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID))
@@ -185,11 +190,12 @@ namespace YXERP.Controllers
             return PartialView(model);
         }
 
-        public ActionResult ChooseMaterial(string id, string tid)
+        public ActionResult ChooseMaterial(string id, string tid, string aid)
         {
             ViewBag.Type = (int)EnumDocType.Order;
             ViewBag.GUID = id;
             ViewBag.TID = tid;
+            ViewBag.AID = aid;
             ViewBag.Title = "选择材料";
             return View("FilterProducts");
         }
@@ -385,12 +391,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult CreateDHOrder(string entity, int ordertype, decimal discount, decimal price)
+        public JsonResult CreateDHOrder(string entity, int ordertype, int isCreate, decimal discount, decimal price)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, discount, price, model.OrderGoods, CurrentUser.UserID,CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, isCreate == 1, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

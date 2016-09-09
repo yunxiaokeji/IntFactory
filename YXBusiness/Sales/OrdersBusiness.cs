@@ -123,10 +123,12 @@ namespace IntFactoryBusiness
         /// <param name="yxCode"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid,string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount)
+        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, 
+            string categoryID, string orderby, string beginPrice , string endPrice)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords,pageSize, pageIndex, ref totalCount, ref pageCount);
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, 
+                categoryID,orderby,beginPrice,endPrice);
             DataTable dt = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
@@ -362,7 +364,15 @@ namespace IntFactoryBusiness
                         detail.FillData(dr);
                         model.OrderGoods.Add(detail);
                     }
-                }  
+                }
+
+                model.OrderAttrs = new List<OrderAttrEntity>();
+                foreach (DataRow dr in ds.Tables["Attrs"].Rows)
+                {
+                    OrderAttrEntity attr = new OrderAttrEntity();
+                    attr.FillData(dr);
+                    model.OrderAttrs.Add(attr);
+                }
             }
             return model;
         }
@@ -496,6 +506,19 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderAttrEntity> GetOrderArrrsByOrderID(string orderid)
+        {
+            List<OrderAttrEntity> list = new List<OrderAttrEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderAttrsByOrderID(orderid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderAttrEntity model = new OrderAttrEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         public GoodsEntity GetGoodsByID(string goodsid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);
@@ -506,6 +529,7 @@ namespace IntFactoryBusiness
             }
             return model;
         }
+
         #endregion
 
         #region 添加
@@ -540,7 +564,7 @@ namespace IntFactoryBusiness
                                                         firstimg, allimgs, citycode, address, expressCode, remark, operateid, clientid);
             if (bl)
             {
-                if (ordertype == EnumOrderType.LargeOrder && details.Count > 0)
+                if (details.Count > 0)//ordertype == EnumOrderType.LargeOrder && 
                 {
                     SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
                      
@@ -549,14 +573,28 @@ namespace IntFactoryBusiness
                         conn.Open();
                     }
                     SqlTransaction tran = conn.BeginTransaction();
-                     
+
+                    int sort = 0;
+                    var values = ProductsBusiness.BaseBusiness.GetCategoryByID(categoryid).AttrLists[0].AttrValues;
+
                     foreach (var model in details)
                     {
-                        if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                        if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                        {
+                            if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                            {
+                                sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                            }
+                            else
+                            {
+                                sort = 999;
+                            }
+                        }
+                        if (!OrdersDAL.BaseProvider.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
-                            return "";
+                            return id;
                         }
                     }
                     tran.Commit();
@@ -573,12 +611,12 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
+        public string CreateDHOrder(string orderid, int ordertype, bool isCreate, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
         {
             var dal = new OrdersDAL();
-            string id = Guid.NewGuid().ToString().ToLower();
 
-            if (ordertype == 2 && string.IsNullOrEmpty(yxOrderID))
+            string id = Guid.NewGuid().ToString().ToLower();
+            if (ordertype == 2 && !isCreate && string.IsNullOrEmpty(yxOrderID))
             {
                 if (!UpdateOrderDiscount(orderid, discount, price, operateid, "", clientid))
                 {
@@ -596,16 +634,38 @@ namespace IntFactoryBusiness
             
             try
             {
-                //打样单
-                if (ordertype == (int)EnumOrderType.ProofOrder)
+                int sort = 0;
+                string categoryid = OrdersBusiness.BaseBusiness.GetOrderByID(orderid).CategoryID;
+                var values = ProductsBusiness.BaseBusiness.GetCategoryByID(categoryid).AttrLists[0].AttrValues;
+                //大货单
+                if (ordertype == (int)EnumOrderType.LargeOrder)
                 {
-                    bool bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID,personname,mobiletele,citycode,address);
+                    bool bl = true;
+                    if (isCreate)
+                    {
+                        bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID, personname, mobiletele, citycode, address);
+                    }
+                    else
+                    {
+                        id = orderid;
+                    }
                     //产品添加成功添加子产品
                     if (bl)
                     {
                         foreach (var model in details)
                         {
-                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                            if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                            {
+                                if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                                {
+                                    sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                                }
+                                else
+                                {
+                                    sort = 999;
+                                }
+                            }
+                            if (!dal.AddOrderGoods(id, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                             {
                                 tran.Rollback();
                                 conn.Dispose();
@@ -624,7 +684,18 @@ namespace IntFactoryBusiness
                 {
                     foreach (var model in details)
                     {
-                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
+                        if (!int.TryParse(model.XRemark.Replace("【", "").Replace("】", ""), out sort))
+                        {
+                            if (values.Where(m => "【" + m.ValueName + "】" == model.XRemark).Count() > 0)
+                            {
+                                sort = values.Where(m => "【" + m.ValueName + "】" == model.XRemark).FirstOrDefault().Sort;
+                            }
+                            else
+                            {
+                                sort = 999;
+                            }
+                        }
+                        if (!dal.AddOrderGoods(orderid, model.SaleAttr, model.AttrValue, model.SaleAttrValue, model.Quantity, model.XRemark, sort, model.YRemark, model.XYRemark, model.Remark, operateid, clientid, tran))
                         {
                             tran.Rollback();
                             conn.Dispose();
@@ -655,7 +726,7 @@ namespace IntFactoryBusiness
             if (bl)
             {
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, clientid);
-                if(!string.IsNullOrEmpty(othersysid))
+                if (!string.IsNullOrEmpty(othersysid) && type == EnumGoodsDocType.Send)
                 {
                     LogBusiness.AddOtherRecord(1, orderid, othersysid, jsonParas, "发货单自动生成第三方入库单", operateid, clientid);
                 }
@@ -684,8 +755,8 @@ namespace IntFactoryBusiness
 
         public bool CreateProductUseQuantity(ref int result, ref string errInfo, string orderID, string details, string userID, string operateIP, string clientID)
         {
-            bool b1 = OrdersDAL.BaseProvider.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, userID, operateIP, clientID);
-            return b1;
+            bool bl = OrdersDAL.BaseProvider.CreateProductUseQuantity(ref result, ref errInfo, orderID, details, userID, operateIP, clientID);
+            return bl;
         }
 
         #endregion

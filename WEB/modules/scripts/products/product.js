@@ -25,11 +25,12 @@
     var Product = {};
 
     //添加页初始化
-    Product.init = function (Editor, type, guid, tid) {
+    Product.init = function (Editor, type, guid, tid, aid) {
         var _self = this;
         _self.type = type;
         _self.guid = guid;
         _self.tid = tid;
+        _self.aid = aid;
         editor = Editor;
         _self.bindEvent();
     }
@@ -345,7 +346,7 @@
                 if (data.ID.length > 0) {
                     if (_self.type == "11") {
                         if (_self.saveType == 1) {
-                            location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid;
+                            location.href = "/Orders/ChooseMaterial?id=" + _self.guid + "&tid=" + _self.tid + "&aid=" + _self.aid;
                         } else {
                             location.href = location.href;
                         }

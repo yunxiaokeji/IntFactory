@@ -406,13 +406,13 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 
 /*alert 弹出层样式*/
 .alert {background-color: #333;opacity:0.8; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
-         padding:20px;padding-left:40px;  overflow:auto; border-radius:5px;min-width:140px;max-width:260px;}
+         padding:20px;padding-left:40px;  overflow:auto; border-radius:5px;min-width:140px;max-width:260px; line-height:1;}
 .alert .alert-wrap { word-wrap: break-word;  word-break:break-all;color:#fff;font-size:14px;}
 .alert-wrap .alert-icon-right:before {content:"\e613";}
 .alert-wrap .alert-icon-right {color:#fefefe;font-size:20px;float:left;}
 .alert-wrap .alert-icon-warn:before {content:"\e64a";}
 .alert-wrap .alert-icon-warn {color:#fefefe;font-size:20px;float:left;}
-.alert-wrap .alert-msg {float:left;color:#fff;font-size:16px;line-height:24px; padding:0 20px 0 15px;max-width:160px;}
+.alert-wrap .alert-msg {float:left;color:#fff;font-size:16px;line-height:24px; padding:0px 20px 0 15px;max-width:160px;}
 .alert-wrap .alert-close:before {content:"\e628";}
 .alert-wrap .alert-close {float:left;color:#ddd;font-size:20px;padding-top:0px;cursor:pointer;}
 .alert-wrap .alert-close:hover {color:#fff;}
@@ -466,10 +466,10 @@ nav .action-box .point { width:6px; height:6px; border-radius:3px; background-co
 .wechat img { width:0;height:0;transition:0.7s;-webkit-transition:0.7s;-moz-transition:0.7s;}
 
 /*图片loading*/
-.data-loading { padding: 80px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; background-color:#fff; }
+.data-loading { padding: 40px 0px; font-size: 16px;text-align: center; color: #666; background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:45px 45px; background-color:#fff; }
 
 /*暂无数据*/
-.nodata-txt { padding: 60px 0px; font-size: 16px; text-align: center; color: #666; background-color:#fff; }
+.nodata-txt { padding: 30px 0px; font-size: 16px; text-align: center; color: #666; background-color:#fff; }
 
 /*置顶*/
 .back-top {

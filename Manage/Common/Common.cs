@@ -17,6 +17,10 @@ namespace YXManage.Common
 
     public class Common
     {
+        //七牛云存储
+        public static string QNBucket = System.Configuration.ConfigurationManager.AppSettings["QN-Bucket"] ?? "zngc-intfactory";
+        public static string QNDomianUrl = System.Configuration.ConfigurationManager.AppSettings["QNDomianUrl"] ?? "http://o9h6bx3r4.bkt.clouddn.com/";
+
         public static string RequestServer(string path,Dictionary<string, object> paras=null, RequestType requestType = RequestType.Get)
         {
             string url = ConfigurationManager.AppSettings["IntFactoryUrl"] ?? "http://localhost:9999";

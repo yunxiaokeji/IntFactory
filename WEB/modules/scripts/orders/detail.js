@@ -312,12 +312,20 @@
         //确认大货明细
         $("#confirmDHOrder").click(function () {
             if (!_self.model.OriginalID) {
-                confirm("您尚未绑定打样单，确认大货明细后不能再绑定打样单，且订单类别不可变更，确认继续操作吗？", function () {
-                    _self.createDHOrder(true);
-                },"继续");
+                alert("您尚未绑定打样单", 2);
             } else {
-                _self.createDHOrder(true);
+                _self.createDHOrder(2, true);
             }
+        });
+
+        //确认打样明细
+        $("#btnCreateOrderGoods,.btn-create-ordergoods").click(function () {
+            var _this = $(this);
+            if (_this.data("type") == 2 && !_self.model.OriginalID) {
+                alert("您尚未绑定打样单", 2);
+                return;
+            }
+            _self.createDHOrder(_this.data("type"), true);
         });
 
         if ($(".repeatorder-times").length > 0) {
@@ -437,7 +445,7 @@
                 });
             } //大货下单
             else if (_self.status == 3) {
-                _self.createDHOrder(false);
+                _self.createDHOrder(2, false);
             }//发货
             else if (_self.status == 5) {
                 _self.sendGoods();
@@ -789,14 +797,13 @@
     //加载缓存
     ObjectJS.bingCache = function () {
         var _self = this;
-        if (_self.status == 3 || _self.status == 0 || _self.status == 4) {
-            Global.post("/Products/GetOrderCategoryDetailsByID", {
-                categoryid: _self.model.CategoryID,
-                orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
-            }, function (data) {
-                _self.categoryAttrs = data.Model;
-            });
-        }
+
+        Global.post("/Products/GetOrderCategoryDetailsByID", {
+            categoryid: _self.model.CategoryID,
+            orderid: (_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID)
+        }, function (data) {
+            _self.categoryAttrs = data.Model;
+        });
 
         Global.post("/Plug/GetExpress", {}, function (data) {
             _self.express = data.items;
@@ -1046,14 +1053,52 @@
     }
 
     //大货下单
-    ObjectJS.createDHOrder = function (isExists) {
-        var _self = this;
-        doT.exec("template/orders/surequantity.html", function (template) {
-            var innerText = template(_self.categoryAttrs);            
+    ObjectJS.createDHOrder = function (ordertype, isExists) {
+        var _self = this,
+            orderAttrs = {},
+            url = "template/orders/surequantity.html";
+        if (ordertype == 2) {
+            orderAttrs.AttrLists = [];
+            orderAttrs.SaleAttrs = [];
+            for (var i = 0, j = _self.categoryAttrs.AttrLists.length; i < j; i++) {
+                var attr = {};
+                attr.AttrID = _self.categoryAttrs.AttrLists[i].AttrID;
+                attr.AttrName = _self.categoryAttrs.AttrLists[i].AttrName;
+                attr.AttrValues = [];
+                for (var ii = 0, jj = _self.model.OrderAttrs.length; ii < jj; ii++) {
+                    if (_self.model.OrderAttrs[ii].AttrType == 1) {
+                        var value = {};
+                        value.ValueID="";
+                        value.ValueName = _self.model.OrderAttrs[ii].AttrName.replace(/\【/g, '').replace(/\】/g, '');
+                        attr.AttrValues.push(value);
+                    }
+                }
+                orderAttrs.AttrLists.push(attr);
+            }
+
+            for (var i = 0, j = _self.categoryAttrs.SaleAttrs.length; i < j; i++) {
+                var attr = {};
+                attr.AttrID = _self.categoryAttrs.SaleAttrs[i].AttrID;
+                attr.AttrName = _self.categoryAttrs.SaleAttrs[i].AttrName;
+                attr.AttrValues = [];
+                for (var ii = 0, jj = _self.model.OrderAttrs.length; ii < jj; ii++) {
+                    if (_self.model.OrderAttrs[ii].AttrType == 2) {
+                        var value = {};
+                        value.ValueID = "";
+                        value.ValueName = _self.model.OrderAttrs[ii].AttrName.replace(/\【/g, '').replace(/\】/g, '');
+                        attr.AttrValues.push(value);
+                    }
+                }
+                orderAttrs.SaleAttrs.push(attr);
+            }
+        }
+
+        doT.exec(url, function (template) {
+            var innerText = template(ordertype == 1 ? _self.categoryAttrs : orderAttrs);
             Easydialog.open({
                 container: {
                     id: "show-surequantity",
-                    header: !isExists ? "大货下单" : "确认大货明细",
+                    header: ordertype == 1 ? "确认打样规格" : "确认大货明细",
                     content: innerText,
                     yesFn: function () {
                         var orderModel = {};
@@ -1078,14 +1123,19 @@
 
                         Global.post("/Orders/CreateDHOrder", {
                             entity: JSON.stringify(orderModel),
-                            ordertype: _self.model.OrderType,
+                            ordertype: ordertype,
                             discount: $("#iptOrderDiscount").val().trim(),
-                            price: $("#iptOrderNewPrice").val().trim()
+                            isCreate: isExists ? 0 : 1,
+                            price: $("#iptOrderNewPrice").val().trim() || 0
                         }, function (data) {
                             if (data.id) {
-                                alert("大货下单成功!",1, "/Orders/OrderDetail/" + data.id);
+                                if (ordertype == 1) {
+                                    alert("确认打样规格成功!", 1, "/Orders/OrderDetail/" + data.id);
+                                } else {
+                                    alert("大货下单成功!", 1, "/Orders/OrderDetail/" + data.id);
+                                }
                             } else {
-                                alert("大货下单失败，请刷新页面重试！", 2);
+                                alert("操作失败，请刷新页面重试！", 2);
                             }
                         });
                         
@@ -1096,56 +1146,61 @@
                     }
                 }
             });
-            
-            $("#lblOrderFinalPrice").text(_self.model.FinalPrice);
-            $("#iptOrderNewPrice").val(_self.model.FinalPrice).data("value", _self.model.FinalPrice);
-            //折扣
-            $("#iptOrderDiscount").change(function () {
-                var _this = $(this);
-                if (!_this.val().isDouble() || _this.val() < 0) {
-                    alert("下单折扣必须为不小于0的数字", 2);
-                    _this.val(_this.data("value"));
-                } else if (_this.val() > 1) {
-                    confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
+            //新建大货明细
+            if (ordertype == 2) {
+                $(".dh-order-tr").show();
+                $("#lblOrderFinalPrice").text(_self.model.FinalPrice);
+                $("#iptOrderNewPrice").val(_self.model.FinalPrice).data("value", _self.model.FinalPrice);
+                //折扣
+                $("#iptOrderDiscount").change(function () {
+                    var _this = $(this);
+                    if (!_this.val().isDouble() || _this.val() < 0) {
+                        alert("下单折扣必须为不小于0的数字", 2);
+                        _this.val(_this.data("value"));
+                    } else if (_this.val() > 1) {
+                        confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
+                            $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
+                            _this.data("value", _this.val());
+                        }, function () {
+                            _this.val(_this.data("value"));
+                        });
+                    } else {
                         $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
                         _this.data("value", _this.val());
-                    }, function () {
-                        _this.val(_this.data("value"));
-                    });
-                } else {
-                    $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
-                    _this.data("value", _this.val());
-                }
+                    }
 
-            });
-            
-            //金额
-            $("#iptOrderNewPrice").change(function () {
-                var _this = $(this);
-                if (!_this.val().isDouble() || _this.val() < 0) {
-                    alert("价格必须为不小于0的数字", 2);
-                    _this.val(_this.data("value"));
-                } else if (_this.val() > _self.model.FinalPrice) {
-                    confirm("大货价格大于样衣报价，确认继续吗？", function () {
+                });
+
+                //金额
+                $("#iptOrderNewPrice").change(function () {
+                    var _this = $(this);
+                    if (!_this.val().isDouble() || _this.val() < 0) {
+                        alert("价格必须为不小于0的数字", 2);
+                        _this.val(_this.data("value"));
+                    } else if (_this.val() > _self.model.FinalPrice) {
+                        confirm("大货价格大于样衣报价，确认继续吗？", function () {
+                            if (_self.model.FinalPrice == 0) {
+                                $("#iptOrderDiscount").val(1);
+                            } else {
+                                $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
+                            }
+                            _this.data("value", _this.val());
+                        }, function () {
+                            _this.val(_this.data("value"));
+                        });
+                    } else {
                         if (_self.model.FinalPrice == 0) {
                             $("#iptOrderDiscount").val(1);
                         } else {
                             $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
                         }
                         _this.data("value", _this.val());
-                    }, function () {
-                        _this.val(_this.data("value"));
-                    });
-                } else {
-                    if (_self.model.FinalPrice == 0) {
-                        $("#iptOrderDiscount").val(1);
-                    } else {
-                        $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
                     }
-                    _this.data("value", _this.val());
-                }
 
-            });
+                });
+            } else {
+                $(".dy-order-change").show();
+            }
             innerText = $(innerText);
 
             //自定义产品
@@ -1782,7 +1837,7 @@
         var _self = this;
         Global.post("/Orders/DeleteOrder", { orderid: _self.orderid }, function (data) {
             if (data.status) {
-                location.href = "/Orders/Orders";
+                location.href = "/Orders/DemandOrders";
             } else {
                 alert("需求单删除失败，可能因为单据状态已改变，请刷新页面后重试！", 2);
             }
@@ -1865,6 +1920,16 @@
                     _this.html(_total.toFixed(2));
                 }
             }
+        });
+
+        $("#tab11 .table-list").each(function () {
+            var _attrTable = $(this), amount = 0;
+            _attrTable.find(".cart-item .moneytotal").each(function () {
+                var _this = $(this);
+                amount += _this.html() * 1;
+            });
+
+            _attrTable.find(".total-money").html(amount.toFixed(3));
         });
     }
 
@@ -2295,15 +2360,17 @@
     }
 
     ObjectJS.getProductAmount = function () {
-        var amount = 0;
-        $("#tab11 .cart-item .moneytotal").each(function () {
-            var _this = $(this);
-            _this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
-            amount += _this.html() * 1;
-        });
+        $("#tab11 .table-list").each(function () {
+            var _attrTable = $(this), amount = 0;
+            _attrTable.find(".cart-item .moneytotal").each(function () {
+                var _this = $(this);
+                //_this.html(((_this.prevAll(".tr-quantity").find("input").val() * 1) * _this.prevAll(".tr-price").find("label").text()).toFixed(3));
+                amount += _this.html() * 1;
+            });
 
-        $("#tab11 .total-item .moneytotal").html(amount.toFixed(3));
-        $("#productMoney").text(amount.toFixed(3));
+            _attrTable.find(".total-item .moneytotal").html(amount.toFixed(3));
+        });
     }
+
     module.exports = ObjectJS;
 })

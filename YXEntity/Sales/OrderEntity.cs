@@ -250,6 +250,8 @@ namespace IntFactoryEntity
         public string OpenID { get; set; }
 
         public int TurnTimes { get; set; }
+
+        public List<OrderAttrEntity> OrderAttrs { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>
@@ -259,6 +261,32 @@ namespace IntFactoryEntity
             dr.FillData(this);
         }
 
+    }
+
+    public class OrderAttrEntity
+    {
+        public string OrderAttrID { get; set; }
+
+        public string OrderID { get; set; }
+
+        public string GoodsID { get; set; }
+
+        public string AttrName { get; set; }
+
+        public int AttrType { get; set; }
+
+        public decimal Price { get; set; }
+
+        public decimal FinalPrice { get; set; }
+
+        /// <summary>
+        /// 填充数据
+        /// </summary>
+        /// <param name="dr"></param>
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 
     public class OrderStatusEntity

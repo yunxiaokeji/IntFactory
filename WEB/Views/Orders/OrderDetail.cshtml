@@ -28,14 +28,18 @@
 <div class="header-box">
     <div class="header-title">
         打样单编号：@(model.OrderCode)&nbsp;&nbsp;
-        @(model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
-        ? "委托工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : !model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID) 
-        ? "协助工厂："+ViewBag.Client.CompanyName+"-"+ViewBag.Client.ClientCode : "本厂订单")
+        @(model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID)
+        ? "委托工厂：" + ViewBag.Client.CompanyName + "-" + ViewBag.Client.ClientCode : !model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID)
+        ? "协助工厂：" + ViewBag.Client.CompanyName + "-" + ViewBag.Client.ClientCode : "本厂订单")
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
-        @if (IsDoClient && model.Status == 0)
+        @if (IsDoClient && model.Status == 0 && model.OrderAttrs.Count > 0)
         {
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
+        }
+        else if(model.IsSelf && model.Status == 0&&model.OrderAttrs.Count==0)
+        {
+            <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnCreateOrderGoods">确认打样规格</div>
         }
         else if (model.IsSelf && model.Status == 2)
         { 
@@ -111,14 +115,14 @@
         </div>
         <ul class="moneyinfo left @(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
             <li>
-                <label class="bold font16">@(string.IsNullOrEmpty(model.GoodsName)?"暂无款式名称":model.GoodsName)</label>
+                <label class="bold font16">@(string.IsNullOrEmpty(model.GoodsName) ? "暂无款式名称" : model.GoodsName)</label>
             </li>
             <li>
                 <span class="column-title">期望价格：</span>
                 <label>@(model.PlanPrice.ToString("f2"))</label>
             </li>
             <li>
-                <span class="column-title">材料成本：</span>
+                <span class="column-title">材料平均成本：</span>
                 <label id="productMoney">@(model.Price.ToString("f2"))</label>
             </li>
             <li>
@@ -241,6 +245,7 @@
 }
 <div class="module-header mTop20">
     <ul class="module-tab left">
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navGoods">打样规格</li>
         @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
         {
              <li data-id="tab@(tab.Mark)" class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">@(tab.Name)</li>
@@ -255,63 +260,121 @@
 </div>
 
 <div class="content-body" style="padding:0 0 50px 0;">
-    <div id="tab11" class="nav-partdiv hide">
+
+    <div id="navGoods" class="nav-partdiv hide">
         <table class="table-list mTop20">
-            <tr class="tr-header">
-                <td class="tLeft">样图</td>
-                <td class="tLeft">材料名称</td>
-                <td class="tLeft">编码</td>
-                <td class="width80">单位</td>
-                <td class="">消耗量</td>
-                <td class="">单价</td>
-                <td class="tRight">小计</td>
-            </tr>
-            @if (model.Details.Count > 0)
+            @if (model.OrderAttrs.Count > 0)
             {
-                foreach (var detail in model.Details)
-                { 
-                <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
-                    <td class="width80">
-                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
-                            <img style="text-indent:0;" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">                        
-                            @(detail.ProductName) <span class="color999">@(detail.Remark)</span>
-                        </a>
-                    </td>
-                    <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
-                    <td class="center">@(detail.UnitName)</td>
-                    <td class="center tr-quantity">
-                         @if (ExpandClass.IsLimits(HttpContext.Current, "102019002") != "nolimits" && model.Status < 3)
+                <tr class="tr-header">
+                    <td class="tLeft width200">规格</td>
+                    @foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
+                    { 
+                        <td class="">@detail.AttrName</td>
+                    }
+                    <td class="tRight">成本</td>
+                </tr>
+                foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 2).ToList())
+                {
+                <tr class="item">
+                    <td class="tLeft">@detail.AttrName</td>
+                    @foreach (var td in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
+                    {
+                        if (model.OrderGoods.Where(m => m.XRemark == td.AttrName && m.YRemark == detail.AttrName).Count() > 0)
                         {
-                            <input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" />
-                         }
+                                <td class="center">@(model.OrderGoods.Where(m => m.XRemark == td.AttrName && m.YRemark == detail.AttrName).FirstOrDefault().Quantity)</td>
+                        }
                         else
                         {
-                            <label>@(detail.Quantity.ToString("f3"))</label>
+                            <td class="center">0</td>
                         }
-                    </td>
-                    <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
-                    <td class="tRight moneytotal">@((detail.TotalMoney).ToString("f3"))</td>
+                    }
+                    <td class="tRight">@detail.Price</td>
                 </tr>
                 }
-                <tr class="total-item bold">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tRight">成本合计：</td>
-                    <td class="tRight moneytotal" data-class="moneytotal"></td>
-                </tr>
             }
             else
             {
-                <tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>
+                <tr class="tr-header">
+                    <td class="tLeft width200">规格</td>
+                    <td class="width200">数量</td>
+                    <td class="tRight">成本</td>
+                </tr>
+                <tr><td colspan="8"><div class="nodata-txt">暂无明细</div></td></tr>
             }
         </table>
+    </div>
+
+    <div id="tab11" class="nav-partdiv hide">
+        @if (model.OrderAttrs.Where(m => m.AttrType == 2).Count() == 0)
+        {
+            <div class='nodata-txt' >暂无数据!</div>
+        }
+        else
+        {
+            foreach (var attr in model.OrderAttrs.Where(m => m.AttrType == 2).ToList())
+            {
+             <div class="talk-title mTop10" style="font-size:16px; color:#333;" >
+                @attr.AttrName
+             </div>
+            <table class="table-list mTop20">
+                <tr class="tr-header">
+                    <td class="tLeft">样图</td>
+                    <td class="tLeft">材料名称</td>
+                    <td class="tLeft">编码</td>
+                    <td class="width80">单位</td>
+                    <td class="">消耗量</td>
+                    <td class="">单价</td>
+                    <td class="tRight">小计</td>
+                </tr>
+                @if (model.Details.Where(m => m.OrderAttrID == attr.OrderAttrID).Count() > 0)
+                {
+                    foreach (var detail in model.Details.Where(m => m.OrderAttrID == attr.OrderAttrID).ToList())
+                    { 
+                    <tr class="item cart-item" data-autoid="@(detail.AutoID)" data-id="@(detail.ProductDetailID)" >
+                        <td class="width80">
+                            <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">
+                                <img style="text-indent:0;" src="@(string.IsNullOrEmpty(detail.ImgS) ? detail.ProductImage : detail.ImgS)" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/Products/ChooseDetail?pid=@(detail.ProductID)&did=@(detail.ProductDetailID)" target="_blank">                        
+                                @(detail.ProductName) <span class="color999">@(detail.Remark)</span>
+                            </a>
+                        </td>
+                        <td>@(string.IsNullOrEmpty(detail.DetailsCode) ? detail.ProductCode : detail.DetailsCode)</td>
+                        <td class="center">@(detail.UnitName)</td>
+                        <td class="center tr-quantity">
+                             @if (ExpandClass.IsLimits(HttpContext.Current, "102019002") != "nolimits" && model.Status < 3)
+                             {
+                                <label>@(detail.Quantity.ToString("f3"))</label>
+                                @*<input  type="text" data-id="@(detail.AutoID)" data-name="@(detail.ProductName)" data-value="@(detail.Quantity.ToString("f3"))" class="quantity width50" value="@(detail.Quantity.ToString("f3"))" />*@
+                             }
+                             else
+                             {
+                                <label>@(detail.Quantity.ToString("f3"))</label>
+                             }
+                        </td>
+                        <td class="tr-price center"><label class="price">@(detail.Price.ToString("f2"))</label></td>
+                        <td class="tRight moneytotal">@((detail.TotalMoney).ToString("f3"))</td>
+                    </tr>
+                    }
+                    <tr class="bold">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="tRight">成本合计：</td>
+                        <td class="tRight total-money"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>
+                }
+            </table>
+            }
+        }
     </div>
 
     <table id="tab16" class="table-list mTop20 nav-partdiv hide" data-quantity="1">
@@ -381,10 +444,10 @@
     </li>
     @if (model.OrderStatus == 1)
     {  
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入">
+        @*<li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入">
            <a href="/Orders/ChooseMaterial?id=@(model.OrderID)">@(modules.Where(m => m.Mark == 11).FirstOrDefault().Name)录入 </a>
         </li>  
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入" id="addOtherCost">
+        *@<li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入" id="addOtherCost">
             @(modules.Where(m => m.Mark == 16).FirstOrDefault().Name)录入
         </li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-name="@(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)录入" id="btnSendDYOrder">
@@ -395,8 +458,13 @@
 </ul>
 
 <ul id="ddlOperateOrder" class="dropdown-ul hide" style="">
+    @if (model.IsSelf)
+    {
+        <li class="btn-create-ordergoods" data-type="1">新建规格</li>
+    }
     @if (model.OrderStatus == 0)
     {
+        
         if (model.IsSelf && string.IsNullOrEmpty(model.EntrustClientID))
         {
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnchangeclient" >订单委托</li>
@@ -415,8 +483,9 @@
     else
     {
         <li class="sample-report" data-type="1">打样报价</li>
-        if (model.IsSelf && model.OrderStatus == 2) { 
-        <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
+        if (model.IsSelf && model.OrderStatus == 2)
+        { 
+            <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
         }
     }
     

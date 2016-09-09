@@ -34,7 +34,7 @@
 
         @if ( model.Status == 0)
         {
-            if (IsDoClient && model.OrderGoods.Count > 0)
+            if (IsDoClient && model.OrderGoods.Count > 0 && !string.IsNullOrEmpty(model.OriginalID))
             {
                <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnBeginOrder">转为订单</div>
             }
@@ -130,7 +130,7 @@
             <li class="">
                 <span class="column-title">单价：</span>
                 <label class="left">@(model.FinalPrice.ToString("f2"))</label>
-                @if (model.IsSelf && model.OrderStatus < 2)
+                @if (model.IsSelf && model.OrderStatus == 1)
                 { 
                     <div id="updateOrderDiscount" title="编辑订单折扣" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                 }
@@ -281,7 +281,7 @@
                 foreach (var detail in model.OrderGoods)
                 { 
                 <tr class="item cart-item" >
-                    <td>@(detail.Remark)</td>
+                    <td>@(detail.YRemark+detail.XRemark)</td>
                     <td class="center good1">@(detail.Quantity)</td>
                     <td class="center good2">@(detail.CutQuantity)</td>
                     <td class="center good3">@(detail.Complete)</td>
@@ -450,6 +450,10 @@
 <ul id="ddlOperateOrder" class="dropdown-ul hide" style="">
     @if (model.OrderStatus == 0)
     {
+        if (model.IsSelf)
+        {
+            <li class="btn-create-ordergoods" data-type="2">生产补单</li>
+        }
         if (model.IsSelf && string.IsNullOrEmpty(model.EntrustClientID))
         {
             <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnchangeclient" >订单委托</li>
@@ -462,6 +466,7 @@
     }
     else if (model.IsSelf && model.OrderStatus == 1)
     {
+        <li class="btn-create-ordergoods" data-type="2">生产补单</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnOverOrder" >终止订单</li>
     }
    
