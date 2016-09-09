@@ -52,6 +52,7 @@
     <Compile Include="Custom\CustomDAL.cs" />
     <Compile Include="Custom\LableColorDAL.cs" />
     <Compile Include="Finance\FinanceDAL.cs" />
+    <Compile Include="HelpCenter\HelpCenterDAL.cs" />
     <Compile Include="Manage\ClientOrderAccountDAL.cs" />
     <Compile Include="Manage\ClientOrderDAL.cs" />
     <Compile Include="Manage\FeedBackDAL.cs" />
@@ -81,6 +82,7 @@
       <Name>IntFactoryEntity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

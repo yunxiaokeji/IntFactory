@@ -23,7 +23,7 @@
 .font14 {font-size:14px; }
 .font16 {font-size:16px; }
 .font18 {font-size:18px; }
-.font20 {font-size:20px; }
+.font20 {font-size:20px!important; }
 
 .color333 { color:#333 !important; }
 .color666 { color:#666 !important; }
@@ -138,7 +138,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{padding:0;border:non
 
 input[type="text"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
 input[type="text"]:focus { border:solid 1px #318ae4; }
-
+input[type="number"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
+input[type="number"]:focus { border:solid 1px #318ae4; }
 input[type="password"] { border:solid 1px #ccc; border-radius:2px;height:25px; line-height:25px; padding:0 5px; }
 input[type="password"]:focus { border:solid 1px #318ae4; }
 

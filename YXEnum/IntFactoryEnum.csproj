@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Common.cs" />
     <Compile Include="Custom.cs" />
+    <Compile Include="HelpCenter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Orders.cs" />
     <Compile Include="Products.cs" />

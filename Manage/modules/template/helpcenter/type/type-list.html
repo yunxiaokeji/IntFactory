@@ -1,0 +1,20 @@
+﻿{%
+     for(var i=0,j=$data.length; i < j ; i++){ 
+        var item=$data[i];
+%}
+<tr class="lists">
+    <td class="center">
+        <img src='{%=item.Icon=="null"?"/modules/images/img-noimg.png":item.Icon==""?"/modules/images/img-noimg.png":item.Icon%}?imageView2/1/w/60/h/60' /></td>
+    <td class="center">
+        <span class="span span-name">{%=item.Name%}</span>        
+    </td>    
+    <td class="center">
+        <span class="span span-types">{%=item.ModuleType==1?"功能模块":item.ModuleType==2?"常见问题":"新手指引"%}</span>        
+    </td>
+    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>    
+    <td class="center operation" data-id="{%=item.TypeID%}">
+        <span class="update iconfont" data-id="{%=item.TypeID%}"></span>
+        <span class="delete iconfont font20 mLeft20" data-id="{%=item.TypeID%}"></span>
+    </td>
+</tr>
+{% } %}
