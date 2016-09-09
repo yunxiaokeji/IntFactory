@@ -506,7 +506,7 @@
             if (data.model && data.model.UserID) {
                 confirm("员工保存成功,是否继续添加员工?", function () {
                     location.href = location.href;
-                }, function () {
+                }, "继续", function () {
                     location.href = "/Organization/Users";
                 });
             } else if (data.result == 2) {
