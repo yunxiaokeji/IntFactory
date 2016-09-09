@@ -210,3 +210,51 @@ nav .action-box .select { width:201px; background-color:#fff;}
 .contentnew .columnname { color:#666; padding-right:20px; vertical-align:top; width:60px; line-height:25px;display:inline-block}
 .contentnew .direction {border:solid 1px #ccc; color:#666; cursor:pointer; padding:0px 12px; border-radius:12px;}
 .contentnew .active {border:solid 1px #002463; color:#002463;}
+
+/*搜索项*/
+.search-item { clear:both; overflow:auto; margin-bottom:10px; }
+.search-item li{ float:left; height:23px; line-height:23px; border:solid 1px #fff; margin-right:10px; }
+.search-item li.item{ color:#666; cursor:pointer; padding:0 10px;}
+.search-item .column-name{ width:40px; color:#999; }
+.search-item .item:hover{ color:#4A99E8; }
+.search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8;}
+
+.search-items { clear:both;overflow:auto; height:35px; margin:10px 0px;}
+
+/*排序*/
+.search-sort {  border-top:dashed 1px #ccc;  border-bottom:dashed 1px #ccc; background-color:#f9f9f9; height:40px; margin-top:10px; }
+.search-sort li{ float:left; padding:0 20px; line-height:40px; color:#666; }
+.search-sort .sort-item { position:relative; cursor:pointer; }
+
+.search-sort .sort-item:hover { color:#4a98e7; }
+.search-sort .sort-item.hover { color:#4a98e7; }
+
+.search-sort .sort-item .asc { position:absolute; top:16px; right:5px;  border-bottom:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+.search-sort .sort-item .desc { position:absolute; top:23px; right:5px;  border-top:solid 5px #ccc; border-left:solid 5px transparent ;border-right:solid 5px transparent ; display:inline-block;}
+
+.search-sort .sort-item .asc.hover {  border-bottom:solid 5px #4a98e7;}
+.search-sort .sort-item .desc.hover { border-top:solid 5px #4a98e7;}
+
+/*新建样式*/
+.table-add {  border-bottom:solid 1px #eee; padding:0 20px 20px 20px; }
+.table-add li{ line-height:25px; margin-top:10px;  padding: 2px 0px;}
+.table-add li input[type="number"],.table-add li input[type="text"],.table-add li input[type="password"],.table-add li input[type="number"]{ height:26px; line-height:26px; padding:2px 5px; width:150px; }
+.table-add li textarea {resize:none; height:80px; line-height:26px; padding:1px 5px; border:solid 1px #ccc; width:300px; border-radius:2px;}
+.table-add span {  display:inline-block; vertical-align:top;}
+.table-add .column-title { color:#999; width:80px;}
+.table-add .category-title { color:#999; width:60px;}
+.table-add .column-title-template { color:#333; width:60px;font-size:12px;}
+.table-boeder{border-bottom:0;padding-bottom:0;}
+
+.btn-ok {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px;margin-top:20px;margin-left:20px;
+        -moz-transition:all 0.3s;
+        -webkit-transition:all 0.3s;
+        -o-transition:all 0.3s;        
+}
+
+.table-list .operation span{cursor:pointer;color:#4a98e7;display:inline-block;vertical-align: middle;}
+.table-list .operation span:hover{color:red}
+.table-list .operation .update:before{content:"\e607"}
+.table-list .operation .delete:before{content:"\e651"}
+
+ .qn-delete { position:absolute; top:-9px; right:-7px;  }

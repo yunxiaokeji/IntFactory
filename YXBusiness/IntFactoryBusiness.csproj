@@ -57,6 +57,7 @@
     <Compile Include="Common\ReplyBusiness.cs" />
     <Compile Include="Custom\CustomBusiness.cs" />
     <Compile Include="Finance\FinanceBusiness.cs" />
+    <Compile Include="HelpCenter\HelpCenterBusiness.cs" />
     <Compile Include="Manage\ClientOrderAccountBusiness.cs" />
     <Compile Include="Manage\ClientOrderBusiness.cs" />
     <Compile Include="Manage\ExpressCompanyBusiness.cs" />
@@ -102,6 +103,7 @@
       <Name>CloudSalesTool</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
