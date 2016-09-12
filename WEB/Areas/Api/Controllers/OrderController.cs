@@ -47,6 +47,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("clientUserLables", "金牌工厂，深度验厂,交期保障");
                 obj.Add("clientCity", item.Client.City != null ? item.Client.City.City + item.Client.City.Counties : ""); 
                 obj.Add("goodsID",item.GoodsID);
+                obj.Add("orderAttrs", OrdersBusiness.BaseBusiness.GetOrderArrrsByOrderID(item.OrderID));
                 objs.Add(obj);
             }
             JsonDictionary.Add("orders",objs);
@@ -58,8 +59,7 @@ namespace YXERP.Areas.Api.Controllers
                 Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-        }
-
+        } 
         //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
@@ -85,6 +85,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("clientAddress", client.Address);
             obj.Add("clientCityCode", client.CityCode);
             obj.Add("goodsID", item.GoodsID);
+            obj.Add("orderAttrs", item.OrderAttrs);
             //材料列表
             //var details = new List<Dictionary<string, object>>();
             //foreach (var d in item.Details) {
