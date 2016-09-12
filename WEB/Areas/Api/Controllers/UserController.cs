@@ -8,7 +8,7 @@ using IntFactoryBusiness;
 using IntFactoryEnum;
 namespace YXERP.Areas.Api.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseAPIController
     {
 
         public JsonResult UserLogin(string userName, string pwd)
@@ -127,6 +127,25 @@ namespace YXERP.Areas.Api.Controllers
             return new JsonResult
             {
                 Data = resultObj,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        [YXERP.Common.ApiAuthorize]
+        public JsonResult GetUserByUserID(string userid, string clientid) {
+            var user= OrganizationBusiness.GetUserByUserID(userid, clientid);
+            Dictionary<string, object> obj = new Dictionary<string, object>();
+            obj.Add("userID", user.UserID);
+            obj.Add("clientID", user.ClientID);
+            obj.Add("name", user.Name);
+            obj.Add("avatar", user.Avatar);
+            obj.Add("mobilePhone", user.MobilePhone);
+            obj.Add("isSystemAdmin", user.Role.IsDefault == 1);
+            JsonDictionary.Add("user", obj);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
