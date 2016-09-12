@@ -87,36 +87,36 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("goodsID", item.GoodsID);
             obj.Add("orderAttrs", item.OrderAttrs);
             //材料列表
-            var details = new List<Dictionary<string, object>>();
-            foreach (var d in item.Details) {
-                Dictionary<string, object> detail = new Dictionary<string, object>();
-                detail.Add("detailsCode", d.DetailsCode);
-                detail.Add("imgS", d.ImgS);
-                detail.Add("price", d.Price);
-                detail.Add("unitName", d.UnitName);
-                detail.Add("productCode", d.ProductCode);
-                detail.Add("productName", d.ProductName);
-                detail.Add("productImage", d.ProductImage);
+            //var details = new List<Dictionary<string, object>>();
+            //foreach (var d in item.Details) {
+            //    Dictionary<string, object> detail = new Dictionary<string, object>();
+            //    detail.Add("detailsCode", d.DetailsCode);
+            //    detail.Add("imgS", d.ImgS);
+            //    detail.Add("price", d.Price);
+            //    detail.Add("unitName", d.UnitName);
+            //    detail.Add("productCode", d.ProductCode);
+            //    detail.Add("productName", d.ProductName);
+            //    detail.Add("productImage", d.ProductImage);
 
-                details.Add(detail);
-            }
-            obj.Add("details", details);
+            //    details.Add(detail);
+            //}
+            //obj.Add("details", details);
             //制版工艺
-            var plateMakings = TaskBusiness.GetPlateMakings(orderID);
-            var plates = new List<Dictionary<string, object>>();
-            foreach (var p in plateMakings) {
-                Dictionary<string, object> plate = new Dictionary<string, object>();
-                plate.Add("plateID", p.PlateID);
-                plate.Add("icon", p.Icon);
-                plate.Add("title", p.Title);
-                plate.Add("remark", p.Remark);
-                plate.Add("type", p.TypeName);
+            //var plateMakings = TaskBusiness.GetPlateMakings(orderID);
+            //var plates = new List<Dictionary<string, object>>();
+            //foreach (var p in plateMakings) {
+            //    Dictionary<string, object> plate = new Dictionary<string, object>();
+            //    plate.Add("plateID", p.PlateID);
+            //    plate.Add("icon", p.Icon);
+            //    plate.Add("title", p.Title);
+            //    plate.Add("remark", p.Remark);
+            //    plate.Add("type", p.TypeName);
 
-                plates.Add(plate);
-            }
-            obj.Add("plateMakings", plates);
+            //    plates.Add(plate);
+            //}
+            //obj.Add("plateMakings", plates);
+
             //订单品类
-            
             var attrLists = new List<Dictionary<string, object>>();
             var saleAttrs = new List<Dictionary<string, object>>(); 
             Dictionary<string, object> cmAttr = new Dictionary<string, object>();
