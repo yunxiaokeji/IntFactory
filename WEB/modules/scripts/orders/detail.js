@@ -106,38 +106,40 @@
                 alert("需求单尚未绑定流程，不能转为订单", 2);
                 return;
             }
-            doT.exec("template/orders/sure_plan_time.html", function (template) {
-                var innerText = template(_self.model);
-                Easydialog.open({
-                    container: {
-                        id: "show_sure_plan_time",
-                        header: "需求单转为订单",
-                        content: innerText,
-                        yesText: "确认转为订单",
-                        yesFn: function () {
-                            var time = $("#iptPlanTime").val().trim();
-                            if (!time) {
-                                alert("请确认交货日期！", 2);
-                                return false;
-                            }
-                            _self.updateOrderBegin(time);
-                        },
-                        callback: function () {
+            if ($(this).data('isget') != 1) {
+                doT.exec("template/orders/sure_plan_time.html", function (template) {
+                    var innerText = template(_self.model);
+                    Easydialog.open({
+                        container: {
+                            id: "show_sure_plan_time",
+                            header: "需求单转为订单",
+                            content: innerText,
+                            yesText: "确认转为订单",
+                            yesFn: function () {
+                                var time = $("#iptPlanTime").val().trim();
+                                if (!time) {
+                                    alert("请确认交货日期！", 2);
+                                    return false;
+                                }
+                                _self.updateOrderBegin(time);
+                            },
+                            callback: function () {
 
+                            }
                         }
-                    }
+                    });
+                    laydate({
+                        elem: '#iptPlanTime',
+                        format: 'YYYY-MM-DD',
+                        min: laydate.now(),
+                        max: "",
+                        istime: false,
+                        istoday: true
+                    });
+                    var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+                    $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
                 });
-                laydate({
-                    elem: '#iptPlanTime',
-                    format: 'YYYY-MM-DD',
-                    min: laydate.now(),
-                    max: "",
-                    istime: false,
-                    istoday: true
-                });
-                var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
-                $("#iptPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
-            });
+            }
         });
 
         //更换品类流程
@@ -325,7 +327,12 @@
                 alert("您尚未绑定打样单", 2);
                 return;
             }
-            _self.createDHOrder(_this.data("type"), true);
+            if (_this.data('isget') != 1) {
+                _self.createDHOrder(_this.data("type"), true);
+            } else {
+                alert("请稍后再试");
+                return false;
+            }
         });
 
         if ($(".repeatorder-times").length > 0) {
@@ -470,27 +477,52 @@
 
         //裁剪录入
         $("#btnCutoutOrder").click(function () {
-            _self.cutOutGoods($(this));
+            if ($(this).data('isget') != 1) {
+                _self.cutOutGoods($(this));
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         });
 
         //车缝录入
         $("#btnSewnOrder").click(function () {
-            _self.sewnGoods($(this));
+            if ($(this).data('isget') != 1) {
+                _self.sewnGoods($(this));
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         });
 
         //发货录入
         $("#btnSendDYOrder").click(function () {
-            _self.sendOrders($(this));
+            if ($(this).data('isget') != 1) {
+                _self.sendOrders($(this));
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         });
 
         //发货
         $("#btnSendOrder").click(function () {
-            _self.sendGoods($(this));
+            if ($(this).data('isget') != 1) {
+                _self.sendGoods($(this));
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         });
 
         //付款登记
         $("#addPay").click(function () {
-            _self.addPay();
+            if ($(this).data('isget') != 1) {
+                _self.addPay();
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         });
 
         //转移工厂
@@ -649,7 +681,13 @@
 
         //添加成本
         $("#addOtherCost").click(function () {
-            _self.addOtherCosts($(this));
+            var _this=$(this);
+            if (_this.data('isget') != 1) {
+                _self.addOtherCosts($(this));
+            } else {
+                alert("请稍后再试.");
+                return false;
+            }
         })
 
         //车缝退回操作
@@ -856,11 +894,16 @@
                             alert("描述不能为空！", 2);
                             return false;
                         };
+                        btnObject.text("加工成本录入中...");
+                        btnObject.data('isget', 1);
+
                         Global.post("/Orders/CreateOrderCost", {
                             orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
                             price: $("#iptCostPrice").val(),
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
+                            btnObject.text("加工成本录入");
+                            btnObject.data('isget', 0);
                             if (data.status) {
                                 alert("保存成功！");
                                 $("#lblCostMoney").text(($("#lblCostMoney").text() * 1 + $("#iptCostPrice").val() * 1).toFixed(2));
@@ -1120,7 +1163,13 @@
                                 });
                             }
                         });
-
+                        if (ordertype == 1) {
+                            $(".btn-create-ordergoods").text("正在新建规格...");
+                        } else {
+                            $(".btn-create-ordergoods").text("正在创建补单...");
+                        }
+                        $(".btn-create-ordergoods").data('isget', 1);
+                        
                         Global.post("/Orders/CreateDHOrder", {
                             entity: JSON.stringify(orderModel),
                             ordertype: ordertype,
@@ -1128,6 +1177,11 @@
                             isCreate: isExists ? 0 : 1,
                             price: $("#iptOrderNewPrice").val().trim() || 0
                         }, function (data) {
+                            if (ordertype == 1) {
+                                $(".btn-create-ordergoods").text("新建规格");
+                            } else {
+                                $(".btn-create-ordergoods").text("生产补单");
+                            }
                             if (data.id) {
                                 if (ordertype == 1) {
                                     alert("确认打样规格成功!", 1, "/Orders/OrderDetail/" + data.id);
@@ -1481,6 +1535,9 @@
                             }
                         });
                         if (details.length > 0) {
+                            btnObject.text('' + (btnObject.data("name") || "裁剪") + '录入中...');
+                            btnObject.data('isget', 1);
+                            
                             Global.post("/Orders/CreateOrderCutOutDoc", {
                                 orderid: _self.orderid,
                                 doctype: 1,
@@ -1491,6 +1548,8 @@
                                 remark: $("#expressRemark").val().trim(),
                                 ownerid: $("#showCutoutGoods .choose-owner").data('id')
                             }, function (data) {
+                                btnObject.data('isget', 0);
+                                btnObject.text('' + (btnObject.data("name") || "裁剪") + '录入');
                                 if (data.id) {
                                     alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
@@ -1567,7 +1626,7 @@
             Easydialog.open({
                 container: {
                     id: "showSewnGoods",
-                    header: btnObject.data("name"),
+                    header: btnObject.data("name") || "车缝",
                     content: innerText,
                     yesFn: function () {
                         var details = "", bl = true;
@@ -1586,6 +1645,8 @@
                             return false;
                         }
                         if (details.length > 0) {
+                            btnObject.text('' + (btnObject.data("name") || "车缝") + '录入中...');
+                            btnObject.data('isget', 1);
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
@@ -1596,6 +1657,8 @@
                                 remark: $("#expressRemark").val().trim(),
                                 ownerid:$("#showSewnGoods .choose-owner").data('id')
                             }, function (data) {
+                                btnObject.text('' + (btnObject.data("name") || "车缝") + '录入');
+                                btnObject.data('isget', 0);
                                 if (data.id) {
                                     alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
@@ -1701,6 +1764,9 @@
                                 alert("请完善快递信息!", 2);
                                 return false;
                             }
+                            btnObject.text('发货中...');
+                            btnObject.data('isget', 1);
+
                             Global.post("/Orders/CreateOrderSendDoc", {
                                 orderid: _self.orderid,
                                 doctype: 2,
@@ -1712,6 +1778,8 @@
                                 othersysid:othersysid,
                                 jsonparas: JSON.stringify(jsonparas)
                             }, function (data) {
+                                btnObject.text('发货');
+                                btnObject.data('isget', 0);
                                 if (data.id) {
                                     alert("数据录入成功!",1, location.href);
                                 } else if (data.result == "10001") {
@@ -1788,8 +1856,9 @@
                         if (!$("#expressid").data("id") || !$("#expressCode").val()) {
                             alert("请完善快递信息!", 2);
                             return false;
-                        }
-
+                        } 
+                        btnObject.text('发货中...');
+                        btnObject.data('isget', 1);
                         Global.post("/Orders/CreateOrderSendDoc", {
                             orderid: _self.orderid,
                             doctype: 2,
@@ -1799,6 +1868,8 @@
                             details: "",
                             remark: $("#expressRemark").val().trim()
                         }, function (data) {
+                            btnObject.text('发货');
+                            btnObject.data('isget', 0);
                             if (data.id) {
                                 alert("发货成功!", 1,location.href);
                             } else if (data.result == "10001") {
@@ -1989,11 +2060,15 @@
     //开始订单
     ObjectJS.updateOrderBegin = function (time) {
         var _self = this;
+        $("#btnBeginOrder").text('转为订单...');
+        $("#btnBeginOrder").data('isget', 1);
         Global.post("/Orders/UpdateOrderBegin", {
             orderid: _self.orderid,
             time: time ? time : ""
         }, function (data) {
+            $("#btnBeginOrder").text('转为订单');
             if (!data.status) {
+                $("#btnBeginOrder").data('isget', 0);
                 alert(data.errinfo, 2);
             } else {
                 location.href = location.href;
@@ -2042,7 +2117,12 @@
                         };
                         confirm("请核对金额和日期是否正确，提交后不可修改，确认提交吗？", function () {
                             Easydialog.close();
+                            $("#addPay").text('收款登记中...');
+                            $("#addPay").data('isget', 1);
+
                             Global.post("/Finance/SaveOrderBillingPay", { entity: JSON.stringify(entity) }, function (data) {
+                                $("#addPay").text('收款登记');
+                                $("#addPay").data('isget', 0);
                                 if (data.status) {
                                     alert("登记成功!");
                                     if (entity.Type == 2) {
