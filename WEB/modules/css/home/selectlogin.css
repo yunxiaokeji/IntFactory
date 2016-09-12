@@ -2,7 +2,7 @@
 background-color:#ededed;
 }
 /*头部*/
-.header {padding:15px 20px 15px 60px;margin-right:10px;background:url(/modules/images/logo_login.png) no-repeat 20px 14px ;
+.header {padding:15px 20px 15px 60px;margin-right:10px;background:url(/modules/images/logo_login.png) no-repeat 20px 13px ;background-size:40px;
          line-height:32px;background-color:rgba(255,255,255,0.7);position:fixed;width:100%;box-sizing:border-box;left:0;top:0;
          z-index:100}
 .header span { font-size:16px;color:#666;display:block;}
