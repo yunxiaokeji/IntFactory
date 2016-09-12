@@ -1331,6 +1331,7 @@
     <Content Include="Web.config" />
     <Content Include="Views\Orders\UserLoadReport.cshtml" />
     <Content Include="Views\Orders\GoodsSetting.cshtml" />
+    <Content Include="Views\Home\Authorize.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -177,6 +177,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public ActionResult Authorize(string sign, string redirect_uri)
         {
             if (!string.IsNullOrEmpty(sign) && !string.IsNullOrEmpty(redirect_uri))
@@ -187,13 +188,18 @@ namespace YXERP.Controllers
                     ViewBag.ReturnUrl = redirect_uri ?? string.Empty;
                     ViewBag.BindAccountType = 10000;
 
-                    return View("Login");
+                    if (Session["ClientManager"] != null)
+                    {
+                        ViewBag.CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                    }
+
+                    return View();
                 }
             }
 
             Response.Write("<script>alert('参数有误');location.href='http://edj.yunxiaokeji.com';</script>");
             Response.End();
-            return View("Login");
+            return View();
         }
 
         public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
