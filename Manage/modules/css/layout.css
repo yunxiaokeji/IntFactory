@@ -256,3 +256,5 @@ nav .action-box .select { width:201px; background-color:#fff;}
 .table-list .operation span:hover{color:red}
 .table-list .operation .update:before{content:"\e607"}
 .table-list .operation .delete:before{content:"\e651"}
+
+ .qn-delete { position:absolute; top:-9px; right:-7px;  }

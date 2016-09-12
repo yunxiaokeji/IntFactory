@@ -64,7 +64,6 @@
                 bindAccountType: Home.bindAccountType
             },
             function (data) {
-                console.log(data);
                 if (Home.bindAccountType == 0 || Home.bindAccountType ==10000) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
                 }else {

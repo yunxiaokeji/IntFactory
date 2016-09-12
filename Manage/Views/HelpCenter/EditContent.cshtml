@@ -1,8 +1,7 @@
 ﻿@{
-    ViewBag.Title = "后台 | 编辑内容";
+    ViewBag.Title = "帮助中心 | 编辑内容";
     var list = (List<IntFactoryEntity.HelpCenter.TypeEntity>)ViewBag.List;
     var model = (IntFactoryEntity.HelpCenter.ContentEntity) ViewBag.model;
-    ViewBag.Name = "Function";
 }
 @section css{    
     <link href="/modules/css/helpcenter/helpcenter.css" rel="stylesheet" />
@@ -11,7 +10,7 @@
     <script src="/modules/plug/umeditor/ueditor.config.js"></script>
     <script src="/modules/plug/umeditor/umeditor.min.js"></script>
     <script type="text/javascript">
-        seajs.use(["/modules/scripts/helpcenter/update-content"], function (ObjectJS) {
+        seajs.use(["/modules/scripts/helpcenter/editcontent"], function (ObjectJS) {
             var um = UE.getEditor('remark');
             ObjectJS.init(um, '@Html.ToJSONString(model)','@Html.ToJSONString(list)');
         });

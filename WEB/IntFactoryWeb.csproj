@@ -1301,7 +1301,9 @@
     <Content Include="Views\Orders\OrderLayer.cshtml" />
     <Content Include="Views\Error\NotAccess.cshtml" />
     <Content Include="Views\Task\DetailBase.cshtml" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Customer\Customers.cshtml" />
     <Content Include="Views\Inquire\InquireOrder.cshtml">
       <BrowseToURL>~/Inquire/InquireOrder</BrowseToURL>
@@ -1328,7 +1330,9 @@
     <Content Include="Views\Home\WeiXinSelectLogin.cshtml" />
     <Content Include="Views\MyAccount\WXLogin.cshtml" />
     <Content Include="Views\Home\WeiXinLoginCallBack.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Orders\UserLoadReport.cshtml" />
     <Content Include="Views\Orders\GoodsSetting.cshtml" />
     <Content Include="Views\Home\Authorize.cshtml" />
