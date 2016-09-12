@@ -16,7 +16,7 @@ define(function (require, exports, module) {
         var _this = this;
         _this.setting = $.extend([], _this.default, options);
         _this.init();
-    }
+    };
 
     //默认参数
     PlugJS.prototype.default = {
