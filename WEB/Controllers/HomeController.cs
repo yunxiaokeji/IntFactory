@@ -418,9 +418,13 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
 
                         if (string.IsNullOrEmpty(state))
+                        {
                             return Redirect("/Home/Index");
+                        }
                         else
+                        {
                             return Redirect(state);
+                        }
                     }
                     else
                     {
