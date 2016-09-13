@@ -566,7 +566,7 @@ namespace YXERP.Controllers
                         {
                             result = BindWeiXin(model);
                         }
-                        else if (bindAccountType == 10000)
+                        else if (bindAccountType == 10000) //授权第三方登录
                         {
                             result = 1;
                             resultObj.Add("userid",model.UserID);
