@@ -518,7 +518,18 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
+        public List<OrderAttrEntity> GetOrderArrrsByGoodsID(string goodsID)
+        {
+            List<OrderAttrEntity> list = new List<OrderAttrEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderAttrsByGoodsID(goodsID);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderAttrEntity model = new OrderAttrEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
         public GoodsEntity GetGoodsByID(string goodsid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);

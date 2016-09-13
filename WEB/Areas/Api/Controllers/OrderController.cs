@@ -195,6 +195,27 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        public JsonResult GetOrderAttrsListByOrderID(string orderID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderArrrsByOrderID(orderID);
+            JsonDictionary.Add("attrList", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        public JsonResult GetOrderAttrsListByGoodsID(string goodsID)
+        {
+            var list = OrdersBusiness.BaseBusiness.GetOrderArrrsByGoodsID(goodsID);
+            JsonDictionary.Add("attrList", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         //新建大货订单
         public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID,string yxClientID="",string personname="",string mobiletele="",string citycode="",string address="")
         {
