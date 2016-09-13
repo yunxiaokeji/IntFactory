@@ -187,10 +187,12 @@ namespace YXERP.Controllers
                     ViewBag.Status = 0;
                     ViewBag.ReturnUrl = redirect_uri ?? string.Empty;
                     ViewBag.BindAccountType = 10000;
-
+                    
                     if (Session["ClientManager"] != null)
                     {
-                        ViewBag.CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"];
+                        var user = (IntFactoryEntity.Users)Session["ClientManager"];
+                        ViewBag.Sign = Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, user.UserID);
+                        ViewBag.CurrentUser = user;
                     }
 
                     return View();
