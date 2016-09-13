@@ -169,6 +169,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
+    <Content Include="Content\menuico\client.png" />
+    <Content Include="Content\menuico\clienthover.png" />
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\task.png" />
     <Content Include="Content\menuico\taskhover.png" />
@@ -1335,6 +1337,7 @@
     </Content>
     <Content Include="Views\Orders\UserLoadReport.cshtml" />
     <Content Include="Views\Orders\GoodsSetting.cshtml" />
+    <Content Include="Views\Home\Authorize.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
