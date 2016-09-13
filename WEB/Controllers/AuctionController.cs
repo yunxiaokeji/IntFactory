@@ -50,7 +50,6 @@ namespace YXERP.Controllers
         int BuyDiscount = 10;
         float ProductDiscount = 1F;
         decimal OrderDiscount = 1M;
-
         #region view
         /// <summary>
         /// 购买系统
@@ -74,7 +73,6 @@ namespace YXERP.Controllers
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
-
                 if (result == 2)
                 {
                     return Redirect("/Auction/BuyNow/" + id);
@@ -111,7 +109,6 @@ namespace YXERP.Controllers
                 {
                     return Redirect("/Auction/BuyNow");
                 }
-
                 if ((CurrentClient.EndTime - DateTime.Now).Days <= 31)
                 {
                     return Redirect("/Auction/ExtendNow");
@@ -119,16 +116,15 @@ namespace YXERP.Controllers
 
                 int remainderMonths = (CurrentClient.EndTime.Year - DateTime.Now.Year) * 12 + (CurrentClient.EndTime.Month - DateTime.Now.Month) - 1;
                 if (CurrentClient.EndTime.Day >= DateTime.Now.Day)
+                {
                     remainderMonths += 1;
+                }
                 ViewBag.RemainderMonths = remainderMonths;
-
-                ViewBag.CurrentAgent = CurrentClient;
-
+                ViewBag.CurrentClient = CurrentClient;
                 ViewBag.Discount = BuyDiscount;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
-
                 if (result == 2)
                 {
                     return Redirect("/Auction/BuyUserQuantity/" + id);
@@ -143,7 +139,6 @@ namespace YXERP.Controllers
                     Response.Write("<script>alert('订单不存在');location.href='/Home/Index';</script>");
                     Response.End();
                 }
-
             }
 
             return View();
@@ -166,20 +161,18 @@ namespace YXERP.Controllers
                 {
                     return Redirect("/Auction/BuyNow");
                 }
-
                 if ((CurrentClient.EndTime - DateTime.Now).Days > 31)
                 {
                     return Redirect("/Auction/BuyUserQuantity");
                 }
-                double Days = Math.Ceiling((CurrentClient.EndTime - DateTime.Now).TotalDays);
-                ViewBag.Days = Days;
-                ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentClient.ClientID).Count;
-                ViewBag.CurrentAgent = CurrentClient;
+
+                ViewBag.Days = Math.Ceiling((CurrentClient.EndTime - DateTime.Now).TotalDays);
+                ViewBag.UserQuantity = OrganizationBusiness.GetUsers(CurrentClient.ClientID).FindAll(m=>m.Status==1).Count;
+                ViewBag.CurrentClient = CurrentClient;
                 ViewBag.Discount = BuyDiscount;
 
                 id = id ?? string.Empty;
                 int result = GetClientOrderInfo(ref id);
-
                 if (result == 2)
                 {
                     return Redirect("/Auction/ExtendNow/" + id);
