@@ -53,10 +53,11 @@
                 $(".registerErr").html("请输入密码").slideDown();
                 return;
             }
-            if (Home.bindAccountType == 0 || Home.bindAccountType == 10000 )
+            if (Home.bindAccountType == 0 || Home.bindAccountType == 10000) {
                 $(this).html("登录中...").attr("disabled", "disabled");
-            else
+            } else {
                 $(this).html("绑定中...").attr("disabled", "disabled");
+            }
             Global.post("/Home/UserLogin", {
                 userName: $("#iptUserName").val(),
                 pwd: $("#iptPwd").val(),
@@ -64,7 +65,6 @@
                 bindAccountType: Home.bindAccountType
             },
             function (data) {
-                console.log(data);
                 if (Home.bindAccountType == 0 || Home.bindAccountType ==10000) {
                     $("#btnLogin").html("登录").removeAttr("disabled");
                 }else {

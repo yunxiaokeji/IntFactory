@@ -222,18 +222,17 @@
     ObjectJS.validate = function (option) {
         var _self = this;
         var userCount = $("#UserCount").val();
-        
         if (userCount == '') {
             if (option == 1) {
                 alert("人数不能为空", 2);
             }
             return false;
         }
-
         if (!userCount.isInt()) {
             alert("人数填写有误", 2);
             return false;
         }
+
         userCount = parseInt(userCount);
         if (userCount > 499) {
             alert("购买人数超过500人，请联系我们，为您专业定制", 2);
@@ -245,15 +244,13 @@
                 alert("首次购买人数不能少于5人", 2);
                 return false;
             }
-        }
-        else if (_self.actionType == 2) {
+        }else if (_self.actionType == 2) {
             if (userCount < 5) {
                 alert("购买人数不能少于5人");
                 return false;
             }
 
-        }
-        else if (_self.actionType == 3) {
+        }else if (_self.actionType == 3) {
             if (userCount < parseInt($("#txt-userCount").val())) {
                 alert("续约人数小于当前用户量总数，请先删除部分用户，然后再续费", 2);
                 return false;
@@ -275,6 +272,7 @@
             userCount += ( parseInt($item.data("usercount")) * parseInt($item.data("productCount")) );
             totalAmount += (parseInt($item.data("price")) * parseInt($item.data("productCount")));
         }
+
         $("#UserCount").val(userCount);
         $("#TotalMoney").html( parseFloat( totalAmount * ObjectJS.discount ).toFixed(2) );
     }
@@ -297,9 +295,8 @@
             function (data) {
                 if (data.ID)
                 {
-                    $("#pay-amount").html(data.RealAmount);
                     ObjectJS.orderID = data.ID;
-
+                    $("#pay-amount").html(data.RealAmount);
                     $("#btn-sureBuyOrder").parent().hide().next().fadeIn(500);
 
                     var $nav = $(".header-nav .nav-hover");
@@ -307,7 +304,6 @@
                     $nav.parent().next().next().find(".nav").addClass("nav-hover").next().addClass("nav-des-hover");
                     $nav.parent().next().addClass("nav-line-finish");
                 }
-
             }
         );
     }
@@ -332,7 +328,6 @@
         var $alink = $("<a id='alink' href='" + "/Auction/GoAlipayPay/" + ObjectJS.orderID + "' target='_blank'></a>");
         $("body").append($alink);
         document.getElementById("alink").click();
-       
     }
 
     //完成支付
@@ -363,12 +358,10 @@
 
                         $(".pay-tb-info tr").eq(0).find("td:last").html("续费后");
                     }
-                }
-                else {
+                }else {
                     $(".result-error").show();
                 }
             });
-
     }
 
     //格式化金额
@@ -379,7 +372,8 @@
         for(i = 0; i < l.length; i ++ )   
         {   
             t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");   
-        }   
+        }
+
         return t.split("").reverse().join("");   
     }
 

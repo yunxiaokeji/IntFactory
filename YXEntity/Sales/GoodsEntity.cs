@@ -6,7 +6,7 @@ using System.Text;
 namespace IntFactoryEntity
 {
     [Serializable]
-    public class GoodsEntity
+    public class GoodsEntity:OrderEntity
     {
         public int IsPublic { get; set; }
 

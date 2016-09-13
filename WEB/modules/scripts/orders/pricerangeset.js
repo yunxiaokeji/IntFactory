@@ -13,33 +13,33 @@
     };
 
     ObjectJS.bindEvent = function () {
-        $("#setPriceRange").click(function () {
-            var _this = $(this);
-            if (_this.data('isget')==1) {
-                _this.data('isget', 0);
-                $(".price-range-box").fadeOut();
-                _this.text('展开报价');
-            } else {
-                _this.data('isget', 1);
-                _this.text('收起报价');
-                $(".price-range-box").fadeIn();
-                ObjectJS.getPriceRange();
-            }
-        });   
+        //$("#setPriceRange").click(function () {
+        //    var _this = $(this);
+        //    if (_this.data('isget')==1) {
+        //        _this.data('isget', 0);
+        //        $(".price-range-box").fadeOut();
+        //        _this.text('展开报价');
+        //    } else {
+        //        _this.data('isget', 1);
+        //        _this.text('收起报价');
+        //        $(".price-range-box").fadeIn();
+        //        ObjectJS.getPriceRange();
+        //    }
+        //});   
     };
 
-    ObjectJS.getPriceRange = function () {
+    ObjectJS.getPriceRange = function (parentObj) {
         ObjectJS.isLoading = false;
         $(".price-range-box").html('<div class="data-loading"><div>');
         Global.post("/Orders/GetOrderPriceRanges", { orderid: ObjectJS.orderID }, function (data) {
             doT.exec("template/orders/pricerangge.html", function (template) {
                 var innerText = template(data.items);
                 innerText = $(innerText);
-                innerText.find(".close-range").click(function () {
-                    $(".price-range-box").fadeOut();
-                    $("#setPriceRange").data('isget', 0);
-                    $("#setPriceRange").text('展开报价');
-                });
+                //innerText.find(".close-range").click(function () {
+                //    $(".price-range-box").fadeOut();
+                //    $("#setPriceRange").data('isget', 0);
+                //    $("#setPriceRange").text('展开报价');
+                //});
                 innerText.find('.add-range').click(function () {
                     if (!ObjectJS.isLoading) {
                         alert("数据提交中，请稍等", 2);
@@ -70,7 +70,7 @@
                     });
                 });
 
-                $(".price-range-box").html(innerText);
+                $(parentObj).html(innerText);
                 ObjectJS.bindUpdatePriceRange(innerText.find(".update"));
                 ObjectJS.deletePriceRange();
             });

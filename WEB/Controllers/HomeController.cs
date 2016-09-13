@@ -177,6 +177,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public ActionResult Authorize(string sign, string redirect_uri)
         {
             if (!string.IsNullOrEmpty(sign) && !string.IsNullOrEmpty(redirect_uri))
@@ -186,14 +187,21 @@ namespace YXERP.Controllers
                     ViewBag.Status = 0;
                     ViewBag.ReturnUrl = redirect_uri ?? string.Empty;
                     ViewBag.BindAccountType = 10000;
+                    
+                    if (Session["ClientManager"] != null)
+                    {
+                        var user = (IntFactoryEntity.Users)Session["ClientManager"];
+                        ViewBag.Sign = Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, user.UserID);
+                        ViewBag.CurrentUser = user;
+                    }
 
-                    return View("Login");
+                    return View();
                 }
             }
 
             Response.Write("<script>alert('参数有误');location.href='http://edj.yunxiaokeji.com';</script>");
             Response.End();
-            return View("Login");
+            return View();
         }
 
         public ActionResult Login(string ReturnUrl, int Status = 0, int BindAccountType=0)
@@ -412,9 +420,13 @@ namespace YXERP.Controllers
                         Session["ClientManager"] = model;
 
                         if (string.IsNullOrEmpty(state))
+                        {
                             return Redirect("/Home/Index");
+                        }
                         else
+                        {
                             return Redirect(state);
+                        }
                     }
                     else
                     {
@@ -554,7 +566,7 @@ namespace YXERP.Controllers
                         {
                             result = BindWeiXin(model);
                         }
-                        else if (bindAccountType == 10000)
+                        else if (bindAccountType == 10000) //授权第三方登录
                         {
                             result = 1;
                             resultObj.Add("userid",model.UserID);

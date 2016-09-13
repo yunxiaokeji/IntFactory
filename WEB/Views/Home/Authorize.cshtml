@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    IntFactoryEntity.Users CurrentUser = (IntFactoryEntity.Users)Session["ClientManager"]; 
 }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,7 +10,7 @@
     <meta content="中国市场最通用的智能工厂服装可视化管理平台，供应链管理，功能强大，2016年开始运营" name="description"/>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
     <meta content="telephone=no" name="format-detection"/>
-    <title>智能工厂-厂盟智能</title>
+    <title>厂盟账号授权-厂盟智能</title>
     <link href="/modules/css/iconfont/iconfont.css" rel="stylesheet" />
     <link href="/modules/css/base.css" rel="stylesheet" />
     <link href="/modules/css/default/layout.css" rel="stylesheet" />
@@ -34,40 +35,34 @@
        </div>
 
         <div class="main">
-            <div class="loginTitle center">登录</div>
+            <div class="loginTitle">
+                厂盟账号授权
+                <span class="right mTop5">云销二当家</span>
+            </div>
             <div class="login">
                 <div class="registerErr hide"></div>
-
-                <div class="loginbar">
-                    <input type="text" class="input icoUserName" id="iptUserName" placeholder="请输入账号" value="@ViewBag.UserName" maxlength="25"/>
-                </div>
-                <div class="loginbar" style="position:relative;">
-                    <input type="password" class="input icoUserPwd" id="iptPwd"/>
-                    <div class="txtBoxPassword">请输入密码</div>
-                </div>
-
-                <div class="btnLogin" id="btnLogin">登录</div>
+                @if (CurrentUser == null)
+                {
+                    <div class="loginbar">
+                        <input type="text" class="input icoUserName" id="iptUserName" placeholder="请输入账号" value="@ViewBag.UserName" maxlength="25"/>
+                    </div>
+                    <div class="loginbar" style="position:relative;">
+                        <input type="password" class="input icoUserPwd" id="iptPwd"/>
+                        <div class="txtBoxPassword">请输入密码</div>
+                    </div>
+                    <div class="btnLogin mTop" id="btnLogin">授权厂盟账号登录</div>
+                }
+                else
+                {
+                    <div style="line-height:50px;">
+                       您的账号<span style="color:#4a98e7; font-size:14px;"> @CurrentUser.Name </span>已登录，点击立即登录授权并登录
+                    </div>
+                    <a class="btnLogin" href="@(ViewBag.ReturnUrl)?sign=@(ViewBag.Sign)&userid=@(CurrentUser.UserID)&clientid=@(CurrentUser.ClientID)">立即登录</a>
+                    <a class="btnLogin" style="background-color:#ccc;" href="@(YXERP.Common.Common.YXClientUrl)/Home/Login">取消</a>
+                }
                 <div class="remember-box">
-                    <div class="cb-remember-password ico-check ">
-                        一周内保持登录
-                    </div>
-                    <div class="right pRight5">
-                        <a href="/Home/FindPassword" class="linkRegister">忘记密码?</a>
-                        <span class="font14"> | </span>
-                        <a href="/Home/Register" class="linkRegister">注册厂盟</a> 
-                    </div>
-                </div>
-                <div class="other-account">
-                    <div class="accounts">
-                        <a class="" href="/Home/AlibabaLogin?ReturnUrl=@ViewBag.ReturnUrl" title="阿里账号登录">
-                            <span class="other-logo account-alibaba"></span>
-                            <span class="left mLeft5">阿里巴巴登录</span> 
-                        </a>
-                        <a class=" mLeft10" href="/Home/WeiXinLogin?ReturnUrl=@ViewBag.ReturnUrl" title="微信账号登录">
-                            <span class="other-logo account-weixin"></span>
-                            <span class="left mLeft5">微信登录</span> 
-                        </a>
-                    </div>
+                    <div class="left"><a class="linkRegister" href="/Home/Register">注册厂盟账号</a></div>
+                    <div class="right pRight5"><a href="/Home/FindPassword" class="linkRegister">忘记密码?</a></div>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script src="/modules/plug/laydate/laydate.js"></script>
-    <script src="/modules/scripts/orders/pricerangeset.js"></script>
+  @*  <script src="/modules/scripts/orders/pricerangeset.js"></script>*@
     <script src="/modules/plug/e-smart-zoom-jquery.min.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/orders/pricerangeset"], function (e) {
@@ -144,13 +144,13 @@
                         @(model.FinalPrice.ToString("f2"))
                     </label>
                 </div>
-                @if (model.IsSelf && model.OrderStatus == 2)
+@*                @if (model.IsSelf && model.OrderStatus == 2)
                 {
                     <div class="left" style="position:relative;">
                         <label class="btn-link mLeft5 hand" id="setPriceRange">展开报价</label>                    
                         <div class="price-range-box hide"></div>
                     </div>
-                }
+                }*@
             </li>
             <li>
                 <span class="column-title">付款金额：</span>
@@ -485,7 +485,7 @@
         <li class="sample-report" data-type="1">打样报价</li>
         if (model.IsSelf && model.OrderStatus == 2)
         { 
-            <li><a href="/orders/GoodsSetting/@(model.OrderID)">款式管理</a></li>
+            <li><a href="/orders/GoodsSetting/@(model.GoodsID)">款式管理</a></li>
         }
     }
     
