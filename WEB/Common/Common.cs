@@ -25,6 +25,8 @@ namespace YXERP.Common
         public static string YXAppKey = System.Configuration.ConfigurationManager.AppSettings["YXAppKey"] ?? "f64bd98d-dc45-4d3b-891d-7601f4ee71b4";
         public static string YXAppSecret = System.Configuration.ConfigurationManager.AppSettings["YXAppSecret"] ?? "ff6a2c17-2937-4a21-a7f1-ae74c4836315";
 
+        public static string YXClientUrl = System.Configuration.ConfigurationManager.AppSettings["YXClientUrl"] ?? "http://edj.yunxiaokeji.com/Home/CMLogin";
+
         /// <summary>
        /// 获取请求方ip
        /// </summary>

@@ -24,13 +24,13 @@
         <div class="logo left"><a href="/Home/Index"><img id="companyLogo" src="@(logo+"?imageView2/1/w/26/h/26")"/></a></div>
         <div class="left companyname long" id="companyName" title="@companyName">@companyName</div>
         <ul id="modulesMenu" class="menu left">
-              <li class="left">
-                    <a href="/Home/Index" class="">
-                        <img class="ico" data-ico="/Content/menuico/home.png" data-hover="/Content/menuico/homehover.png" src="/Content/menuico/home.png" /> 
-                        <span class="name">工作台</span>
-                        <span class="cursor"></span>
-                    </a> 
-                </li>
+            <li class="left">
+                <a href="/Home/Index" class="">
+                    <img class="ico" data-ico="/Content/menuico/home.png" data-hover="/Content/menuico/homehover.png" src="/Content/menuico/home.png" /> 
+                    <span class="name">工作台</span>
+                    <span class="cursor"></span>
+                </a> 
+            </li>
             @foreach (IntFactoryEntity.Menu model in ExpandClass.GetChildMenuByCode(HttpContext.Current, ExpandClass.CLIENT_TOP_CODE))
             { 
                 <li class="left" data-code="@(model.MenuCode)">
@@ -41,6 +41,13 @@
                     </a> 
                 </li>
             }
+            <li class="left">
+                <a href="@(YXERP.Common.Common.YXClientUrl)/Home/CMLogin" target="_blank">
+                    <img class="ico" data-ico="/Content/menuico/client.png" data-hover="/Content/menuico/clienthover.png" src="/Content/menuico/client.png" /> 
+                    <span class="name">云销客户端</span>
+                    <span class="cursor"></span>
+                </a> 
+            </li>
         </ul>
         <div id="currentUser" class="currentuser right">
             <span>
