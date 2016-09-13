@@ -5,14 +5,15 @@
         Easydialog = require("easydialog");
     require("pager");
     require("daterangepicker");
-
+    var Upload = require("upload");
+    
     var ObjectJS = {};
 
     ObjectJS.isLoading = true;
     ObjectJS.moduleTypes = "";
 
     var Params = {
-        Types: 0,
+        Types: -1,
         TypeID:"",
         Keywords: "",
         BeginTime: "",
@@ -132,7 +133,7 @@
             ObjectJS.isLoading = false;
             Global.post("/HelpCenter/GetTypesByModuleType", { type: type }, function (data) {
                 ObjectJS.isLoading = true;
-                if (data.items.length>0) {
+                if (data.items.length > 0) {                    
                     ObjectJS.cateGoryDropDown(data.items);
                 } else {
                     alert("网络波动，请重试");
@@ -145,12 +146,14 @@
             var sort = $(".sort").val();
             var title = $(".title").val();
             var keywords = $(".keywords").val();
+            var img = $("#cateGoryImages li img").data("src");
             var desc = encodeURI(editor.getContent());            
             if (title=="" || desc==""||sort=="") {
                 alert("内容不能为空");
                 return;
             }            
-            Global.post("/HelpCenter/InsertContent", { typeID: ObjectJS.moduleTypes, sort: sort, title: title, keywords: keywords, desc: desc }, function (data) {
+            Global.post("/HelpCenter/InsertContent", { 
+                typeID: ObjectJS.moduleTypes, sort: sort, title: title, keywords: keywords,img:img, desc: desc }, function (data) {
                 if (data.status == 1) {
                     alert("添加成功");
                     window.location = "/HelpCenter/Contents";
@@ -161,6 +164,8 @@
                 }
             })
         });
+
+        ObjectJS.bindUpload();
     };
 
     ObjectJS.getContentList = function () {
@@ -237,8 +242,8 @@
         });
     };
 
-    ObjectJS.cateGoryDropDown = function (item) {
-        $("#category_Down").empty();        
+    ObjectJS.cateGoryDropDown = function (item) {        
+        $("#category_Down").empty();
         require.async("dropdown", function () {
             var types = [];
             for (var i = 0; i < item.length; i++) {
@@ -268,6 +273,20 @@
             });
         });
 
+    }
+
+    ObjectJS.bindUpload = function () {
+        var uploader = Upload.uploader({
+            browse_button: 'uploadImg',
+            picture_container: "cateGoryImages",
+            successItems: "#cateGoryImages li",
+            //image_view: "?imageView2/1/w/60/h/60",
+            file_path: "/Content/UploadFiles/HelpCenter/",
+            maxSize: 5,
+            fileType: 1,
+            multi_selection: false,
+            init: {}
+        });
     }
 
     module.exports = ObjectJS;

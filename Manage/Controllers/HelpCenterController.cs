@@ -109,9 +109,9 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult InsertContent(string typeID, string sort, string title, string keyWords, string desc)
+        public JsonResult InsertContent(string typeID, string sort, string title, string keyWords,string img, string desc)
         {
-            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.InsertContent(typeID, sort, title, keyWords, desc, CurrentUser.UserID);
+            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.InsertContent(typeID, sort, title, keyWords,img, desc, CurrentUser.UserID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -120,9 +120,9 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult UpdateType(string typeID, string name, string icon, int moduleType)
+        public JsonResult UpdateType(string typeID, string name,string desc ,string icon, int moduleType)
         {
-            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.UpdateType(typeID, name, icon, moduleType);
+            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.UpdateType(typeID, name, desc, icon, moduleType);
             JsonDictionary.Add("status", bl);
 
             return new JsonResult

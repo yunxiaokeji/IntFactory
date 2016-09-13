@@ -1,6 +1,7 @@
 ﻿define(function (require, exports, module) {
     var Global = require("global"),
-        Dot = require("dot"), editor
+        Dot = require("dot"), editor;
+    var Upload = require("upload");
 
     var ObjectJS = {};
 
@@ -21,6 +22,7 @@
         $(".title").val(model.Title);
         $(".sort").val(model.Sort);
         $(".keywords").val(model.KeyWords);
+        $("#cateGoryImages").html("<li><img src='" + model.MainImg + "?imageView2/1/w/60/h/60' data-src=" + model.MainImg + "></li>");
         editor.ready(function () {
             editor.setContent(decodeURI(model.Detail));
         });
@@ -42,6 +44,18 @@
                     alert("网络波动，请重试");
                 }
             });
+        });
+
+        var uploader = Upload.uploader({
+            browse_button: 'uploadImg',
+            picture_container: "cateGoryImages",
+            successItems: "#cateGoryImages li",
+            //image_view: "?imageView2/1/w/60/h/60",
+            file_path: "/Content/UploadFiles/HelpCenter/",
+            maxSize: 5,
+            fileType: 1,
+            multi_selection: false,
+            init: {}
         });
 
         ObjectJS.cateGoryDropDown(list, model,true);
@@ -70,7 +84,7 @@
     }
     
     ObjectJS.cateGoryDropDown = function (item,model,bl) {
-        $("#category_Down").empty();
+        $("#category_Down").empty();        
         require.async("dropdown", function () {
             var types = [];
             for (var i = 0; i < item.length; i++) {
