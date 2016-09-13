@@ -240,7 +240,7 @@
     }
 
     //更改任务到期时间
-    ObjectJS.updateTaskEndTime = function (taskid,maxhours) {
+    ObjectJS.updateTaskEndTime = function (taskid, maxhours, planTime) {
         if (maxhours == 0) {
             Easydialog = require("easydialog");
             doT.exec("/template/task/set-endtime.html", function (template) {
@@ -251,32 +251,19 @@
                         header: "设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
-                            if ($("#UpdateTaskEndTime").val() == "") {
+                            var  endTime=$("#UpdateTaskEndTime").val();
+                            if (endTime == "") {
                                 alert("任务到期时间不能为空", 2);
-                                return false;
+                                return
                             }
 
-                            Global.post("/Task/UpdateTaskEndTime", {
-                                id: taskid,
-                                endTime: $("#UpdateTaskEndTime").val()
-                            }, function (data) {
-                                if (data.result == 0) {
-                                    alert("操作无效");
-                                }
-                                else if (data.result == 2) {
-                                    alert("任务已接受,不能操作");
-                                }
-                                else if (data.result == 3) {
-                                    alert("没有权限操作");
-                                }
-                                else {
-                                    alert("接受成功");
-                                    $(".btn-accept[data-id=" + taskid + "]").next().html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
-                                    $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-status').html('进行中').css({ "color": "#02C969" });
-                                    $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
-                                    $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
-                                }
-                            });
+                            planTime = new Date(planTime).getTime();
+                            var endTime2 = new Date(endTime).getTime();
+                            if (planTime < endTime2) {
+                                confirm("到期时间超过订单交货日期,确定设置?", function () { ObjectJS.updateTaskEndTimeAjax(taskid, endTime) });
+                            } else {
+                                ObjectJS.updateTaskEndTimeAjax(taskid, endTime);
+                            }
                         }
                     }
                 });
@@ -296,25 +283,34 @@
             });
         }
         else {
-            Global.post("/Task/UpdateTaskEndTime", {
-                id: taskid,
-                endTime: ""
-            }, function (data) {
-                if (data.result == 0) {
-                    alert("操作无效", 2);
-                }else if (data.result == 2) {
-                    alert("任务已接受,不能操作", 2);
-                }else if (data.result == 3) {
-                    alert("没有权限操作", 2);
-                }else {
-                    $(".btn-accept[data-id=" + taskid + "]").next(0).html('--');
-                    $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-status').html('进行中').css({ "color": "#02C969" });
-                    $(".btn-accept[data-id=" + taskid + "]").parents('tr').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
-                    $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
-                }
-            });
+            ObjectJS.updateTaskEndTimeAjax(taskid,'');
         }
     }
+
+    ObjectJS.updateTaskEndTimeAjax = function (taskid,endTime) {
+        Global.post("/Task/UpdateTaskEndTime", {
+            id: taskid,
+            endTime: endTime
+        }, function (data) {
+            if (data.result == 0) {
+                alert("操作无效");
+            } else if (data.result == 2) {
+                alert("任务已接受,不能操作");
+            } else if (data.result == 3) {
+                alert("没有权限操作");
+            } else {
+                alert("接受成功");
+                if (endTime) {
+                    $(".btn-accept[data-id=" + taskid + "]").next().html('结束日期：' + new Date($("#UpdateTaskEndTime").val()).toString('yyyy-MM-dd'));
+                } else {
+                    $(".btn-accept[data-id=" + taskid + "]").next(0).html('--');
+                }
+                $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-status').html('进行中').css({ "color": "#02C969" });
+                $(".btn-accept[data-id=" + taskid + "]").parents('ul').find('.accept-date').html(new Date().toString('yyyy-MM-dd'));
+                $(".btn-accept[data-id=" + taskid + "]").unbind().html("进行中").removeClass('btn').removeClass('btn-accept').css({ "color": "#02C969" });
+            }
+        });
+    };
 
     ObjectJS.getList = function () {
         ObjectJS.isLoading = false;
@@ -336,7 +332,7 @@
                     });
 
                     innerhtml.find('.btn-accept').click(function () {
-                        ObjectJS.updateTaskEndTime($(this).data('id'),$(this).data('maxhours'));
+                        ObjectJS.updateTaskEndTime($(this).data('id'), $(this).data('maxhours'), $(this).data('plantime'));
                     });
 
                     

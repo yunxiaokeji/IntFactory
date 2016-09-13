@@ -99,7 +99,7 @@
                             if($data.currentUserID==item.OwnerID)
                             {
                         %}
-                            <div class="center btn btn-accept" data-id="{%=item.TaskID%}" data-maxhours="{%=item.MaxHours%}">
+                            <div class="center btn btn-accept" data-id="{%=item.TaskID%}" data-maxhours="{%=item.MaxHours%}" data-plantime="{%=item.Order.PlanTime.toDate('yyyy-MM-dd hh:mm:ss')%}">
                                 接受任务
                             </div>   
                         

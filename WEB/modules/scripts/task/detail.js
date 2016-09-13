@@ -383,7 +383,13 @@
                                 alert("任务到期时间不能为空", 2);
                                 return false;
                             }
-                            ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
+                            var planTime = new Date(ObjectJS.planTime).getTime();
+                            var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
+                            if (planTime < endTime) {
+                                confirm("到期时间超过订单交货日期,确定设置?", function () { ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val()) });
+                            } else {
+                                ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
+                            }
                         }
                     }
                 });
@@ -391,7 +397,6 @@
                 var myDate = new Date();
                 var minDate = myDate.toLocaleDateString();
                 minDate = minDate + " 23:59:59"
-
                 //更新任务到期日期
                 var taskEndTime = {
                     elem: '#UpdateTaskEndTime',
