@@ -1,6 +1,7 @@
 ﻿{%
 	for(var i=0; i<$data.length; i++){
 	var item = $data[i];
+    var order=item.Order;
     var totalDay=(item.UseDays==0?1:item.UseDays)+(item.WarningDays==0?1:item.WarningDays);
 %}
     <tr class="item-header">
@@ -30,10 +31,8 @@
         </td>  
         <td class="order-costinfo tLeft">
             <div>
-                <span class="column-title">任务编码：</span>
-                <a href="/Task/Detail/{%=item.TaskID%}" class="bold">
-                    {%=item.TaskCode%}
-                </a>
+                <span class="column-title">订单款式：</span>
+                    {%=(order.GoodsName+order.IntGoodsCode)==''?order.OrderCode:order.GoodsName+'-'+order.IntGoodsCode%}
             </div>
             <div>
                 <span class="column-title">接受日期：</span>
