@@ -165,15 +165,16 @@ namespace YXERP.Controllers
 
         public ActionResult GoodsSetting(string id)
         {
-            var model = OrdersBusiness.BaseBusiness.GetOrderBaseInfoByID(id);
+            var model = OrdersBusiness.BaseBusiness.GetGoodsByID(id, CurrentUser.ClientID);
             if (model == null || string.IsNullOrEmpty(model.OrderID))
             {
                 return Redirect("/Orders/Orders");
             }
+
             ViewBag.Model = model;
-            var goods = OrdersBusiness.BaseBusiness.GetGoodsByID(model.GoodsID,model.ClientID);
             ViewBag.GoodsID = model.GoodsID;
-            ViewBag.IsPublic = goods.IsPublic;
+            ViewBag.OrderID = model.OrderID;
+            ViewBag.IsPublic = model.IsPublic;
 
             return View();
         }

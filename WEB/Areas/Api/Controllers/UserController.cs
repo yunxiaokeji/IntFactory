@@ -132,8 +132,8 @@ namespace YXERP.Areas.Api.Controllers
         }
 
         [YXERP.Common.ApiAuthorize]
-        public JsonResult GetUserByUserID(string userid, string clientid) {
-            var user= OrganizationBusiness.GetUserByUserID(userid, clientid);
+        public JsonResult GetUserByUserID(string userID, string clientID) {
+            var user = OrganizationBusiness.GetUserByUserID(userID, clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             obj.Add("userID", user.UserID);
             obj.Add("clientID", user.ClientID);

@@ -117,7 +117,7 @@ namespace IntFactoryDAL
             return result;
         }
 
-        public int InsertContent(string contentID, string typeID, string sort, string title, string keyWords, string detail, string userID)
+        public int InsertContent(string contentID, string typeID, string sort, string title, string keyWords,string img, string detail, string userID)
         {
             int result = 0;
             SqlParameter[] param ={ new SqlParameter("@Result",result),
@@ -126,6 +126,7 @@ namespace IntFactoryDAL
                                     new SqlParameter("@Sort",sort),
                                     new SqlParameter("@Title",title),
                                     new SqlParameter("@KeyWords",keyWords),
+                                    new SqlParameter("@Img",img),
                                     new SqlParameter("@UserID",userID),
                                     new SqlParameter("@Detail",detail)
                                  };
@@ -138,12 +139,13 @@ namespace IntFactoryDAL
         #endregion
 
         #region 编辑
-        public bool UpdateType(string typeID, string name, string icon, int moduleType)
+        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType)
         {
-            string sqlTxt = "Update M_HelpType set Name=@name,Icon=@icon,ModuleType=@moduleType where TypeID=@typeID";
+            string sqlTxt = "Update M_HelpType set Name=@name,Remark=@remark,Icon=@icon,ModuleType=@moduleType where TypeID=@typeID";
             SqlParameter[] param ={ 
                                     new SqlParameter("@typeID",typeID),
                                     new SqlParameter("@name",name),
+                                    new SqlParameter("@remark",remark),
                                     new SqlParameter("@icon",icon),
                                     new SqlParameter("@moduleType",moduleType)
             };

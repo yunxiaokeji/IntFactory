@@ -39,9 +39,9 @@ define(function (require, exports, module) {
             _input.css("width", opts.width - 30);
             var _ico = $('<div class="dropdown-ico"><span></span></div>');
             obj.append(_input).append(_ico);
-
+            
             //处理事件
-            obj.click(function () {
+            obj.click(function () {                
                 var _this = $(this);
                 if (_this.hasClass("hover")) {
                     $("#" + obj.data("itemid")).hide();

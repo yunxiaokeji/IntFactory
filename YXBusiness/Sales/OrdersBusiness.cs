@@ -518,7 +518,18 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-
+        public List<OrderAttrEntity> GetOrderArrrsByGoodsID(string goodsID)
+        {
+            List<OrderAttrEntity> list = new List<OrderAttrEntity>();
+            DataTable dt = OrdersDAL.BaseProvider.GetOrderAttrsByGoodsID(goodsID);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderAttrEntity model = new OrderAttrEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
         public GoodsEntity GetGoodsByID(string goodsid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetGoodsByID(goodsid, clientid);
@@ -526,6 +537,17 @@ namespace IntFactoryBusiness
             if (ds.Tables["Goods"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Goods"].Rows[0]);
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
+                }
             }
             return model;
         }

@@ -24,6 +24,8 @@ namespace IntFactoryEntity.HelpCenter
 
         public string KeyWords { get; set; }
 
+        public string MainImg { get; set; }
+
         public int Sort { get; set; }
 
         public string Detail { get; set; }

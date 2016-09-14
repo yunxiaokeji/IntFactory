@@ -140,9 +140,10 @@
                                     header: "编辑分类",
                                     content: innerText,
                                     yesFn: function () {
-                                        var type = $(".type").val();                                        
+                                        var type = $(".type").val();
+                                        var desc = $("#desc").val();
                                         var img = $("#cateGoryImages li img").data("src");                                        
-                                        Global.post("/HelpCenter/UpdateType", { TypeID: typeID, Name: type, icon: img, moduleType: moduleType }, function (e) {
+                                        Global.post("/HelpCenter/UpdateType", { TypeID: typeID, Name: type,desc:desc, icon: img, moduleType: moduleType }, function (e) {
                                             if (e.status) {
                                                 ObjectJS.getTypeList();
                                             } else {
@@ -160,6 +161,7 @@
 
                             var item = data.items[index];
                             $(".type").val(item.Name);
+                            $("#desc").val(item.Remark);
                             $("#select .item .check-lump").removeClass("hover");
                             $("#select .item .check-lump[data-id=" + item.ModuleType + "]").addClass("hover");
                             if (item.Icon) {

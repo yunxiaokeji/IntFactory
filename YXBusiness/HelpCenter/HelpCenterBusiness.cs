@@ -101,10 +101,10 @@ namespace IntFactoryBusiness
             return HelpCenterDAL.BaseProvider.InsertType(typeID, name, remark, moduleType, img, userID);
         }
 
-        public int InsertContent(string typeID, string sort, string title, string keyWords, string content, string userID)
+        public int InsertContent(string typeID, string sort, string title, string keyWords,string img, string content, string userID)
         {
             var contentID = Guid.NewGuid().ToString().ToLower();
-            return HelpCenterDAL.BaseProvider.InsertContent(contentID, typeID, sort, title, keyWords, content, userID);
+            return HelpCenterDAL.BaseProvider.InsertContent(contentID, typeID, sort, title, keyWords,img, content, userID);
         }
 
         #endregion
@@ -112,9 +112,9 @@ namespace IntFactoryBusiness
 
         #region 编辑
 
-        public bool UpdateType(string typeID, string name, string icon, int moduleType)
+        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType)
         {
-            return HelpCenterDAL.BaseProvider.UpdateType(typeID, name, icon, moduleType);
+            return HelpCenterDAL.BaseProvider.UpdateType(typeID, name,remark, icon, moduleType);
         }
 
         public bool UpdateContent(string contentID, string title, string sort, string keyWords, string content, string typeID)

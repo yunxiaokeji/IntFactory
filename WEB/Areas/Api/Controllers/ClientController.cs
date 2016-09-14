@@ -24,6 +24,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("clientCode", item.ClientCode);
                 obj.Add("companyName", item.CompanyName);
                 obj.Add("logo", item.Logo);
+                obj.Add("cityCode", item.CityCode);
                 obj.Add("contactName", item.ContactName);
                 obj.Add("mobilePhone", item.MobilePhone);
                 obj.Add("address", item.Address);
