@@ -12,20 +12,7 @@
         ObjectJS.orderID = orderid;
     };
 
-    ObjectJS.bindEvent = function () {
-        //$("#setPriceRange").click(function () {
-        //    var _this = $(this);
-        //    if (_this.data('isget')==1) {
-        //        _this.data('isget', 0);
-        //        $(".price-range-box").fadeOut();
-        //        _this.text('展开报价');
-        //    } else {
-        //        _this.data('isget', 1);
-        //        _this.text('收起报价');
-        //        $(".price-range-box").fadeIn();
-        //        ObjectJS.getPriceRange();
-        //    }
-        //});   
+    ObjectJS.bindEvent = function () { 
     };
 
     ObjectJS.getPriceRange = function (parentObj) {

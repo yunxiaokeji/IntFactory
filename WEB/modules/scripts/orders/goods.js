@@ -7,6 +7,7 @@
         ObjectJS.bindEvent();
         PricerangeSet.init(orderid);
         $("#navShare .ico-radiobox[data-value='" + isPublic + "']").addClass("hover");
+        PricerangeSet.getPriceRange($("#goodsPrices"));
     };
 
     ObjectJS.bindEvent = function () {

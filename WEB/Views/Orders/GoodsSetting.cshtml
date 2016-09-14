@@ -4,6 +4,8 @@
 }
 @section css{
     <link href="/modules/css/orders.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
 }
 @section scripts{
     <script type="text/javascript">
@@ -14,26 +16,22 @@
 }
 <div class="header-box">
     <div class="header-title">
-        打样单编号：@(model.OrderCode)
+        款式编码：@(model.IntGoodsCode)
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
     </div>
 </div>
 
 <div class="content-body" style="padding:10px;overflow:initial;">
-    <div class="order-info">
-        <div class="order-imgs-div left">
+    <div class="order-info" >
+        <div class="order-imgs-div left" style="width:240px;">
             <div class="order-imgs" style="width:210px;height:210px;">
-                <img style="min-width:210px;min-height:210px;" id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="1" />
+                <img style="width:210px;" id="orderImage" src="@(string.IsNullOrEmpty(model.OrderImage) ? "" : model.OrderImage)" data-self="1" />
             </div>
             <ul class="order-imgs-list hide" ></ul>
         </div>
         <ul class="moneyinfo left">
             <li>
                 <label class="bold font16">@(string.IsNullOrEmpty(model.GoodsName)?"暂无款式名称":model.GoodsName)</label>
-            </li>
-            <li>
-                <span class="column-title">款式编码：</span>
-                <label >@(model.IntGoodsCode)</label>
             </li>
             <li>
                 <span class="column-title">加工品类：</span>
@@ -43,10 +41,8 @@
                 <span class="column-title">款式类别：</span>
                 <label >@(model.CategoryName)</label>
             </li>
-        </ul>
-        <ul class="cutomerinfo right">
             <li style="overflow:initial;">
-                <div class="left">
+                <div>
                     <span class="column-title">最终报价：</span>
                     <label>
                         @(model.FinalPrice.ToString("f2"))
@@ -61,7 +57,17 @@
                 <span class="column-title">加工成本：</span>
                 <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
             </li>
-         </ul>
+        </ul>
+        <div class="right mTop15 mRight30" style="border-left:1px solid #ddd;padding:0 0 10px 30px;min-width:250px;">
+            <ul class="goods-price " style="margin:0;">
+                 <li style="border-bottom:1px solid #ddd;padding-bottom:10px;font-size:14px;font-weight:bold;">
+                    报价设置
+                </li>
+                 <li class="pTop5">
+                    <div id="goodsPrices"></div>
+                </li>
+             </ul>
+        </div>
         <div class="clear"></div>
     </div>
 </div>
@@ -69,7 +75,7 @@
 <div class="module-header mTop20">
     <ul class="module-tab left">
         <li class="hover" data-id="navShare" >基本设置</li>
-        <li  data-id="navGoodsPrice">款式报价</li>
+       @* <li  data-id="navGoodsPrice">款式报价</li>*@
     </ul>
 </div>
 
@@ -88,7 +94,7 @@
                 <span  class="btn" id="btnSaveShareInfo" >保存</span>
             </div>
     </div>
-    <div class="nav-partdiv order-info" id="navGoodsPrice">
+    @*<div class="nav-partdiv order-info" id="navGoodsPrice">
         <div id="goodsPrices" class="pLeft20 mTop10"></div>
-    </div>
+    </div>*@
 </div>
