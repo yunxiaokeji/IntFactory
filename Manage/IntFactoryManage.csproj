@@ -987,6 +987,7 @@
     <Content Include="Views\HelpCenter\Contents.cshtml" />
     <Content Include="Views\HelpCenter\EditContent.cshtml" />
     <Content Include="Views\HelpCenter\Types.cshtml" />
+    <Content Include="Views\Client\ViewPage1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
