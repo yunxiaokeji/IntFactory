@@ -147,6 +147,9 @@
             var title = $(".title").val();
             var keywords = $(".keywords").val();
             var img = $("#cateGoryImages li img").data("src");
+            if (!img) {
+                img = '';
+            }
             var desc = encodeURI(editor.getContent());            
             if (title=="" || desc==""||sort=="") {
                 alert("内容不能为空");
