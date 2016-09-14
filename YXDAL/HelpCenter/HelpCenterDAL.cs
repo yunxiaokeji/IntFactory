@@ -126,7 +126,7 @@ namespace IntFactoryDAL
                                     new SqlParameter("@Sort",sort),
                                     new SqlParameter("@Title",title),
                                     new SqlParameter("@KeyWords",keyWords),
-                                    new SqlParameter("@Img",img),
+                                    new SqlParameter("@MainImg",img),
                                     new SqlParameter("@UserID",userID),
                                     new SqlParameter("@Detail",detail)
                                  };
