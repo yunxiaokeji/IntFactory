@@ -169,11 +169,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\FilterProduct.cs" />
-    <Content Include="Content\menuico\client.png" />
-    <Content Include="Content\menuico\clienthover.png" />
+    <Content Include="Content\menuico\appModules.png" />
+    <Content Include="Content\menuico\appModulesHover.png" />
     <Content Include="Content\menuico\saleshover.png" />
     <Content Include="Content\menuico\task.png" />
     <Content Include="Content\menuico\taskhover.png" />
+    <Content Include="Content\menuico\yunxiao-logo.png" />
     <Content Include="DLL\JsonObject.dll" />
     <Content Include="DLL\Net.Sourceforge.Pinyin4j.dll" />
     <Content Include="DLL\Newtonsoft.Json.dll" />

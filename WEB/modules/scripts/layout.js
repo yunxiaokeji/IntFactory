@@ -102,6 +102,10 @@ define(function (require, exports, module) {
                     && !$(e.target).parents().hasClass("dropdown-companyinfo") && !$(e.target).hasClass("dropdown-companyinfo")) {
                 $(".dropdown-companyinfo").fadeOut("1000");
             }
+
+            if (!$(e.target).parents().hasClass("open-applicaton") && !$(e.target).hasClass("open-applicaton")) {
+                $(".dropdown-apps").fadeOut("1000");
+            }
         });
 
         $(".controller-box").click(function () {
@@ -131,6 +135,13 @@ define(function (require, exports, module) {
         //登录信息展开
         $("#currentUser").click(function () {
             $(".dropdown-userinfo").fadeIn("1000");
+        });
+
+        //展开应用
+        $("#openApplicaton").click(function () {
+            var _this = $(this), offset = _this.offset();
+            $(".dropdown-apps").css("left", offset.left);
+            $(".dropdown-apps").fadeIn("1000");
         });
 
         //公司名称信息展开

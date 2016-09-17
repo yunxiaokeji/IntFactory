@@ -41,10 +41,10 @@
                     </a> 
                 </li>
             }
-            <li class="left">
-                <a href="@(YXERP.Common.Common.YXClientUrl)/Home/CMLogin" target="_blank">
-                    <img class="ico" data-ico="/Content/menuico/client.png" data-hover="/Content/menuico/clienthover.png" src="/Content/menuico/client.png" /> 
-                    <span class="name">云销客户端</span>
+            <li class="left open-applicaton" id="openApplicaton">
+                <a href="javascript:void(0);">
+                    <img class="ico" data-ico="/Content/menuico/appModules.png" data-hover="/Content/menuico/appModulesHover.png" src="/Content/menuico/appModules.png" /> 
+                    <span class="name">扩展应用</span>
                     <span class="cursor"></span>
                 </a> 
             </li>
@@ -107,6 +107,14 @@
             <li class="item">剩余使用天数还有&nbsp;<span id="remainderDays" style="font-size:14px;" class="blue"></span>&nbsp;天</li>
             <li class="item pTop5" style="border:none;"><a href="/Auction/BuyNow" class="btn btn-buy">立即购买</a></li>
            
+        </ul>
+    </div>
+
+     @*扩展应用列表*@
+    <div class="dropdown-apps hide">
+        <div class="top-lump"></div>
+        <ul class="items-list">
+            <li class="item"><img src="/Content/menuico/yunxiao-logo.png" /> <a href="@(YXERP.Common.Common.YXClientUrl)/Home/CMLogin" target="_blank">云销二当家</a></li>
         </ul>
     </div>
 

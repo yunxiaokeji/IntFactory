@@ -58,6 +58,18 @@ header .menu a:hover .name,header .menu .select .name{ color:#fff;}
 
 header .menu .select .cursor{ display:block; }
 
+/*扩展应用*/
+.dropdown-apps { position:fixed; background-color:#fff; width:200px; border-radius:2px; border:solid 1px #eee;
+                     box-shadow:0 0 5px #ccc; top:50px; z-index:2000; }
+.dropdown-apps .top-lump { border-bottom:solid 10px #fff; border-left:solid 12px transparent ;border-right:solid 12px transparent; 
+                               width:0; height:0; position:absolute; left:50px; top:-9px; }
+.dropdown-apps .items-list { padding:5px 0; }
+.dropdown-apps .items-list .item{ height:35px; line-height:35px; width:200px; }
+.dropdown-apps .items-list .item img{ height:18px; display:inline-block; float:left; margin-top:9px; margin-left:10px; vertical-align:middle;}
+.dropdown-apps .items-list .item a{ width:150px; padding-left:5px; height:35px; float:left; display:inline-block; font-size:14px; color:#666;}
+.dropdown-apps .items-list .item:hover{ background-color:#eee; }
+
+
 /*登录会员信息*/
 header .currentuser { margin-right:30px; cursor:pointer;}
 header .currentuser span{ display:inline-block; float:left;}
