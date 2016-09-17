@@ -136,7 +136,6 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\ExpandClass.cs" />
     <Compile Include="Common\MessageSend.cs" />
-    <Compile Include="Common\ApiCloudPush.cs" />
     <Compile Include="Common\Signature.cs" />
     <Compile Include="Common\SyncTaskRecord.cs" />
     <Compile Include="Common\UserAuthorize.cs" />
