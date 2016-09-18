@@ -22,7 +22,8 @@
         $(".title").val(model.Title);
         $(".sort").val(model.Sort);
         $(".keywords").val(model.KeyWords);
-        $("#cateGoryImages").html("<li><img src='" + model.MainImg + "?imageView2/1/w/60/h/60' data-src=" + model.MainImg + "></li>");
+        var img = model.MainImg == "" ? "/modules/images/img-noimg.png" : model.MainImg;
+        $("#cateGoryImages").html("<li><img style='width:60px;height:60px;' src='" + img + "?imageView2/1/w/60/h/60' data-src=" + img + "></li>");
         editor.ready(function () {
             editor.setContent(decodeURI(model.Detail));
         });
@@ -66,12 +67,14 @@
         var title = $(".title").val();
         var sort = $(".sort").val();
         var keywords = $(".keywords").val();
+        var mainImg=$("#cateGoryImages li img").data("src");
         var content = encodeURI(editor.getContent());
         Global.post("/HelpCenter/UpdateContent", {
             id: id,
             title: title,
             sort: sort,
             keyWords: keywords,
+            mainImg:mainImg,
             content: content,
             typeID: ObjectJS.moduleTypes
         }, function (e) {
@@ -103,7 +106,7 @@
                 data: types,
                 dataValue: "ID",
                 dataText: "Name",
-                width: "110",
+                width: "120",
                 onChange: function (data) {
                     if (ObjectJS.moduleTypes != data.value) {
                        ObjectJS.moduleTypes = data.value;

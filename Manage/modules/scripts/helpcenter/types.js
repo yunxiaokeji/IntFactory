@@ -99,8 +99,14 @@
             if (txt == "") {
                 alert("分类不能为空");
                 return;
+            }            
+            var img = $("#cateGoryImages li img").data("src");
+            
+            if (img==undefined) {
+                alert("图片不能为空");
+                return;
             }
-            var img = $("#cateGoryImages li img").data("src");            
+
             Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img }, function (data) {
                 if (data.status == 1) {
                     alert("添加成功");

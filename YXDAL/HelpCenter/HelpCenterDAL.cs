@@ -152,9 +152,9 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqlTxt, param, CommandType.Text) > 0;
         }
 
-        public bool UpdateContent(string contentID, string title, string sort, string keyWords, string content, string typeID)
+        public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainImg, string content, string typeID)
         {
-            string sqlTxt = "Update M_HelpContent set Title='" + title + "',Sort=" + sort + ",KeyWords='" + keyWords + "',Detail='" + content + "',TypeID='" + typeID + "' where contentID='" + contentID + "'";
+            string sqlTxt = "Update M_HelpContent set Title='" + title + "',Sort=" + sort + ",KeyWords='" + keyWords + "',MainImg='" + mainImg + "',Detail='" + content + "',TypeID='" + typeID + "' where contentID='" + contentID + "'";
 
             return ExecuteNonQuery(sqlTxt) > 0;
         }

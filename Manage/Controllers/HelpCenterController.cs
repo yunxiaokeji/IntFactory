@@ -132,9 +132,9 @@ namespace YXManage.Controllers
             };
         }
 
-        public JsonResult UpdateContent(string id, string title, string sort, string keyWords, string content, string typeID)
+        public JsonResult UpdateContent(string id, string title, string sort, string keyWords,string mainImg, string content, string typeID)
         {
-            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.UpdateContent(id, title, sort, keyWords, content, typeID);
+            var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.UpdateContent(id, title, sort, keyWords, mainImg, content, typeID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

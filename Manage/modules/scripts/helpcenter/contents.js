@@ -266,7 +266,7 @@
                 data: types,
                 dataValue: "ID",
                 dataText: "Name",
-                width: "110",
+                width: "120",
                 onChange: function (data) {
                     if (ObjectJS.moduleTypes != data.value) {
                         if (ObjectJS.isLoading) {

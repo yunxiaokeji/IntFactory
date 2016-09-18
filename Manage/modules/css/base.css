@@ -5,6 +5,7 @@
 .middle { vertical-align:middle;}
 .bolder { font-weight:bold; }
 .clear { clear:both; }
+.clear-after::after {display:block;content:"";clear:both; }
 .tLeft { text-align:left !important;}
 .center { text-align:center; }
 .tRight { text-align:right !important;}

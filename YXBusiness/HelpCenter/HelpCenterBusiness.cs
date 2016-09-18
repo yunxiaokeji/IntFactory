@@ -117,9 +117,9 @@ namespace IntFactoryBusiness
             return HelpCenterDAL.BaseProvider.UpdateType(typeID, name,remark, icon, moduleType);
         }
 
-        public bool UpdateContent(string contentID, string title, string sort, string keyWords, string content, string typeID)
+        public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainIng, string content, string typeID)
         {
-            return HelpCenterDAL.BaseProvider.UpdateContent(contentID, title, sort, keyWords, content, typeID);
+            return HelpCenterDAL.BaseProvider.UpdateContent(contentID, title, sort, keyWords,mainIng,content, typeID);
         }
         #endregion
 
