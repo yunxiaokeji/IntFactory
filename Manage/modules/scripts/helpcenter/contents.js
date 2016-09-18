@@ -64,26 +64,27 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
+
+                Params.Types = type;
+                $(".category-source .item").removeClass("hover");
+                $(".category-source .item:first").addClass("hover");
+                Params.TypeID = "";
+                ObjectJS.isLoading = false;
+                Global.post("/HelpCenter/GetTypesByModuleType", { type: type }, function (data) {
+                    ObjectJS.isLoading = true;
+                    if (data.items.length > 0) {
+                        $(".category-source .item:gt(0)").remove();
+                        for (var i = 0; i < data.items.length; i++) {
+                            var item = data.items[i];
+                            $(".category-source").append("<li class='item' data-id=" + item.TypeID + ">" + item.Name + "</li>");
+                        }
+                        ObjectJS.bindCateGory();
+                        ObjectJS.getContentList();
+                    } else {
+                        alert("网络波动，请重试");
+                    }
+                });
             };
-            Params.Types = type;
-            $(".category-source .item").removeClass("hover");
-            $(".category-source .item:first").addClass("hover");
-            Params.TypeID = "";
-            ObjectJS.isLoading = false;
-            Global.post("/HelpCenter/GetTypesByModuleType", { type: type }, function (data) {
-                ObjectJS.isLoading = true;
-                if (data.items.length > 0) {
-                    $(".category-source .item:gt(0)").remove();                    
-                    for (var i = 0; i < data.items.length; i++) {
-                        var item = data.items[i];
-                        $(".category-source").append("<li class='item' data-id=" + item.TypeID + ">" + item.Name + "</li>");
-                    } 
-                    ObjectJS.bindCateGory();
-                    ObjectJS.getContentList();
-                } else {
-                    alert("网络波动，请重试");
-                }
-            });
         });
 
         //关键字搜索
@@ -129,16 +130,17 @@
             if (!_this.hasClass("hover")) {
                 $("#selector .item .check-lump").removeClass("hover");
                 _this.addClass("hover");
-            }
-            ObjectJS.isLoading = false;
-            Global.post("/HelpCenter/GetTypesByModuleType", { type: type }, function (data) {
-                ObjectJS.isLoading = true;
-                if (data.items.length > 0) {                    
-                    ObjectJS.cateGoryDropDown(data.items);
-                } else {
-                    alert("网络波动，请重试");
-                }
-            });
+
+                ObjectJS.isLoading = false;
+                Global.post("/HelpCenter/GetTypesByModuleType", { type: type }, function (data) {
+                    ObjectJS.isLoading = true;
+                    if (data.items.length > 0) {
+                        ObjectJS.cateGoryDropDown(data.items);
+                    } else {
+                        alert("网络波动，请重试");
+                    }
+                });
+            };
         });
 
         //添加内容
@@ -151,7 +153,7 @@
                 img = '';
             }
             var desc = encodeURI(editor.getContent());            
-            if (title=="" || desc==""||sort=="") {
+            if (title=="" || desc=="") {
                 alert("内容不能为空");
                 return;
             }            
@@ -246,7 +248,8 @@
     };
 
     ObjectJS.cateGoryDropDown = function (item) {        
-        $("#category_Down").empty();
+        $(".dropdown").empty();
+        $(".dropdown").append('<div id="category_Down" style="margin-left:83px;"></div>');
         require.async("dropdown", function () {
             var types = [];
             for (var i = 0; i < item.length; i++) {
@@ -256,7 +259,7 @@
                 })
             }
             ObjectJS.moduleTypes = item[0].TypeID;
-            $("#category_Down").dropdown({
+            $(".dropdown #category_Down").dropdown({
                 prevText: "分类-",
                 defaultText: item[0].Name,
                 defaultValue: item[0].TypeID,

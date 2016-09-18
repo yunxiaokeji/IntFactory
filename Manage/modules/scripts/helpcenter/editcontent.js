@@ -36,14 +36,15 @@
             if (!_this.hasClass("hover")) {
                 $("#selector .item .check-lump").removeClass("hover");
                 _this.addClass("hover");
+
+                Global.post("/HelpCenter/GetTypesByModuleType", { type: id }, function (data) {
+                    if (data.items.length > 0) {
+                        ObjectJS.cateGoryDropDown(data.items, model, false);
+                    } else {
+                        alert("网络波动，请重试");
+                    }
+                });
             };
-            Global.post("/HelpCenter/GetTypesByModuleType", { type: id }, function (data) {
-                if (data.items.length > 0) {
-                    ObjectJS.cateGoryDropDown(data.items, model,false);
-                } else {
-                    alert("网络波动，请重试");
-                }
-            });
         });
 
         var uploader = Upload.uploader({
@@ -84,7 +85,8 @@
     }
     
     ObjectJS.cateGoryDropDown = function (item,model,bl) {
-        $("#category_Down").empty();        
+        $(".dropdown").empty();
+        $(".dropdown").append('<div id="category_Down" style="margin-left:83px;"></div>');
         require.async("dropdown", function () {
             var types = [];
             for (var i = 0; i < item.length; i++) {
@@ -94,7 +96,7 @@
                 })
             }
             ObjectJS.moduleTypes = item[0].TypeID;
-            $("#category_Down").dropdown({
+            $(".dropdown #category_Down").dropdown({
                 prevText: "分类-",
                 defaultText: item[0].Name,
                 defaultValue: item[0].TypeID,

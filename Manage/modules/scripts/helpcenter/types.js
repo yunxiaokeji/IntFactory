@@ -55,6 +55,7 @@
                 _this.addClass("hover");                
                
                 Params.Types = type;
+                Params.PageIndex = 1;
                 ObjectJS.getTypeList();
             }
         });
