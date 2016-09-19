@@ -5,7 +5,7 @@
 
     var ObjectJS = {};
 
-    ObjectJS.moduleTypes = "";
+    ObjectJS.TypeID = "";
 
     ObjectJS.init = function (Editor, model,list) {
         var _self = this;
@@ -16,7 +16,7 @@
         ObjectJS.bindEvent(model,list);
     };
 
-    ObjectJS.bindEvent = function (model,list) {        
+    ObjectJS.bindEvent = function (model, list) {        
         $("#selector .item .check-lump[data-id=" + model.ModuleType + "]").addClass("hover");
         
         $(".title").val(model.Title);
@@ -40,7 +40,7 @@
 
                 Global.post("/HelpCenter/GetTypesByModuleType", { type: id }, function (data) {
                     if (data.items.length > 0) {
-                        ObjectJS.cateGoryDropDown(data.items, model, false);
+                        ObjectJS.cateGoryDropDown(data.items, model, 1);
                     } else {
                         alert("网络波动，请重试");
                     }
@@ -59,8 +59,9 @@
             multi_selection: false,
             init: {}
         });
-
-        ObjectJS.cateGoryDropDown(list, model,true);
+        
+        ObjectJS.cateGoryDropDown(list, model, 2);
+        
     };
 
     ObjectJS.updateContent = function (id) {   
@@ -69,6 +70,7 @@
         var keywords = $(".keywords").val();
         var mainImg=$("#cateGoryImages li img").data("src");
         var content = encodeURI(editor.getContent());
+        
         Global.post("/HelpCenter/UpdateContent", {
             id: id,
             title: title,
@@ -76,7 +78,7 @@
             keyWords: keywords,
             mainImg:mainImg,
             content: content,
-            typeID: ObjectJS.moduleTypes
+            typeID: ObjectJS.TypeID
         }, function (e) {
             if (e.status) {                                            
                 alert("修改成功");
@@ -97,27 +99,29 @@
                     ID: item[i].TypeID,
                     Name: item[i].Name
                 })
-            }
-            ObjectJS.moduleTypes = item[0].TypeID;
+            }            
+            if (bl == 1) {
+                ObjectJS.TypeID = types[0].ID;
+            };
             $(".dropdown #category_Down").dropdown({
                 prevText: "分类-",
-                defaultText: item[0].Name,
-                defaultValue: item[0].TypeID,
+                defaultText: types[0].Name,
+                defaultValue: types[0].ID,
                 data: types,
                 dataValue: "ID",
                 dataText: "Name",
                 width: "120",
                 onChange: function (data) {
-                    if (ObjectJS.moduleTypes != data.value) {
-                       ObjectJS.moduleTypes = data.value;
+                    if (ObjectJS.TypeID != data.value) {
+                        ObjectJS.TypeID = data.value;
                     }
                 }
             });
-            if (bl) {               
+            if (bl == 2) {
+                ObjectJS.TypeID = model.TypeID;
                 $("#category_Down .dropdown-text").html("分类-" + model.TypeName);
             }
         });
-
     }
         
     module.exports = ObjectJS;

@@ -186,11 +186,11 @@
                     innerHtml = $(innerHtml);
                     $(".category-details").append(innerHtml);
 
-                    innerHtml.find(".delete").click(function () {
+                    innerHtml.find(".delete").click(function () {                        
                         var _this = $(this);
                         var contentID = _this.data("id");
                         var confirmMsg = "确定删除此分类?";            
-                        confirm(confirmMsg, function () {                            
+                        confirm(confirmMsg, function () {
                             Global.post("/HelpCenter/DeleteContent", { contentID: contentID }, function (data) {
                                 if (data.status) {
                                     _this.parent().parent().fadeOut(400, function () {
@@ -225,7 +225,8 @@
                     }
                 });
             } else {
-                $(".category-details").append("<tr class='list-item' style='height:100px;'><td class='center font16' colspan='6'>暂无数据<td></tr>");
+                $(".category-details").append("<tr class='list-item'><td colspan='7'><div class='nodata-txt'>暂无数据</div><td></tr>");
+                $("#pager").hide();
             }
         });
     }

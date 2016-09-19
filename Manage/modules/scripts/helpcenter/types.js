@@ -101,11 +101,6 @@
                 return;
             }            
             var img = $("#cateGoryImages li img").data("src");
-            
-            if (img==undefined) {
-                alert("图片不能为空");
-                return;
-            }
 
             Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img }, function (data) {
                 if (data.status == 1) {
@@ -222,7 +217,8 @@
                     }
                 });
             } else {
-                $(".category").append("<tr class='lists' style='height:100px;'><td class='center font16' colspan='4'>暂无数据<td></tr>");
+                $(".category").append("<tr class='lists'><td colspan='4'><div class='nodata-txt'>暂无数据</div><td></tr>");
+                $("#pager").hide();
             }
         })
     }
