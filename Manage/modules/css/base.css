@@ -231,7 +231,7 @@ select option{ padding:2px; }
 
 /*alert 弹出层样式*/
 
-.alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
+/*.alert-layer {position: fixed; z-index:99998; top:0; left:0;right:0; bottom:0; background-color:#666; opacity:0.6;}
 
 .alert { border: 1px solid #2F73B8; background-color: #fff; font-size: 13px; position: fixed; top:35%; z-index: 99999; 
          min-width: 330px; max-width:450px; box-shadow: 0 0 2px #666; overflow:auto; }
@@ -243,7 +243,7 @@ select option{ padding:2px; }
 .alert .confirm { padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
 .alert .confirm:hover {  background-color:#2F73B8;  }
 .alert .close { padding:5px 10px; background-color:#ccc; color:#666; border:none; cursor:pointer; display:inline-block; border-radius:2px; }
-.alert .close:hover {  background-color:#999; color:#fff; }
+.alert .close:hover {  background-color:#999; color:#fff; }*/
 
 
 /*下拉菜单样式*/
