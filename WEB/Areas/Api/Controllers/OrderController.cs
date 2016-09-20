@@ -221,7 +221,7 @@ namespace YXERP.Areas.Api.Controllers
         {
             var productDetails = JsonConvert.DeserializeObject< List<IntFactoryEntity.OrderGoodsEntity > >(details);
             string id = OrdersBusiness.BaseBusiness.CreateDHOrder(orderID, 2, true, 1, price, productDetails, string.Empty, clientID, yxOrderID, yxClientID, personname, mobiletele, citycode, address);
-          JsonDictionary.Add("id",id);
+            JsonDictionary.Add("id", id);
 
           return new JsonResult
           {
