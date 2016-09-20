@@ -32,6 +32,8 @@ namespace IntFactoryEntity.HelpCenter
 
         public DateTime UpdateTime { get; set; }
 
+        public DateTime CreateTime { get; set; }
+
         public string CreateUserID { get; set; }
 
         public int ClickNumber { get; set; }
