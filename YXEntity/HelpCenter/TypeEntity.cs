@@ -20,7 +20,9 @@ namespace IntFactoryEntity.HelpCenter
 
         public string Icon{ get; set; }
 
-        public int ModuleType{ get; set; }
+        public int ModuleType { get; set; }
+
+        public int Sort { get; set; }
 
         public string CreateUserID{ get; set; }
 

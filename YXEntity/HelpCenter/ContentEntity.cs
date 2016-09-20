@@ -30,6 +30,8 @@ namespace IntFactoryEntity.HelpCenter
 
         public string Detail { get; set; }
 
+        public DateTime UpdateTime { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public string CreateUserID { get; set; }
