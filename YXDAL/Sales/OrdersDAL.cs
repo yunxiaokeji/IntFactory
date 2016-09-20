@@ -75,13 +75,12 @@ namespace IntFactoryDAL
         }
 
 
-        public DataSet GetOrdersByYXCode(string yxCode, string clientid, string keyWords,int pageSize, int pageIndex, ref int totalCount, ref int pageCount,
+        public DataSet GetOrdersByYXCode(string clientid, string keyWords,int pageSize, int pageIndex, ref int totalCount, ref int pageCount,
             string categoryID, string orderby, string beginPrice, string endPrice) 
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@totalCount",SqlDbType.Int),
                                        new SqlParameter("@pageCount",SqlDbType.Int),
-                                       new SqlParameter("@YXCode",yxCode),
                                        new SqlParameter("@ClientID",clientid),
                                        new SqlParameter("@keyWords",keyWords),
                                        new SqlParameter("@CategoryID",categoryID),
