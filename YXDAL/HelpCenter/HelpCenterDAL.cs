@@ -99,8 +99,10 @@ namespace IntFactoryDAL
 
         #endregion
 
+
+
         #region 添加
-        public int InsertType(string typeID, string name, string remark, int moduleType, string img, string userID)
+        public int InsertType(string typeID, string name, string remark, int moduleType, string img, string userID,int sort)
         {
             int result = 0;
             SqlParameter[] param ={ new SqlParameter("@Result",result),
@@ -109,7 +111,8 @@ namespace IntFactoryDAL
                                     new SqlParameter("@Remark",remark),
                                     new SqlParameter("@Img",img),
                                     new SqlParameter("@ModuleType",moduleType),
-                                    new SqlParameter("@UserID",userID)
+                                    new SqlParameter("@UserID",userID),
+                                    new SqlParameter("@Sort",sort)
                                  };
             param[0].Direction = ParameterDirection.Output;
             ExecuteNonQuery("M_InsertHelpType", param, CommandType.StoredProcedure);
@@ -139,22 +142,23 @@ namespace IntFactoryDAL
         #endregion
 
         #region 编辑
-        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType)
+        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType,int sort)
         {
-            string sqlTxt = "Update M_HelpType set Name=@name,Remark=@remark,Icon=@icon,ModuleType=@moduleType where TypeID=@typeID";
+            string sqlTxt = "Update M_HelpType set Name=@name,Remark=@remark,Icon=@icon,ModuleType=@moduleType,Sort=@sort where TypeID=@typeID";
             SqlParameter[] param ={ 
                                     new SqlParameter("@typeID",typeID),
                                     new SqlParameter("@name",name),
                                     new SqlParameter("@remark",remark),
                                     new SqlParameter("@icon",icon),
-                                    new SqlParameter("@moduleType",moduleType)
+                                    new SqlParameter("@moduleType",moduleType),
+                                    new SqlParameter("@sort",sort)
             };
             return ExecuteNonQuery(sqlTxt, param, CommandType.Text) > 0;
         }
 
         public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainImg, string content, string typeID)
         {
-            string sqlTxt = "Update M_HelpContent set Title='" + title + "',Sort=" + sort + ",KeyWords='" + keyWords + "',MainImg='" + mainImg + "',Detail='" + content + "',TypeID='" + typeID + "' where contentID='" + contentID + "'";
+            string sqlTxt = "Update M_HelpContent set Title='" + title + "',Sort=" + sort + ",KeyWords='" + keyWords + "',MainImg='" + mainImg + "',Detail='" + content + "',TypeID='" + typeID + "',UpdateTime=getdate() where contentID='" + contentID + "'";
 
             return ExecuteNonQuery(sqlTxt) > 0;
         }

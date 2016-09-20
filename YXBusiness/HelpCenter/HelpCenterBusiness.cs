@@ -95,10 +95,10 @@ namespace IntFactoryBusiness
 
 
         #region 添加
-        public int InsertType(string name, string remark, int moduleType, string img, string userID)
+        public int InsertType(string name, string remark, int moduleType, string img, string userID,int sort)
         {
             var typeID = Guid.NewGuid().ToString().ToLower();
-            return HelpCenterDAL.BaseProvider.InsertType(typeID, name, remark, moduleType, img, userID);
+            return HelpCenterDAL.BaseProvider.InsertType(typeID, name, remark, moduleType, img, userID, sort);
         }
 
         public int InsertContent(string typeID, string sort, string title, string keyWords,string img, string content, string userID)
@@ -112,9 +112,9 @@ namespace IntFactoryBusiness
 
         #region 编辑
 
-        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType)
+        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType,int sort)
         {
-            return HelpCenterDAL.BaseProvider.UpdateType(typeID, name,remark, icon, moduleType);
+            return HelpCenterDAL.BaseProvider.UpdateType(typeID, name,remark, icon, moduleType,sort);
         }
 
         public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainIng, string content, string typeID)

@@ -101,8 +101,11 @@
                 return;
             }            
             var img = $("#cateGoryImages li img").data("src");
-
-            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img }, function (data) {
+            var sort = $(".sort").val();
+            if (sort=="") {
+                sort = 0;
+            }
+            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img,sort:sort }, function (data) {
                 if (data.status == 1) {
                     alert("添加成功");
                     window.location = "/HelpCenter/Types";
@@ -143,9 +146,20 @@
                                     content: innerText,
                                     yesFn: function () {
                                         var type = $(".type").val();
+                                        var sort = $(".sort").val();
                                         var desc = $("#desc").val();
-                                        var img = $("#cateGoryImages li img").data("src");                                        
-                                        Global.post("/HelpCenter/UpdateType", { TypeID: typeID, Name: type,desc:desc, icon: img, moduleType: moduleType }, function (e) {
+                                        var img = $("#cateGoryImages li img").data("src");
+                                        if (img==undefined) {
+                                            img = "";
+                                        }
+                                        Global.post("/HelpCenter/UpdateType", {
+                                            TypeID: typeID,
+                                            Name: type,
+                                            desc: desc,
+                                            icon: img,
+                                            moduleType: moduleType,
+                                            sort: sort
+                                        }, function (e) {
                                             if (e.status) {
                                                 ObjectJS.getTypeList();
                                             } else {
@@ -163,6 +177,7 @@
 
                             var item = data.items[index];
                             $(".type").val(item.Name);
+                            $(".sort").val(item.Sort);
                             $("#desc").val(item.Remark);
                             $("#select .item .check-lump").removeClass("hover");
                             $("#select .item .check-lump[data-id=" + item.ModuleType + "]").addClass("hover");

@@ -13,7 +13,7 @@
     <td class="center">{%=item.ModuleType==1?"功能模块":item.ModuleType==2?"常见问题":"新手指引"%}</td>
     <td class="center">{%=item.ClickNumber%}</td>
     <td class="center">{%=item.Sort%}</td> 
-    <td class="center">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
+    <td class="center">{%=item.UpdateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center operation">
         <a href="/HelpCenter/EditContent/{%=item.ContentID%}" class="update iconfont" data-id="{%=item.ContentID%}" data-typeid="{%=item.TypeID%}"></a>
         <span class="delete iconfont mLeft20 font20" data-id="{%=item.ContentID%}"></span>
