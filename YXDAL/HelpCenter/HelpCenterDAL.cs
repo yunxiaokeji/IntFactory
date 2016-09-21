@@ -142,25 +142,40 @@ namespace IntFactoryDAL
         #endregion
 
         #region 编辑
-        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType,int sort)
-        {
-            string sqlTxt = "Update M_HelpType set Name=@name,Remark=@remark,Icon=@icon,ModuleType=@moduleType,Sort=@sort where TypeID=@typeID";
+        public int UpdateType(string typeID, string name, string remark, string icon, int moduleType, int sort)
+        {            
+            int result = 0;
             SqlParameter[] param ={ 
-                                    new SqlParameter("@typeID",typeID),
-                                    new SqlParameter("@name",name),
-                                    new SqlParameter("@remark",remark),
-                                    new SqlParameter("@icon",icon),
-                                    new SqlParameter("@moduleType",moduleType),
-                                    new SqlParameter("@sort",sort)
-            };
-            return ExecuteNonQuery(sqlTxt, param, CommandType.Text) > 0;
+                                    new SqlParameter("@Result",result), 
+                                    new SqlParameter("@TypeID",typeID),
+                                    new SqlParameter("@Name",name),
+                                    new SqlParameter("@Remark",remark),
+                                    new SqlParameter("@Img",icon),
+                                    new SqlParameter("@ModuleType",moduleType),
+                                    new SqlParameter("@Sort",sort)
+                                 };
+            param[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("M_UpdateHelpType", param, CommandType.StoredProcedure);
+            result = Convert.ToInt32(param[0].Value);
+            return result;
         }
 
-        public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainImg, string content, string typeID)
-        {
-            string sqlTxt = "Update M_HelpContent set Title='" + title + "',Sort=" + sort + ",KeyWords='" + keyWords + "',MainImg='" + mainImg + "',Detail='" + content + "',TypeID='" + typeID + "',UpdateTime=getdate() where contentID='" + contentID + "'";
-
-            return ExecuteNonQuery(sqlTxt) > 0;
+        public int UpdateContent(string contentID, string title, string sort, string keyWords,string mainImg, string content, string typeID)
+        {            
+            int result = 0;
+            SqlParameter[] param ={ new SqlParameter("@Result",result),
+                                    new SqlParameter("@ContentID",contentID),
+                                    new SqlParameter("@TypeID",typeID),
+                                    new SqlParameter("@Sort",sort),
+                                    new SqlParameter("@Title",title),
+                                    new SqlParameter("@KeyWords",keyWords),
+                                    new SqlParameter("@MainImg",mainImg),                                    
+                                    new SqlParameter("@Detail",content)
+                                 };
+            param[0].Direction = ParameterDirection.Output;
+            ExecuteNonQuery("M_UpdateHelpContent", param, CommandType.StoredProcedure);
+            result = Convert.ToInt32(param[0].Value);
+            return result;
         }
 
         #endregion
