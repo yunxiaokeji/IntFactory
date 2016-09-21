@@ -1137,6 +1137,7 @@
         }
 
         doT.exec(url, function (template) {
+            
             var innerText = template(ordertype == 1 ? _self.categoryAttrs : orderAttrs);
             Easydialog.open({
                 container: {

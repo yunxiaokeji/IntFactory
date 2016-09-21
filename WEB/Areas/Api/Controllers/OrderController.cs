@@ -90,10 +90,13 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("orderAttrs", item.OrderAttrs);
 
             //订单品类
+
+            var category = new ProductsBusiness().GetCategoryByID(item.CategoryID);
+
             var attrLists = new List<Dictionary<string, object>>();
             var saleAttrs = new List<Dictionary<string, object>>(); 
             Dictionary<string, object> cmAttr = new Dictionary<string, object>();
-            cmAttr.Add("AttrID", item.OrderID);
+            cmAttr.Add("AttrID", category.AttrLists[0].AttrID);
             cmAttr.Add("AttrName", "尺码");
             var cmlist=new List<Dictionary<string, object>>();
             item.OrderAttrs.Where(x => x.AttrType == 1).ToList().ForEach(x =>
@@ -109,7 +112,7 @@ namespace YXERP.Areas.Api.Controllers
                 attrLists.Add(cmAttr);
             }
             Dictionary<string, object> ysAttr = new Dictionary<string, object>();
-            ysAttr.Add("AttrID", item.GoodsID);
+            ysAttr.Add("AttrID", category.SaleAttrs[0].AttrID);
             ysAttr.Add("AttrName", "颜色");
             var yslist = new List<Dictionary<string, object>>();
             item.OrderAttrs.Where(x => x.AttrType == 2).ToList().ForEach(x =>
