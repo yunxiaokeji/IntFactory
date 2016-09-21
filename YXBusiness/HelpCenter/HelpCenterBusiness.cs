@@ -112,12 +112,12 @@ namespace IntFactoryBusiness
 
         #region 编辑
 
-        public bool UpdateType(string typeID, string name,string remark, string icon, int moduleType,int sort)
+        public int UpdateType(string typeID, string name,string remark, string icon, int moduleType,int sort)
         {
             return HelpCenterDAL.BaseProvider.UpdateType(typeID, name,remark, icon, moduleType,sort);
         }
 
-        public bool UpdateContent(string contentID, string title, string sort, string keyWords,string mainIng, string content, string typeID)
+        public int UpdateContent(string contentID, string title, string sort, string keyWords,string mainIng, string content, string typeID)
         {
             return HelpCenterDAL.BaseProvider.UpdateContent(contentID, title, sort, keyWords,mainIng,content, typeID);
         }
