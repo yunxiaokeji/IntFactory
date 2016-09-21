@@ -182,6 +182,7 @@
     <Content Include="modules\css\guidestep.css" />
     <Content Include="modules\css\home\register.css" />
     <Content Include="modules\css\home\findpwd.css" />
+    <Content Include="modules\css\home\terms.css" />
     <Content Include="modules\css\myaccount\weixin.css" />
     <Content Include="modules\css\orders.css" />
     <Content Include="modules\css\default\order_create.css" />

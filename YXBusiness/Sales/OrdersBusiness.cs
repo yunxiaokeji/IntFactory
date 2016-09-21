@@ -389,6 +389,44 @@ namespace IntFactoryBusiness
             return model;
         }
 
+        public OrderEntity GetOrderByIDForApi(string orderid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetOrderByID(orderid, clientid);
+            OrderEntity model = new OrderEntity();
+            if (ds.Tables["Order"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Order"].Rows[0]);
+
+                clientid = string.IsNullOrEmpty(model.EntrustClientID) ? model.ClientID : model.EntrustClientID;
+
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
+                }
+
+                model.OrderAttrs = new List<OrderAttrEntity>();
+                foreach (DataRow dr in ds.Tables["Attrs"].Rows)
+                {
+                    OrderAttrEntity attr = new OrderAttrEntity();
+                    attr.FillData(dr);
+                    model.OrderAttrs.Add(attr);
+                }
+            }
+            return model;
+        }
+
         public OrderEntity GetOrderForFentReport(string orderid, string clientid)
         {
             DataSet ds = OrdersDAL.BaseProvider.GetOrderForFentReport(orderid, clientid);
