@@ -115,9 +115,13 @@ namespace YXERP.Areas.Api.Controllers
                     task.Add("taskMembers", item.TaskMembers);
                     task.Add("lockStatus", item.LockStatus);
                     string orderImg = string.Empty;
-                    if (!string.IsNullOrEmpty(item.OrderImg))
+                    if (!string.IsNullOrEmpty(item.OrderImg) && !item.OrderImg.Contains("bkt.clouddn.com"))
                     {
                         orderImg = domainUrl + item.OrderImg;
+                    }
+                    else
+                    {
+                        orderImg = item.OrderImg;
                     }
                     task.Add("orderImg", orderImg);
                     task.Add("acceptTime", item.AcceptTime.ToString("yyyy-MM-dd") != "0001-01-01" ? item.AcceptTime.ToString("yyyy-MM-dd") : "");
@@ -138,9 +142,12 @@ namespace YXERP.Areas.Api.Controllers
                         order.Add("planTime", orderDetail.PlanTime.ToString("yyyy-MM-dd") != "0001-01-01" ? orderDetail.PlanTime.ToString("yyyy-MM-dd") : "");
                         order.Add("orderCode", orderDetail.OrderCode);
                         string orderdetailImg = string.Empty;
-                        if (!string.IsNullOrEmpty(orderDetail.OrderImage))
+                        if (!string.IsNullOrEmpty(orderDetail.OrderImage) && !item.OrderImg.Contains("bkt.clouddn.com"))
                         {
                             orderdetailImg = domainUrl + orderDetail.OrderImage;
+                        }
+                        else {
+                            orderdetailImg = orderDetail.OrderImage;
                         }
                         order.Add("orderImage", orderdetailImg);
                         order.Add("orderImages", orderDetail.OrderImages);
