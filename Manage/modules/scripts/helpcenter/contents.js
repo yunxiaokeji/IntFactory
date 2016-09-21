@@ -13,7 +13,7 @@
     ObjectJS.moduleTypes = "";
 
     var Params = {
-        Types: -1,
+        Types: 1,
         TypeID:"",
         Keywords: "",
         BeginTime: "",

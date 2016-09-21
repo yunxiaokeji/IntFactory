@@ -9,6 +9,7 @@ using YXManage.Models;
 
 namespace YXManage.Controllers
 {
+    [YXManage.Common.UserAuthorize]
     public class HelpCenterController : BaseController
     {
         public ActionResult Types()
@@ -23,7 +24,7 @@ namespace YXManage.Controllers
 
         public ActionResult Contents()
         {
-            ViewBag.List = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.GetTypes();
+            ViewBag.List = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.GetTypesByModuleType(ModuleTypeEnum.Function);
             return View();
         }
 

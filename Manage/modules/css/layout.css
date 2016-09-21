@@ -214,7 +214,7 @@ nav .action-box .select { width:201px; background-color:#fff;}
 /*搜索项*/
 .search-item { clear:both; overflow:auto; margin-bottom:10px; }
 .search-item li{ float:left; height:23px; line-height:23px; border:solid 1px #fff; margin-right:10px; }
-.search-item li.item{ color:#666; cursor:pointer; padding:0 10px;}
+.search-item li.item{ color:#666; cursor:pointer; padding:0 10px;margin-bottom:10px;}
 .search-item .column-name{ width:40px; color:#999; }
 .search-item .item:hover{ color:#4A99E8; }
 .search-item .item.hover{ border:solid 1px #4A99E8; color:#4A99E8;}
