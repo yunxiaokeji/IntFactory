@@ -18,7 +18,7 @@
         EndTime: "",
         PageIndex: 1,
         PageSize: 10,
-        OrderBy: "m_helpType.CreateTime desc",
+        OrderBy: "c.CreateTime desc",
     }
     ObjectJS.init = function () {
         ObjectJS.bindEvent();
@@ -161,6 +161,7 @@
                                             sort: sort
                                         }, function (e) {
                                             if (e.status) {
+                                                Params.PageIndex = 1;
                                                 ObjectJS.getTypeList();
                                             } else {
                                                 alert("修改失败");

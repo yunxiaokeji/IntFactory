@@ -15,11 +15,11 @@ namespace YXERP.Areas.Api.Controllers
     public class OrderController : BaseAPIController
     {
         //获取订单列表根据二当家客户端编码
-        public JsonResult GetOrdersByYXClientCode(string yxClientCode, int pageSize, int pageIndex, string clientID = "", string keywords = "",
+        public JsonResult GetOrdersByYXClientCode(int pageSize, int pageIndex, string clientID = "", string keywords = "",
             string categoryID = "", string orderby = "", string beginPrice = "", string endPrice = "")
         {
             int totalCount=0, pageCount = 0;
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(yxClientCode, clientID, keywords, pageSize, pageIndex, ref totalCount, ref pageCount,
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByYXCode(clientID, keywords, pageSize, pageIndex, ref totalCount, ref pageCount,
                 categoryID, orderby, beginPrice, endPrice);
             var objs=new List<Dictionary<string, object>>();
             foreach (var item in list) 
@@ -29,6 +29,7 @@ namespace YXERP.Areas.Api.Controllers
                 obj.Add("goodsName", item.GoodsName);
                 obj.Add("categoryID", item.CategoryID);
                 obj.Add("categoryName", item.CategoryName);
+                obj.Add("processCategoryName", item.ProcessCategoryName);
                 obj.Add("intGoodsCode", item.IntGoodsCode);
                 obj.Add("finalPrice", item.FinalPrice);
                 obj.Add("orderImage", item.OrderImage);
@@ -63,7 +64,7 @@ namespace YXERP.Areas.Api.Controllers
         //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
-            var item = OrdersBusiness.BaseBusiness.GetOrderByID(orderID, clientID);
+            var item = OrdersBusiness.BaseBusiness.GetOrderByIDForApi(orderID, clientID);
             Dictionary<string, object> obj = new Dictionary<string, object>();
             obj.Add("orderID", item.OrderID);
             obj.Add("goodsName", item.GoodsName);
@@ -73,6 +74,7 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("orderImages", item.OrderImages);
             obj.Add("categoryID", item.CategoryID);
             obj.Add("categoryName", item.CategoryName);
+            obj.Add("processCategoryName", item.ProcessCategoryName);
             obj.Add("platemaking", item.Platemaking);
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
@@ -82,39 +84,10 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("clientCode", client.ClientCode);
             obj.Add("clientContactName", client.ContactName);
             obj.Add("clientMobile", client.MobilePhone);
-            obj.Add("clientAddress", client.Address);
+            obj.Add("clientAddress", client.City!=null?client.City.Description:"--");
             obj.Add("clientCityCode", client.CityCode);
             obj.Add("goodsID", item.GoodsID);
             obj.Add("orderAttrs", item.OrderAttrs);
-            //材料列表
-            //var details = new List<Dictionary<string, object>>();
-            //foreach (var d in item.Details) {
-            //    Dictionary<string, object> detail = new Dictionary<string, object>();
-            //    detail.Add("detailsCode", d.DetailsCode);
-            //    detail.Add("imgS", d.ImgS);
-            //    detail.Add("price", d.Price);
-            //    detail.Add("unitName", d.UnitName);
-            //    detail.Add("productCode", d.ProductCode);
-            //    detail.Add("productName", d.ProductName);
-            //    detail.Add("productImage", d.ProductImage);
-
-            //    details.Add(detail);
-            //}
-            //obj.Add("details", details);
-            //制版工艺
-            //var plateMakings = TaskBusiness.GetPlateMakings(orderID);
-            //var plates = new List<Dictionary<string, object>>();
-            //foreach (var p in plateMakings) {
-            //    Dictionary<string, object> plate = new Dictionary<string, object>();
-            //    plate.Add("plateID", p.PlateID);
-            //    plate.Add("icon", p.Icon);
-            //    plate.Add("title", p.Title);
-            //    plate.Add("remark", p.Remark);
-            //    plate.Add("type", p.TypeName);
-
-            //    plates.Add(plate);
-            //}
-            //obj.Add("plateMakings", plates);
 
             //订单品类
 
@@ -154,7 +127,6 @@ namespace YXERP.Areas.Api.Controllers
                 ysAttr.Add("AttrValues", yslist);
                 saleAttrs.Add(ysAttr);
             }
-
             obj.Add("AttrLists", attrLists);
             obj.Add("SaleAttrs", saleAttrs);
             JsonDictionary.Add("order",obj);

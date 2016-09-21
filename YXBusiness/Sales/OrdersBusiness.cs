@@ -123,18 +123,30 @@ namespace IntFactoryBusiness
         /// <param name="yxCode"></param>
         /// <param name="clientid"></param>
         /// <returns></returns>
-        public List<OrderEntity> GetOrdersByYXCode(string yxCode, string clientid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, 
+        public List<OrderEntity> GetOrdersByYXCode(string clientid, string keyWords, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, 
             string categoryID, string orderby, string beginPrice , string endPrice)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(yxCode, clientid, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, 
+            DataSet ds = OrdersDAL.BaseProvider.GetOrdersByYXCode(clientid, keyWords, pageSize, pageIndex, ref totalCount, ref pageCount, 
                 categoryID,orderby,beginPrice,endPrice);
             DataTable dt = ds.Tables["Orders"];
             foreach (DataRow dr in dt.Rows)
             {
                 OrderEntity model = new OrderEntity();
                 model.FillData(dr);
+
                 model.Client = ClientBusiness.GetClientDetail(model.ClientID);
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
+                }
                 list.Add(model);
             }
 
@@ -364,6 +376,44 @@ namespace IntFactoryBusiness
                         detail.FillData(dr);
                         model.OrderGoods.Add(detail);
                     }
+                }
+
+                model.OrderAttrs = new List<OrderAttrEntity>();
+                foreach (DataRow dr in ds.Tables["Attrs"].Rows)
+                {
+                    OrderAttrEntity attr = new OrderAttrEntity();
+                    attr.FillData(dr);
+                    model.OrderAttrs.Add(attr);
+                }
+            }
+            return model;
+        }
+
+        public OrderEntity GetOrderByIDForApi(string orderid, string clientid)
+        {
+            DataSet ds = OrdersDAL.BaseProvider.GetOrderByID(orderid, clientid);
+            OrderEntity model = new OrderEntity();
+            if (ds.Tables["Order"].Rows.Count > 0)
+            {
+                model.FillData(ds.Tables["Order"].Rows[0]);
+
+                clientid = string.IsNullOrEmpty(model.EntrustClientID) ? model.ClientID : model.EntrustClientID;
+
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, model.ClientID);
+
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                if (!string.IsNullOrEmpty(model.BigCategoryID))
+                {
+                    var category = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
+                    model.ProcessCategoryName = category == null ? "" : category.Name;
+                }
+                if (!string.IsNullOrEmpty(model.CategoryID))
+                {
+                    var category = ProductsBusiness.BaseBusiness.GetCategoryByID(model.CategoryID);
+                    var pcategory = ProductsBusiness.BaseBusiness.GetCategoryByID(category.PID);
+                    model.CategoryName = pcategory.CategoryName + " > " + category.CategoryName;
                 }
 
                 model.OrderAttrs = new List<OrderAttrEntity>();
