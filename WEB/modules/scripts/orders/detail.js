@@ -1403,10 +1403,10 @@
                     _this.addClass("hover");
                 }
 
-                var bl = false, details = [], isFirst = true, xattr = [], yattr = [];
+                var bl = false, details = [],attrdetail=[], isFirst = true, xattr = [], yattr = [];
                 $(".productsalesattr").each(function () {
                     bl = false;
-                    var _attr = $(this), attrdetail = details;
+                    var _attr = $(this);
                     //组合规格
                     _attr.find(".checkbox.hover").each(function () {
                         bl = true;
@@ -1422,7 +1422,7 @@
                             model.xyRemark = "【" + _value.data("text") + "】";
                             model.names = "【" + _attr.data("text") + "：" + _value.data("text") + "】";
                             model.layer = 1;
-                            details.push(model);
+                            attrdetail.push(model);
 
                         } else {
                             for (var i = 0, j = attrdetail.length; i < j; i++) {
@@ -1456,10 +1456,10 @@
                     var layer = $(".productsalesattr").length, items = [];
                     for (var i = 0, j = details.length; i < j; i++) {
                         var model = details[i];
-                        if (model.layer == layer) {
+                        //if (model.layer == layer) {
                             items.push(model);
                             CacheItems[model.xyRemark] = model;
-                        }
+                        //}
                     }
                     var tableModel = {};
                     tableModel.xAttr = xattr;
