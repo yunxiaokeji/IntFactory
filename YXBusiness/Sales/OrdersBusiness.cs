@@ -29,12 +29,12 @@ namespace IntFactoryBusiness
 
         #region 查询
 
-        public List<OrderEntity> GetOrders(EnumOrderSearchType searchOrderType, EnumSearchType searchtype, string entrustType, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus, int mark,
+        public List<OrderEntity> GetOrders(EnumOrderSearchType searchOrderType, EnumSearchType searchtype, string entrustType, string typeid, int status, EnumOrderSourceType sourceType, int orderStatus,int publicStatus, int mark,
                                                 int paystatus, int warningstatus, int returnstatus, string searchuserid, string searchteamid,
                                                 string begintime, string endtime, string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchOrderType, (int)searchtype, entrustType, typeid, status, (int)sourceType, orderStatus, mark, paystatus, warningstatus, 
+            DataSet ds = OrdersDAL.BaseProvider.GetOrders((int)searchOrderType, (int)searchtype, entrustType, typeid, status, (int)sourceType, orderStatus,publicStatus, mark, paystatus, warningstatus, 
                                                          returnstatus, searchuserid, searchteamid, begintime, endtime, keyWords,
                                                          orderBy, pageSize, pageIndex, ref totalCount, ref pageCount, userid, clientid);
             foreach (DataRow dr in ds.Tables[0].Rows)

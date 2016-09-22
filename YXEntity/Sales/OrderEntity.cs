@@ -251,6 +251,8 @@ namespace IntFactoryEntity
 
         public int TurnTimes { get; set; }
 
+        public int IsPublic { get; set; }
+
         public List<OrderAttrEntity> OrderAttrs { get; set; }
         /// <summary>
         /// 填充数据
