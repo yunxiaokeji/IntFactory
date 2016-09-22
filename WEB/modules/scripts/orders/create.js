@@ -242,6 +242,7 @@
                                         var innerText = templateFun(tableModel);
                                         innerText = $(innerText);
                                         $("#childGoodsQuantity").append(innerText);
+                                        innerText.find(".quantity").val("1");
                                         //数量必须大于0的数字
                                         innerText.find(".quantity").change(function () {
                                             var _this = $(this);
@@ -363,6 +364,9 @@
                                 var innerText = templateFun(tableModel);
                                 innerText = $(innerText);
                                 $("#childGoodsQuantity").append(innerText);
+
+                                innerText.find(".quantity").val("1");
+
                                 //数量必须大于0的数字
                                 innerText.find(".quantity").change(function () {
                                     var _this = $(this);
