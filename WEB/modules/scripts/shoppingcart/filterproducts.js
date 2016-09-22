@@ -467,6 +467,7 @@
                     ordertype: _self.type,
                     depotid: _self.depotid || "",
                     guid: _self.guid,
+                    taskid: _self.tid,
                     attrid: _self.aid,
                     remark: remark
                 }, function (data) {

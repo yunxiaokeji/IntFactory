@@ -20,7 +20,7 @@ namespace IntFactoryDAL
             return GetDataTable("P_GetShoppingCart", paras, CommandType.StoredProcedure);
         }
 
-        public static bool AddShoppingCart(int ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string remark, string guid, string orderAttrID, string userid, string operateip)
+        public static bool AddShoppingCart(int ordertype, string productid, string detailsid, decimal quantity, string unitid, string depotid, string taskid, string remark, string guid, string orderAttrID, string userid, string operateip)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderType",ordertype),

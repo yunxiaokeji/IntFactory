@@ -488,9 +488,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderPrice(string orderid, string autoid, string name, decimal price)
+        public JsonResult UpdateOrderPrice(string orderid, string taskid, string autoid, string name, decimal price)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderPrice(orderid, autoid, name, price, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderPrice(orderid, taskid, autoid, name, price, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -499,9 +499,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateProductQuantity(string orderid, string autoid, string name, decimal quantity)
+        public JsonResult UpdateProductQuantity(string orderid, string taskid, string autoid, string name, decimal quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProductQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductQuantity(orderid, taskid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -510,9 +510,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateProductPlanQuantity(string orderid, string autoid, string name, decimal quantity)
+        public JsonResult UpdateProductPlanQuantity(string orderid, string taskid, string autoid, string name, decimal quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProductPlanQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductPlanQuantity(orderid, taskid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -521,9 +521,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateProductOrderQuantity(string orderid, string autoid, string name, int quantity)
+        public JsonResult UpdateProductOrderQuantity(string orderid, string taskid, string autoid, string name, int quantity)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateProductOrderQuantity(orderid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateProductOrderQuantity(orderid, taskid, autoid, name, quantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
@@ -543,9 +543,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult DeleteProduct(string orderid, string autoid, string name)
+        public JsonResult DeleteProduct(string orderid, string taskid, string autoid, string name)
         {
-            var bl = OrdersBusiness.BaseBusiness.DeleteProduct(orderid, autoid, name, CurrentUser.UserID, OperateIP,CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.DeleteProduct(orderid, taskid, autoid, name, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

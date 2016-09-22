@@ -61,6 +61,7 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         } 
+
         //获取订单详情
         public JsonResult GetOrderDetailByID(string orderID,string clientID)
         {
@@ -79,20 +80,18 @@ namespace YXERP.Areas.Api.Controllers
             obj.Add("createTime", item.CreateTime);
             obj.Add("endTime", item.EndTime);
             obj.Add("clientID", item.ClientID);
-            var client = ClientBusiness.GetClientDetail(item.ClientID);
-            obj.Add("clientName", client.CompanyName);
-            obj.Add("clientCode", client.ClientCode);
-            obj.Add("clientContactName", client.ContactName);
-            obj.Add("clientMobile", client.MobilePhone);
-            obj.Add("clientAddress", client.City!=null?client.City.Description:"--");
-            obj.Add("clientCityCode", client.CityCode);
+            //var client = ClientBusiness.GetClientDetail(item.ClientID);
+            //obj.Add("clientName", client.CompanyName);
+            //obj.Add("clientCode", client.ClientCode);
+            //obj.Add("clientContactName", client.ContactName);
+            //obj.Add("clientMobile", client.MobilePhone);
+            //obj.Add("clientAddress", client.City!=null?client.City.Description:"--");
+            //obj.Add("clientCityCode", client.CityCode);
             obj.Add("goodsID", item.GoodsID);
             obj.Add("orderAttrs", item.OrderAttrs);
 
             //订单品类
-
             var category = new ProductsBusiness().GetCategoryByID(item.CategoryID);
-
             var attrLists = new List<Dictionary<string, object>>();
             var saleAttrs = new List<Dictionary<string, object>>(); 
             Dictionary<string, object> cmAttr = new Dictionary<string, object>();
@@ -129,6 +128,17 @@ namespace YXERP.Areas.Api.Controllers
             }
             obj.Add("AttrLists", attrLists);
             obj.Add("SaleAttrs", saleAttrs);
+
+            var rangs= OrdersBusiness.GetOrderPriceRanges(orderID);
+            var rangArr = new List<Dictionary<string, object>>();
+            foreach (var rang in rangs) {
+                var rangObj = new Dictionary<string, object>();
+                rangObj.Add("rangeID", rang.RangeID);
+                rangObj.Add("minQuantity", rang.MinQuantity);
+                rangObj.Add("price", rang.Price);
+                rangArr.Add(rangObj);
+            }
+            obj.Add("orderPriceRanges", rangArr);
             JsonDictionary.Add("order",obj);
 
             return new JsonResult
@@ -148,6 +158,7 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         public JsonResult GetOrderAttrsListByGoodsID(string goodsID)
         {
             var list = OrdersBusiness.BaseBusiness.GetOrderArrrsByGoodsID(goodsID);

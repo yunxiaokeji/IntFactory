@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         _self.detailid = detailid;
         _self.ordertype = ordertype;
         _self.guid = guid;
+        _self.tid=tid,
         _self.aid = aid;
         _self.model = model;
         _self.productid = model.ProductID;
@@ -127,6 +128,7 @@ define(function (require, exports, module) {
                     ordertype: _self.ordertype,
                     depotid: _self.depotID || "",
                     guid: _self.guid,
+                    taskid: _self.tid,
                     attrid: _self.aid,
                     remark: remark
                 }, function (data) {
@@ -235,6 +237,7 @@ define(function (require, exports, module) {
             ordertype: _self.saveType,
             depotid: _self.depotID || "",
             guid: '',
+            taskid: _self.tid,
             remark: remark
         }, function (data) {
             if (data.Status) {
