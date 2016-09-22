@@ -162,7 +162,7 @@
                         if (products.length > 0) {
                             var entity = {}, items = [];
                             entity.guid = ObjectJS.guid;
-                            entity.taskid = Object.taskid;
+                            entity.taskid = ObjectJS.taskid;
                             entity.type = 11;
                             entity.attrid = _this.data("id");
                             for (var i = 0; i < products.length; i++) {

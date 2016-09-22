@@ -31,6 +31,7 @@ namespace IntFactoryDAL
                                      new SqlParameter("@DepotID" , depotid),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@GUID" , guid),
+                                     new SqlParameter("@TaskID" , taskid),
                                      new SqlParameter("@OrderAttrID" , orderAttrID),
                                      new SqlParameter("@UserID" , userid),
                                      new SqlParameter("@OperateIP" , operateip)
