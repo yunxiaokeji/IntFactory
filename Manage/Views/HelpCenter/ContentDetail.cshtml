@@ -6,8 +6,10 @@
     <link href="/modules/css/helpcenter/helpcenter.css" rel="stylesheet" />
 }
 @section scripts{
-    <script type="text/javascript">        
-        $("#remark").html(decodeURI("@(model.Detail)")); 
+    <script type="text/javascript">    
+        var model = ('@(Html.ToJSONString(model))');
+        model = JSON.parse(model.replace(/&quot;/g, '"'));
+        $("#remark").html(decodeURI(model.Detail));
     </script>
 }
 <div class="header-box">
