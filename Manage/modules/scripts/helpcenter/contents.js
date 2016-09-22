@@ -189,7 +189,7 @@
                     innerHtml.find(".delete").click(function () {                        
                         var _this = $(this);
                         var contentID = _this.data("id");
-                        var confirmMsg = "确定删除此分类?";            
+                        var confirmMsg = "确定删除此分类下内容?";            
                         confirm(confirmMsg, function () {
                             Global.post("/HelpCenter/DeleteContent", { contentID: contentID }, function (data) {
                                 if (data.status) {
