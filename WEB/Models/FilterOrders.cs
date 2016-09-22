@@ -25,6 +25,8 @@ namespace YXERP.Models
 
         public int OrderStatus { get; set; }
 
+        public int PublicStatus { get; set; }
+
         public int ReturnStatus { get; set; }
 
         public int SourceType { get; set; }

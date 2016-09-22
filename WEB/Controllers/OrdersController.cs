@@ -267,7 +267,7 @@ namespace YXERP.Controllers
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchOrderType, model.SearchType, model.EntrustType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.Mark, 
+            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchOrderType, model.SearchType, model.EntrustType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus,model.PublicStatus, model.Mark, 
                                                              model.PayStatus, model.WarningStatus, model.ReturnStatus, model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);

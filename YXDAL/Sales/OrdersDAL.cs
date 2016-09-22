@@ -14,7 +14,7 @@ namespace IntFactoryDAL
 
         #region 查询
 
-        public DataSet GetOrders(int searchOrderType, int searchtype, string entrustType, string typeid, int status, int sourceType, int orderStatus,
+        public DataSet GetOrders(int searchOrderType, int searchtype, string entrustType, string typeid, int status, int sourceType, int orderStatus,int publicStatus,
                                 int mark, int paystatus, int warningstatus, int returnstatus, string searchuserid, string searchteamid, string begintime, string endtime,
                                 string keyWords, string orderBy, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
@@ -27,6 +27,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@TypeID",typeid),
                                        new SqlParameter("@Status",status),
                                        new SqlParameter("@OrderStatus",orderStatus),
+                                       new SqlParameter("@PublicStatus",publicStatus),
                                        new SqlParameter("@Mark",mark),
                                        new SqlParameter("@SourceType",sourceType),
                                        new SqlParameter("@PayStatus",paystatus),
@@ -788,7 +789,8 @@ namespace IntFactoryDAL
 
         public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus)
         {
-            string sql = " update goods set IsPublic=@IsPublic where GoodsID=@GoodsID";
+            string sql = " update goods set IsPublic=@IsPublic where GoodsID=@GoodsID ";
+            sql += "  update orders set IsPublic=@IsPublic where GoodsID=@GoodsID and ordertype=1";
             SqlParameter[] paras = { 
                                      new SqlParameter("@GoodsID",goodsid),
                                      new SqlParameter("@IsPublic",publicStatus)
