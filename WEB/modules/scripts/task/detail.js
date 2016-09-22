@@ -177,7 +177,7 @@
                             entity.Products = items;
                             Global.post("/ShoppingCart/AddShoppingCartBatchIn", { entity: JSON.stringify(entity) }, function (data) {
                                 if (data.status) {
-                                    //location.href = location.href;
+                                    location.href = location.href;
                                 }
                             });
                         }
