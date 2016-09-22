@@ -233,7 +233,7 @@
                     }
                 });
             } else {
-                $(".category").append("<tr class='lists'><td colspan='4'><div class='nodata-txt'>暂无数据</div><td></tr>");
+                $(".category").append("<tr class='lists'><td colspan='5'><div class='nodata-txt'>暂无数据</div><td></tr>");
                 $("#pager").hide();
             }
         })
