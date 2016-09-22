@@ -1352,6 +1352,11 @@
                                 var innerText = templateFun(tableModel);
                                 innerText = $(innerText);
                                 $("#childGoodsQuantity").append(innerText);
+                                if (ordertype == 1) {
+                                    innerText.find(".quantity").val("1");
+                                } else {
+                                    innerText.find(".quantity").val("");
+                                }
                                 //数量必须大于0的数字
                                 innerText.find(".quantity").change(function () {
                                     var _this = $(this);
@@ -1471,6 +1476,11 @@
                     doT.exec("template/orders/orders_child_list.html", function (templateFun) {
                         var innerText = templateFun(tableModel);
                         innerText = $(innerText);
+                        if (ordertype == 1) {
+                            innerText.find(".quantity").val("1");
+                        } else {
+                            innerText.find(".quantity").val("");
+                        }
                         $("#childGoodsQuantity").append(innerText);
                         //数量必须大于0的数字
                         innerText.find(".quantity").change(function () {
