@@ -10,6 +10,7 @@ namespace IntFactoryEnum.HelpCenter
         All=-1,
         Function=1,
         Question=2,
-        Guid=3
+        Guid=3,
+        FeedBack=4
     }
 }
