@@ -38,7 +38,7 @@ namespace YXERP
             AreaRegistration.RegisterAllAreas();
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-            syncreocRecord.OnStart();
+            //syncreocRecord.OnStart();
         }
         
         //protected void Application_Error(object sender, EventArgs e)
