@@ -78,6 +78,7 @@ define(function (require, exports, module) {
                                 if (opts.ordertype == 11) {
                                     Global.post("/Orders/DeleteProduct", {
                                         orderid: opts.guid,
+                                        taskid:opts.tid,
                                         autoid: _this.data("id"),
                                         name: _this.parents('tr').find('.productname').text()
                                     }, function (data) {

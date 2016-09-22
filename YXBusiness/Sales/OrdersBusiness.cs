@@ -835,9 +835,9 @@ namespace IntFactoryBusiness
 
         #region 编辑、删除
 
-        public bool UpdateOrderPrice(string orderid, string autoid, string name, decimal price, string operateid, string ip, string clientid)
+        public bool UpdateOrderPrice(string orderid, string taskid, string autoid, string name, decimal price, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateOrderPrice(orderid, autoid, price, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderPrice(orderid, taskid, autoid, price, operateid, clientid);
             if (bl)
             {
                 string msg = "修改材料" + name + "价格：" + price;
@@ -846,9 +846,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateProductQuantity(string orderid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
+        public bool UpdateProductQuantity(string orderid, string taskid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateProductQuantity(orderid, autoid, quantity, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateProductQuantity(orderid, taskid, autoid, quantity, operateid, clientid);
             if (bl)
             {
                 string msg = "修改材料" + name + "单件消耗量：" + quantity;
@@ -857,9 +857,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateProductOrderQuantity(string orderid, string autoid, string name, int quantity, string operateid, string ip, string clientid)
+        public bool UpdateProductOrderQuantity(string orderid, string taskid, string autoid, string name, int quantity, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateProductOrderQuantity(orderid, autoid, quantity, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateProductOrderQuantity(orderid, taskid, autoid, quantity, operateid, clientid);
             if (bl)
             {
                 string msg = "修改材料" + name + "下单量：" + quantity;
@@ -868,9 +868,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateProductPlanQuantity(string orderid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
+        public bool UpdateProductPlanQuantity(string orderid, string taskid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.UpdateProductPlanQuantity(orderid, autoid, quantity, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.UpdateProductPlanQuantity(orderid, taskid, autoid, quantity, operateid, clientid);
             if (bl)
             {
                 string msg = "修改材料" + name + "采购量：" + quantity;
@@ -890,9 +890,9 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool DeleteProduct(string orderid, string autoid, string name, string operateid, string ip, string clientid)
+        public bool DeleteProduct(string orderid, string taskid, string autoid, string name, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.DeleteProduct(orderid, autoid, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.DeleteProduct(orderid, taskid, autoid, operateid, clientid);
             if (bl)
             {
                 string msg = "删除材料" + name;

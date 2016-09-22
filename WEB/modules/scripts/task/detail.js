@@ -162,6 +162,7 @@
                         if (products.length > 0) {
                             var entity = {}, items = [];
                             entity.guid = ObjectJS.guid;
+                            entity.taskid = Object.taskid;
                             entity.type = 11;
                             entity.attrid = _this.data("id");
                             for (var i = 0; i < products.length; i++) {
@@ -887,6 +888,7 @@
             confirm("确认从清单中移除此材料吗？", function () {
                 Global.post("/Orders/DeleteProduct", {
                     orderid: ObjectJS.orderid,
+                    taskid: ObjectJS.taskid,
                     autoid: _this.data("id"),
                     name: _this.data("name")
                 }, function (data) {
@@ -921,6 +923,7 @@
 
         Global.post("/Orders/UpdateOrderPrice", {
             orderid: _self.guid,
+            taskid:_self.taskid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             price: ele.val()
@@ -944,6 +947,7 @@
 
         Global.post("/Orders/UpdateProductQuantity", {
             orderid: _self.guid,
+            taskid: _self.taskid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             quantity: ele.val()
@@ -968,6 +972,7 @@
 
         Global.post("/Orders/UpdateProductOrderQuantity", {
             orderid: _self.guid,
+            taskid: _self.taskid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             quantity: ele.val()
@@ -992,6 +997,7 @@
 
         Global.post("/Orders/UpdateProductPlanQuantity", {
             orderid: _self.guid,
+            taskid: _self.taskid,
             autoid: ele.data("id"),
             name: ele.data("name"),
             quantity: ele.val()

@@ -431,10 +431,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderOwner", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateOrderPrice(string orderid, string autoid, decimal price, string operateid, string clientid)
+        public bool UpdateOrderPrice(string orderid, string taskid, string autoid, decimal price, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Price",price),
                                      new SqlParameter("@OperateID" , operateid),
@@ -444,10 +445,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateProductOrderQuantity(string orderid, string autoid, int quantity, string operateid, string clientid)
+        public bool UpdateProductOrderQuantity(string orderid, string taskid, string autoid, int quantity, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
@@ -457,10 +459,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateProductOrderQuantity", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateProductQuantity(string orderid, string autoid, decimal quantity, string operateid,string clientid)
+        public bool UpdateProductQuantity(string orderid, string taskid, string autoid, decimal quantity, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
@@ -470,10 +473,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderProductQuantity", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool UpdateProductPlanQuantity(string orderid, string autoid, decimal quantity, string operateid, string clientid)
+        public bool UpdateProductPlanQuantity(string orderid, string taskid, string autoid, decimal quantity, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@Quantity",quantity),
                                      new SqlParameter("@OperateID" , operateid),
@@ -496,10 +500,11 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderProductLoss", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public bool DeleteProduct(string orderid, string autoid, string operateid, string clientid)
+        public bool DeleteProduct(string orderid, string taskid, string autoid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@AutoID",autoid),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)
