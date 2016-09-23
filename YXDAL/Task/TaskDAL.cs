@@ -136,7 +136,7 @@ namespace IntFactoryDAL
 
         public DataTable GetTasksByYXOrderID(string yxOrderID)
         {
-            string sqltext = "select * from  OrderTask where YXOrderID=@YXOrderID and status<>9 order by Sort";
+            string sqltext = " select t.* from  OrderTask as t,orders as o where t.orderid=o.orderid and o.YXOrderID=@YXOrderID and t.status<>9 order by t.Sort";
             SqlParameter[] paras = { 
                                        new SqlParameter("@YXOrderID",yxOrderID)
                                    };
