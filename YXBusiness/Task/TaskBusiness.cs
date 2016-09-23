@@ -70,7 +70,9 @@ namespace IntFactoryBusiness
                 }
                 else
                 {
+                    model.WarningStatus = 3;
                     model.UseDays = (model.EndTime - model.AcceptTime).Days;
+                    model.WarningDays = (DateTime.Now - model.CompleteTime).Days;
                 }
                 list.Add(model);
             }
@@ -131,7 +133,7 @@ namespace IntFactoryBusiness
                 {
                     model.WarningStatus = 3;
                     model.UseDays = (model.EndTime - model.AcceptTime).Days;
-                    model.UseDays = (DateTime.Now - model.CompleteTime).Days;
+                    model.WarningDays = (DateTime.Now - model.CompleteTime).Days;
                 }
                 list.Add(model);
             }

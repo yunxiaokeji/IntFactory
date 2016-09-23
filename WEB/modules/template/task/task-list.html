@@ -32,7 +32,7 @@
         <td class="order-costinfo tLeft">
             <div>
                 <span class="column-title">订单款式：</span>
-                    {%=(order.GoodsName+order.IntGoodsCode)==''?order.OrderCode:order.GoodsName+'-'+order.IntGoodsCode%}
+                    {%=(order.GoodsName+order.IntGoodsCode)==''?order.OrderCode:order.IntGoodsCode+'-'+order.GoodsName%}
             </div>
             <div>
                 <span class="column-title">接受日期：</span>
