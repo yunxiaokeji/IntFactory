@@ -318,7 +318,7 @@ namespace YXERP.Areas.Api.Controllers
 
         public JsonResult GetOrderTasks(string orderID)
         {
-            var list = TaskBusiness.GetTasksByOrderID(orderID);
+            var list = TaskBusiness.GetTasksByYXOrderID(orderID);
             JsonDictionary.Add("items", list);
 
             return new JsonResult

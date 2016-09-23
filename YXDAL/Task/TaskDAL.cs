@@ -132,7 +132,16 @@ namespace IntFactoryDAL
                                    };
 
             return GetDataTable(sqltext, paras, CommandType.Text);
+        }
 
+        public DataTable GetTasksByYXOrderID(string yxOrderID)
+        {
+            string sqltext = "select * from  OrderTask where YXOrderID=@YXOrderID and status<>9 order by Sort";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@YXOrderID",yxOrderID)
+                                   };
+
+            return GetDataTable(sqltext, paras, CommandType.Text);
         }
 
         public DataTable GetTaskByID(string taskid)

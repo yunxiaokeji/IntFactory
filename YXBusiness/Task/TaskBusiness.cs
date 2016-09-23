@@ -230,6 +230,22 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public static List<TaskEntity> GetTasksByYXOrderID(string yxOrderID)
+        {
+            List<TaskEntity> list = new List<TaskEntity>();
+            DataTable dt = TaskDAL.BaseProvider.GetTasksByYXOrderID(yxOrderID);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                TaskEntity model = new TaskEntity();
+                model.FillData(dr);
+                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+
+                list.Add(model);
+            }
+
+            return list;
+        }
         public static TaskEntity GetPushTaskForFinishTask(string taskid) { 
             TaskEntity model = new TaskEntity();
             DataSet ds = TaskDAL.BaseProvider.GetPushTaskForFinishTask(taskid);
