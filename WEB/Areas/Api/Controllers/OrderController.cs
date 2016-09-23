@@ -256,6 +256,7 @@ namespace YXERP.Areas.Api.Controllers
 
                 JsonDictionary.Add("processStages", stages);
             }
+
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -306,6 +307,18 @@ namespace YXERP.Areas.Api.Controllers
         public JsonResult GetOrderDetailsByOrderID(string orderID)
         {
             var list = OrdersBusiness.BaseBusiness.GetOrderDetailsByOrderID(orderID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderTasks(string orderID)
+        {
+            var list = TaskBusiness.GetTasksByOrderID(orderID);
             JsonDictionary.Add("items", list);
 
             return new JsonResult

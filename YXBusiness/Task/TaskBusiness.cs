@@ -233,19 +233,22 @@ namespace IntFactoryBusiness
         public static TaskEntity GetPushTaskForFinishTask(string taskid) { 
             TaskEntity model = new TaskEntity();
             DataSet ds = TaskDAL.BaseProvider.GetPushTaskForFinishTask(taskid);
-            DataTable taskTB = ds.Tables["OrderTask"];
-            if (taskTB.Rows.Count == 1)
+            if (ds.Tables.Count > 0)
             {
-                model = new TaskEntity();
-                model.FillData(taskTB.Rows[0]);
-                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
-            }
-            DataTable orderTB = ds.Tables["Order"];
-            if (orderTB != null && orderTB.Rows.Count == 1)
-            {
-                OrderEntity order = new OrderEntity();
-                order.FillData(orderTB.Rows[0]);
-                model.Order = order;
+                DataTable taskTB = ds.Tables["OrderTask"];
+                if (taskTB.Rows.Count == 1)
+                {
+                    model = new TaskEntity();
+                    model.FillData(taskTB.Rows[0]);
+                    model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+                }
+                DataTable orderTB = ds.Tables["Order"];
+                if (orderTB != null && orderTB.Rows.Count == 1)
+                {
+                    OrderEntity order = new OrderEntity();
+                    order.FillData(orderTB.Rows[0]);
+                    model.Order = order;
+                }
             }
 
             return model;
@@ -255,14 +258,17 @@ namespace IntFactoryBusiness
         {
             List<TaskEntity> list = new List<TaskEntity>();
             DataSet ds = TaskDAL.BaseProvider.GetPushTasksForNewOrder(orderid);
-            DataTable taskTB = ds.Tables["OrderTask"];
-            foreach (DataRow dr in taskTB.Rows)
+            if (ds.Tables.Count > 0)
             {
-                TaskEntity model = new TaskEntity();
-                model.FillData(dr);
-                model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
+                DataTable taskTB = ds.Tables["OrderTask"];
+                foreach (DataRow dr in taskTB.Rows)
+                {
+                    TaskEntity model = new TaskEntity();
+                    model.FillData(dr);
+                    model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, model.ClientID);
 
-                list.Add(model);
+                    list.Add(model);
+                }
             }
 
             return list;
@@ -272,11 +278,14 @@ namespace IntFactoryBusiness
         {
             TaskEntity model = null;
             DataSet ds = TaskDAL.BaseProvider.GetPushTaskForChangeOrderOwner(orderid);
-            DataTable taskTB = ds.Tables["OrderTask"];
-            if (taskTB.Rows.Count == 1)
+            if (ds.Tables.Count > 0)
             {
-                model = new TaskEntity();
-                model.FillData(taskTB.Rows[0]);
+                DataTable taskTB = ds.Tables["OrderTask"];
+                if (taskTB.Rows.Count == 1)
+                {
+                    model = new TaskEntity();
+                    model.FillData(taskTB.Rows[0]);
+                }
             }
 
             return model;
@@ -286,11 +295,14 @@ namespace IntFactoryBusiness
         {
             TaskEntity model = null;
             DataSet ds = TaskDAL.BaseProvider.GetPushTaskForChangeTaskOwner(taskid);
-            DataTable taskTB = ds.Tables["OrderTask"];
-            if (taskTB.Rows.Count == 1)
+            if (ds.Tables.Count > 0)
             {
-                model = new TaskEntity();
-                model.FillData(taskTB.Rows[0]);
+                DataTable taskTB = ds.Tables["OrderTask"];
+                if (taskTB.Rows.Count == 1)
+                {
+                    model = new TaskEntity();
+                    model.FillData(taskTB.Rows[0]);
+                }
             }
 
             return model;
