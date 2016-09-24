@@ -268,7 +268,7 @@
                                 $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
                             }
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确认", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
