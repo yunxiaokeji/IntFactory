@@ -1163,8 +1163,8 @@
                                 });
                             }
                         });
-                        if (ordertype == 1 && (orderModel.OrderGoods && orderModel.OrderGoods.length == 0)) {
-                            alert("打样规格数量不能为0", 2);
+                        if (isExists && orderModel.OrderGoods.length == 0) {
+                            alert("请选择并输入规格数量", 2);
                             return false;
                         }
                         if (ordertype == 1) {
