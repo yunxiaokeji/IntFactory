@@ -36,3 +36,5 @@ UploadFiles
 *.sql
 YXDB/IntFactoryDB.sqlproj
 WEB/log/
+
+[Ww]eb.config
