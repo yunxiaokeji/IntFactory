@@ -81,7 +81,7 @@
                         ObjectJS.bindCateGory();
                         ObjectJS.getContentList();
                     } else {
-                        alert("网络波动，请重试");
+                        alert("网络延迟，请重试");
                     }
                 });
             };
