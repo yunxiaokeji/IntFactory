@@ -178,14 +178,14 @@ namespace YXERP.Controllers
             };
         }
 
-        public ActionResult Authorize(string sign, string redirect_uri)
+        public ActionResult Authorize(string sign, string redirect_uri = "")
         {
             if (!string.IsNullOrEmpty(sign) && !string.IsNullOrEmpty(redirect_uri))
             {
                 if (sign.Equals(Signature.GetSignature(Common.Common.YXAppKey, Common.Common.YXAppSecret, redirect_uri), StringComparison.OrdinalIgnoreCase))
                 {
                     ViewBag.Status = 0;
-                    ViewBag.ReturnUrl = redirect_uri ?? string.Empty;
+                    ViewBag.ReturnUrl = redirect_uri;
                     ViewBag.BindAccountType = 10000;
                     
                     if (Session["ClientManager"] != null)
