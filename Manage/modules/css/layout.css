@@ -198,7 +198,7 @@ nav .action-box .select { width:201px; background-color:#fff;}
 /*图片loading*/
 .dataLoading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666; }
 
-.data-loading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666;background:url(/modules/images/ico-loading.jpg) no-repeat center center; }
+.data-loading { padding: 85px 0px; font-size: 16px; text-align: center; color: #666;background:url(/modules/images/ico-loading.gif) no-repeat center center;background-size:50px; }
 .nodata-txt{ padding: 95px 0px; font-size: 16px; text-align: center; color: #666; }
 
 /*添加表单*/
