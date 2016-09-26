@@ -1111,7 +1111,7 @@
                 for (var ii = 0, jj = _self.model.OrderAttrs.length; ii < jj; ii++) {
                     if (_self.model.OrderAttrs[ii].AttrType == 1) {
                         var value = {};
-                        value.ValueID="";
+                        value.ValueID = "";
                         value.ValueName = _self.model.OrderAttrs[ii].AttrName.replace(/\【/g, '').replace(/\】/g, '');
                         attr.AttrValues.push(value);
                     }
@@ -1137,7 +1137,6 @@
         }
 
         doT.exec(url, function (template) {
-            
             var innerText = template(ordertype == 1 ? _self.categoryAttrs : orderAttrs);
             Easydialog.open({
                 container: {
@@ -1164,6 +1163,10 @@
                                 });
                             }
                         });
+                        if (ordertype == 1 && (orderModel.OrderGoods && orderModel.OrderGoods.length == 0)) {
+                            alert("打样规格数量不能为0", 2);
+                            return false;
+                        }
                         if (ordertype == 1) {
                             $(".btn-create-ordergoods").text("正在新建规格...");
                         } else {
