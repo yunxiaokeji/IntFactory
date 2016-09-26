@@ -167,7 +167,7 @@ define(function (require, exports, module) {
                                                 taskid: defaultParas.taskid
                                             }, function (data) {
                                                 if (data.result) {
-                                                    $("#taskOwnerID").text(items[0].name);
+                                                    $("#taskOwnerID").html(items[0].name);
                                                     $("#changeTaskOwner").data("userid", items[0].id);
                                                 }
                                             });

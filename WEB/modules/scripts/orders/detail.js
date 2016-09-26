@@ -268,7 +268,7 @@
                                 $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
                             }
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确认", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
@@ -1111,7 +1111,7 @@
                 for (var ii = 0, jj = _self.model.OrderAttrs.length; ii < jj; ii++) {
                     if (_self.model.OrderAttrs[ii].AttrType == 1) {
                         var value = {};
-                        value.ValueID="";
+                        value.ValueID = "";
                         value.ValueName = _self.model.OrderAttrs[ii].AttrName.replace(/\【/g, '').replace(/\】/g, '');
                         attr.AttrValues.push(value);
                     }
@@ -1137,7 +1137,6 @@
         }
 
         doT.exec(url, function (template) {
-            
             var innerText = template(ordertype == 1 ? _self.categoryAttrs : orderAttrs);
             Easydialog.open({
                 container: {
@@ -1164,6 +1163,10 @@
                                 });
                             }
                         });
+                        if (ordertype == 1 && (orderModel.OrderGoods && orderModel.OrderGoods.length == 0)) {
+                            alert("打样规格数量不能为0", 2);
+                            return false;
+                        }
                         if (ordertype == 1) {
                             $(".btn-create-ordergoods").text("正在新建规格...");
                         } else {
@@ -1216,7 +1219,7 @@
                         confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
                             $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确定", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
@@ -1240,7 +1243,7 @@
                                 $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
                             }
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确定", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
