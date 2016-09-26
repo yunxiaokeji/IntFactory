@@ -268,7 +268,7 @@
                                 $("#iptDiscount").val((_this.val() / _self.model.OriginalPrice).toFixed(2));
                             }
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确认", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
@@ -1219,7 +1219,7 @@
                         confirm("下单折扣大于1会导致大货价格大于样衣报价，确认继续吗？", function () {
                             $("#iptOrderNewPrice").val((_self.model.FinalPrice * _this.val()).toFixed(2));
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确定", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
@@ -1243,7 +1243,7 @@
                                 $("#iptOrderDiscount").val((_this.val() / _self.model.FinalPrice).toFixed(2));
                             }
                             _this.data("value", _this.val());
-                        }, function () {
+                        }, "确定", function () {
                             _this.val(_this.data("value"));
                         });
                     } else {
