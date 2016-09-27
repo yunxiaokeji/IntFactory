@@ -68,7 +68,7 @@
         var title = $(".title").val();
         var sort = $(".sort").val();
         var keywords = $(".keywords").val();
-        var mainImg=$("#cateGoryImages li img").data("src");
+        var mainImg=$("#cateGoryImages li img").data("src");        
         var content = encodeURI(editor.getContent());
         
         Global.post("/HelpCenter/UpdateContent", {

@@ -232,10 +232,9 @@ nav .action-box .select { width:201px; background-color:#fff;}
 .table-add li{ line-height:25px; margin-top:10px;  padding: 2px 0px;}
 .table-add li input[type="number"],.table-add li input[type="text"],.table-add li input[type="password"],.table-add li input[type="number"]{ height:26px; line-height:26px; padding:2px 5px; width:150px; }
 .table-add li textarea {resize:none; height:80px; line-height:26px; padding:1px 5px; border:solid 1px #ccc; width:300px; border-radius:2px;}
-.table-add span {  display:inline-block; vertical-align:top;}
-.table-add .column-title { color:#999; width:80px;}
-.table-add .category-title { color:#999; width:60px;}
-.table-add .column-title-template { color:#333; width:60px;font-size:12px;}
+.table-add .column-title { color:#999; width:80px;display:inline-block; vertical-align:top;}
+.table-add .category-title { color:#999; width:60px;display:inline-block; vertical-align:top;}
+.table-add .column-title-template { color:#333; width:60px;font-size:12px;display:inline-block; vertical-align:top;}
 .table-boeder{border-bottom:0;padding-bottom:0;}
 
 .btn-ok {  padding:5px 10px; background-color:#4a98e7; color:#fff; border:none; cursor:pointer; display:inline-block; border-radius:2px; line-height:18px;margin-top:20px;margin-left:20px;

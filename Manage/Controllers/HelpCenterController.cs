@@ -133,6 +133,7 @@ namespace YXManage.Controllers
             };
         }
 
+        [ValidateInput(false)]
         public JsonResult UpdateContent(string id, string title, string sort, string keyWords,string mainImg, string content, string typeID)
         {
             var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.UpdateContent(id, title, sort, keyWords, mainImg, content, typeID);

@@ -47,6 +47,7 @@
         //选择模块
         $(".module-source .item").click(function () {
             if (!ObjectJS.isLoading) {
+                alert("数据正在加载中");
                 return;
             }
             var _this = $(this), type = _this.data("idsource");
@@ -63,6 +64,10 @@
         //关键字搜索
         require.async("search", function () {
             $(".searth-module").searchKeys(function (keyWords) {
+                if (!ObjectJS.isLoading) {
+                    alert("数据正在加载中");
+                    return;
+                }
                 Params.PageIndex = 1;
                 Params.Keywords = keyWords;
                 ObjectJS.getTypeList();                
@@ -71,6 +76,10 @@
 
         //排序
         $(".sort-item").click(function () {
+            if (!ObjectJS.isLoading) {
+                alert("数据正在加载中");
+                return;
+            }
             var _this = $(this);
             if (_this.hasClass("hover")) {
                 if (_this.find(".asc").hasClass("hover")) {
