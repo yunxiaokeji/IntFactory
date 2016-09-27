@@ -153,10 +153,14 @@
                 img = '';
             }
             var desc = encodeURI(editor.getContent());            
-            if (title=="" || desc=="") {
+            if (title=="") {
+                alert("标题不能为空");
+                return;
+            }
+            if (keywords == "") {
                 alert("内容不能为空");
                 return;
-            }            
+            }
             Global.post("/HelpCenter/InsertContent", { 
                 typeID: ObjectJS.moduleTypes, sort: sort, title: title, keywords: keywords,img:img, desc: desc }, function (data) {
                 if (data.status == 1) {
