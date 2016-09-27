@@ -81,7 +81,7 @@
                         ObjectJS.bindCateGory();
                         ObjectJS.getContentList();
                     } else {
-                        alert("模块下没有分类,请先添加内容");
+                        alert("模块下没有分类,请先添加分类");
                     }
                 });
             };
