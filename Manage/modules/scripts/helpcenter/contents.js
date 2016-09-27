@@ -137,7 +137,7 @@
                     if (data.items.length > 0) {
                         ObjectJS.cateGoryDropDown(data.items);
                     } else {
-                        alert("网络波动，请重试");
+                        alert("该模块下没有分类，请先添加分类");
                     }
                 });
             };
