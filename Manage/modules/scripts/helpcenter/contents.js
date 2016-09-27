@@ -81,7 +81,7 @@
                         ObjectJS.bindCateGory();
                         ObjectJS.getContentList();
                     } else {
-                        alert("网络延迟，请重试");
+                        alert("模块下没有分类,请先添加内容");
                     }
                 });
             };

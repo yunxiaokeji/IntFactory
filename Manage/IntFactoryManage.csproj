@@ -186,6 +186,7 @@
     <Content Include="modules\images\ico-home.png" />
     <Content Include="modules\images\ico-list-blue.png" />
     <Content Include="modules\images\ico-list-gray.png" />
+    <Content Include="modules\images\ico-loading.gif" />
     <Content Include="modules\images\ico-loading.jpg" />
     <Content Include="modules\images\ico-logout-hover.png" />
     <Content Include="modules\images\ico-logout.png" />
