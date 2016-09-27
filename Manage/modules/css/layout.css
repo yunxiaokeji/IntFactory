@@ -155,14 +155,6 @@ nav .action-box .select { width:201px; background-color:#fff;}
 .content-info li .column-title{ width:100px; float:left; color:#999; }
 .content-info li .column-value{ max-width:300px; float:left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#666;}
 
-/*新建样式*/
-.table-add {  border-bottom:solid 1px #eee; padding-bottom:20px; }
-.table-add li{ line-height:25px; margin-top:5px;  padding: 2px 0px;}
-.table-add li input[type="text"],.table-add li input[type="password"]{ height:20px; line-height:20px; padding:2px 5px; width:150px; }
-.table-add li textarea {resize:none; height:80px; line-height:20px; padding:1px 5px; border:solid 1px #ccc; width:350px; border-radius:2px;}
-.table-add span {  display:inline-block; vertical-align:top;}
-.table-add .column-title { color:#999; width:100px;}
-
 /*切换导航样式*/
 .tab-nav { margin:10px 0; height:33px; line-height:33px; border-bottom: solid 1px #ccc; }
 .tab-nav ul { height: 32px; }

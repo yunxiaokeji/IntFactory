@@ -154,7 +154,7 @@
             }
             var desc = encodeURI(editor.getContent());            
             if (title=="") {
-                alert("标题不能为空");
+                $(".red").show();
                 return;
             }
             if (keywords == "") {
