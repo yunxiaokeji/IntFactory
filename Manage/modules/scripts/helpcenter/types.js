@@ -204,6 +204,24 @@
                     innerHtml.find(".delete").click(function () {
                         var _this = $(this);
                         var typeID = _this.data("id");
+                        var functionArray = [
+                            { id: "3caf07ed-5de1-4829-869a-3c47c7b420a7"},
+                            { id: "42c0bb53-07f1-43e7-857b-6ed589ec093f"},
+                            { id: "cfa08906-0b09-44e0-978d-b0abb48c6735"},
+                            { id: "95088962-ec5d-4a3f-ae96-85827bee02e9"},
+                            { id: "08673e32-d738-4730-8580-d17d49855f8e"},
+                            { id: "e83b8979-4244-4f8a-bdfd-14bbe168b175"},
+                            { id: "e7a834a0-405f-4c30-8a5e-ab600af1c07c"},
+                            { id: "45daf2fc-3ffa-4fdf-8649-2128aa4ba333"}
+                        ];
+
+                        for (var i = 0; i < functionArray.length; i++) {
+                            if (typeID == functionArray[i].id) {
+                                alert("该分类为初始化分类，不可删除");
+                                return;
+                            }
+                        }
+
                         var confirmMsg = "确定删除此分类?";
                         confirm(confirmMsg, function () {                            
                             Global.post("/HelpCenter/DeleteType", { TypeID: typeID }, function (data) {
