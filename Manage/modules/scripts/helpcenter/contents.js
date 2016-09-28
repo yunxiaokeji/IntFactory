@@ -166,8 +166,11 @@
             if (title=="") {
                 $(".red").show();
                 return;
-            }
-            if (keywords == "") {
+            } else {
+                $(".red").hide();
+            }           
+
+            if (desc == "") {
                 alert("内容不能为空");
                 return;
             }

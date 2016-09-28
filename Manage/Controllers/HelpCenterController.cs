@@ -110,6 +110,7 @@ namespace YXManage.Controllers
             };
         }
 
+        [ValidateInput(false)]
         public JsonResult InsertContent(string typeID, string sort, string title, string keyWords,string img, string desc)
         {
             var bl = IntFactoryBusiness.HelpCenterBusiness.BaseBusiness.InsertContent(typeID, sort, title, keyWords,img, desc, CurrentUser.UserID);
