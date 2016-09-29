@@ -10,6 +10,7 @@
 
     var ObjectJS = {};
     var moduleType = 0;
+    var createtype = 0;
     ObjectJS.isLoading = true;
 
     var Params = {
@@ -55,7 +56,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");               
-               
+                createtype = type;
                 Params.Types = type;
                 Params.PageIndex = 1;
                 ObjectJS.getTypeList();
@@ -124,6 +125,8 @@
 
                 ObjectJS.bindSelect();
                 ObjectJS.bindUpload();
+
+                $("#select .item .check-lump").eq(createtype-1).click();
 
                 VerifyObject = Verify.createVerify({
                     element: ".verify",
