@@ -54,8 +54,7 @@
             var _this = $(this), type = _this.data("idsource");
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
-                _this.addClass("hover");
-               // $(".add-type a").attr("href", "/HelpCenter/AddType?"+type);
+                _this.addClass("hover");               
                
                 Params.Types = type;
                 Params.PageIndex = 1;
@@ -101,15 +100,7 @@
             }
             Params.PageIndex = 1;
             ObjectJS.getTypeList();
-        });
-        
-        //var href = window.location.href.split("?")[1];
-        //if (href != undefined) {
-        //    if (href>0&&href<=4) {
-        //        $("#select .item .check-lump").removeClass("hover");
-        //        $("#select .item .check-lump").eq(href - 1).addClass("hover");
-        //    }            
-        //}
+        }); 
 
         $("#createTypes").click(function () {
             Dot.exec("template/helpcenter/type/create-type.html", function (template) {
@@ -123,23 +114,7 @@
                             if (!VerifyObject.isPass()) {
                                 return false;
                             }
-                            var moduleType = $("#select .item .hover").data("id");
-                            var txt = $("#contactType").val();
-                            var desc = $(".desc").val();                            
-                            var img = $("#cateGoryImages li img").data("src");
-                            var sort = $(".sort").val();
-                            if (sort == "") {
-                                sort = 0;
-                            }
-                            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img, sort: sort }, function (data) {
-                                if (data.status == 1) {
-                                    ObjectJS.getTypeList();
-                                } else if (data.status == 0) {
-                                    alert("添加失败");
-                                } else {
-                                    alert("分类名称已存在");
-                                }
-                            })
+                            ObjectJS.createType($("#contactType"));
                         },
                         callback: function () {
 
@@ -157,6 +132,10 @@
                     regText: "data-text"
                 });
             });
+        });
+
+        $(".add-category").click(function () {
+            ObjectJS.createType($(".type"));
         });
 
         ObjectJS.bindSelect("select");
@@ -295,6 +274,27 @@
             } else {
                 $(".category").append("<tr class='lists'><td colspan='5'><div class='nodata-txt'>暂无数据</div><td></tr>");
                 $("#pager").hide();
+            }
+        })
+    }
+
+    ObjectJS.createType = function (obj) {
+        var moduleType = $("#select .item .hover").data("id");
+        var txt = obj.val();
+        var desc = $(".desc").val();
+        var img = $("#cateGoryImages li img").data("src");
+        var sort = $(".sort").val();
+        if (sort == "") {
+            sort = 0;
+        }
+        Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img, sort: sort }, function (data) {
+            if (data.status == 1) {
+                alert("添加成功");
+                ObjectJS.getTypeList();
+            } else if (data.status == 0) {
+                alert("添加失败");
+            } else {
+                alert("分类名称已存在");
             }
         })
     }

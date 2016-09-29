@@ -226,6 +226,7 @@
     <Content Include="modules\scripts\helpcenter\types.js" />
     <Content Include="modules\scripts\helpcenter\contents.js" />
     <Content Include="modules\scripts\helpcenter\editcontent.js" />
+    <Content Include="modules\template\helpcenter\type\create-type.html" />
     <Content Include="modules\template\helpcenter\type\updata-type.html" />
     <Content Include="modules\template\helpcenter\content\content-list.html" />
     <Content Include="modules\template\helpcenter\type\type-list.html" />
