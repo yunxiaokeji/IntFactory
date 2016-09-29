@@ -53,7 +53,8 @@
             var _this = $(this), type = _this.data("idsource");
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
-                _this.addClass("hover");                
+                _this.addClass("hover");
+                $(".add-type a").attr("href", "/HelpCenter/AddType?"+type);
                
                 Params.Types = type;
                 Params.PageIndex = 1;
@@ -100,8 +101,16 @@
             Params.PageIndex = 1;
             ObjectJS.getTypeList();
         });
+        
+        var href = window.location.href.split("?")[1];
+        if (href != undefined) {
+            if (href>0&&href<=4) {
+                $("#select .item .check-lump").removeClass("hover");
+                $("#select .item .check-lump").eq(href - 1).addClass("hover");
+            }            
+        }
 
-        $(".add-category").click(function () {
+        $(".add-category").click(function () {            
             var moduleType = $("#select .item .hover").data("id");
             var txt = $(".type").val();
             var desc = $(".desc").val();
@@ -292,7 +301,7 @@
                 Params.Types=id;
             }
             
-            if (!_this.hasClass("hover")) {
+            if (!_this.hasClass("hover")) {                
                 $("#select .item .check-lump").removeClass("hover");
                 _this.addClass("hover");
             };

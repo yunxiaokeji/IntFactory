@@ -83,7 +83,11 @@ namespace IntFactoryDAL
             string sqlTxt = "select * from M_HelpType  where Status<>9";
             if (moduleType != -1)
             {
-                sqlTxt += "  and ModuleType=" + moduleType;
+                sqlTxt += "  and ModuleType=" + moduleType + " order by Sort asc,CreateTime desc ";
+            }
+            else
+            {
+                sqlTxt += "  order by Sort asc,CreateTime desc";
             }
 
             return GetDataTable(sqlTxt);
