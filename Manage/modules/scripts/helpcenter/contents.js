@@ -156,11 +156,13 @@
         });
 
         var href = window.location.href.split("?"),
-            moduleType = href[1],
-            typeID = href[2];
+            moduleType = href[1];
+           
         
         if (moduleType > 0 && moduleType <= 4) {
-            $("#selector .item .check-lump").eq(moduleType - 1).click();            
+            setTimeout(function () {
+                $("#selector .item .check-lump").eq(moduleType - 1).click();
+            }, 300);                       
         }
         
 
