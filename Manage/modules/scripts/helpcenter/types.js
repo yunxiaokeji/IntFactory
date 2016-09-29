@@ -55,7 +55,7 @@
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-                $(".add-type a").attr("href", "/HelpCenter/AddType?"+type);
+               // $(".add-type a").attr("href", "/HelpCenter/AddType?"+type);
                
                 Params.Types = type;
                 Params.PageIndex = 1;
@@ -103,13 +103,13 @@
             ObjectJS.getTypeList();
         });
         
-        var href = window.location.href.split("?")[1];
-        if (href != undefined) {
-            if (href>0&&href<=4) {
-                $("#select .item .check-lump").removeClass("hover");
-                $("#select .item .check-lump").eq(href - 1).addClass("hover");
-            }            
-        }
+        //var href = window.location.href.split("?")[1];
+        //if (href != undefined) {
+        //    if (href>0&&href<=4) {
+        //        $("#select .item .check-lump").removeClass("hover");
+        //        $("#select .item .check-lump").eq(href - 1).addClass("hover");
+        //    }            
+        //}
 
         $("#createTypes").click(function () {
             Dot.exec("template/helpcenter/type/create-type.html", function (template) {
@@ -146,8 +146,10 @@
                         }
                     }
                 });
+
                 ObjectJS.bindSelect();
                 ObjectJS.bindUpload();
+
                 VerifyObject = Verify.createVerify({
                     element: ".verify",
                     emptyAttr: "data-empty",
@@ -155,9 +157,6 @@
                     regText: "data-text"
                 });
             });
-
-
-            
         });
 
         ObjectJS.bindSelect("select");
