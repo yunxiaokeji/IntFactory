@@ -7,7 +7,7 @@
     "imageCompressEnable": true, 
     "imageCompressBorder": 1600,
     "imageInsertAlign": "none", 
-    "imageUrlPrefix": "http://localhost:11544/modules/plug/umeditor/net/",
+    "imageUrlPrefix": "http://admin.intfactory.cn/modules/plug/umeditor/net/",
     
     "imagePathFormat": "upload/image/{yyyy}{mm}{dd}/{time}{rand:6}",
 

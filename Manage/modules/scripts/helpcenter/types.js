@@ -2,6 +2,7 @@
     var Global = require("global"),
         Dot = require("dot"),
         moment = require("moment"),
+        Verify = require("verify"), VerifyObject,
         Easydialog = require("easydialog");
     require("pager");
     require("daterangepicker");
@@ -110,29 +111,53 @@
             }            
         }
 
-        $(".add-category").click(function () {            
-            var moduleType = $("#select .item .hover").data("id");
-            var txt = $(".type").val();
-            var desc = $(".desc").val();
-            if (txt == "") {
-                alert("分类不能为空");
-                return;
-            }            
-            var img = $("#cateGoryImages li img").data("src");
-            var sort = $(".sort").val();
-            if (sort=="") {
-                sort = 0;
-            }
-            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img,sort:sort }, function (data) {
-                if (data.status == 1) {
-                    alert("添加成功");
-                    window.location = "/HelpCenter/Types";
-                } else if (data.status == 0) {
-                    alert("添加失败");
-                } else {
-                    alert("分类名称已存在");
-                }
-            })
+        $("#createTypes").click(function () {
+            Dot.exec("template/helpcenter/type/create-type.html", function (template) {
+                var innerText = template([]);
+                Easydialog.open({
+                    container: {
+                        id: "show-model-detail",
+                        header: "新建分类",
+                        content: innerText,
+                        yesFn: function () {
+                            if (!VerifyObject.isPass()) {
+                                return false;
+                            }
+                            var moduleType = $("#select .item .hover").data("id");
+                            var txt = $("#contactType").val();
+                            var desc = $(".desc").val();                            
+                            var img = $("#cateGoryImages li img").data("src");
+                            var sort = $(".sort").val();
+                            if (sort == "") {
+                                sort = 0;
+                            }
+                            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img, sort: sort }, function (data) {
+                                if (data.status == 1) {
+                                    ObjectJS.getTypeList();
+                                } else if (data.status == 0) {
+                                    alert("添加失败");
+                                } else {
+                                    alert("分类名称已存在");
+                                }
+                            })
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                ObjectJS.bindSelect();
+                ObjectJS.bindUpload();
+                VerifyObject = Verify.createVerify({
+                    element: ".verify",
+                    emptyAttr: "data-empty",
+                    verifyType: "data-type",
+                    regText: "data-text"
+                });
+            });
+
+
+            
         });
 
         ObjectJS.bindSelect("select");
