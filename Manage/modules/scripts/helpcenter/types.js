@@ -216,11 +216,11 @@
                         });
                     });
 
-                    innerHtml.find(".delete").click(function () {
+                    innerHtml.find(".delete").click(function () {                        
                         var _this = $(this);
                         var typeID = _this.data("id");
                         var functionArray = [
-                            { id: "3caf07ed-5de1-4829-869a-3c47c7b420a7"},
+                            { id: "1fba4255-8eaa-4823-baae-134add3dc05b"},
                             { id: "42c0bb53-07f1-43e7-857b-6ed589ec093f"},
                             { id: "cfa08906-0b09-44e0-978d-b0abb48c6735"},
                             { id: "95088962-ec5d-4a3f-ae96-85827bee02e9"},
@@ -232,7 +232,7 @@
 
                         for (var i = 0; i < functionArray.length; i++) {
                             if (typeID == functionArray[i].id) {
-                                alert("该分类为初始化分类，不可删除");
+                                alert("该分类为初始化分类，不可删除1");
                                 return;
                             }
                         }
