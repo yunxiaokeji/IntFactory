@@ -232,7 +232,7 @@
 
                         for (var i = 0; i < functionArray.length; i++) {
                             if (typeID == functionArray[i].id) {
-                                alert("该分类为初始化分类，不可删除");
+                                alert("该分类为初始化分类，不可删除！");
                                 return;
                             }
                         }
