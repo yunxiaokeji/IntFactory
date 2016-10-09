@@ -11,6 +11,7 @@
         ChooseCustomer = require("choosecustomer"),
         Sortable = require("sortable"),
         Easydialog = require("easydialog");
+    var OrderReply = require("replys");
     require("pager");
     require("colormark");
     require("tiplayer");
@@ -827,7 +828,17 @@
             } else if (_this.data("id") == "navDHOrder" && (!_this.data("first") || _this.data("first") == 0)) {
                 _this.data("first", "1");
                 _self.getDHOrders(_self.orderid, 1);
+            } else if (_this.data("id") == "orderReplys" && (!_this.data("first") || _this.data("first") == 0)) {
+                _this.data("first", "1");
+                OrderReply.initTalkReply({
+                    element: "#orderReplys",
+                    guid: _self.orderid,
+                    type: 1, /*1 客户 2订单 10任务 */
+                    pageSize: 10
+                });
             }
+
+            
         });
         $(".module-tab li").first().click();
     }

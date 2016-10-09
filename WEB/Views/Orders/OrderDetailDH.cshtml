@@ -243,6 +243,7 @@
 <div class="module-header">
     <ul class="module-tab left">
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navGoods">订单明细</li>
+        <li data-id="orderReplys">讨论</li>
         @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
         {
              <li data-id="tab@(tab.Mark)" class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">@(tab.Name)</li>
@@ -255,6 +256,9 @@
 </div>
 
 <div class="content-body pBottom50">
+    <div class="nav-partdiv hide" id="orderReplys">
+
+    </div>
      <table id="tab16" class="table-list mTop20 nav-partdiv hide" data-quantity="@(model.PlanQuantity)">
         <tr class="tr-header">
             <td class="tLeft">描述</td>
