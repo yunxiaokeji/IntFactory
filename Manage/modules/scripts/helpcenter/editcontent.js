@@ -42,7 +42,7 @@
                     if (data.items.length > 0) {
                         ObjectJS.cateGoryDropDown(data.items, model, 1);
                     } else {
-                        alert("网络波动，请重试");
+                        alert("网络延迟，请重试");
                     }
                 });
             };

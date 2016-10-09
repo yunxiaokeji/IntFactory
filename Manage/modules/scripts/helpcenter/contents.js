@@ -49,9 +49,8 @@
             Params.BeginTime = start ? start.format("YYYY-MM-DD") : "";
             Params.EndTime = end ? end.format("YYYY-MM-DD") : "";
             ObjectJS.getContentList();
-        });
+        });       
 
-        ObjectJS.bindCateGory();
         if (list != null) {
             ObjectJS.cateGoryDropDown(list);
         }
@@ -61,10 +60,13 @@
                 alert("数据正在加载中");
                 return;
             }
-            var _this = $(this), type = _this.data("idsource");
+
+            var _this = $(this), type = _this.data("idsource");            
+            $(".add-type a").attr("href", "/HelpCenter/AddContent?" + type);
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
-                _this.addClass("hover");
+                _this.addClass("hover");                
 
                 Params.Types = type;
                 $(".category-source .item").removeClass("hover");
@@ -153,6 +155,17 @@
             };
         });
 
+        var href = window.location.href.split("?"),
+            moduleType = href[1];
+           
+        
+        if (moduleType > 0 && moduleType <= 4) {
+            setTimeout(function () {
+                $("#selector .item .check-lump").eq(moduleType - 1).click();
+            }, 300);                       
+        }
+        
+
         //添加内容
         $(".add-type-details").click(function () { 
             var sort = $(".sort").val();
@@ -187,6 +200,7 @@
             })
         });
 
+        ObjectJS.bindCateGory();
         ObjectJS.bindUpload();
     };
 
@@ -254,11 +268,13 @@
             if (!ObjectJS.isLoading) {
                 return;
             }
-            var _this = $(this), typeID = _this.data("id");
+
+            var _this = $(this), typeID = _this.data("id");            
+
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
                 _this.addClass("hover");
-
+               
                 Params.TypeID = typeID;
                 ObjectJS.getContentList();
             }

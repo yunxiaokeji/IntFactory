@@ -2,6 +2,7 @@
     var Global = require("global"),
         Dot = require("dot"),
         moment = require("moment"),
+        Verify = require("verify"), VerifyObject,
         Easydialog = require("easydialog");
     require("pager");
     require("daterangepicker");
@@ -9,6 +10,7 @@
 
     var ObjectJS = {};
     var moduleType = 0;
+    var createtype = 0;
     ObjectJS.isLoading = true;
 
     var Params = {
@@ -53,8 +55,8 @@
             var _this = $(this), type = _this.data("idsource");
             if (!_this.hasClass("hover")) {
                 _this.siblings().removeClass("hover");
-                _this.addClass("hover");                
-               
+                _this.addClass("hover");               
+                createtype = type;
                 Params.Types = type;
                 Params.PageIndex = 1;
                 ObjectJS.getTypeList();
@@ -99,31 +101,44 @@
             }
             Params.PageIndex = 1;
             ObjectJS.getTypeList();
+        }); 
+
+        $("#createTypes").click(function () {
+            Dot.exec("template/helpcenter/type/create-type.html", function (template) {
+                var innerText = template([]);
+                Easydialog.open({
+                    container: {
+                        id: "show-model-detail",
+                        header: "新建分类",
+                        content: innerText,
+                        yesFn: function () {
+                            if (!VerifyObject.isPass()) {
+                                return false;
+                            }
+                            ObjectJS.createType($("#contactType"));
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+
+                ObjectJS.bindSelect();
+                ObjectJS.bindUpload();
+
+                $("#select .item .check-lump").eq(createtype-1).click();
+
+                VerifyObject = Verify.createVerify({
+                    element: ".verify",
+                    emptyAttr: "data-empty",
+                    verifyType: "data-type",
+                    regText: "data-text"
+                });
+            });
         });
 
         $(".add-category").click(function () {
-            var moduleType = $("#select .item .hover").data("id");
-            var txt = $(".type").val();
-            var desc = $(".desc").val();
-            if (txt == "") {
-                alert("分类不能为空");
-                return;
-            }            
-            var img = $("#cateGoryImages li img").data("src");
-            var sort = $(".sort").val();
-            if (sort=="") {
-                sort = 0;
-            }
-            Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img,sort:sort }, function (data) {
-                if (data.status == 1) {
-                    alert("添加成功");
-                    window.location = "/HelpCenter/Types";
-                } else if (data.status == 0) {
-                    alert("添加失败");
-                } else {
-                    alert("分类名称已存在");
-                }
-            })
+            ObjectJS.createType($(".type"));
         });
 
         ObjectJS.bindSelect("select");
@@ -201,9 +216,27 @@
                         });
                     });
 
-                    innerHtml.find(".delete").click(function () {
+                    innerHtml.find(".delete").click(function () {                        
                         var _this = $(this);
                         var typeID = _this.data("id");
+                        var functionArray = [
+                            { id: "1fba4255-8eaa-4823-baae-134add3dc05b"},
+                            { id: "42c0bb53-07f1-43e7-857b-6ed589ec093f"},
+                            { id: "cfa08906-0b09-44e0-978d-b0abb48c6735"},
+                            { id: "95088962-ec5d-4a3f-ae96-85827bee02e9"},
+                            { id: "08673e32-d738-4730-8580-d17d49855f8e"},
+                            { id: "e83b8979-4244-4f8a-bdfd-14bbe168b175"},
+                            { id: "e7a834a0-405f-4c30-8a5e-ab600af1c07c"},
+                            { id: "45daf2fc-3ffa-4fdf-8649-2128aa4ba333"}
+                        ];
+
+                        for (var i = 0; i < functionArray.length; i++) {
+                            if (typeID == functionArray[i].id) {
+                                alert("该分类为初始化分类，不可删除！");
+                                return;
+                            }
+                        }
+
                         var confirmMsg = "确定删除此分类?";
                         confirm(confirmMsg, function () {                            
                             Global.post("/HelpCenter/DeleteType", { TypeID: typeID }, function (data) {
@@ -248,6 +281,27 @@
         })
     }
 
+    ObjectJS.createType = function (obj) {
+        var moduleType = $("#select .item .hover").data("id");
+        var txt = obj.val();
+        var desc = $(".desc").val();
+        var img = $("#cateGoryImages li img").data("src");
+        var sort = $(".sort").val();
+        if (sort == "") {
+            sort = 0;
+        }
+        Global.post("/HelpCenter/InsertType", { Name: txt, desc: desc, moduleType: moduleType, img: img, sort: sort }, function (data) {
+            if (data.status == 1) {
+                alert("添加成功");
+                ObjectJS.getTypeList();
+            } else if (data.status == 0) {
+                alert("添加失败");
+            } else {
+                alert("分类名称已存在");
+            }
+        })
+    }
+
     ObjectJS.bindUpload = function () {
         var uploader = Upload.uploader({
             browse_button: 'uploadImg',
@@ -274,7 +328,7 @@
                 Params.Types=id;
             }
             
-            if (!_this.hasClass("hover")) {
+            if (!_this.hasClass("hover")) {                
                 $("#select .item .check-lump").removeClass("hover");
                 _this.addClass("hover");
             };
