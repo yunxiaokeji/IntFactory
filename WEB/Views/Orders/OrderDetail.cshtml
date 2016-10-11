@@ -246,7 +246,7 @@
 <div class="module-header mTop20">
     <ul class="module-tab left">
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))" data-id="navGoods">打样规格</li>
-        <li data-id="orderReplys">备忘</li>
+        <li data-id="orderReplys">讨论</li>
         @foreach (var tab in (List<IntFactoryEntity.CategoryItemsEntity>)ViewBag.Tabs)
         {
              <li data-id="tab@(tab.Mark)" class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">@(tab.Name)</li>
