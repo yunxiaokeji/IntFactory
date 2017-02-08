@@ -41,7 +41,6 @@ namespace YXERP.Controllers
                 Common.Common.SetCodeSession(mobilePhone, code.ToString());
 
                 Common.Common.WriteAlipayLog(mobilePhone + " : " + code.ToString());
-
             }
 
             return new JsonResult()
