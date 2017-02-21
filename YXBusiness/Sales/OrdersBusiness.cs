@@ -982,7 +982,7 @@ namespace IntFactoryBusiness
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.Orders, EnumLogType.Update, "", operateid, clientid);
 
                 //订单分配任务消息通知
-                WeiXinMPPush.BasePush.SendNewTasksPush(orderid);
+                //WeiXinMPPush.BasePush.SendNewTasksPush(orderid);
             }
             return bl;
         }
