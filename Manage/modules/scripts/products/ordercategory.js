@@ -86,7 +86,7 @@ define(function (require, exports, module) {
         //删除分类
         $("#deleteCategory").click(function () {
             var _this = $(this);
-            confirm("分类删除后不可恢复,确认删除吗?", function () {
+            if( confirm("分类删除后不可恢复,确认删除吗?")) {
                 Global.post("/Products/DeleteCategory", { id: _this.data("id") }, function (data) {
                     if (data.status == 1) {
                         $(".category-list li[data-id='" + _this.data("id") + "']").remove();
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
                         alert("删除失败!");
                     }
                 });
-            });
+            }
             //if (confirm("分类删除后不可恢复,确认删除吗?")) {
                 
             //}

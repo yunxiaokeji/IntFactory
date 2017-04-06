@@ -238,7 +238,7 @@
                         }
 
                         var confirmMsg = "确定删除此分类?";
-                        confirm(confirmMsg, function () {                            
+                       if( confirm(confirmMsg)) {                            
                             Global.post("/HelpCenter/DeleteType", { TypeID: typeID }, function (data) {
                                 if (data.status == 1) {
                                     _this.parent().parent().fadeOut(400, function () {
@@ -250,7 +250,7 @@
                                     alert("请先删除该分类下数据");
                                 }
                             })
-                        });
+                        }
                     });
                 })
 

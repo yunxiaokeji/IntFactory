@@ -221,7 +221,7 @@
                         var _this = $(this);
                         var contentID = _this.data("id");
                         var confirmMsg = "确定删除此分类下内容?";            
-                        confirm(confirmMsg, function () {
+                        if (confirm(confirmMsg)) {
                             Global.post("/HelpCenter/DeleteContent", { contentID: contentID }, function (data) {
                                 if (data.status) {
                                     _this.parent().parent().fadeOut(400, function () {
@@ -230,8 +230,8 @@
                                 } else {
                                     alert("删除失败");
                                 }
-                            })
-                        });
+                            });
+                        }
                     });
                 })
 
