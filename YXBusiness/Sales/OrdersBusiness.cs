@@ -636,7 +636,7 @@ namespace IntFactoryBusiness
                                                         firstimg, allimgs, citycode, address, expressCode, remark, operateid, clientid);
             if (bl)
             {
-                if (details.Count > 0)//ordertype == EnumOrderType.LargeOrder && 
+                if (details!=null && details.Count > 0)//ordertype == EnumOrderType.LargeOrder && 
                 {
                     SqlConnection conn = new SqlConnection(BaseDAL.ConnectionString);
                      

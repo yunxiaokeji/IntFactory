@@ -104,12 +104,19 @@ namespace IntFactoryBusiness
                 for (var j = 0; j < len; j++)
                 {
                     var order = orderListResult.fentOrderList[j];
-
-                    string orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
-                       HttpUtility.UrlDecode(order.buyerName), order.buyerMobile, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, null,string.Empty, string.Empty,
-                       order.fentPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
-                        string.Empty, order.buyerAddress, string.Empty, string.Empty,
-                        userID,clientID, order.fentGoodsCode);
+                    string orderID = string.Empty;
+                    try
+                    {
+                        orderID = OrdersBusiness.BaseBusiness.CreateOrder(string.Empty, order.productCode, order.title,
+                           HttpUtility.UrlDecode(order.buyerName), order.buyerMobile??string.Empty, EnumOrderSourceType.AliOrder, EnumOrderType.ProofOrder, null, string.Empty, string.Empty,
+                           order.fentPrice, order.bulkCount, order.gmtReleasedExpect, order.samplePicList == null ? string.Empty : string.Join(",", order.samplePicList.ToArray()),
+                            string.Empty, order.buyerAddress, string.Empty, string.Empty,
+                            userID, clientID, order.fentGoodsCode);
+                    }
+                    catch (Exception ex) {
+                        error = ex.Message+"      order:"+Newtonsoft.Json.JsonConvert.SerializeObject( order);
+                        return false;
+                    }
 
                     //新增订单失败
                     if (string.IsNullOrEmpty(orderID))
