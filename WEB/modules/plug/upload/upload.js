@@ -72,7 +72,7 @@ define(function (require, exports, module) {
 
                 var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
                 var pictypes = ["jpg", "png", "jpeg", "x-png", "x-tiff", "x-pjpeg"];
-                var filetypes = ["rar", "txt", "zip", "doc", "ppt", "xls", "pdf", "docx", "xlsx"];
+                var filetypes = ["rar", "txt", "zip", "doc", "ppt", "xls", "pdf", "docx", "xlsx", "prj", "emf"];
                 var attachmenttypes=pictypes;
                 var maxSize = _self.setting.maxSize;//2M 
                 var isContinue = false;
