@@ -25,30 +25,20 @@ namespace YXERP.Controllers
 
         public ActionResult MyCustomer()
         {
-            ViewBag.Title = "我的客户";
-            ViewBag.Type = (int)EnumSearchType.Myself;
+            if (ExpandClass.IsExistMenu("101010300"))
+            {
+                ViewBag.Title = "所有客户";
+                ViewBag.Type = (int)EnumSearchType.All;
+                
+            }
+            else
+            {
+                ViewBag.Title = "客户列表";
+                ViewBag.Type = (int)EnumSearchType.Branch;
+            }
+            ViewBag.CurrentUserID = CurrentUser.UserID;
             ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
-            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
-            return View("Customers");
-        }
-
-        public ActionResult BranchCustomer()
-        {
-            ViewBag.Title = "下属客户";
-            ViewBag.Type = (int)EnumSearchType.Branch;
-            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
-            return View("Customers");
-        }
-
-        public ActionResult Customers()
-        {
-            ViewBag.Title = "所有客户";
-            ViewBag.Type = (int)EnumSearchType.All;
-            ViewBag.FirstNames = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-            ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Customer).ToList();
-            //ViewBag.Stages = SystemBusiness.BaseBusiness.GetCustomStages(CurrentUser.AgentID, CurrentUser.ClientID);
             return View("Customers");
         }
 

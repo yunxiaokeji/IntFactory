@@ -1023,6 +1023,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdatePlanTime(string orderid, string planTime, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderPlanTime(orderid, planTime, operateid, clientid);
+            if (bl)
+            {
+                string msg = "交货日期修改为：" + planTime;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderDiscount(orderid, discount, price, operateid, clientid);

@@ -593,6 +593,21 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderPlanTime(string orderid, string time)
+        {
+            if (!string.IsNullOrEmpty(time))
+            {
+                time = Convert.ToDateTime(time).ToString("yyyy-MM-dd") + " 23:59:59";
+            }
+            var bl = OrdersBusiness.BaseBusiness.UpdatePlanTime(orderid, time, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult UpdateOrderStatus(string orderid, int status, string time, decimal price)
         {
             string errinfo = "";

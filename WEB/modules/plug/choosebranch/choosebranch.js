@@ -36,7 +36,8 @@ define(function (require, exports, module) {
             if (!obj.hasClass("choosebranch-module")) {
                 obj.addClass("choosebranch-module").css("width", opts.width);
             }
-            var _input = $('<div class="choosebranch-text">' + opts.prevText + opts.defaultText + '</div>');
+            var defaultText = typeof (opts.defaultText) === "object" ? (opts.defaultText.length && opts.defaultText.length > 0 && opts.defaultText[0]) : opts.defaultText;
+            var _input = $('<div class="choosebranch-text">' + opts.prevText + defaultText + '</div>');
             _input.css("width", opts.width - 30);
             var _ico = $('<div class="choosebranch-ico"><span class="top"></span><span class="bottom"></span></div>');
             obj.append(_input).append(_ico);
@@ -81,7 +82,15 @@ define(function (require, exports, module) {
                 _branch.append(_search);
 
                 if (opts.defaultText) {
-                    _branch.append("<div class='default-item change-user' data-id='" + opts.defaultValue + "'>" + opts.defaultText + "</div>");
+                    var defaultTexts = typeof (opts.defaultText) === "object" ? (opts.defaultText.length && opts.defaultText.length > 0 && opts.defaultText) : opts.defaultText;
+                    if (typeof (defaultTexts) === "object") {
+                        for (var i = 0; i < defaultTexts.length; i++) {
+                            var text = defaultTexts[i];
+                            _branch.append("<div class='default-item change-user' data-id='" + opts.defaultValue[i] + "'>" + text + "</div>");
+                        }
+                    } else {
+                        _branch.append("<div class='default-item change-user' data-id='" + opts.defaultValue + "'>" + opts.defaultText + "</div>");
+                    }
                 }
 
                 var _items = $("<div class='choosebranch-items'></div>");

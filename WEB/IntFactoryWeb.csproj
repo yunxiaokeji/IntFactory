@@ -556,6 +556,7 @@
     <Content Include="modules\scripts\report\userworkload.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
+    <Content Include="modules\template\orders\updateOrderPlanTime.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />

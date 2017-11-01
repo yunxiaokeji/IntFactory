@@ -40,10 +40,11 @@
     ObjectJS.init = function (type,model) {
         var _self = this;
         Params.SearchType = type;
+        Params.UserID = $("#currentUserID").val();
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
 
         _self.getList();
-        _self.bindEvent(type);        
+        _self.bindEvent(Params.SearchType);
     }
     
     //绑定事件
@@ -161,12 +162,12 @@
             });
         });
 
-        if (type == 2) {
+        if (type != 3) {
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
-                    prevText: "下属-",
-                    defaultText: "全部",
-                    defaultValue: "",
+                    prevText: "人员-",
+                    defaultText: ["我的","我的下属"],
+                    defaultValue: [Params.UserID, ""],
                     userid: "",
                     isTeam: false,
                     width: "180",
@@ -182,8 +183,8 @@
             require.async("choosebranch", function () {
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
-                    defaultText: "全部",
-                    defaultValue: "",
+                    defaultText: ["我的", "所有员工"],
+                    defaultValue: [Params.UserID, ""],
                     userid: "-1",
                     isTeam: true,
                     width: "180",

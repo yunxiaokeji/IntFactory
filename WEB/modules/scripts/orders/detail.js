@@ -476,6 +476,11 @@
             _self.editOrder(_self.model);
         });
 
+        //编辑交货日期
+        $("#updateOrderPlanTime").click(function () {
+            _self.updateOrderPlanTime();
+        });
+
         //裁剪录入
         $("#btnCutoutOrder").click(function () {
             if ($(this).data('isget') != 1) {
@@ -2079,6 +2084,53 @@
             $("#extent").val(model.Extent);
 
             $("#industry").val(model.IndustryID);
+        });
+    }
+
+    //编辑订单交货日期
+    ObjectJS.updateOrderPlanTime = function () {
+        var _self = this;
+        doT.exec("template/orders/updateOrderPlanTime.html", function (template) {
+            var innerText = template();
+            Easydialog.open({
+                container: {
+                    id: "show-model-updateplantime",
+                    header: "编辑订单交货日期",
+                    content: innerText,
+                    yesFn: function () {
+                        var time = $("#iptOrderPlanTime").val().trim();
+                        if (!time) {
+                            alert("请确认交货日期！", 2);
+                            return false;
+                        }
+                        Global.post("/Orders/UpdateOrderPlanTime", {
+                            orderid: _self.orderid,
+                            time: time ? time : ""
+                        }, function (data) {
+                            if (!data.status) {
+                                alert("操作失败,请检查订单状态", 2, location.href);
+                            } else {
+                                location.href = location.href;
+                            }
+                        });
+                        
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+
+            laydate({
+                elem: '#iptOrderPlanTime',
+                format: 'YYYY-MM-DD',
+                min: laydate.now(),
+                max: "",
+                istime: false,
+                istoday: true
+            });
+            var date = (new Date(_self.model.PlanTime.toDate("yyyy-MM-dd")).getTime() - new Date().getTime()) < 0 ? new Date().toString('yyyy-MM-dd') : _self.model.PlanTime.toDate("yyyy-MM-dd");
+            $("#iptOrderPlanTime").val(_self.model.PlanTime.toDate("yyyy-MM-dd") == "2040-01-01" ? "" : date);
         });
     }
 

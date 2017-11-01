@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qiniu.4.5", "Qiniu\Qiniu.4.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSales.Sdk", "CloudSales.Sdk\CloudSales.Sdk.csproj", "{F0A05162-14E3-4816-8C49-706ABFC94439}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntFactory.Data", "IntFactory.Data", "{3619440D-981A-46CB-AE3C-3F6A3F259E45}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IntFactoryDB", "..\DBProjects\YXDB\IntFactoryDB.sqlproj", "{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -185,6 +189,20 @@ Global
 		{F0A05162-14E3-4816-8C49-706ABFC94439}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F0A05162-14E3-4816-8C49-706ABFC94439}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F0A05162-14E3-4816-8C49-706ABFC94439}.Release|x86.ActiveCfg = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,5 +222,6 @@ Global
 		{BA148969-6AE6-48A8-B3CC-EE3E95141B80} = {5186CEE7-7220-4B7A-A6FF-1AA6CA384EE7}
 		{2540F126-E260-4533-B337-8A59E6960F35} = {5186CEE7-7220-4B7A-A6FF-1AA6CA384EE7}
 		{84619B52-1DE4-4356-BA17-8D043CA54C43} = {5186CEE7-7220-4B7A-A6FF-1AA6CA384EE7}
+		{44D829EF-6464-4BC3-ADB7-E6B80BF2AF7B} = {3619440D-981A-46CB-AE3C-3F6A3F259E45}
 	EndGlobalSection
 EndGlobal

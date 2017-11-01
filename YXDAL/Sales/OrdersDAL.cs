@@ -594,6 +594,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateProfitPrice", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderPlanTime(string orderid, string planTime, string operateid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@PlanTime",planTime),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderPlanTime", paras, CommandType.StoredProcedure) > 0;
+        }
+
         public bool UpdateOrderDiscount(string orderid, decimal discount, decimal price, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
