@@ -23,6 +23,7 @@ define(function (require, exports, module) {
             prevText: "",//文本前缀
             defaultText: "",
             defaultValue: "",
+            defaultIndex:0,
             userid: "",
             agentid: "",
             isTeam: false,
@@ -36,7 +37,7 @@ define(function (require, exports, module) {
             if (!obj.hasClass("choosebranch-module")) {
                 obj.addClass("choosebranch-module").css("width", opts.width);
             }
-            var defaultText = typeof (opts.defaultText) === "object" ? (opts.defaultText.length && opts.defaultText.length > 0 && opts.defaultText[0]) : opts.defaultText;
+            var defaultText = typeof (opts.defaultText) === "object" ? (opts.defaultText.length && opts.defaultText.length > 0 && opts.defaultText[opts.defaultIndex]) : opts.defaultText;
             var _input = $('<div class="choosebranch-text">' + opts.prevText + defaultText + '</div>');
             _input.css("width", opts.width - 30);
             var _ico = $('<div class="choosebranch-ico"><span class="top"></span><span class="bottom"></span></div>');

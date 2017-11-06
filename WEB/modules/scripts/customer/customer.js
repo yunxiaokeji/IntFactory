@@ -39,8 +39,8 @@
     //初始化
     ObjectJS.init = function (type,model) {
         var _self = this;
+        _self.userid = $("#currentUserID").val();
         Params.SearchType = type;
-        Params.UserID = $("#currentUserID").val();
         _self.ColorList = JSON.parse(model.replace(/&quot;/g, '"'));
 
         _self.getList();
@@ -167,7 +167,8 @@
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
                     defaultText: ["我的","我的下属"],
-                    defaultValue: [Params.UserID, ""],
+                    defaultValue: [_self.userid, ""],
+                    defaultIndex:1,
                     userid: "",
                     isTeam: false,
                     width: "180",
@@ -184,7 +185,8 @@
                 $("#chooseBranch").chooseBranch({
                     prevText: "人员-",
                     defaultText: ["我的", "所有员工"],
-                    defaultValue: [Params.UserID, ""],
+                    defaultValue: [_self.userid, ""],
+                    defaultIndex: 1,
                     userid: "-1",
                     isTeam: true,
                     width: "180",
@@ -463,6 +465,10 @@
             ids: ids,
             mark: mark
         }, function (data) {
+            if (data.result == "10001") {
+                alert("您没有该操作权限，请联系管理员");
+                return false;
+            }
             callback && callback(data.status);
             ObjectJS.isLoading = true;
         });

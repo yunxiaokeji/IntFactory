@@ -86,7 +86,7 @@ define(function (require, exports, module) {
         //删除分类
         $("#deleteCategory").click(function () {
             var _this = $(this);
-            if( confirm("分类删除后不可恢复,确认删除吗?")) {
+            confirm("分类删除后不可恢复,确认删除吗?", function () {
                 Global.post("/Products/DeleteCategory", { id: _this.data("id") }, function (data) {
                     if (data.status == 1) {
                         $(".category-list li[data-id='" + _this.data("id") + "']").remove();
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
                         alert("删除失败!");
                     }
                 });
-            }
+            });
             //if (confirm("分类删除后不可恢复,确认删除吗?")) {
                 
             //}
@@ -126,7 +126,7 @@ define(function (require, exports, module) {
         //删除属性
         $("#deleteAttr").click(function () {
             var _this = $(this);
-            if (confirm("删除后不可恢复,确认删除吗?")) {
+            confirm("删除后不可恢复,确认删除吗?",function(){
                 Global.post("/Products/DeleteCategoryAttr", {
                     categoryid: _this.data("categoryid"),
                     attrid: _this.data("id"),
@@ -139,7 +139,7 @@ define(function (require, exports, module) {
 
                     }
                 });
-            }
+            });
         });
         //编辑属性
         $("#editAttr").click(function () {
@@ -357,8 +357,8 @@ define(function (require, exports, module) {
     ObjectJS.addCommonAttr = function (categoryid, ele) {
         var _self = this;
         var _attrlist = $(".category-attr-layer").find("ul[data-type=" + ele.data("type") + "]");
-        if (ele.data("type") == 1 && _attrlist.find("li").length > 1) {
-            alert("分类已设置制版属性!");
+        if (_attrlist.find("li").length > 1) { //ele.data("type") == 1 &&
+            alert("分类已设置" + (ele.data("type") == 1 ? "制版属性" : "大货规格") + "!");
             return;
         };
         if (_attrlist.find(".category-attr-layer li[data-id=" + ele.data("id") + "]").length === 0) {
@@ -378,7 +378,7 @@ define(function (require, exports, module) {
                     }
                     _self.innerAttr(_attrlist, _model);
                 } else if (ele.data("type") == 1) {
-                    alert("分类已设置制版属性！");
+                    alert("分类已设置" + (ele.data("type") == 1 ? "制版属性" : "大货规格") + "!");
                 }
             });
             
