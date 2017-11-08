@@ -65,7 +65,7 @@
             </div>
             <div>
                 <span class="column-title">状态：</span>
-                <span class="{%=item.Status==0?'red':''%}">{%=item.StatusStr%}</span>
+                <span class="{%=(item.OrderStatus==0||item.OrderStatus==8)?'red':''%}">{%=item.StatusStr%}</span>
             </div>
             <div>
                 <span class="column-title">进度：</span>
@@ -98,6 +98,15 @@
                             未处理
                         </div>                       
                         <div class="center mTop20">交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.PlanTime.toDate("yyyy-MM-dd")%}</div>
+                        <div class="clear"></div>
+                    </div>
+                </div>    
+            {% }else if(item.OrderStatus==8){ %}
+                <div class="left">
+                    <div class="order-progress left" style="margin-top:0px;">                    
+                        <div class="center red font24">
+                            已终止
+                        </div>                       
                         <div class="clear"></div>
                     </div>
                 </div>    

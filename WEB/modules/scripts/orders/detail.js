@@ -1209,7 +1209,7 @@
                                     alert("大货下单成功!", 1, "/Orders/OrderDetail/" + data.id);
                                 }
                             } else {
-                                alert("操作失败，请刷新页面重试！", 2);
+                                alert("操作失败，请检查订单状态！", 2);
                             }
                         });
                         

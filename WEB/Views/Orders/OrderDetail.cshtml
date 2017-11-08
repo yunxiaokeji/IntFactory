@@ -31,6 +31,12 @@
         @(model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID)
         ? "委托工厂：" + ViewBag.Client.CompanyName + "-" + ViewBag.Client.ClientCode : !model.IsSelf && !string.IsNullOrEmpty(model.EntrustClientID)
         ? "协助工厂：" + ViewBag.Client.CompanyName + "-" + ViewBag.Client.ClientCode : "本厂订单")
+
+        @if(model.OrderStatus==8)
+        {
+            <span class="red mLeft10 font18">（已终止）</span>
+        }
+
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
         @if (IsDoClient && model.Status == 0 && model.OrderAttrs.Count > 0)
@@ -92,7 +98,7 @@
         </li>
         <li>
             <span class="left"> 负责人：</span><label class="left" id="lblOwner">@(model.Owner != null ? model.Owner.Name : "--")</label>
-            @if (IsDoClient)
+            @if (IsDoClient && model.OrderStatus <=2)
             {
                 <i title="更换负责人" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019004"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOwner">&#xe60b;</i>
             }
@@ -467,7 +473,7 @@
 </ul>
 
 <ul id="ddlOperateOrder" class="dropdown-ul hide" style="">
-    @if (model.IsSelf)
+    @if (model.IsSelf && model.OrderStatus <= 2 )
     {
         <li class="btn-create-ordergoods" data-type="1">新建规格</li>
     }

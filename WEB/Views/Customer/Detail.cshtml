@@ -55,6 +55,12 @@
         <li data-id="navContact">联系人</li>
         <li data-id="navLog">日志</li>
     </ul>
+    <ul class="search-tab-status search-orderstatus hide">
+        <li data-id="-1" class="item hover">全部</li>
+        <li data-id="1" class="item">进行中</li>
+        <li data-id="2" class="item">已完成</li>
+        <li data-id="8" class="item">已终止</li>
+    </ul>
     <div id="addContact" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
     
 </div>
@@ -79,7 +85,8 @@
 
     <div class="nav-partdiv hide" id="navOppor">
         <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
-        <table class="table-items-detail">
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
             <tr class="hide table-header">
             <td class="tLeft">款式</td>
             <td>成本</td>
@@ -91,7 +98,8 @@
     </div>
     <div class="nav-partdiv hide" id="navOrder">
         <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
-        <table class="table-items-detail">
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
             <tr class="hide table-header">
             <td class="tLeft">款式</td>
             <td>成本</td>
@@ -103,7 +111,8 @@
     </div>
     <div class="nav-partdiv hide" id="navDHOrder">
         <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
-        <table class="table-items-detail">
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
             <tr class="hide table-header">
             <td class="tLeft">款式</td>
             <td>成本</td>

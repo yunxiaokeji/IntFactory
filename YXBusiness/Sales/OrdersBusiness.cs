@@ -44,8 +44,6 @@ namespace IntFactoryBusiness
 
                 model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, string.IsNullOrEmpty(model.EntrustClientID) ? model.ClientID : model.EntrustClientID);
 
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
-
                 model.SourceTypeStr = CommonBusiness.GetEnumDesc((EnumOrderSourceType)model.SourceType);
 
                 GetWarningData(model);
@@ -174,48 +172,23 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public void GetWarningData(OrderEntity model)
-        {
-            if (model.OrderStatus == 1 && model.Status != (int)EnumOrderStageStatus.DDH)
-            {
-                if (model.PlanTime <= DateTime.Now)
-                {
-                    model.WarningStatus = 2;
-                    model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
-                    model.WarningDays = (DateTime.Now - model.PlanTime).Days;
-                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                }
-                else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
-                {
-                    model.WarningStatus = 1;
-                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                }
-                else
-                {
-                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
-                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
-                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
-                }
-            }
-            else if (model.OrderStatus == 2)
-            {
-                model.WarningStatus = 3;
-                model.UseDays = (model.PlanTime - model.OrderTime).Days;
-                model.WarningDays = (DateTime.Now - model.EndTime).Days;
-            }
-        }
-
         public int GetExceedOrderCount(string ownerID, string orderType, string clientID)
         {
             return OrdersDAL.BaseProvider.GetExceedOrderCount(ownerID, orderType, clientID);
         }
 
-        public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
+        public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int orderstatus, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
-            string condition="CustomerID='" + customerid + "' and OrderType=" + ordertype + " and Status<>9 and Status<>0";
+            string condition="CustomerID='" + customerid + "' and OrderType=" + ordertype;
+            if (orderstatus == -1)
+            {
+                condition += " and OrderStatus<>9 and OrderStatus<>0 ";
+            }
+            else
+            {
+                condition += " and OrderStatus= " + orderstatus;
+            }
             if (!string.IsNullOrEmpty(keyWords))
             {
                 condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%')";
@@ -228,7 +201,7 @@ namespace IntFactoryBusiness
                 model.FillData(dr);
 
                 model.Owner = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, string.IsNullOrEmpty(model.EntrustClientID) ? model.ClientID : model.EntrustClientID);
-                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+                
                 GetWarningData(model);
                 list.Add(model);
             }
@@ -604,6 +577,49 @@ namespace IntFactoryBusiness
 
         #endregion
 
+        #region 填充数据
+
+        private void GetWarningData(OrderEntity model)
+        {
+            if (model.OrderStatus == 1 && model.Status != (int)EnumOrderStageStatus.DDH)
+            {
+                if (model.PlanTime <= DateTime.Now)
+                {
+                    model.WarningStatus = 2;
+                    model.WarningTime = "超期：" + (DateTime.Now - model.PlanTime).Days.ToString("D2") + "天 " + (DateTime.Now - model.PlanTime).Hours.ToString("D2") + "时 " + (DateTime.Now - model.PlanTime).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (DateTime.Now - model.PlanTime).Days;
+                    model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                }
+                else if ((model.PlanTime - DateTime.Now).TotalHours * 3 < (model.PlanTime - model.OrderTime).TotalHours)
+                {
+                    model.WarningStatus = 1;
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                }
+                else
+                {
+                    model.WarningTime = "剩余：" + (model.PlanTime - DateTime.Now).Days.ToString("D2") + "天 " + (model.PlanTime - DateTime.Now).Hours.ToString("D2") + "时 " + (model.PlanTime - DateTime.Now).Minutes.ToString("D2") + "分";
+                    model.WarningDays = (model.PlanTime - DateTime.Now).Days;
+                    model.UseDays = (DateTime.Now - model.OrderTime).Days;
+                }
+            }
+            else if (model.OrderStatus == 2)
+            {
+                model.WarningStatus = 3;
+                model.UseDays = (model.PlanTime - model.OrderTime).Days;
+                model.WarningDays = (DateTime.Now - model.EndTime).Days;
+            }
+
+            model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+            if (model.OrderStatus == 8)
+            {
+                model.StatusStr = "已终止";
+            }
+        }
+
+        #endregion
+
         #region 添加
 
         public string CreateOrder(string customerid, string goodscode, string title, string name, string mobile, EnumOrderSourceType sourceType, EnumOrderType ordertype,
@@ -686,6 +702,12 @@ namespace IntFactoryBusiness
         public string CreateDHOrder(string orderid, int ordertype, bool isCreate, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
         {
             var dal = new OrdersDAL();
+
+            var entity = GetOrderBaseInfoByID(orderid);
+            if (entity.OrderStatus > 2)
+            {
+                return "";
+            }
 
             string id = Guid.NewGuid().ToString().ToLower();
             if (ordertype == 2 && !isCreate && string.IsNullOrEmpty(yxOrderID))

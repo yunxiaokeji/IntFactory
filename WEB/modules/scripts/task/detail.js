@@ -425,6 +425,8 @@
                 alert("任务已接受,不能操作");
             } else if (data.result == 3) {
                 alert("没有权限操作");
+            } else if (data.result == 9) {
+                alert("任务已终止");
             } else {
                 location.href = location.href;
             }
@@ -489,6 +491,8 @@
                    }
                    else if (data.result == 4) {
                        alert("任务没有接受，不能设置完成", 2);
+                   } else if (data.result == 9) {
+                       alert("任务已终止");
                    }
                    else if (data.result == -1) {
                        alert("保存失败", 2);

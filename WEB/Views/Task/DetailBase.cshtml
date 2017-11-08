@@ -10,7 +10,7 @@
         任务编码：@(task.TaskCode)
         <a class="btn-back right" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
         <div class="right mRight10">
-            @if (taskModel.IsTaskOwner)
+            @if (taskModel.IsTaskOwner && taskModel.Task.Status == 1)
             {
                 if(task.FinishStatus==0)
                 {
@@ -131,7 +131,7 @@
             <div class="right memberlist mTop5">
                     
             @{
-                if(task.FinishStatus>0){
+                if(task.FinishStatus>0&&task.Status==1){
                     <div class="member-title">
                         <span class="right btn-add" id="addTaskMembers">添加成员</span>
                     </div>

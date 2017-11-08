@@ -13,7 +13,8 @@
         keyWords: "",
         customerid: "",
         filterType: 1,
-        ordertype:1,
+        ordertype: 1,
+        orderstatus:-1,
         pagesize: 10,
         pageindex: 1
     };
@@ -54,10 +55,8 @@
                 _self.bindEvent(data.model, navid);
             }
         });
-        
-        
-        
-        $("#addContact").hide();       
+
+        $("#addContact").hide();
 
     }
 
@@ -113,14 +112,14 @@
         });
 
         //关键字搜索
-        //require.async("search", function () {
-        //    $(".searth-module").searchKeys(function (keyWords) {
-        //        Params.keyWords = keyWords;
-        //        Params.pageindex = 1;
-        //        _self.getList();
+        require.async("search", function () {
+            $(".searth-module").searchKeys(function (keyWords) {
+                Params.keyWords = keyWords;
+                Params.pageindex = 1;
+                _self.getList();
 
-        //    });
-        //});
+            });
+        });
 
         //编辑客户信息
         $("#updateCustomer").click(function () {
@@ -235,6 +234,19 @@
             _self.addContact();
         });
 
+        //切换订单状态
+        $(".search-orderstatus .item").click(function () {
+            var _this = $(this);
+
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.pageindex = 1;
+                Params.orderstatus = _this.data("id");
+                _self.getList();
+            }
+        });
+
         //切换模块
         $(".module-tab li").click(function () {
             if (!ObjectJS.isLoading) {
@@ -245,7 +257,7 @@
             _this.addClass("hover");
             $(".nav-partdiv").hide();
             $("#" + _this.data("id")).show();
-            $("#addContact").hide();
+            $("#addContact,.search-orderstatus").hide();
 
             if (_this.data("id") == "navLog" && (!_this.data("first") || _this.data("first") == 0)) { //日志               
                 _this.data("first", "1");
@@ -274,12 +286,12 @@
                 Params.filterType = 1;
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
-
                     Params.keyWords = "";
                     _self.getList();
                 }
             } else if (_this.data("id") == "navOrder") { //订单
                 Params.filterType = 2;
+                $(".search-orderstatus").show();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
 
@@ -288,6 +300,7 @@
                 }
             } else if (_this.data("id") == "navDHOrder") { //大货单
                 Params.filterType = 3;
+                $(".search-orderstatus").show();
                 if ((!_this.data("first") || _this.data("first") == 0)) {
                     _this.data("first", "1");
 
