@@ -810,6 +810,19 @@ namespace IntFactoryDAL
 
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
+
+        public bool UpdateOrderAttrName(string orderid,string orderAttrID, string name, int type)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@OrderAttrID",orderAttrID),
+                                     new SqlParameter("@Name",name),
+                                     new SqlParameter("@Type" , type)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderAttrName", paras, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
 
         #region OrderPriceRange

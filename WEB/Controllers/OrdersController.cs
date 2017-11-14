@@ -1029,6 +1029,18 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public JsonResult UpdateOrderAttrName(string orderid, string orderAttrID, string name, int type)
+        {
+            var status = IntFactoryBusiness.OrdersBusiness.BaseBusiness.UpdateOrderAttrName(orderid, orderAttrID, name, type);
+            JsonDictionary.Add("status", status);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         #endregion
 
     }

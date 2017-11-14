@@ -284,14 +284,27 @@
                     <td class="tLeft width200">规格</td>
                     @foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
                     { 
-                        <td class="">@detail.AttrName</td>
+                        <td class="">
+                            <span class="">@detail.AttrName</span>
+                            @if (model.IsSelf && model.OrderStatus < 2)
+                            {
+                                <div data-id="@detail.OrderAttrID" data-type="1" data-text="@detail.AttrName" class="ico-edit update-attrname iconfont mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
+                            }
+                        </td>
                     }
                     <td class="tRight">成本</td>
                 </tr>
                 foreach (var detail in model.OrderAttrs.Where(m => m.AttrType == 2).ToList())
                 {
                 <tr class="item">
-                    <td class="tLeft">@detail.AttrName</td>
+                    <td class="tLeft">
+                        <span class="">@detail.AttrName</span>
+                            @if (model.IsSelf && model.OrderStatus < 2)
+                            {
+                                <div data-id="@detail.OrderAttrID" data-type="2" data-text="@detail.AttrName" class="ico-edit update-attrname iconfont mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
+                            }
+
+                    </td>
                     @foreach (var td in model.OrderAttrs.Where(m => m.AttrType == 1).ToList())
                     {
                         if (model.OrderGoods.Where(m => m.XRemark == td.AttrName && m.YRemark == detail.AttrName).Count() > 0)

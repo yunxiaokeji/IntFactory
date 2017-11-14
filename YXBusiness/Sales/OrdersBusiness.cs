@@ -1197,9 +1197,15 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus) {
+        public bool UpdateGoodsPublicStatus(string goodsid, int publicStatus) 
+        {
             return OrdersDAL.BaseProvider.UpdateGoodsPublicStatus(goodsid, publicStatus);
-        } 
+        }
+
+        public bool UpdateOrderAttrName(string orderid, string orderAttrID, string name, int type)
+        {
+            return OrdersDAL.BaseProvider.UpdateOrderAttrName(orderid, orderAttrID, name, type);
+        }
         #endregion
 
         #region 订单区间价位

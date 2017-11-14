@@ -846,6 +846,50 @@
             
         });
         $(".module-tab li").first().click();
+
+        //编辑规格
+        $(".update-attrname").click(function () {
+            var _this = $(this);
+            var attrModel = {
+                id: _this.data("id"),
+                name: _this.data("text").replace("【", "").replace("】", ""),
+                type: _this.data("type")
+            };
+            doT.exec("template/orders/updateAttrName.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-model-updateattrname",
+                        header: "编辑打样规格",
+                        content: innerText,
+                        yesFn: function () {
+                            var name = $("#iptAttrName").val().trim();
+                            if (!name) {
+                                alert("请输入规格！", 2);
+                                return false;
+                            } else if (name != attrModel.name) {
+                                Global.post("/Orders/UpdateOrderAttrName", {
+                                    orderid: _self.orderid,
+                                    orderAttrID: attrModel.id,
+                                    name: name,
+                                    type: attrModel.type
+                                }, function (data) {
+                                    if (!data.status) {
+                                        alert("操作失败,请检查订单状态", 2, location.href);
+                                    } else {
+                                        location.href = location.href;
+                                    }
+                                });
+                            }
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+                $("#iptAttrName").val(attrModel.name);
+            });
+        });
     }
 
     //加载缓存
