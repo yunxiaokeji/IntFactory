@@ -1202,9 +1202,26 @@ namespace IntFactoryBusiness
             return OrdersDAL.BaseProvider.UpdateGoodsPublicStatus(goodsid, publicStatus);
         }
 
-        public bool UpdateOrderAttrName(string orderid, string orderAttrID, string name, int type)
+        public bool UpdateOrderAttrName(string orderid, string orderAttrID, string name, int type, string operateid,string ip, string clientid)
         {
-            return OrdersDAL.BaseProvider.UpdateOrderAttrName(orderid, orderAttrID, name, type);
+            var bl = OrdersDAL.BaseProvider.UpdateOrderAttrName(orderid, orderAttrID, name, type);
+            if (bl)
+            {
+                string msg = "编辑打样规格";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, orderAttrID, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderGoodsQuantity(string orderid, int autoid, decimal quantity, string remark, decimal oldQuantity, string operateid, string ip, string clientid)
+        {
+            var bl = OrdersDAL.BaseProvider.UpdateOrderGoodsQuantity(orderid, autoid, quantity);
+            if (bl)
+            {
+                string msg = remark + "下单数由 " + oldQuantity + " 编辑为 " + quantity;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid.ToString(), clientid);
+            }
+            return bl;
         }
         #endregion
 

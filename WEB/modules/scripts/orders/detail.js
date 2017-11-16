@@ -890,6 +890,37 @@
                 $("#iptAttrName").val(attrModel.name);
             });
         });
+
+        //编辑下单数
+        $(".update-quantity-td").click(function () {
+            $(this).find("span").hide();
+            $(this).find("input").show().focus().select();
+        });
+        $(".update-quantity-td input").blur(function () {
+            var txt = $(this), span = $(this).next("span");
+            if (!txt.val() || !txt.val().trim().isDouble()) {
+                txt.val(txt.data("value"));
+            }
+            else if (txt.val() != txt.data("value")) {
+                Global.post("/Orders/UpdateOrderGoodsQuantity", {
+                    orderid: _self.orderid,
+                    autoid: txt.data("id"),
+                    quantity: txt.val(),
+                    oldQuantity: txt.data("value"),
+                    remark: txt.data("remark")
+                }, function (data) {
+                    if (!data.status) {
+                        alert("操作失败,请检查订单状态", 2, location.href);
+                    } else {
+                        span.html(txt.val());
+                        _self.getAmount();
+                    }
+                });
+            }
+            span.show();
+            txt.hide();
+           
+        });
     }
 
     //加载缓存

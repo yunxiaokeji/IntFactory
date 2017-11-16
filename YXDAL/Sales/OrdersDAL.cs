@@ -823,6 +823,17 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderAttrName", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderGoodsQuantity(string orderid, int autoid, decimal quantity)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@AutoID",autoid),
+                                     new SqlParameter("@Quantity" , quantity)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderGoodsQuantity", paras, CommandType.StoredProcedure) > 0;
+        }
+
         #endregion
 
         #region OrderPriceRange

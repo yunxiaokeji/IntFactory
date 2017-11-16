@@ -281,7 +281,13 @@
         <table class="table-list mTop20">
             <tr class="tr-header">
                 <td class="tLeft width200">规格</td>
-                <td class="width200">下单数量</td>
+                <td class="width200">
+                    下单数量
+                    @if (model.IsSelf && model.OrderStatus < 2 &&ExpandClass.IsExistMenu("102019002"))
+                    {
+                        <span>(点击编辑)</span>
+                    }
+                </td>
                 <td class="width200">@(modules.Where(m => m.Mark == 13).FirstOrDefault().Name)数量</td>
                 <td class="width200">@(modules.Where(m => m.Mark == 14).FirstOrDefault().Name)数量</td>
                 <td class="width200">@(modules.Where(m => m.Mark == 15).FirstOrDefault().Name)数量</td>
@@ -295,7 +301,13 @@
                 { 
                 <tr class="item cart-item" >
                     <td>@(detail.YRemark+detail.XRemark)</td>
-                    <td class="center good1">@(detail.Quantity)</td>
+                    <td class="center update-quantity-td">
+                        @if (model.IsSelf && model.OrderStatus < 2 &&ExpandClass.IsExistMenu("102019002"))
+                        {
+                            <input type="text" data-remark="@(detail.YRemark+detail.XRemark)" data-id="@detail.AutoID" data-value="@(detail.Quantity)" class="hide center" value="@(detail.Quantity)" />
+                        }
+                        <span class="good1"> @(detail.Quantity)</span>
+                    </td>
                     <td class="center good2">@(detail.CutQuantity)</td>
                     <td class="center good3">@(detail.Complete)</td>
                     <td class="center good4">@(detail.SendQuantity)</td>

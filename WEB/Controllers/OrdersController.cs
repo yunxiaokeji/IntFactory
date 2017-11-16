@@ -1032,7 +1032,19 @@ namespace YXERP.Controllers
 
         public JsonResult UpdateOrderAttrName(string orderid, string orderAttrID, string name, int type)
         {
-            var status = IntFactoryBusiness.OrdersBusiness.BaseBusiness.UpdateOrderAttrName(orderid, orderAttrID, name, type);
+            var status = IntFactoryBusiness.OrdersBusiness.BaseBusiness.UpdateOrderAttrName(orderid, orderAttrID, name, type, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", status);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderGoodsQuantity(string orderid, int autoid, decimal quantity, string remark, decimal oldQuantity)
+        {
+            var status = IntFactoryBusiness.OrdersBusiness.BaseBusiness.UpdateOrderGoodsQuantity(orderid, autoid, quantity, remark, oldQuantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", status);
 
             return new JsonResult
