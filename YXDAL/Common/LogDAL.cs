@@ -94,15 +94,16 @@ namespace IntFactoryDAL
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });
         }
 
-        public static Task<bool> AddLog(string tablename, string Logguid, string remark, string userid, string operateip, string guid,  string clientid)
+        public static Task<bool> AddLog(string tablename, string Logguid, string remark, string userid, string operateip, string guid, string clientid, int subject)
         {
-            string sqlText = "insert into " + tablename + "(LogGUID,Remark,CreateUserID,OperateIP,GUID,ClientID) values(@LogGUID,@Remark,@CreateUserID,@OperateIP,@GUID,@ClientID)";
+            string sqlText = "insert into " + tablename + "(LogGUID,Remark,CreateUserID,OperateIP,GUID,ClientID,SubjectType) values(@LogGUID,@Remark,@CreateUserID,@OperateIP,@GUID,@ClientID,@SubjectType)";
             SqlParameter[] paras = { 
                                      new SqlParameter("@LogGUID" , Logguid),
                                      new SqlParameter("@Remark" , remark),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@OperateIP" , operateip),
                                      new SqlParameter("@GUID" , guid),
+                                     new SqlParameter("@SubjectType" , subject),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
             return Task.Run(() => { return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0; });

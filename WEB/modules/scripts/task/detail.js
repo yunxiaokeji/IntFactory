@@ -313,9 +313,17 @@
                 if (!ObjectJS.isLoading) {
                     return;
                 }
-                ObjectJS.updateTaskEndTime();
+                ObjectJS.updateTaskEndTime(false);
             });
         }
+
+        //修改任务到期时间
+        $("#updateTaskEndTime").click(function () {
+            if (!ObjectJS.isLoading) {
+                return;
+            }
+            ObjectJS.updateTaskEndTime(true);
+        });
 
         //锁定任务
         if ($("#LockTask").length == 1) {
@@ -368,7 +376,7 @@
     }
 
     //更改任务到期时间
-    ObjectJS.updateTaskEndTime = function () {
+    ObjectJS.updateTaskEndTime = function (isUpdate) {
         if (ObjectJS.maxHours == 0) {
             Easydialog = require("easydialog");
 
@@ -377,7 +385,7 @@
                 Easydialog.open({
                     container: {
                         id: "show-model-setRole",
-                        header: "设置任务到期时间",
+                        header: isUpdate?"编辑任务到期时间":"设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
                             if ($("#UpdateTaskEndTime").val() == "") {
@@ -387,9 +395,11 @@
                             var planTime = new Date(ObjectJS.planTime).getTime();
                             var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
                             if (planTime < endTime) {
-                                confirm("到期时间超过订单交货日期,确定设置?", function () { ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val()) });
+                                confirm("到期时间超过订单交货日期,确定设置?", function () {
+                                    ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val(), $("#iptEndTimeReason").val(), isUpdate)
+                                });
                             } else {
-                                ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val());
+                                ObjectJS.updateTaskEndTimeAjax($("#UpdateTaskEndTime").val(), $("#iptEndTimeReason").val(), isUpdate);
                             }
                         }
                     }
@@ -407,22 +417,29 @@
                     istoday: false
                 };
                 laydate(taskEndTime);
+
+                if (isUpdate) {
+                    $("#isUpdate").show();
+                    $("#UpdateTaskEndTime").val(ObjectJS.endTime);
+                }
             });
         }
         else {
-            ObjectJS.updateTaskEndTimeAjax('');
+            ObjectJS.updateTaskEndTimeAjax('', '', true);
         }
     }
 
-    ObjectJS.updateTaskEndTimeAjax = function (endTime) {
+    ObjectJS.updateTaskEndTimeAjax = function (endTime, remark, isUpdate) {
         Global.post("/Task/UpdateTaskEndTime", {
             id: ObjectJS.taskid,
-            endTime: endTime
+            endTime: endTime,
+            remark: remark,
+            isUpdate: isUpdate
         }, function (data) {
             if (data.result == 0) {
                 alert("操作无效");
             } else if (data.result == 2) {
-                alert("任务已接受,不能操作");
+                alert("任务已完成,不能操作");
             } else if (data.result == 3) {
                 alert("没有权限操作");
             } else if (data.result == 9) {

@@ -86,6 +86,10 @@
                 <li>
                     <span class="column-title">到期时间：</span>
                     <span>@(task.EndTime.ToString("yyyy-MM-dd") == "0001-01-01" ? "未设置" : task.EndTime.ToString("yyyy-MM-dd HH:mm:ss"))</span>
+                    @if (task.FinishStatus == 1 && task.Status == 1 && taskModel.IsTaskOwner)
+                    {
+                        <div id="updateTaskEndTime" style="font-size:16px;" class="ico-edit iconfont mLeft20"></div>
+                    }
                 </li>
                 <li>
                     <span class="column-title">完成时间：</span>

@@ -1045,13 +1045,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdatePlanTime(string orderid, string planTime, string operateid, string ip, string clientid)
+        public bool UpdatePlanTime(string orderid, string planTime, string remark, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderPlanTime(orderid, planTime, operateid, clientid);
             if (bl)
             {
                 string msg = "交货日期修改为：" + planTime;
-                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+                if (!string.IsNullOrEmpty(remark))
+                {
+                    msg += ",原因：" + remark;
+                }
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid, EnumLogSubject.OrderPlanTime);
             }
             return bl;
         }

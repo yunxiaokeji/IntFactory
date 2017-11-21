@@ -61,4 +61,23 @@ namespace IntFactoryEnum
         Brand = 1,
         ProductUnit
     }
+
+    public enum EnumLogSubject
+    {
+        All = -1,
+
+        Other = 0,
+
+        #region 订单
+
+        OrderPlanTime = 101,
+
+        #endregion
+
+        #region 任务
+
+        TaskEndTime = 201
+
+        #endregion
+    }
 }

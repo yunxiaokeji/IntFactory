@@ -127,7 +127,7 @@ namespace IntFactoryBusiness
         /// <summary>
         /// 记录日志
         /// </summary>
-        public static async void AddLog(string logguid, EnumLogObjectType type, string remark, string userid, string operateip, string guid, string clientid)
+        public static async void AddLog(string logguid, EnumLogObjectType type, string remark, string userid, string operateip, string guid, string clientid, EnumLogSubject subject = EnumLogSubject.Other)
         {
             string tablename = "OperateLog";
             switch (type)
@@ -145,7 +145,7 @@ namespace IntFactoryBusiness
                     tablename = "OperateLog";
                     break;
             }
-            await LogDAL.AddLog(tablename, logguid, remark, userid, operateip, guid, clientid);
+            await LogDAL.AddLog(tablename, logguid, remark, userid, operateip, guid, clientid, (int)subject);
         }
 
         public static async void AddActionLog(EnumSystemType systemtype, EnumLogObjectType objecttype, EnumLogType actiontype, string operateip, string userid, string clientid)

@@ -369,14 +369,26 @@ namespace IntFactoryBusiness
         /// <param name="taskID"></param>
         /// <param name="endTime"></param>
         /// <returns></returns>
-        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime, string operateid, string ip, string clientid, out int result)
+        public static bool UpdateTaskEndTime(string taskID, DateTime? endTime, string remark, bool isUpdate, string operateid, string ip, string clientid, out int result)
         {
             bool flag = TaskDAL.BaseProvider.UpdateTaskEndTime(taskID, endTime, operateid,out result);
             if (flag)
             {
-                string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
-                LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
-                LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
+                if (!isUpdate)
+                {
+                    string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
+                    LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
+                    LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
+                }
+                else
+                {
+                    string msg = "将任务截至日期修改为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
+                    if (!string.IsNullOrEmpty(remark))
+                    {
+                        msg += ",原因：" + remark;
+                    }
+                    LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid, EnumLogSubject.TaskEndTime);
+                }
             }
 
             return flag;

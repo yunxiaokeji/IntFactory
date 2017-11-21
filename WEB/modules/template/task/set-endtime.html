@@ -1,5 +1,13 @@
-﻿<div class="pTop10 pBottom5">
-    <span class="width80" style="display:inline-block;">到期时间:</span>
-    <input  readonly="true"  style="width:180px;" type="text" class="taskEndTime hand" id="UpdateTaskEndTime" placeholder="设置到期时间"/>
-    <div class="red pTop10">*任务设置到期时间后不可更改</div>
-</div>
+﻿
+<ul class="easydialog-create">
+    <li>
+        <span class="width80">到期时间：</span>
+        <input  readonly="true"  style="width:180px;" type="text" class="taskEndTime hand" id="UpdateTaskEndTime" placeholder="设置到期时间"/>
+    </li>
+    <li class="hide" id="isUpdate">
+        <span class="width80">调整原因：</span>
+        <span>
+            <textarea id="iptEndTimeReason" ></textarea>
+        </span>
+    </li>
+</ul>

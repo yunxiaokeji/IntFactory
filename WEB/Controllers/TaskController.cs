@@ -271,13 +271,12 @@ namespace YXERP.Controllers
         }
 
         //设置任务到期时间
-        public JsonResult UpdateTaskEndTime(string id, string endTime)
+        public JsonResult UpdateTaskEndTime(string id, string endTime, string remark, bool isUpdate)
         {
             int result = 0;
             DateTime? endDate = null;
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
-            TaskBusiness.UpdateTaskEndTime(id, endDate, CurrentUser.UserID, 
-                Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
+            TaskBusiness.UpdateTaskEndTime(id, endDate, remark, isUpdate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult

@@ -305,7 +305,7 @@ namespace YXERP.Areas.Api.Controllers
             if (!string.IsNullOrEmpty(endTime)) endDate = DateTime.Parse(endTime);
             CurrentUser = OrganizationBusiness.GetUserByUserID(userID, clientID);
 
-            TaskBusiness.UpdateTaskEndTime(taskID, endDate, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
+            TaskBusiness.UpdateTaskEndTime(taskID, endDate, "", false, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
             JsonDictionary.Add("result", result);
 
             return new JsonResult

@@ -2180,7 +2180,8 @@
                         }
                         Global.post("/Orders/UpdateOrderPlanTime", {
                             orderid: _self.orderid,
-                            time: time ? time : ""
+                            time: time ? time : "",
+                            remark: $("#iptOrderPlanTimeReason").val().trim()
                         }, function (data) {
                             if (!data.status) {
                                 alert("操作失败,请检查订单状态", 2, location.href);

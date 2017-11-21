@@ -233,7 +233,7 @@ namespace IntFactoryDAL
         {
             result = 0;
             SqlParameter[] paras = { 
-                                       new SqlParameter("@Result",result),
+                                     new SqlParameter("@Result",result),
                                      new SqlParameter("@TaskID",taskID),
                                      new SqlParameter("@UserID",userID),
                                      new SqlParameter("@EndTime",endTime)
