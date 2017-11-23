@@ -251,12 +251,7 @@ namespace YXERP.Controllers
 
             ViewBag.Model = model;
             return View();
-        }
-
-        public ActionResult UserLoadReport()
-        {
-            return View();
-        }
+        }       
 
         #region Ajax
 

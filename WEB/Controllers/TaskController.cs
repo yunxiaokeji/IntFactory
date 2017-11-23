@@ -16,7 +16,7 @@ namespace YXERP.Controllers
 {
     public class TaskController : BaseController
     {
-        #region view
+
         public ActionResult Detail(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -153,7 +153,11 @@ namespace YXERP.Controllers
 
             return View("MyTask");
         }
-        #endregion
+
+        public ActionResult UserLoadReport()
+        {
+            return View();
+        }
 
         #region ajax
         //获取任务列表

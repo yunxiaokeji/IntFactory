@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "员工统计分析";
+}
+ <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/report/userworkload"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">员工统计分析</span>
+</div>
+<div class="content-body pBottom50">
+    <div class="search-items">
+        <div class="left mRight20" id="chooseBranch"></div>
+        <div class="left">
+            <input type="text" id="iptCreateTime" placeholder="统计日期"  class="ipt-date"  />
+        </div>
+    </div>
+    <table id="userTotalRPT" class="table-list-rpt">
+        <tr class="tr-header">
+            <td class="tLeft" style="width:10%;">员工</td>
+            <td style="width:10%;">总工量</td>
+            <td style="width:10%;">裁片（织机）</td>
+            <td style="width:10%;">车缝（缝盘）</td>
+            <td style="width:10%;">车缝（缝盘）退回</td>
+            <td style="width:10%;">总任务数</td>
+            <td style="width:10%;">已完成</td>
+            <td style="width:10%;">超期总数</td>
+            <td style="width:10%;">超期已完成</td>
+            <td style="width:10%;">超期未完成</td>
+        </tr>
+    </table>
+</div>
+
