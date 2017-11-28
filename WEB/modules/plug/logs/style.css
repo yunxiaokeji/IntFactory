@@ -1,4 +1,5 @@
 ﻿/*日志样式*/
+
 .log-body { width:99%; margin:0 10px; }
 .log-body .log-item {width:99%; line-height:30px; overflow-y:auto; border-bottom:dashed 1px #eee; margin-top:10px; }
 .log-body .createuser { vertical-align:middle; }

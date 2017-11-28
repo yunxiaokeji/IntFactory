@@ -1,4 +1,16 @@
-﻿<div class="log-body">
+﻿{%
+	var item = $data;
+%}
+<ul class="search-item select-log-subject mLeft20">
+    <li class="column-name">日志类型：</li>
+    <li data-id="-1" class="item hover">全部</li>
+    {%if(item.type==10){ %}
+        <li data-id="201" class="item">到期日期</li>
+    {% } else if(item.type==2){%}
+        <li data-id="101" class="item">交货日期</li>
+    {%}%}
+</ul>
+<div class="log-body">
 
 </div>
 <div class="log-pager mTop10">

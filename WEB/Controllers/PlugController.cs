@@ -366,12 +366,12 @@ namespace YXERP.Controllers
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        public JsonResult GetObjectLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex)
+        public JsonResult GetObjectLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex, EnumLogSubject subject = EnumLogSubject.All)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = LogBusiness.GetLogs(guid, type, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            var list = LogBusiness.GetLogs(guid, type, subject, pageSize, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
 
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);

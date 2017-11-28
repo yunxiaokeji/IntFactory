@@ -2178,6 +2178,10 @@
                             alert("请确认交货日期！", 2);
                             return false;
                         }
+                        if (!$("#iptOrderPlanTimeReason").val()) {
+                            alert("调整原因不能为空", 2);
+                            return false;
+                        }
                         Global.post("/Orders/UpdateOrderPlanTime", {
                             orderid: _self.orderid,
                             time: time ? time : "",

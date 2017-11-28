@@ -392,6 +392,10 @@
                                 alert("任务到期时间不能为空", 2);
                                 return false;
                             }
+                            if (isUpdate && !$("#iptEndTimeReason").val()) {
+                                alert("调整原因不能为空", 2);
+                                return false;
+                            }
                             var planTime = new Date(ObjectJS.planTime).getTime();
                             var endTime = new Date($("#UpdateTaskEndTime").val()).getTime();
                             if (planTime < endTime) {

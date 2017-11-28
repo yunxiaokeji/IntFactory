@@ -24,17 +24,34 @@ define(function (require, exports, module) {
         $.fn.getObjectLogs.defaults = {
             guid: "",
             type: 1, /*1 客户 2订单 10任务 */
+            subject: -1,
             pageSize: 10
         };
 
         $.fn.drawObjectLogs = function (obj, opts) {
             obj.empty();
             doT.exec("plug/logs/logs.html", function (template) {
-                var innerhtml = template([]);
+                var innerhtml = template(opts);
                 innerhtml = $(innerhtml);
                 obj.append(innerhtml);
                 opts.pageIndex = 1;
                 $.fn.drawLogsItems(obj, opts);
+
+
+                if (opts.type != 2 && opts.type != 10) {
+                    $(".select-log-subject").hide();
+                } else {
+                    $(".select-log-subject .item").click(function () {
+                        var _this = $(this);
+                        if (!_this.hasClass("hover")) {
+                            _this.siblings().removeClass("hover");
+                            _this.addClass("hover");
+                            opts.pageIndex = 1;
+                            opts.subject = _this.data("id");
+                            $.fn.drawLogsItems(obj, opts);
+                        }
+                    });
+                }
             });
         }
 

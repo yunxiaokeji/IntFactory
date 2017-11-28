@@ -62,7 +62,7 @@ namespace IntFactoryBusiness
         /// 获取日志
         /// </summary>
         /// <returns></returns>
-        public static List<LogEntity> GetLogs(string guid, EnumLogObjectType type, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
+        public static List<LogEntity> GetLogs(string guid, EnumLogObjectType type,EnumLogSubject subject, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
         {
             string tablename = "";
             switch (type)
@@ -78,7 +78,13 @@ namespace IntFactoryBusiness
                     break;
             }
 
-            DataTable dt = CommonBusiness.GetPagerData(tablename, "*", "LogGUID='" + guid + "'", "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
+            var where = "LogGUID='" + guid + "'";
+            if (subject != EnumLogSubject.All) 
+            {
+                where += " and SubjectType=" + (int)subject;
+            }
+
+            DataTable dt = CommonBusiness.GetPagerData(tablename, "*", where, "AutoID", pageSize, pageIndex, out totalCount, out pageCount);
 
             List<LogEntity> list = new List<LogEntity>();
             foreach (DataRow dr in dt.Rows)

@@ -275,7 +275,7 @@ namespace YXERP.Controllers
         }
 
         //设置任务到期时间
-        public JsonResult UpdateTaskEndTime(string id, string endTime, string remark, bool isUpdate)
+        public JsonResult UpdateTaskEndTime(string id, string endTime, string remark = "", bool isUpdate = false)
         {
             int result = 0;
             DateTime? endDate = null;

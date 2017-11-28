@@ -376,13 +376,13 @@ namespace IntFactoryBusiness
             {
                 if (!isUpdate)
                 {
-                    string msg = "将任务截至日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
+                    string msg = "将任务到期日期设为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
                     LogBusiness.AddLog(taskID, EnumLogObjectType.OrderTask, msg, operateid, ip, "", clientid);
                     LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderTask, EnumLogType.Update, "", operateid, clientid);
                 }
                 else
                 {
-                    string msg = "将任务截至日期修改为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
+                    string msg = "将任务到期日期修改为：" + (endTime == null ? "未指定日期" : endTime.Value.Date.ToString("yyyy-MM-dd"));
                     if (!string.IsNullOrEmpty(remark))
                     {
                         msg += ",原因：" + remark;

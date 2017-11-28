@@ -251,7 +251,7 @@
                         header: "设置任务到期时间",
                         content: innerHtml,
                         yesFn: function () {
-                            var  endTime=$("#UpdateTaskEndTime").val();
+                            var endTime = $("#UpdateTaskEndTime").val();
                             if (endTime == "") {
                                 alert("任务到期时间不能为空", 2);
                                 return

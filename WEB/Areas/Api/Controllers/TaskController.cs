@@ -216,7 +216,7 @@ namespace YXERP.Areas.Api.Controllers
             {
                 int totalCount = 0;
                 int pageCount = 0;
-                var list = LogBusiness.GetLogs(taskID, EnumLogObjectType.OrderTask, PageSize, pageindex, ref totalCount, ref pageCount, clientID);
+                var list = LogBusiness.GetLogs(taskID, EnumLogObjectType.OrderTask, EnumLogSubject.All, PageSize, pageindex, ref totalCount, ref pageCount, clientID);
 
                 List<Dictionary<string, object>> logs = new List<Dictionary<string, object>>();
                 foreach (var item in list)
