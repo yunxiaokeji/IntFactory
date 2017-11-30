@@ -154,11 +154,6 @@ namespace YXERP.Controllers
             return View("MyTask");
         }
 
-        public ActionResult UserLoadReport()
-        {
-            return View();
-        }
-
         #region ajax
         //获取任务列表
         public JsonResult GetTasks(string keyWords, int filterType, string userID, int taskType, int colorMark, 

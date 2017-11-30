@@ -157,13 +157,13 @@
     <Compile Include="Controllers\PlugController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageOutController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
-    <Compile Include="Controllers\UserReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -554,6 +554,7 @@
     <Content Include="modules\plug\choosemenu\choosemenu.js" />
     <Content Include="modules\scripts\orders\goods.js" />
     <Content Include="modules\scripts\report\userworkload.js" />
+    <Content Include="modules\scripts\report\usertaskreport.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\orders\updateOrderPlanTime.html" />
@@ -787,6 +788,7 @@
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
     <Content Include="modules\template\report\user-workload.html" />
+    <Content Include="modules\template\report\user-taskquantity.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
@@ -1338,9 +1340,11 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Task\UserLoadReport.cshtml" />
+    <Content Include="Views\Report\UserTaskReport.cshtml" />
     <Content Include="Views\Orders\GoodsSetting.cshtml" />
     <Content Include="Views\Home\Authorize.cshtml" />
+    <Content Include="Views\Report\MyWorkReport.cshtml" />
+    <Content Include="Views\Report\UserLoadReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
