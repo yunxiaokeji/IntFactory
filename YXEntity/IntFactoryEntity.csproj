@@ -72,6 +72,7 @@
     <Compile Include="Manage\Report\ClientsDateEntity.cs" />
     <Compile Include="Open\ApiDetailEntity.cs" />
     <Compile Include="Open\ApiModuleEntity.cs" />
+    <Compile Include="Report\OrderProductionRptEntity.cs" />
     <Compile Include="Report\UserWorkLoadRptEntity.cs" />
     <Compile Include="Report\UserTaskQuantityRptEntity.cs" />
     <Compile Include="Sales\GoodsEntity.cs" />

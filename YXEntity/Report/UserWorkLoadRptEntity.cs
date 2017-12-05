@@ -17,15 +17,7 @@ namespace IntFactoryEntity
 
         public int SewnReturn { get; set; }
 
-        public int TotalQuantity { get; set; }
-
-        public int TaskQuantity { get; set; }
-
-        public int OverQuantity { get; set; }
-
-        public int ExpiredQuantity { get; set; }
-
-        public int ExpiredOver { get; set; }
+        public int DocType { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

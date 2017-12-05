@@ -9,7 +9,6 @@ define(function (require, exports, module) {
     var Params = {
         beginTime: Date.now().toString().toDate("yyyy-MM-01"),
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
-        docType: 1,
         UserID: "",
         TeamID: ""
     };
@@ -17,9 +16,9 @@ define(function (require, exports, module) {
     var ObjectJS = {};
 
     //列表页初始化
-    ObjectJS.init = function (docType) {
+    ObjectJS.init = function () {
         var _self = this;
-        Params.docType = docType;
+
         _self.getList();
         _self.bindEvent();
     }
@@ -49,7 +48,7 @@ define(function (require, exports, module) {
 
         require.async("choosebranch", function () {
             $("#chooseBranch").chooseBranch({
-                prevText: "人员-",
+                prevText: "负责人-",
                 defaultText: "全部",
                 defaultValue: "",
                 userid: "-1",
@@ -62,26 +61,33 @@ define(function (require, exports, module) {
                 }
             });
         });
+
+        //关键字搜索
+        require.async("search", function () {
+            $(".searth-module").searchKeys(function (keyWords) {
+                Params.keyWords = keyWords;
+                _self.getList();
+            });
+        });
     }
 
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
         $("#userTotalRPT .tr-header").nextAll().remove();
-        $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
-        Global.post("/Report/GetUserWorkLoad", Params, function (data) {
+        $("#userTotalRPT .tr-header").after("<tr><td colspan='20'><div class='data-loading'><div></td></tr>");
+        Global.post("/Report/GetOrderProductionRPT", Params, function (data) {
 
             $("#userTotalRPT .tr-header").nextAll().remove();
 
             if (data.items.length > 0) {
-                doT.exec("template/report/user-workload.html", function (templateFun) {
+                doT.exec("template/report/orderproduction.html", function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
-
                     $("#userTotalRPT .tr-header").after(innerText);
                 });
             } else {
-                $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $("#userTotalRPT .tr-header").after("<tr><td colspan='208'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
     }

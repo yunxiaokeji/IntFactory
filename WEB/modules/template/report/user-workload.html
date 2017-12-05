@@ -3,15 +3,13 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td>{%=item.UserName%}</td>
-    <td class="center">{%=item.TotalQuantity%}</td>
-    <td class="center">{%=item.CutQuantity%}</td>
-    <td class="center">{%=item.SewnQuantity%}</td>
-    <td class="center">{%=item.SewnReturn%}</td>
-    <td class="center">{%=item.TaskQuantity%}</td>
-    <td class="center">{%=item.OverQuantity%}</td>
-    <td class="center">{%=item.ExpiredQuantity%}</td>
-    <td class="center">{%=item.ExpiredOver%}</td>
-    <td class="center">{%=item.ExpiredQuantity-item.ExpiredOver%}</td>
+    <td>{%=item.UserName%}{%=item.DocType%}</td>
+    {%if(item.DocType==1){%}
+        <td class="center">{%=item.CutQuantity%}</td>
+    {% }else if(item.DocType==11){%}
+        <td class="center">{%=item.SewnQuantity%}</td>
+        <td class="center">{%=item.SewnReturn%}</td>
+    {% }%}
+
 </tr>
 {% } %}

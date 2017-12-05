@@ -22,7 +22,19 @@ namespace YXERP.Controllers
             return View();
         }
 
-        public ActionResult UserLoadReport()
+        public ActionResult UserCutReport()
+        {
+            ViewBag.Type = 1;
+            return View("UserLoadReport");
+        }
+
+        public ActionResult UserSewnReport()
+        {
+            ViewBag.Type = 11;
+            return View("UserLoadReport");
+        }
+
+        public ActionResult OrderProductionRPT()
         {
             return View();
         }
@@ -43,9 +55,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetUserWorkLoad(string beginTime, string endTime, string UserID, string TeamID)
+        public JsonResult GetUserWorkLoad(string beginTime, string endTime, int docType, string UserID, string TeamID)
         {
-            var list = TaskRPTBusiness.BaseBusiness.GetUserLoadReport(beginTime, endTime, UserID, TeamID, CurrentUser.ClientID);
+            var list = TaskRPTBusiness.BaseBusiness.GetUserLoadReport(beginTime, endTime, docType, UserID, TeamID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {
@@ -55,5 +67,22 @@ namespace YXERP.Controllers
         }
 
         #endregion
+
+        #region 订单统计
+
+        /// <summary>
+        /// 订单生产数据统计
+        /// </summary>
+        public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords,string UserID, string TeamID)
+        {
+            var list = TaskRPTBusiness.BaseBusiness.GetOrderProductionRPT(beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        #endregion 
     }
 }
