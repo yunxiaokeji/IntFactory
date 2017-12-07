@@ -46,58 +46,25 @@ define(function (require, exports, module) {
 
         $("#iptCreateTime").val(Params.beginTime + ' 至 ' + Params.endTime);
 
-        require.async("choosebranch", function () {
-            $("#chooseBranch").chooseBranch({
-                prevText: "负责人-",
-                defaultText: "全部",
-                defaultValue: "",
-                userid: "-1",
-                isTeam: true,
-                width: "170",
-                onChange: function (data) {
-                    Params.UserID = data.userid;
-                    Params.TeamID = data.teamid;
-                    _self.getList();
-                }
-            });
-        });
-
-        //关键字搜索
-        require.async("search", function () {
-            $(".searth-module").searchKeys(function (keyWords) {
-                Params.keyWords = keyWords;
-                _self.getList();
-            });
-        });
     }
 
     //获取列表
     ObjectJS.getList = function () {
         var _self = this;
         $("#userTotalRPT .tr-header").nextAll().remove();
-        $("#userTotalRPT .tr-header").after("<tr><td colspan='20'><div class='data-loading'><div></td></tr>");
-        Global.post("/Report/GetOrderProductionRPT", Params, function (data) {
+        $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
+        Global.post("/Report/GetCustomerRateRPT", Params, function (data) {
 
             $("#userTotalRPT .tr-header").nextAll().remove();
 
             if (data.items.length > 0) {
-                doT.exec("template/report/orderproduction.html", function (templateFun) {
+                doT.exec("template/report/customerrate.html", function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
                     $("#userTotalRPT .tr-header").after(innerText);
-
-                    $(".total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            innerText.find("." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total.toFixed(0));
-                        }
-                    });
                 });
             } else {
-                $("#userTotalRPT .tr-header").after("<tr><td colspan='208'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
     }

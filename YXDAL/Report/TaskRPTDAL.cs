@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace IntFactoryDAL
 {
-    public class TaskRPTDAL : BaseDAL
+    public class RPTDAL : BaseDAL
     {
-        public static TaskRPTDAL BaseProvider = new TaskRPTDAL();
+        public static RPTDAL BaseProvider = new RPTDAL();
 
         public DataTable GetUserTaskQuantity(string begintime, string endtime, string UserID, string TeamID, string clientid)
         {
@@ -50,6 +50,18 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientid)
                                    };
             DataTable dt = GetDataTable("R_GetOrderProductionRPT", paras, CommandType.StoredProcedure);
+            return dt;
+        }
+
+        public DataTable GetCustomerRateRPT(string begintime, string endtime, string keyWords, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@BeginTime",begintime),
+                                       new SqlParameter("@EndTime",endtime),
+                                       new SqlParameter("@KeyWords",keyWords),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            DataTable dt = GetDataTable("R_GetCustomerRateRPT", paras, CommandType.StoredProcedure);
             return dt;
         }
     }

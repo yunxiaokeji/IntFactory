@@ -39,6 +39,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult CustomerRateRPT()
+        {
+            return View();
+        }
+
         #region 任务统计
 
         /// <summary>
@@ -76,6 +81,23 @@ namespace YXERP.Controllers
         public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords,string UserID, string TeamID)
         {
             var list = TaskRPTBusiness.BaseBusiness.GetOrderProductionRPT(beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        #endregion 
+
+        #region 客户统计
+
+        /// <summary>
+        /// 客户转化率统计
+        /// </summary>
+        public JsonResult GetCustomerRateRPT(string beginTime, string endTime, string keyWords)
+        {
+            var list = TaskRPTBusiness.BaseBusiness.GetCustomerRateRPT(beginTime, endTime, keyWords, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {

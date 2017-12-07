@@ -75,6 +75,7 @@
     <Compile Include="Report\OrderProductionRptEntity.cs" />
     <Compile Include="Report\UserWorkLoadRptEntity.cs" />
     <Compile Include="Report\UserTaskQuantityRptEntity.cs" />
+    <Compile Include="Report\CustomerRateRptEntity.cs" />
     <Compile Include="Sales\GoodsEntity.cs" />
     <Compile Include="Sales\OrderCostEntity.cs" />
     <Compile Include="Sales\OrderEntity.cs" />

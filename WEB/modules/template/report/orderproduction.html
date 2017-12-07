@@ -3,15 +3,25 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td>{%=item.IntGoodsCode%}</td>
-    <td>{%=item.UserName%}</td>
-    <td>{%=item.CustomerName%}</td>
-    <td class="center">{%=item.OrderQuantity%}</td>
-    <td class="center">{%=item.CutQuantity%}</td>
-    <td class="center">{%=item.Complete%}</td>
-    <td class="center">{%=item.SendQuantity%}</td>
-    <td class="center">{%=item.OrderQuantity-item.SendQuantity%}</td>
+    <td class="">{%=item.IntGoodsCode%}</td>
+    <td class="">{%=item.UserName%}</td>
+    <td class="">{%=item.CustomerName%}</td>
+    <td class="center c1">{%=item.OrderQuantity%}</td>
+    <td class="center c2">{%=item.CutQuantity%}</td>
+    <td class="center c3">{%=item.Complete%}</td>
+    <td class="center c4">{%=item.SendQuantity%}</td>
+    <td class="center c5">{%=item.Complete-item.SendQuantity%}</td>
     <td class="center">{%=item.FinalPrice%}</td>
-    <td class="center">{%=item.FinalPrice*item.OrderQuantity%}</td>
+    <td class="center c6">{%=item.FinalPrice*item.SendQuantity%}</td>
 </tr>
 {% } %}
+<tr class="total-item">
+    <td class="center" colspan="3">合计：</td>
+    <td class="center" data-class="c1"></td>
+    <td class="center" data-class="c2"></td>
+    <td class="center" data-class="c3"></td>
+    <td class="center" data-class="c4"></td>
+    <td class="center" data-class="c5"></td>
+    <td class=""></td>
+    <td class="center" data-class="c6"></td>
+</tr>

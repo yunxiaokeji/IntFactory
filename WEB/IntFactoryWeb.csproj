@@ -556,6 +556,7 @@
     <Content Include="modules\scripts\report\userworkload.js" />
     <Content Include="modules\scripts\report\usertaskreport.js" />
     <Content Include="modules\scripts\report\orderproductionreport.js" />
+    <Content Include="modules\scripts\report\customerraterpt.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\orders\updateOrderPlanTime.html" />
@@ -791,6 +792,7 @@
     <Content Include="modules\template\report\user-workload.html" />
     <Content Include="modules\template\report\user-taskquantity.html" />
     <Content Include="modules\template\report\orderproduction.html" />
+    <Content Include="modules\template\report\customerrate.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess.html" />
     <Content Include="modules\template\system\orderstage-detail.html" />
@@ -1348,6 +1350,7 @@
     <Content Include="Views\Report\MyWorkReport.cshtml" />
     <Content Include="Views\Report\UserLoadReport.cshtml" />
     <Content Include="Views\Report\OrderProductionRPT.cshtml" />
+    <Content Include="Views\Report\CustomerRateRPT.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

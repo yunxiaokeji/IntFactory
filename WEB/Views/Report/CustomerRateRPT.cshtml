@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "客户需求单转化率";
+}
+
+ <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+@section scripts{
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/report/customerraterpt.js"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">客户需求单转化率</span>
+</div>
+<div class="content-body pBottom50">
+    <div class="search-items">
+        <div class="left">
+            <input type="text" id="iptCreateTime" placeholder="统计日期"  class="ipt-date"  />
+        </div>
+    </div>
+    <table id="userTotalRPT" class="table-list-rpt">
+        <tr class="tr-header">
+            <td class="tLeft" style="width:10%;">客户</td>
+            <td style="width:10%;">需求数</td>
+            <td style="width:10%;">打样数</td>
+            <td style="width:10%;">大货数</td>
+            <td style="width:10%;">打样转化率</td>
+            <td style="width:10%;">大货转化率</td>
+        </tr>
+    </table>
+</div>

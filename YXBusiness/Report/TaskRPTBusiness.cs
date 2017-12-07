@@ -33,7 +33,7 @@ namespace IntFactoryBusiness
             {
                 endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            DataTable dt = TaskRPTDAL.BaseProvider.GetUserTaskQuantity(begintime, endtime, userid, teamid, clientid);
+            DataTable dt = RPTDAL.BaseProvider.GetUserTaskQuantity(begintime, endtime, userid, teamid, clientid);
 
             List<UserTaskQuantityRptEntity> list = new List<UserTaskQuantityRptEntity>();
             foreach (DataRow dr in dt.Rows)
@@ -65,7 +65,7 @@ namespace IntFactoryBusiness
             {
                 endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            DataTable dt = TaskRPTDAL.BaseProvider.GetUserLoadReport(begintime, endtime, docType, userid, teamid, clientid);
+            DataTable dt = RPTDAL.BaseProvider.GetUserLoadReport(begintime, endtime, docType, userid, teamid, clientid);
 
             List<UserWorkLoadRptEntity> list = new List<UserWorkLoadRptEntity>();
             foreach (DataRow dr in dt.Rows)
@@ -97,7 +97,7 @@ namespace IntFactoryBusiness
             {
                 endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            DataTable dt = TaskRPTDAL.BaseProvider.GetOrderProductionRPT(begintime, endtime, keyWords, userid, teamid, clientid);
+            DataTable dt = RPTDAL.BaseProvider.GetOrderProductionRPT(begintime, endtime, keyWords, userid, teamid, clientid);
 
             List<OrderProductionRptEntity> list = new List<OrderProductionRptEntity>();
             foreach (DataRow dr in dt.Rows)
@@ -105,6 +105,37 @@ namespace IntFactoryBusiness
                 OrderProductionRptEntity model = new OrderProductionRptEntity();
                 model.FillData(dr);
                 model.UserName = OrganizationBusiness.GetUserCacheByUserID(model.OwnerID, clientid).Name;
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public List<CustomerRateRptEntity> GetCustomerRateRPT(string begintime, string endtime, string keyWords, string clientid)
+        {
+            if (string.IsNullOrEmpty(begintime))
+            {
+                begintime = "1990-1-1 00:00:00";
+            }
+            else
+            {
+                begintime = Convert.ToDateTime(begintime).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            if (string.IsNullOrEmpty(endtime))
+            {
+                endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            DataTable dt = RPTDAL.BaseProvider.GetCustomerRateRPT(begintime, endtime, keyWords, clientid);
+
+            List<CustomerRateRptEntity> list = new List<CustomerRateRptEntity>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CustomerRateRptEntity model = new CustomerRateRptEntity();
+                model.FillData(dr);
                 list.Add(model);
             }
             return list;
