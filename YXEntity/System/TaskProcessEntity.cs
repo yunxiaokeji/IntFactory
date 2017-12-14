@@ -38,7 +38,7 @@ namespace IntFactoryEntity
 		/// </summary>
         public string Name{ set; get; }
 
-        public string Desc { get; set; }
+        public string Description { get; set; }
 
 		/// <summary>
 		/// 

@@ -109,6 +109,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult TaskProcess()
+        {
+            return View();
+        }
+
         #region Ajax
 
         #region 客户颜色标记
@@ -717,6 +722,19 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetTaskProcessByID(string id)
+        {
+
+            var model = new SystemBusiness().GetTaskProcesssByID(id, CurrentUser.ClientID);
+
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult SaveTaskProcess(string entity)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -724,11 +742,11 @@ namespace YXERP.Controllers
 
             if (string.IsNullOrEmpty(model.ProcessID))
             {
-                model.ProcessID = new SystemBusiness().CreateTaskProcess(model.Name, model.Desc, CurrentUser.UserID, CurrentUser.ClientID);
+                model.ProcessID = new SystemBusiness().CreateTaskProcess(model.Name, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
             }
             else
             {
-                bool bl = new SystemBusiness().EditTaskProcess(model.ProcessID, model.Name, model.Desc, CurrentUser.UserID, CurrentUser.ClientID);
+                bool bl = new SystemBusiness().EditTaskProcess(model.ProcessID, model.Name, model.Description, CurrentUser.UserID, CurrentUser.ClientID);
                 if (!bl)
                 {
                     model.ProcessID = "";

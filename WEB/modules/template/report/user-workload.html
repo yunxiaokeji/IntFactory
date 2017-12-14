@@ -3,7 +3,7 @@
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td>{%=item.UserName%}{%=item.DocType%}</td>
+    <td>{%=item.UserName%}</td>
     {%if(item.DocType==1){%}
         <td class="center">{%=item.CutQuantity%}</td>
     {% }else if(item.DocType==11){%}

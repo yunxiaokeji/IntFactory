@@ -494,7 +494,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
-            return GetDataSet("select * from TaskProcess where ClientID=@ClientID and Status=1", paras, CommandType.Text);
+            return GetDataSet("select * from TaskProcess where ClientID=@ClientID and Status=1", paras, CommandType.Text, "Stages");
 
         }
 
@@ -510,12 +510,12 @@ namespace IntFactoryDAL
 
         public bool CreateTaskProcess(string processid, string name, string desc, string userid, string clientid)
         {
-            string sqlText = "insert into TaskProcess(ProcessID,Name,Desc,CreateUserID,ClientID) " +
-                                           " values(@ProcessID,@Name,@Desc,@CreateUserID,@ClientID) ";
+            string sqlText = "insert into TaskProcess(ProcessID,Name,Description,CreateUserID,ClientID) " +
+                                           " values(@ProcessID,@Name,@Description,@CreateUserID,@ClientID) ";
             SqlParameter[] paras = {
                                      new SqlParameter("@ProcessID" , processid),
                                      new SqlParameter("@Name" , name),
-                                     new SqlParameter("@Desc" , desc),
+                                     new SqlParameter("@Description" , desc),
                                      new SqlParameter("@CreateUserID" , userid),
                                      new SqlParameter("@ClientID" , clientid)
                                    };
@@ -524,12 +524,12 @@ namespace IntFactoryDAL
 
         public bool UpdateTaskProcess(string processid, string name, string desc)
         {
-            string sqltext = "update TaskProcess set Name=@Name,Desc=@Desc where ProcessID=@ProcessID";
+            string sqltext = "update TaskProcess set Name=@Name,Description=@Description where ProcessID=@ProcessID";
 
             SqlParameter[] paras = {
                                      new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@Name",name),
-                                     new SqlParameter("@Desc",desc)
+                                     new SqlParameter("@Description",desc)
                                    };
             bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
             return bl;
@@ -537,19 +537,27 @@ namespace IntFactoryDAL
 
         public bool DeleteTaskProcess(string processid, string clientid, ref int result)
         {
-            string sqltext = "P_DeleteTaskProcess";
+            string sqltext = "update TaskProcess set Status=9 where ProcessID=@ProcessID";
 
             SqlParameter[] paras = {
-                                    new SqlParameter("@Result",SqlDbType.Int),
-                                     new SqlParameter("@ProcessID",processid),
-                                     new SqlParameter("@ClientID",clientid)
+                                     new SqlParameter("@ProcessID",processid)
                                    };
-            paras[0].Value = result;
-            paras[0].Direction = ParameterDirection.InputOutput;
-            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
-            result = Convert.ToInt32(paras[0].Value);
-
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
             return bl;
+
+            //string sqltext = "P_DeleteTaskProcess";
+
+            //SqlParameter[] paras = {
+            //                        new SqlParameter("@Result",SqlDbType.Int),
+            //                         new SqlParameter("@ProcessID",processid),
+            //                         new SqlParameter("@ClientID",clientid)
+            //                       };
+            //paras[0].Value = result;
+            //paras[0].Direction = ParameterDirection.InputOutput;
+            //bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
+            //result = Convert.ToInt32(paras[0].Value);
+
+            //return bl;
         }
 
         #endregion
