@@ -702,5 +702,58 @@ namespace YXERP.Controllers
 
         #endregion
 
+        #region 任务工序
+
+        public JsonResult GetTaskProcess()
+        {
+
+            var list = new SystemBusiness().GetTaskProcesss(CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SaveTaskProcess(string entity)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var model = serializer.Deserialize<TaskProcessEntity>(entity);
+
+            if (string.IsNullOrEmpty(model.ProcessID))
+            {
+                model.ProcessID = new SystemBusiness().CreateTaskProcess(model.Name, model.Desc, CurrentUser.UserID, CurrentUser.ClientID);
+            }
+            else
+            {
+                bool bl = new SystemBusiness().EditTaskProcess(model.ProcessID, model.Name, model.Desc, CurrentUser.UserID, CurrentUser.ClientID);
+                if (!bl)
+                {
+                    model.ProcessID = "";
+                }
+            }
+            JsonDictionary.Add("model", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult DeleteTaskProcess(string id)
+        {
+            bool bl = new SystemBusiness().DeleteTaskProcess(id, CurrentUser.UserID, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        #endregion
+
     }
 }

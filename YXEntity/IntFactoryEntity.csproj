@@ -93,6 +93,7 @@
     <Compile Include="System\CacheUserEntity.cs" />
     <Compile Include="System\Department.cs" />
     <Compile Include="Common\Industry.cs" />
+    <Compile Include="System\TaskProcessEntity.cs" />
     <Compile Include="System\Role.cs" />
     <Compile Include="System\UserAccounts.cs" />
     <Compile Include="System\UserDepart.cs" />

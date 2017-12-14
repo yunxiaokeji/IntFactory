@@ -1183,5 +1183,62 @@ namespace IntFactoryBusiness
 
         #endregion
 
+        #region 工序
+
+        public List<TaskProcessEntity> GetTaskProcesss(string clientid)
+        {
+            List<TaskProcessEntity> list = new List<TaskProcessEntity>();
+            DataSet ds = SystemDAL.BaseProvider.GetTaskProcess(clientid);
+            foreach (DataRow dr in ds.Tables["Stages"].Rows)
+            {
+                TaskProcessEntity model = new TaskProcessEntity();
+                model.FillData(dr);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, clientid);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public TaskProcessEntity GetTaskProcesssByID(string id, string clientid)
+        {
+            DataTable dt = SystemDAL.BaseProvider.GetTaskProcessByID(id);
+            if (dt.Rows.Count > 0)
+            {
+                TaskProcessEntity model = new TaskProcessEntity();
+                model.FillData(dt.Rows[0]);
+                model.CreateUser = OrganizationBusiness.GetUserCacheByUserID(model.CreateUserID, clientid);
+                return model;
+            }
+            return null;
+        }
+
+        public string CreateTaskProcess(string name,string desc, string userid, string clientid)
+        {
+            string id = Guid.NewGuid().ToString();
+
+            bool bl = SystemDAL.BaseProvider.CreateTaskProcess(id, name, desc, userid, clientid);
+            if (bl)
+            {
+                return id;
+            }
+            return "";
+        }
+
+        public bool EditTaskProcess(string id,string name, string desc, string userid, string clientid)
+        {
+
+            bool bl = SystemDAL.BaseProvider.UpdateTaskProcess(id, name, desc);
+            return bl;
+        }
+
+        public bool DeleteTaskProcess(string id, string userid, string clientid)
+        {
+            int result = 0;
+            bool bl = SystemDAL.BaseProvider.DeleteTaskProcess(id, clientid, ref result);
+            return bl;
+        }
+
+        #endregion
+
     }
 }

@@ -485,5 +485,73 @@ namespace IntFactoryDAL
         }
 
         #endregion
+
+        #region 工序
+
+        public DataSet GetTaskProcess(string clientid)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return GetDataSet("select * from TaskProcess where ClientID=@ClientID and Status=1", paras, CommandType.Text);
+
+        }
+
+        public DataTable GetTaskProcessByID(string processid)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ProcessID",processid)
+                                   };
+
+            return GetDataTable("select * from TaskProcess where ProcessID=@ProcessID", paras, CommandType.Text);
+
+        }
+
+        public bool CreateTaskProcess(string processid, string name, string desc, string userid, string clientid)
+        {
+            string sqlText = "insert into TaskProcess(ProcessID,Name,Desc,CreateUserID,ClientID) " +
+                                           " values(@ProcessID,@Name,@Desc,@CreateUserID,@ClientID) ";
+            SqlParameter[] paras = {
+                                     new SqlParameter("@ProcessID" , processid),
+                                     new SqlParameter("@Name" , name),
+                                     new SqlParameter("@Desc" , desc),
+                                     new SqlParameter("@CreateUserID" , userid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+            return ExecuteNonQuery(sqlText, paras, CommandType.Text) > 0;
+        }
+
+        public bool UpdateTaskProcess(string processid, string name, string desc)
+        {
+            string sqltext = "update TaskProcess set Name=@Name,Desc=@Desc where ProcessID=@ProcessID";
+
+            SqlParameter[] paras = {
+                                     new SqlParameter("@ProcessID",processid),
+                                     new SqlParameter("@Name",name),
+                                     new SqlParameter("@Desc",desc)
+                                   };
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+            return bl;
+        }
+
+        public bool DeleteTaskProcess(string processid, string clientid, ref int result)
+        {
+            string sqltext = "P_DeleteTaskProcess";
+
+            SqlParameter[] paras = {
+                                    new SqlParameter("@Result",SqlDbType.Int),
+                                     new SqlParameter("@ProcessID",processid),
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            bool bl = ExecuteNonQuery(sqltext, paras, CommandType.StoredProcedure) > 0;
+            result = Convert.ToInt32(paras[0].Value);
+
+            return bl;
+        }
+
+        #endregion
     }
 }
