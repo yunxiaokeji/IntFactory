@@ -1130,6 +1130,12 @@
         $("#btn-updateTaskRemark").click(function () {
             ObjectJS.updateOrderPlatemaking();
         });
+
+        $("#btnClearTaskRemark").click(function () {
+            confirm("确定清空制版信息吗？", function () {
+                ObjectJS.saveOrderPlatehtml("");
+            });
+        });
     };
 
     //文档点击的隐藏事件
@@ -1495,7 +1501,7 @@
                         $("#platemakingBody").html(tableHtml).css({ "border-top": "1px solid #eee", "border-left": "1px solid #eee" }).show();
                         $("#btn-initAddTaskPlate").hide();
                         $("#btn-updateTaskRemark").show().html("保存制版");
-                        $("#btn-addColumn").show();
+                        $("#btn-addColumn,#btnClearTaskRemark").show();
 
                         ObjectJS.bindDropDown();
                         ObjectJS.bindAddRow();
@@ -1525,26 +1531,35 @@
         if ($("#btn-updateTaskRemark").html() == "编辑制版") {
             $("#btn-updateTaskRemark").html("保存制版");
             $(".tbContentIpt").each(function () {
-                $(this).html( $(this).prev().html() ).show().prev().hide();
+                var _this = $(this);
+                _this.val(_this.prev().html()).show().prev().hide();
             });
-            return;
         } else {
             $(".tbContentIpt:visible").each(function () {
-                $(this).attr("value", $(this).val()).hide().prev().html($(this).val()).show();
+                var _this = $(this);
+                _this.attr("value", _this.val()).hide().prev().html(_this.val()).show();
             });
 
             $("#btn-updateTaskRemark").html("编辑制版");
-        }
 
+            ObjectJS.saveOrderPlatehtml(encodeURI($("#platemakingBody").html()));
+        }
+    }
+
+    //修改制版信息
+    ObjectJS.saveOrderPlatehtml = function (html) {
         Global.post("/Task/UpdateOrderPlatehtml", {
             orderID: ObjectJS.orderid,
             taskID: ObjectJS.taskid,
-            platehtml: encodeURI($("#platemakingBody").html())
+            platehtml: html
         }, function (data) {
             if (data.result == 1) {
-                ObjectJS.isPlate = true;
-            }
-            else {
+                if (html) {
+                    ObjectJS.isPlate = true;
+                } else {
+                    $("#platemakingBody").html("");
+                }
+            } else {
                 alert("保存失败", 2);
             }
         });
