@@ -18,6 +18,8 @@ namespace IntFactoryEntity
 
         public DateTime CreateTime { get; set; }
 
+        public string ProcessName { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

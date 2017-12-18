@@ -989,7 +989,8 @@
                         btnObject.data('isget', 1);
 
                         Global.post("/Orders/CreateOrderCost", {
-                            orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+                            orderid: _self.orderid,//_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+                            processid: $("#taskProcess").data("id"),
                             price: $("#iptCostPrice").val(),
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
@@ -1010,7 +1011,47 @@
                     }
                 }
             });
+            if (_self.processes) {
+                require.async("dropdown", function () {
+                    $("#taskProcess").dropdown({
+                        prevText: "工艺-",
+                        defaultText: "其他",
+                        defaultValue: "",
+                        data: _self.processes,
+                        dataValue: "ProcessID",
+                        dataText: "Name",
+                        width: "180",
+                        isposition: true,
+                        onChange: function (data) {
+                            if (data.value && !$("#iptCostDescription").val()) {
+                                $("#iptCostDescription").val(data.text);
+                            }
+                        }
+                    });
+                });
+            } else {
+                Global.post("/System/GetTaskProcess", {}, function (data) {
+                    _self.processes = data.items;
+                    require.async("dropdown", function () {
+                        $("#taskProcess").dropdown({
+                            prevText: "工艺-",
+                            defaultText: "其他",
+                            defaultValue: "",
+                            data: _self.processes,
+                            dataValue: "ProcessID",
+                            dataText: "Name",
+                            width: "180",
+                            isposition: true,
+                            onChange: function (data) {
+                                if (data.value && !$("#iptCostDescription").val()) {
+                                    $("#iptCostDescription").val(data.text);
+                                }
+                            }
+                        });
+                    });
 
+                });
+            }           
             $("#iptCostPrice").focus();
             $("#iptCostPrice").change(function () {
                 var _this = $(this);
@@ -2466,7 +2507,7 @@
         _box.nextAll().remove();
         _box.after("<tr><td colspan='10'><div class='data-loading' ><div></td></tr>");
         Global.post("/Orders/GetOrderCosts", {
-            orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
+            orderid: _self.orderid//_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
             _box.nextAll().remove();
             if (data.items.length > 0) {
@@ -2474,16 +2515,16 @@
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
 
-                    innerhtml.find(".cost-price").each(function () {
-                        $(this).text($(this).text() * $("#tab16").data("quantity"))
-                    });
+                    //innerhtml.find(".cost-price").each(function () {
+                    //    $(this).text(($(this).text() * $("#tab16").data("quantity")).toFixed(2))
+                    //});
 
                     _box.after(innerhtml);
                     innerhtml.find(".ico-del").click(function () {
                         var _this = $(this);
                         confirm("删除后不可恢复，确认删除吗？", function () {
                             Global.post("/Orders/DeleteOrderCost", {
-                                orderid: _self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID,
+                                orderid: _self.orderid,
                                 autoid: _this.data("id")
                             }, function (data) {
                                 if (data.status) {

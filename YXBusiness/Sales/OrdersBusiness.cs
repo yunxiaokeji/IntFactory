@@ -836,12 +836,12 @@ namespace IntFactoryBusiness
             return b1;
         }
 
-        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid, string ip, string clientid)
+        public bool CreateOrderCost(string orderid, decimal price, string processid, string remark, string operateid, string ip, string clientid)
         {
-            bool bl = OrdersDAL.BaseProvider.CreateOrderCost(orderid, price, remark, operateid, clientid);
+            bool bl = OrdersDAL.BaseProvider.CreateOrderCost(orderid, price, processid, remark, operateid, clientid);
             if (bl)
             {
-                string msg = "订单添加其他成本：" + price;
+                string msg = "订单添加其他成本：" + remark + "-" + price;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "",  clientid);
             }
             return bl;

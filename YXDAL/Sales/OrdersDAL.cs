@@ -241,7 +241,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@OrderID",orderid)
                                    };
 
-            DataTable dt = GetDataTable("Select * from OrderCosts where OrderID=@OrderID and Status=1 ", paras, CommandType.Text);
+            DataTable dt = GetDataTable("Select o.*,t.Name ProcessName from OrderCosts o left join TaskProcess t on o.ProcessID=t.ProcessID and o.ProcessID is not null and o.ProcessID<>''  where o.OrderID=@OrderID and o.Status=1 ", paras, CommandType.Text);
             return dt;
         }
 
@@ -404,11 +404,12 @@ namespace IntFactoryDAL
             return result == 1;
         }
 
-        public bool CreateOrderCost(string orderid, decimal price, string remark, string operateid,  string clientid)
+        public bool CreateOrderCost(string orderid, decimal price, string processid, string remark, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@Price",price),
+                                     new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@Remark",remark),
                                      new SqlParameter("@OperateID" , operateid),
                                      new SqlParameter("@ClientID" , clientid)

@@ -4,6 +4,7 @@
 %}
 <tr class="list-item">
     <td class="">{%=item.Remark%}</td>
+    <td class="">{%=item.ProcessName||''%}</td>
     <td class="center"><label class="cost-price">{%=item.Price.toFixed(2)%}</label> </td>
     <td class='center'>{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss")%}</td>
     <td class="center">

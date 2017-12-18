@@ -6,6 +6,7 @@
     var Controller = "Task";
         
     var ObjectJS = {};
+    ObjectJS.processes = [];
 
     ObjectJS.initProcessCosts = function (orderID, global, doT, orderType) {
         var _self = ObjectJS;
@@ -35,6 +36,9 @@
         _self.getCosts();
         //添加成本
         if ($("#addOtherCost").length == 1) {
+            Global.post("/System/GetTaskProcess", {}, function (data) {
+                _self.processes = data.items;
+            });
             $("#addOtherCost").click(function () {
                 _self.addOtherCosts();
             })
@@ -93,7 +97,7 @@
     ObjectJS.addOtherCosts = function () {
         var _self = this;
         DoT.exec("template/orders/add-order-cost.html", function (template) {
-            var innerText = template({});
+            var innerText = template();
 
             Easydialog.open({
                 container: {
@@ -112,6 +116,7 @@
                         Global.post("/Task/CreateOrderCost", {
                             orderid: _self.orderID,
                             price: $("#iptCostPrice").val(),
+                            processid: $("#taskProcess").data("id"),
                             remark: $("#iptCostDescription").val()
                         }, function (data) {
                             if (data.status) {
@@ -127,6 +132,25 @@
 
                     }
                 }
+            });
+
+            //角色搜索
+            require.async("dropdown", function () {
+                $("#taskProcess").dropdown({
+                    prevText: "工艺-",
+                    defaultText: "其他",
+                    defaultValue: "",
+                    data: _self.processes,
+                    dataValue: "ProcessID",
+                    dataText: "Name",
+                    width: "180",
+                    isposition: true,
+                    onChange: function (data) {
+                        if (data.value && !$("#iptCostDescription").val()) {
+                            $("#iptCostDescription").val(data.text);
+                        }
+                    }
+                });
             });
 
             $("#iptCostPrice").focus();

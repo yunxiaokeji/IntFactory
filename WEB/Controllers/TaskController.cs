@@ -473,9 +473,9 @@ namespace YXERP.Controllers
         }
 
         //新增加工成本
-        public JsonResult CreateOrderCost(string orderid, decimal price, string remark)
+        public JsonResult CreateOrderCost(string orderid, decimal price, string remark, string processid = "")
         {
-            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.CreateOrderCost(orderid, price, processid, remark, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {
