@@ -809,6 +809,7 @@
     <Content Include="modules\template\system\client-detail.html" />
     <Content Include="modules\template\task\material-add.html" />
     <Content Include="modules\template\task\platematring-orderdatail.html" />
+    <Content Include="modules\template\task\setuserprocess.html" />
     <Content Include="modules\template\task\task-costs.html" />
     <Content Include="modules\template\task\platemarting-add.html" />
     <Content Include="modules\template\task\task-file-upload-img.html" />

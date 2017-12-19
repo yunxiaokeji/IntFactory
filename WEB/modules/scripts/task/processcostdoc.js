@@ -137,7 +137,7 @@
             //角色搜索
             require.async("dropdown", function () {
                 $("#taskProcess").dropdown({
-                    prevText: "工艺-",
+                    prevText: "工序-",
                     defaultText: "其他",
                     defaultValue: "",
                     data: _self.processes,

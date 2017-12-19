@@ -326,6 +326,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult EditTaskMemberProcess(string id, string memberid, string ids)
+        {
+            bool flag = TaskBusiness.UpdateTaskMemberProcess(id, memberid, ids, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         //设置任务负责人
         public JsonResult UpdateTaskOwner(string taskid, string userid)
         {

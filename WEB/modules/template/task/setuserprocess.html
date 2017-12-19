@@ -1,0 +1,10 @@
+﻿<ul id="setUserProcess" class="role-items">
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+    <li class="process-item" data-id="{%=item.ProcessID%}">
+        {%=item.Name%}
+    </li>
+{% } %}
+</ul>

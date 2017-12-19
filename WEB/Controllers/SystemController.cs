@@ -722,6 +722,18 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetTaskProcessByOrderID(string orderid)
+        {
+            var list = new SystemBusiness().GetTaskProcesssByOrderID(orderid, CurrentUser.ClientID);
+
+            JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetTaskProcessByID(string id)
         {
 

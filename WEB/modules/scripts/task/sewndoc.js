@@ -8,7 +8,7 @@
     var Controller = "Task";
     require("tiplayer");
     //车缝
-    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc) {
+    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc, callBack) {
         if (global == null) {
             Global = require("global");
         }
@@ -123,8 +123,12 @@
                     $(".input-swen-box-" + id).append(_input);
                 }
                 $(this).parent().hide();
-            });
+            }); 
         }
+        Global.post("/System/GetTaskProcessByOrderID", { orderid: orderid }, function (data) {
+            ObjectJS.processes = data.items;
+            callBack && callBack(data.items);
+        });
     }
 
     //车缝记录

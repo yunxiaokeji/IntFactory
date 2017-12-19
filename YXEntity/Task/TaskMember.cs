@@ -26,6 +26,8 @@ namespace IntFactoryEntity.Task
 
         public DateTime CreateTime { get; set; }
 
+        public string ProcessIds { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

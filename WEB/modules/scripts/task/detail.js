@@ -112,7 +112,27 @@
                 }
             }
             SewnDoc = require("scripts/task/sewndoc");
-            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
+            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc, function (processes) {
+                $(".member-items .membername").each(function () {
+                    var _this = $(this);
+                    var ids = $(this).data("id");
+                    if (ids) {
+                        var name = "";
+                        for (var i = 0; i < processes.length; i++) {
+                            if (ids.indexOf(processes[i].ProcessID) >= 0) {
+                                if (name) {
+                                    name += '，' + processes[i].Name;
+                                } else {
+                                    name = processes[i].Name;
+                                }
+                            }
+                        }
+                        if (name) {
+                            _this.html(_this.html() + "（" + name + "）");
+                        }
+                    }
+                });
+            });
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");
@@ -372,7 +392,65 @@
 
             //列表删除任务成员
             ObjectJS.bindRemoveTaskMember();
+
+            $(".edit-user-process").click(function () {
+                ObjectJS.setUserProcesses($(this).data("memberid"), $(this).data("id"));
+            });
         }
+    }
+
+    //设置员工工序
+    ObjectJS.setUserProcesses = function (memberid, ids) {
+        DoT.exec("template/task/setuserprocess.html", function (template) {
+            var innerHtml = template(SewnDoc.processes);
+            Easydialog.open({
+                container: {
+                    id: "show-model-setRole",
+                    header: "设置成员工序",
+                    content: innerHtml,
+                    yesFn: function () {
+                        var _ids = "";
+                        $("#setUserProcess .process-item").each(function () {
+                            //保存角色
+                            if ($(this).hasClass("hover")) {
+                                _ids += $(this).data("id") + ",";
+                            }
+                        });
+                        if (ids != _ids) {
+                            Global.post("/Task/EditTaskMemberProcess", {
+                                id: ObjectJS.taskid,
+                                memberid: memberid,
+                                ids: _ids
+                            }, function (data) {
+                                if (data.result) {
+                                    location.href = location.href;
+                                }
+                            });
+                        }
+                    },
+                    callback: function () {
+
+                    }
+                }
+            });
+            //默认选中当前角色
+            if (ids) {
+                $("#setUserProcess .process-item").each(function () {
+                    //保存角色
+                    if (ids.indexOf($(this).data("id")) >= 0) {
+                        $(this).addClass("hover");
+                    }
+                });
+            }
+
+            $("#setUserProcess .process-item").click(function () {
+                if ($(this).hasClass("hover")) {
+                    $(this).removeClass("hover");
+                } else {
+                    $(this).addClass("hover");
+                }
+            });
+        });
     }
 
     //更改任务到期时间
@@ -551,11 +629,15 @@
                 alert("添加失败", 2);
             }
             else {
+                if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
+                    location.href = location.href;
+                }
                 //任务负责人更改成员权限
                 ObjectJS.bindUpdateMemberPermission();
 
                 //列表删除任务成员
                 ObjectJS.bindRemoveTaskMember();
+                
             }
             ObjectJS.isLoading = true;
         });
@@ -627,7 +709,7 @@
     ObjectJS.createTaskMember = function (item) {
         var memberListHtml = '';
         memberListHtml += '<tr data-id="' + item.id + '" class="hide">';
-        memberListHtml += '<td class="tLeft pLeft10"><i><img onerror="$(this).attr("src","/modules/images/defaultavatar.png"); src="' + (item.avatar == null ? "/modules/images/defaultavatar.png" : item.avatar) + '" /></i> <i class="membername">' + item.name + '</i></td>';
+        memberListHtml += '<td class="tLeft pLeft10"> <i class="membername">' + item.name + '</i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump hover" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=1 ><span></span></i></td>';
         memberListHtml += '<td><i class="hand ico-radiobox check-lump" data-taskid="' + ObjectJS.taskid + '" data-memberid="' + item.id + '" data-type=2 ><span></span></i></td>';
         memberListHtml += '<td class="removeTaskMember iconfont hand" data-id="' + item.id + '">&#xe651;</td>';

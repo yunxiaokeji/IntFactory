@@ -498,6 +498,17 @@ namespace IntFactoryDAL
 
         }
 
+        public DataSet GetTaskProcess(string orderid, string clientid)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@ClientID",clientid),
+                                        new SqlParameter("@OrderID",orderid)
+                                   };
+
+            return GetDataSet("select t.* from TaskProcess t join OrderCosts o on t.ProcessID=o.ProcessID and o.OrderID=@OrderID where t.ClientID=@ClientID and t.Status=1 and o.Status=1", paras, CommandType.Text, "Stages");
+
+        }
+
         public DataTable GetTaskProcessByID(string processid)
         {
             SqlParameter[] paras = {

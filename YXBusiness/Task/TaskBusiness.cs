@@ -482,6 +482,13 @@ namespace IntFactoryBusiness
             return flag;
         }
 
+        public static bool UpdateTaskMemberProcess(string taskID, string memberID,string processIds, string operateid, string ip, string clientid)
+        {
+            bool flag = TaskDAL.BaseProvider.UpdateTaskMemberProcess(taskID, memberID, processIds);
+
+            return flag;
+        }
+
         /// <summary>
         /// 更新任务成员权限
         /// </summary>

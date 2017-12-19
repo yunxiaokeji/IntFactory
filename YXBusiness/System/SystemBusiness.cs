@@ -1199,6 +1199,19 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<TaskProcessEntity> GetTaskProcesssByOrderID(string orderid, string clientid)
+        {
+            List<TaskProcessEntity> list = new List<TaskProcessEntity>();
+            DataSet ds = SystemDAL.BaseProvider.GetTaskProcess(orderid, clientid);
+            foreach (DataRow dr in ds.Tables["Stages"].Rows)
+            {
+                TaskProcessEntity model = new TaskProcessEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         public TaskProcessEntity GetTaskProcesssByID(string id, string clientid)
         {
             DataTable dt = SystemDAL.BaseProvider.GetTaskProcessByID(id);

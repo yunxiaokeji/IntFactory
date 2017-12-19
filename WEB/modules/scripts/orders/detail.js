@@ -1014,7 +1014,7 @@
             if (_self.processes) {
                 require.async("dropdown", function () {
                     $("#taskProcess").dropdown({
-                        prevText: "工艺-",
+                        prevText: "工序-",
                         defaultText: "其他",
                         defaultValue: "",
                         data: _self.processes,
@@ -1034,7 +1034,7 @@
                     _self.processes = data.items;
                     require.async("dropdown", function () {
                         $("#taskProcess").dropdown({
-                            prevText: "工艺-",
+                            prevText: "工序-",
                             defaultText: "其他",
                             defaultValue: "",
                             data: _self.processes,

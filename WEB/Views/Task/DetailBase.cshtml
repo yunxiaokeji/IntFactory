@@ -148,8 +148,8 @@
                     <thead>
                         <tr>
                             <td class="tLeft pLeft10 task-members"><span class="iconfont">&#xe624;</span>成员列表</td>
-                            <td>查看权限</td>
-                            <td>编辑权限</td>
+                            <td>查看</td>
+                            <td>编辑</td>
                             <td>操作</td>
                         </tr>
                     </thead>
@@ -160,9 +160,12 @@
                                 foreach (var member in task.TaskMembers)
                                 {
                                     <tr data-id="@member.Member.UserID">
-                                        <td class="tLeft pLeft10" width="166">
-                                            <i><img src="@(string.IsNullOrEmpty(member.Member.Avatar) ? "/modules/images/defaultavatar.png" : member.Member.Avatar)" /></i>
-                                            <i class="membername">@member.Member.Name</i>
+                                        <td class="tLeft pLeft10">
+                                            <i class="membername" data-id="@member.ProcessIds">@member.Member.Name</i>
+                                             @if (task.Mark == 14 && order.OrderType == 2)
+                                             {
+                                                 <i class="iconfont ico-edit edit-user-process" data-id="@member.ProcessIds" data-memberid="@member.Member.UserID" title="设置工序"></i>
+                                             }
                                         </td>
                                         <td>
                                             <i class="hand ico-radiobox check-lump @(member.PermissionType==1?"hover":"")" data-type="1" data-taskid="@member.TaskID" data-memberid="@member.MemberID">

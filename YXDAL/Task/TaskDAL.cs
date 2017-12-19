@@ -351,6 +351,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text)>0;
         }
 
+        public bool UpdateTaskMemberProcess(string taskID, string memberID,string processIds)
+        {
+            string sqltext = "update TaskMember set ProcessIds=@ProcessIds  where TaskID=@TaskID and MemberID=@MemberID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@TaskID",taskID),
+                                       new SqlParameter("@MemberID",memberID),
+                                       new SqlParameter("@ProcessIds",processIds)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+        }
+
         public bool UpdateMemberPermission(string taskID, string memberID, int taskMemberPermissionType)
         {
             string sqltext = "update TaskMember set PermissionType=@PermissionType  where TaskID=@TaskID and MemberID=@MemberID";
