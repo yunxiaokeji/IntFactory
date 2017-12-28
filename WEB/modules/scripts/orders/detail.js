@@ -494,7 +494,16 @@
         //车缝录入
         $("#btnSewnOrder").click(function () {
             if ($(this).data('isget') != 1) {
-                _self.sewnGoods($(this));
+                if (!_self.OrderCosts) {
+                    Global.post("/Orders/GetOrderCosts", {
+                        orderid: _self.orderid
+                    }, function (data) {
+                        _self.OrderCosts = data.items;
+                        _self.sewnGoods($(this), _self.OrderCosts);
+                    });
+                } else {
+                    _self.sewnGoods($(this), _self.OrderCosts);
+                }
             } else {
                 alert("请稍后再试.");
                 return false;
@@ -1760,8 +1769,17 @@
     };
 
     //车缝录入
-    ObjectJS.sewnGoods = function (btnObject) {
+    ObjectJS.sewnGoods = function (btnObject, OrderCosts) {
         var _self = this;
+        var costs = [];
+        for (var i = 0; i < OrderCosts.length; i++) {
+            if (OrderCosts[i].ProcessID) {
+                costs.push(OrderCosts[i]);
+            }
+        }
+        if (!costs) {
+            costs.push({ ProcessID: "", Name: "整件" });
+        } 
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var items = _self.model.OrderGoods.concat([]);
             //车缝任务描述
@@ -1790,12 +1808,18 @@
                             alert("数量输入过大", 2);
                             return false;
                         }
+
+                        if ($("#ddlTaskProcess").data("id") == "-1") {
+                            alert("请选择工序", 2);
+                            return false;
+                        }
                         if (details.length > 0) {
                             btnObject.text('' + (btnObject.data("name") || "车缝") + '录入中...');
                             btnObject.data('isget', 1);
                             Global.post("/Orders/CreateOrderSewnDoc", {
                                 orderid: _self.orderid,
                                 doctype: 11,
+                                processid: $("#ddlTaskProcess").data("id"),
                                 isover: 0,
                                 expressid: "",
                                 expresscode: "",
@@ -1823,6 +1847,24 @@
                     }
                 }
             });
+
+            //工序选择
+            require.async("dropdown", function () {
+                $("#ddlTaskProcess").dropdown({
+                    prevText: "工序-",
+                    defaultText: "请选择",
+                    defaultValue: "-1",
+                    data: costs,
+                    dataValue: "ProcessID",
+                    dataText: "Name",
+                    width: "180",
+                    isposition: true,
+                    onChange: function (data) {
+                        
+                    }
+                });
+            });
+
             //默认负责人选择当前登录用户
             $("#showSewnGoods .owner-name").text($("#currentUser .username").text());
 
@@ -2511,6 +2553,7 @@
         }, function (data) {
             _box.nextAll().remove();
             if (data.items.length > 0) {
+                _self.OrderCosts = data.items;
                 doT.exec("template/orders/orderCosts.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);

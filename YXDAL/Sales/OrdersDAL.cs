@@ -340,13 +340,14 @@ namespace IntFactoryDAL
             return bl;
         }
 
-        public bool CreateOrderGoodsDoc(string docid, string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid)
+        public bool CreateOrderGoodsDoc(string docid, string orderid, string taskid, int doctype,string processid, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid)
         {
             SqlParameter[] paras = { 
                                      new SqlParameter("@DocID",docid),
                                      new SqlParameter("@OrderID",orderid),
                                      new SqlParameter("@TaskID",taskid),
                                      new SqlParameter("@DocType",doctype),
+                                     new SqlParameter("@ProcessID",processid),
                                      new SqlParameter("@IsOver",isover),
                                      new SqlParameter("@ExpressID",expressid),
                                      new SqlParameter("@ExpressCode",expresscode),

@@ -811,12 +811,13 @@ namespace IntFactoryBusiness
             }
         }
 
-        public string CreateOrderGoodsDoc(string orderid, string taskid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark,string ownerid, string operateid, string clientid,string jsonParas="",string  othersysid="")
+        public string CreateOrderGoodsDoc(string orderid, string taskid, EnumGoodsDocType type, int isover, string expressid, string expresscode, string details, string remark, string ownerid, 
+                                          string operateid, string clientid, string jsonParas = "", string othersysid = "", string processid = "")
         {
             var dal = new OrdersDAL();
             string id = Guid.NewGuid().ToString().ToLower();
 
-            bool bl = dal.CreateOrderGoodsDoc(id, orderid,taskid, (int)type, isover, expressid, expresscode, details, remark,ownerid, operateid, clientid);
+            bool bl = dal.CreateOrderGoodsDoc(id, orderid, taskid, (int)type, processid, isover, expressid, expresscode, details, remark, ownerid, operateid, clientid);
             if (bl)
             {
                 LogBusiness.AddActionLog(IntFactoryEnum.EnumSystemType.Client, IntFactoryEnum.EnumLogObjectType.OrderDoc, EnumLogType.Create, "", operateid, clientid);

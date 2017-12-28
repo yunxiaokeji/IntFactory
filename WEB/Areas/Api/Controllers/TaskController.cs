@@ -377,9 +377,9 @@ namespace YXERP.Areas.Api.Controllers
         #endregion
 
         //车缝、裁剪录入
-        public JsonResult CreateOrderGoodsDoc(string orderID, string taskID, int docType, int isOver, string details, string remark, string ownerID, string operateID, string clientID, string expressID, string expressCode)
+        public JsonResult CreateOrderGoodsDoc(string orderID, string taskID, int docType, int isOver, string details, string remark, string ownerID, string operateID, string clientID, string expressID, string expressCode, string processid = "")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderID, taskID, (EnumGoodsDocType)docType, isOver, expressID, expressCode, details, remark, ownerID, operateID, clientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderID, taskID, (EnumGoodsDocType)docType, isOver, expressID, expressCode, details, remark, ownerID, operateID, clientID, processid: processid);
             JsonDictionary.Add("id", id);
             return new JsonResult
             {

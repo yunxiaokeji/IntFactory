@@ -134,7 +134,7 @@
                 }
             });
 
-            //角色搜索
+            //工序选择
             require.async("dropdown", function () {
                 $("#taskProcess").dropdown({
                     prevText: "工序-",
