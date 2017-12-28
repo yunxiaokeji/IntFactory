@@ -8,7 +8,7 @@
     var Controller = "Task";
     require("tiplayer");
     //车缝
-    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc, callBack) {
+    ObjectJS.initSewnDoc = function (orderid, taskid, global, doT, easydialog, taskDesc, task, callBack) {
         if (global == null) {
             Global = require("global");
         }
@@ -36,7 +36,26 @@
         if ($("#btnSewnOrder").length == 1) {
             //车缝录入
             $("#btnSewnOrder").click(function () {
-                ObjectJS.sewnGoods();
+                var userid = $("#hideCurrentUserID").val();//登录者
+                var isTaskOwner = task.Owner.UserID == userid;
+                var processids = "";
+                if (!isTaskOwner&&task.TaskMembers) {
+                    for (var i = 0; i < task.TaskMembers.length; i++) {
+                        if (task.TaskMembers[i].MemberID == userid) {
+                            processids = task.TaskMembers[i].ProcessIds;
+                        }
+                    }
+                }
+                if (!ObjectJS.OrderCosts) {
+                    Global.post("/Orders/GetOrderCosts", {
+                        orderid: orderid
+                    }, function (data) {
+                        ObjectJS.OrderCosts = data.items;
+                        ObjectJS.sewnGoods(ObjectJS.OrderCosts, isTaskOwner, processids);
+                    });
+                } else {
+                    ObjectJS.sewnGoods(ObjectJS.OrderCosts, isTaskOwner, processids);
+                }
             });
             //获取订单大货明细
             Common.getOrderGoods();
@@ -137,7 +156,7 @@
     }
 
     //车缝录入
-    ObjectJS.sewnGoods = function () {
+    ObjectJS.sewnGoods = function (OrderCosts, isTaskOwner,processids) {
         var _self = this;
         Global.post("/Task/GetOrderGoods", { id: ObjectJS.orderid }, function (data) {
             DoT.exec("template/orders/sewn-goods.html", function (template) {
@@ -154,7 +173,7 @@
                                 var _this = $(this);
                                 var quantity = _this.find(".quantity").val();
                                 if (quantity > 0) {
-                                    if (quantity > _this.find(".quantity").data("max")) {
+                                    if (quantity > _this.find(".quantity").data("max")&&!$("#ddlTaskProcess").data("id")) {
                                         bl = false;
                                     }
                                     details += _this.data("id") + "-" + quantity + ",";
@@ -164,12 +183,16 @@
                                 alert("数量输入过大", 2);
                                 return false;
                             }
-
+                            if ($("#ddlTaskProcess").data("id") == "-1") {
+                                alert("请选择工序", 2);
+                                return false;
+                            }
                             if (details.length > 0) {
                                 Global.post("/" + Controller + "/CreateOrderSewnDoc", {
                                     orderid: _self.orderid,
                                     taskid: _self.taskid,
                                     doctype: 11,
+                                    processid: $("#ddlTaskProcess").data("id"),
                                     isover: $("#showSewnGoods .check").hasClass("ico-checked") ? 1 : 0,
                                     expressid: "",
                                     expresscode: "",
@@ -204,28 +227,59 @@
                     }
                 });
 
-                //默认负责人选择当前登录用户
-                $("#showSewnGoods .owner-name").text($("#currentUser .username").text());
+                var costs = [];
+                if (isTaskOwner) {
+                    costs.push({ ProcessID: "", ProcessName: "整件成品" });
+                }
+                for (var i = 0; i < OrderCosts.length; i++) {
+                    if (OrderCosts[i].ProcessID && isTaskOwner) {
+                        costs.push(OrderCosts[i]);
+                    } else if (OrderCosts[i].ProcessID && processids.indexOf(OrderCosts[i].ProcessID) >= 0) {
+                        costs.push(OrderCosts[i]);
+                    }
+                }
+                //工序选择
+                require.async("dropdown", function () {
+                    $("#ddlTaskProcess").dropdown({
+                        prevText: "工序-",
+                        defaultText: "请选择",
+                        defaultValue: "-1",
+                        data: costs,
+                        dataValue: "ProcessID",
+                        dataText: "ProcessName",
+                        width: "180",
+                        isposition: true,
+                        onChange: function (data) {
 
-                $("#showSewnGoods .choose-owner").click(function () {
-                    var _this = $(this);
-                    ChooseUser.create({
-                        title: "更换负责人",
-                        type: 1,
-                        single: true,
-                        callback: function (items) {
-                            if (items.length > 0) {
-                                if (_this.data("id") != items[0].id) {
-                                    _this.data("id", items[0].id);
-                                    _this.prev().text(items[0].name);
-                                }
-                                else {
-                                    alert("请选择不同人员进行更换!", 2);
-                                }
-                            }
                         }
                     });
                 });
+
+                //默认负责人选择当前登录用户
+                $("#showSewnGoods .owner-name").text($("#currentUser .username").text());
+                if (isTaskOwner) {
+                    $("#showSewnGoods .choose-owner").click(function () {
+                        var _this = $(this);
+                        ChooseUser.create({
+                            title: "更换负责人",
+                            type: 1,
+                            single: true,
+                            callback: function (items) {
+                                if (items.length > 0) {
+                                    if (_this.data("id") != items[0].id) {
+                                        _this.data("id", items[0].id);
+                                        _this.prev().text(items[0].name);
+                                    }
+                                    else {
+                                        alert("请选择不同人员进行更换!", 2);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    $("#showSewnGoods .choose-owner").hide();
+                }
                 $("#showSewnGoods .check").click(function () {
                     var _this = $(this);
                     if (!_this.hasClass("ico-checked")) {
@@ -236,6 +290,7 @@
                     }
                 });
                 $("#showSewnGoods").find(".quantity").change(function () {
+                    return;
                     var _this = $(this);
                     if (_this.val() > _this.data("max")) {
                         _this.showTipLayer({

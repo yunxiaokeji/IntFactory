@@ -20,6 +20,8 @@ namespace IntFactoryEntity
 
         public string ProcessName { get; set; }
 
+        public string ProcessID { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

@@ -54,6 +54,7 @@
                 <img src="@(string.IsNullOrEmpty(CurrentUser.Avatar)?"/modules/images/defaultavatar.png":CurrentUser.Avatar)" class="avatar" />
             </span>
             <span class="username">
+                <input type="hidden" id="hideCurrentUserID" value="@(CurrentUser.UserID)"/>
                 @(CurrentUser.Name)
             </span>
             <span class="dropdown">

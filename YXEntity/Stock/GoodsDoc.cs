@@ -172,6 +172,8 @@ namespace IntFactoryEntity
 
         public int Quantity { get; set; }
 
+        public string ProcessName { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

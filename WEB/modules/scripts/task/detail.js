@@ -112,7 +112,7 @@
                 }
             }
             SewnDoc = require("scripts/task/sewndoc");
-            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc, function (processes) {
+            SewnDoc.initSewnDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc, task, function (processes) {
                 $(".member-items .membername").each(function () {
                     var _this = $(this);
                     var ids = $(this).data("id");

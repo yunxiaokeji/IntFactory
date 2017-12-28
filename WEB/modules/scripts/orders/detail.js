@@ -493,16 +493,17 @@
 
         //车缝录入
         $("#btnSewnOrder").click(function () {
+            var _this = $(this);
             if ($(this).data('isget') != 1) {
                 if (!_self.OrderCosts) {
                     Global.post("/Orders/GetOrderCosts", {
                         orderid: _self.orderid
                     }, function (data) {
                         _self.OrderCosts = data.items;
-                        _self.sewnGoods($(this), _self.OrderCosts);
+                        _self.sewnGoods(_this, _self.OrderCosts);
                     });
                 } else {
-                    _self.sewnGoods($(this), _self.OrderCosts);
+                    _self.sewnGoods(_this, _self.OrderCosts);
                 }
             } else {
                 alert("请稍后再试.");
@@ -1771,15 +1772,7 @@
     //车缝录入
     ObjectJS.sewnGoods = function (btnObject, OrderCosts) {
         var _self = this;
-        var costs = [];
-        for (var i = 0; i < OrderCosts.length; i++) {
-            if (OrderCosts[i].ProcessID) {
-                costs.push(OrderCosts[i]);
-            }
-        }
-        if (!costs) {
-            costs.push({ ProcessID: "", Name: "整件" });
-        } 
+        
         doT.exec("template/orders/sewn-goods.html", function (template) {
             var items = _self.model.OrderGoods.concat([]);
             //车缝任务描述
@@ -1798,7 +1791,7 @@
                             var _this = $(this);
                             var quantity = _this.find(".quantity").val();
                             if (quantity > 0) {
-                                if (quantity > _this.find(".quantity").data("max")) {
+                                if (quantity > _this.find(".quantity").data("max") && !$("#ddlTaskProcess").data("id")) {
                                     bl = false;
                                 }
                                 details += _this.data("id") + "-" + quantity + ",";
@@ -1848,6 +1841,13 @@
                 }
             });
 
+            var costs = [];
+            costs.push({ ProcessID: "", ProcessName: "整件成品" });
+            for (var i = 0; i < OrderCosts.length; i++) {
+                if (OrderCosts[i].ProcessID) {
+                    costs.push(OrderCosts[i]);
+                }
+            }
             //工序选择
             require.async("dropdown", function () {
                 $("#ddlTaskProcess").dropdown({
@@ -1856,7 +1856,7 @@
                     defaultValue: "-1",
                     data: costs,
                     dataValue: "ProcessID",
-                    dataText: "Name",
+                    dataText: "ProcessName",
                     width: "180",
                     isposition: true,
                     onChange: function (data) {
@@ -1888,6 +1888,7 @@
                 });
             });
             $("#showSewnGoods").find(".quantity").change(function () {
+                return;
                 var _this = $(this);
                 if (_this.val() > _this.data("max")) {
                     _this.showTipLayer({
@@ -2573,6 +2574,8 @@
                                 if (data.status) {
                                     $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
                                     _this.parents("tr").first().remove();
+                                } else {
+                                    alert("删除失败");
                                 }
                             });
                         }, "删除");

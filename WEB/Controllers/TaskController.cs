@@ -496,9 +496,10 @@ namespace YXERP.Controllers
         }
 
         //添加车缝录入
-        public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details, string remark,string ownerid)
+        public JsonResult CreateOrderSewnDoc(string orderid, string taskid, int doctype, int isover, string expressid, string expresscode, string details,
+                                             string remark, string ownerid, string processid = "")
         {
-            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark,ownerid, CurrentUser.UserID, CurrentUser.ClientID);
+            string id = OrdersBusiness.BaseBusiness.CreateOrderGoodsDoc(orderid, taskid, (EnumGoodsDocType)doctype, isover, expressid, expresscode, details, remark, ownerid, CurrentUser.UserID, CurrentUser.ClientID, processid: processid);
             JsonDictionary.Add("id", id);
             return new JsonResult()
             {
