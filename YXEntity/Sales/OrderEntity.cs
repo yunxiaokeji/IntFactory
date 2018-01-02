@@ -67,6 +67,8 @@ namespace IntFactoryEntity
 
         public decimal ProfitPrice { get; set; }
 
+        public decimal SewnPrice { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

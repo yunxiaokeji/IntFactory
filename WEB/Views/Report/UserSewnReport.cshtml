@@ -1,19 +1,19 @@
 ﻿@{
     
-    ViewBag.Title = ViewBag.Type == 1 ? "员工裁片（织机）统计" : ViewBag.Type == 11 ? "员工车缝（缝盘）统计" : "";
+    ViewBag.Title = "员工车缝（缝盘）统计";
 }
  <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/report/userworkload"], function (obj) {
-            obj.init(@(ViewBag.Type));
+            obj.init();
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">
-        @(ViewBag.Type == 1 ? "员工裁片（织机）统计" : ViewBag.Type == 11 ? "员工车缝（缝盘）统计" : "")
+       员工车缝（缝盘）统计
     </span>
 </div>
 <div class="content-body pBottom50">
@@ -26,11 +26,8 @@
     <table id="userTotalRPT" class="table-list-rpt">
         <tr class="tr-header">
             <td class="tLeft" style="width:10%;">员工</td>
-            <td style="width:10%;">@(ViewBag.Type == 1 ? "裁片（织机）" : ViewBag.Type == 11 ? "车缝（缝盘）" : "")数量</td>
-            @if (ViewBag.Type == 11) 
-            {
-                <td style="width:10%;">车缝（缝盘）退回</td>
-            }
+            <td style="width:10%;">车缝（缝盘）数量</td>
+            <td style="width:10%;">车缝（缝盘）退回</td>
         </tr>
     </table>
 </div>

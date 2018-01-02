@@ -563,11 +563,13 @@
     <Content Include="modules\scripts\report\usertaskreport.js" />
     <Content Include="modules\scripts\report\orderproductionreport.js" />
     <Content Include="modules\scripts\report\customerraterpt.js" />
+    <Content Include="modules\scripts\report\usercutreport.js" />
     <Content Include="modules\scripts\system\taskprocess.js" />
     <Content Include="modules\template\orders\createorder-checkattr.html" />
     <Content Include="modules\template\orders\plate-making-list.html" />
     <Content Include="modules\template\orders\updateOrderPlanTime.html" />
     <Content Include="modules\template\orders\updateAttrName.html" />
+    <Content Include="modules\template\orders\updateSewnPrice.html" />
     <Content Include="modules\template\products\product-baseinfo.html" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.css" />
     <Content Include="modules\plug\daterangepicker\daterangepicker.js" />
@@ -800,6 +802,7 @@
     <Content Include="modules\template\report\user-taskquantity.html" />
     <Content Include="modules\template\report\orderproduction.html" />
     <Content Include="modules\template\report\customerrate.html" />
+    <Content Include="modules\template\report\usercutreport.html" />
     <Content Include="modules\template\system\taskprocess.html" />
     <Content Include="modules\template\system\taskprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />
@@ -1358,10 +1361,11 @@
     <Content Include="Views\Orders\GoodsSetting.cshtml" />
     <Content Include="Views\Home\Authorize.cshtml" />
     <Content Include="Views\Report\MyWorkReport.cshtml" />
-    <Content Include="Views\Report\UserLoadReport.cshtml" />
+    <Content Include="Views\Report\UserSewnReport.cshtml" />
     <Content Include="Views\Report\OrderProductionRPT.cshtml" />
     <Content Include="Views\Report\CustomerRateRPT.cshtml" />
     <Content Include="Views\System\TaskProcess.cshtml" />
+    <Content Include="Views\Report\UserCutReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

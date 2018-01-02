@@ -1,0 +1,13 @@
+﻿<tr class="total-item">
+    <td class="center">合计：</td>
+    <td class="center" data-class="c1"></td>
+</tr>
+{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item">
+    <td>{%=item.UserName%}</td>
+    <td class="center c1">{%=item.CutQuantity%}</td>
+</tr>
+{% } %}

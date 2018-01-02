@@ -397,6 +397,45 @@
                 ObjectJS.setUserProcesses($(this).data("memberid"), $(this).data("id"));
             });
         }
+
+        //设置工价
+        $("#updateSewnPrice").click(function () {
+            DoT.exec("template/orders/updateSewnPrice.html", function (template) {
+                var innerText = template();
+                Easydialog.open({
+                    container: {
+                        id: "show-updateProfitPrice",
+                        header: "设置工价",
+                        content: innerText,
+                        yesFn: function () {
+                            var price = $("#iptSewnPrice").val().trim();
+                            if (!price.isDouble() || price < 0) {
+                                alert("工价必须为不小于0的数字！", 2);
+                                return false;
+                            }  else {
+                                Global.post("/Orders/UpdateSewnPrice", {
+                                    orderid: ObjectJS.orderid,
+                                    sewnPrice: price
+                                }, function (data) {
+                                    if (data.status) {
+                                        $("#txtSewnPrice").text((price * 1).toFixed(2));
+                                    } else {
+                                        alert("工价设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
+                                    }
+                                });
+                            }
+
+                        },
+                        callback: function () {
+
+                        }
+                    }
+                });
+
+                $("#iptSewnPrice").focus();
+                $("#iptSewnPrice").val($("#txtSewnPrice").html())
+            });
+        });
     }
 
     //设置员工工序

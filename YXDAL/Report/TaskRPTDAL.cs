@@ -39,9 +39,10 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetOrderProductionRPT(string begintime, string endtime, string keyWords, string UserID, string TeamID, string clientid)
+        public DataTable GetOrderProductionRPT(int timeType, string begintime, string endtime, string keyWords, string UserID, string TeamID, string clientid)
         {
             SqlParameter[] paras = { 
+                                       new SqlParameter("@TimeType",timeType),
                                        new SqlParameter("@BeginTime",begintime),
                                        new SqlParameter("@EndTime",endtime),
                                        new SqlParameter("@KeyWords",keyWords),

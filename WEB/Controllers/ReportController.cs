@@ -24,14 +24,12 @@ namespace YXERP.Controllers
 
         public ActionResult UserCutReport()
         {
-            ViewBag.Type = 1;
-            return View("UserLoadReport");
+            return View();
         }
 
         public ActionResult UserSewnReport()
         {
-            ViewBag.Type = 11;
-            return View("UserLoadReport");
+            return View();
         }
 
         public ActionResult OrderProductionRPT()
@@ -78,9 +76,9 @@ namespace YXERP.Controllers
         /// <summary>
         /// 订单生产数据统计
         /// </summary>
-        public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords,string UserID, string TeamID)
+        public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords, string UserID, string TeamID, int TimeType)
         {
-            var list = TaskRPTBusiness.BaseBusiness.GetOrderProductionRPT(beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            var list = TaskRPTBusiness.BaseBusiness.GetOrderProductionRPT(TimeType, beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {

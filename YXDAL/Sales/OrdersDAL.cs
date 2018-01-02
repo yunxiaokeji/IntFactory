@@ -684,6 +684,19 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
+        public bool UpdateSewnPrice(string orderid, decimal sewnPrice, string operateid, string clientid)
+        {
+            string sql = "Update Orders set SewnPrice=@SewnPrice where OrderID=@OrderID and ClientID=@ClientID and OrderStatus=1";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@SewnPrice",sewnPrice),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+
         public bool UpdateOrderPlateAttr(string orderid, string platehtml)
         {
             SqlParameter[] paras = { 

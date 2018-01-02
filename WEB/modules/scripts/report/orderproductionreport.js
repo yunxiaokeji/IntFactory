@@ -9,6 +9,7 @@ define(function (require, exports, module) {
     var Params = {
         beginTime: Date.now().toString().toDate("yyyy-MM-01"),
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
+        TimeType: 1,
         UserID: "",
         TeamID: ""
     };
@@ -26,6 +27,26 @@ define(function (require, exports, module) {
     //绑定列表页事件
     ObjectJS.bindEvent = function () {
         var _self = this;
+
+        var timeitems = [];
+        timeitems.push({ ID: "1", Name: "下单日期" });
+        timeitems.push({ ID: "2", Name: "完成日期" });
+        require.async("dropdown", function () {
+            $("#ddlTimeType").dropdown({
+                prevText: "",
+                defaultText: "下单日期",
+                defaultValue: "1",
+                data: timeitems,
+                dataValue: "ID",
+                dataText: "Name",
+                width: "120",
+                isposition: true,
+                onChange: function (data) {
+                    Params.TimeType = data.value;
+                    _self.getList();
+                }
+            });
+        });
 
         //日期插件
         $("#iptCreateTime").daterangepicker({

@@ -1,4 +1,14 @@
-﻿{%
+﻿<tr class="total-item">
+    <td class="center" colspan="3">合计：</td>
+    <td class="center" data-class="c1"></td>
+    <td class="center" data-class="c2"></td>
+    <td class="center" data-class="c3"></td>
+    <td class="center" data-class="c4"></td>
+    <td class="center" data-class="c5"></td>
+    <td class=""></td>
+    <td class="center" data-class="c6"></td>
+</tr>
+{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
@@ -15,13 +25,4 @@
     <td class="center c6">{%=item.FinalPrice*item.SendQuantity%}</td>
 </tr>
 {% } %}
-<tr class="total-item">
-    <td class="center" colspan="3">合计：</td>
-    <td class="center" data-class="c1"></td>
-    <td class="center" data-class="c2"></td>
-    <td class="center" data-class="c3"></td>
-    <td class="center" data-class="c4"></td>
-    <td class="center" data-class="c5"></td>
-    <td class=""></td>
-    <td class="center" data-class="c6"></td>
-</tr>
+

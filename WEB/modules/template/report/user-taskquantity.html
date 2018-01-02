@@ -1,15 +1,25 @@
-﻿{%
+﻿<tr class="total-item">
+    <td class="center">合计：</td>
+    <td class="center" data-class="c1"></td>
+    <td class="center" data-class="c2"></td>
+    <td class="center" data-class="c3"></td>
+    <td class="center" data-class="c4"></td>
+    <td class="center" data-class="c5"></td>
+    <td class="center" data-class="c6"></td>
+    <td class="center" data-class="c7"></td>
+</tr>
+{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
 <tr class="list-item">
     <td>{%=item.UserName%}</td>
-    <td class="center">{%=item.NoBeginQuantity+item.Processing+item.OverQuantity%}</td>
-    <td class="center">{%=item.NoBeginQuantity%}</td>
-    <td class="center">{%=item.Processing%}</td>
-    <td class="center">{%=item.OverQuantity%}</td>
-    <td class="center">{%=item.ExpiredProcessing+item.ExpiredOver%}</td>
-    <td class="center">{%=item.ExpiredOver%}</td>
-    <td class="center">{%=item.ExpiredProcessing%}</td>
+    <td class="center c1">{%=item.NoBeginQuantity+item.Processing+item.OverQuantity%}</td>
+    <td class="center c2">{%=item.NoBeginQuantity%}</td>
+    <td class="center c3">{%=item.Processing%}</td>
+    <td class="center c4">{%=item.OverQuantity%}</td>
+    <td class="center c4">{%=item.ExpiredProcessing+item.ExpiredOver%}</td>
+    <td class="center c6">{%=item.ExpiredOver%}</td>
+    <td class="center c7">{%=item.ExpiredProcessing%}</td>
 </tr>
 {% } %}

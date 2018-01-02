@@ -78,7 +78,7 @@ namespace IntFactoryBusiness
             return list;
         }
 
-        public List<OrderProductionRptEntity> GetOrderProductionRPT(string begintime, string endtime, string keyWords, string userid, string teamid, string clientid)
+        public List<OrderProductionRptEntity> GetOrderProductionRPT(int timeType, string begintime, string endtime, string keyWords, string userid, string teamid, string clientid)
         {
             if (string.IsNullOrEmpty(begintime))
             {
@@ -97,7 +97,7 @@ namespace IntFactoryBusiness
             {
                 endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
             }
-            DataTable dt = RPTDAL.BaseProvider.GetOrderProductionRPT(begintime, endtime, keyWords, userid, teamid, clientid);
+            DataTable dt = RPTDAL.BaseProvider.GetOrderProductionRPT(timeType, begintime, endtime, keyWords, userid, teamid, clientid);
 
             List<OrderProductionRptEntity> list = new List<OrderProductionRptEntity>();
             foreach (DataRow dr in dt.Rows)

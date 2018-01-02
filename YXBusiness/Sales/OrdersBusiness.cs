@@ -1046,6 +1046,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateSewnPrice(string orderid, decimal sewnPrice, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateSewnPrice(orderid, sewnPrice, operateid, clientid);
+            if (bl)
+            {
+                string msg = "订单整件工价设置为：" + sewnPrice;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+            return bl;
+        }
+
         public bool UpdatePlanTime(string orderid, string planTime, string remark, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderPlanTime(orderid, planTime, operateid, clientid);

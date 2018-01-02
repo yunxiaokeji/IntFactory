@@ -62,6 +62,18 @@ define(function (require, exports, module) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
                     $("#userTotalRPT .tr-header").after(innerText);
+
+                    $(".total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            innerText.find("." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total.toFixed(0));
+                        }
+                    });
+                    $(".t4").html(($(".t2").html() / $(".t1").html() * 100).toFixed(2) + "%");
+                    $(".t5").html(($(".t3").html() / $(".t1").html() * 100).toFixed(2) + "%");
                 });
             } else {
                 $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");

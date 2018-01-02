@@ -103,6 +103,17 @@
                             <span>@(taskModel.FinishDay)天</span>
                         </li>
                     }
+                    if (task.Mark == 16 || task.Mark == 26)
+                    {
+                        <li>
+                            <span class="column-title">整件工价：</span>
+                            <span id="txtSewnPrice">@(order.SewnPrice.ToString("f2"))</span>
+                            @if (task.FinishStatus == 1 && task.Status == 1 && taskModel.IsTaskOwner)
+                            {
+                                <div id="updateSewnPrice" style="font-size:16px;" class="ico-edit iconfont mLeft20"></div>
+                            }
+                        </li>
+                     }
                 }
                  <li>
                 @{

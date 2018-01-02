@@ -139,6 +139,14 @@
                 <span class="column-title">加工成本：</span>
                 <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
             </li>
+            <li class="">
+                <span class="column-title">整件工价(单)：</span>
+                <label class="left" id="txtSewnPrice">@((model.SewnPrice).ToString("f2"))</label>
+                 @if (model.IsSelf && model.OrderStatus == 1)
+                { 
+                    <div id="updateSewnPrice" title="编辑工价" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
+                }
+            </li>
             <li>
                 <span class="column-title">利润比例(%)：</span>
                 <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>

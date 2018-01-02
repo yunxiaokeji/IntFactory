@@ -1,12 +1,20 @@
-﻿{%
+﻿<tr class="total-item">
+    <td class="center">合计：</td>
+    <td class="center t1" data-class="c1"></td>
+    <td class="center t2" data-class="c2"></td>
+    <td class="center t3" data-class="c3"></td>
+    <td class="center t4"></td>
+    <td class="center t5"></td>
+</tr>
+{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
 <tr class="list-item">
     <td>{%=item.CustomerName||"未绑定客户"%}</td>
-    <td class="center">{%=item.DemandCount%}</td>
-    <td class="center">{%=item.DYCount%}</td>
-    <td class="center">{%=item.DHCount%}</td>
+    <td class="center c1">{%=item.DemandCount%}</td>
+    <td class="center c2">{%=item.DYCount%}</td>
+    <td class="center c3">{%=item.DHCount%}</td>
     <td class="center">{%=(item.DYCount/item.DemandCount*100).toFixed(2)%}%</td>
     <td class="center">{%=(item.DYCount>0?item.DHCount/item.DYCount*100:0).toFixed(2)%}%</td>
 </tr>

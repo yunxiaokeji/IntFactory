@@ -33,13 +33,15 @@
         Common.orderid =orderid;
         Common.taskid = taskid;
         Common.init(Global, DoT);
+        var userid = $("#hideCurrentUserID").val();//登录者
+        var isTaskOwner = task.Owner.UserID == userid;
+        Common.isTaskOwner = isTaskOwner;
+
         if ($("#btnSewnOrder").length == 1) {
             //车缝录入
             $("#btnSewnOrder").click(function () {
-                var userid = $("#hideCurrentUserID").val();//登录者
-                var isTaskOwner = task.Owner.UserID == userid;
                 var processids = "";
-                if (!isTaskOwner&&task.TaskMembers) {
+                if (!isTaskOwner && task.TaskMembers) {
                     for (var i = 0; i < task.TaskMembers.length; i++) {
                         if (task.TaskMembers[i].MemberID == userid) {
                             processids = task.TaskMembers[i].ProcessIds;
@@ -152,7 +154,7 @@
 
     //车缝记录
     ObjectJS.getSewnDoc = function () {
-        Common.getGetGoodsDoc("navSewnDoc", 11, ObjectJS.taskDesc);
+        Common.getGetGoodsDoc("navSewnDoc", 11, ObjectJS.taskDesc, Common.isTaskOwner);
     }
 
     //车缝录入

@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     var Params = {
         beginTime: Date.now().toString().toDate("yyyy-MM-01"),
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
-        docType: 11,
+        docType: 1,
         UserID: "",
         TeamID: ""
     };
@@ -73,11 +73,21 @@ define(function (require, exports, module) {
             $("#userTotalRPT .tr-header").nextAll().remove();
 
             if (data.items.length > 0) {
-                doT.exec("template/report/user-workload.html", function (templateFun) {
+                doT.exec("template/report/usercutreport.html", function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
 
                     $("#userTotalRPT .tr-header").after(innerText);
+
+                    $(".total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            innerText.find("." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total.toFixed(0));
+                        }
+                    });
                 });
             } else {
                 $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");

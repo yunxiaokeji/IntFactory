@@ -20,7 +20,7 @@
     };
 
     //获取订单明细
-    ObjectJS.getGetGoodsDoc = function (id, type, taskDesc) {
+    ObjectJS.getGetGoodsDoc = function (id, type, taskDesc, isOwner) {
         var _self = this;
         var $tr_header = $("#" + id + " .tr-header");
         $tr_header.nextAll().remove();
@@ -48,7 +48,7 @@
                     innerhtml = $(innerhtml);
 
                     /*车缝退回操作*/
-                    if ($("#btnSewnOrder").length == 1 && type == 11) {
+                    if ($("#btnSewnOrder").length == 1 && type == 11 && isOwner) {
                         innerhtml.find(".ico-dropdown").click(function () {
                             var _this = $(this);
                             ObjectJS.docID = _this.data('id');
