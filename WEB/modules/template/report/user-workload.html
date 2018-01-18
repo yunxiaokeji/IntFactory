@@ -1,15 +1,15 @@
-﻿{%
+﻿<tr class="total-item">
+    <td class="center">合计：</td>
+    <td class="center t1" data-class="c1"></td>
+    <td class="center t2" data-class="c2"></td>
+</tr>
+{%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
 <tr class="list-item">
     <td>{%=item.UserName%}</td>
-    {%if(item.DocType==1){%}
-        <td class="center">{%=item.CutQuantity%}</td>
-    {% }else if(item.DocType==11){%}
-        <td class="center">{%=item.SewnQuantity%}</td>
-        <td class="center">{%=item.SewnReturn%}</td>
-    {% }%}
-
+    <td class="center c1">{%=item.SewnQuantity%}</td>
+    <td class="center c2">{%=item.SewnReturn%}</td>
 </tr>
 {% } %}

@@ -11,7 +11,8 @@ define(function (require, exports, module) {
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
         docType: 11,
         UserID: "",
-        TeamID: ""
+        TeamID: "",
+        SearchType: 1
     };
 
     var ObjectJS = {};
@@ -41,10 +42,34 @@ define(function (require, exports, module) {
         }, function (start, end, label) {
             Params.beginTime = start ? start.format("YYYY-MM-DD") : "";
             Params.endTime = end ? end.format("YYYY-MM-DD") : "";
-            _self.getList();
+            if (Params.SearchType == 1) {
+                _self.getList();
+            } else {
+                _self.getProcessList();
+            }
         });
 
         $("#iptCreateTime").val(Params.beginTime + ' 至 ' + Params.endTime);
+
+        $(".search-reporttype .item").click(function () {
+            var _this = $(this);
+            if (!_this.hasClass("hover")) {
+                Params.SearchType = _this.data("id")
+
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+
+                $(".table-list-rpt").hide();
+                $("#" + _this.data("nav")).show();
+
+                Params.PageIndex = 1;
+                if (Params.SearchType == 1) {
+                    _self.getList();
+                } else {
+                    _self.getProcessList();
+                }
+            }
+        });
 
         require.async("choosebranch", function () {
             $("#chooseBranch").chooseBranch({
@@ -57,7 +82,11 @@ define(function (require, exports, module) {
                 onChange: function (data) {
                     Params.UserID = data.userid;
                     Params.TeamID = data.teamid;
-                    _self.getList();
+                    if (Params.SearchType == 1) {
+                        _self.getList();
+                    } else {
+                        _self.getProcessList();
+                    }
                 }
             });
         });
@@ -78,9 +107,51 @@ define(function (require, exports, module) {
                     innerText = $(innerText);
 
                     $("#userTotalRPT .tr-header").after(innerText);
+                    $(".total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            innerText.find("." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total.toFixed(0));
+                        }
+                    });
                 });
             } else {
                 $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+            }
+        });
+    }
+    ObjectJS.getProcessList = function () {
+        var _self = this;
+        $("#userProcessRPT").empty()
+        $("#userProcessRPT").append("<tr><td colspan='100'><div class='data-loading'><div></td></tr>");
+        Global.post("/Report/GetUserSewnProcess", Params, function (data) {
+
+            var obj = {};
+            obj.items = data.items;
+            obj.process = data.process;
+            $("#userProcessRPT").empty()
+
+            if (data.items.length > 0) {
+                doT.exec("template/report/user-sewnprocess-rpt.html", function (templateFun) {
+                    var innerText = templateFun(obj);
+                    innerText = $(innerText);
+
+                    $("#userProcessRPT").append(innerText);
+
+                    $(".total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            innerText.find("." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total.toFixed(2));
+                        }
+                    });
+                });
+            } else {
+                $("#userProcessRPT").append("<tr><td colspan='100'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
         });
     }

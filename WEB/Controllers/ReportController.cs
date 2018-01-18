@@ -1,4 +1,5 @@
 ﻿using IntFactoryBusiness;
+using IntFactoryEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,54 @@ namespace YXERP.Controllers
         {
             var list = TaskRPTBusiness.BaseBusiness.GetUserLoadReport(beginTime, endTime, docType, UserID, TeamID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetUserSewnProcess(string beginTime, string endTime, string UserID, string TeamID)
+        {
+            var list = TaskRPTBusiness.BaseBusiness.GetUserSewnProcessReport(beginTime, endTime, UserID, TeamID, CurrentUser.ClientID);
+            List<ProcessItemEntity> process = new List<ProcessItemEntity>();
+            var processIds = list.Select(m => m.ProcessID).Distinct().ToList();
+            if (processIds != null)
+            {
+                processIds.ForEach(u =>
+                {
+                    var item = new ProcessItemEntity();
+                    item.ProcessID = u;
+                    item.ProcessName = list.Where(m => m.ProcessID == u).FirstOrDefault().ProcessName;
+                    process.Add(item);
+                });
+            }
+
+            List<SewnProcessRptEntity> rows = new List<SewnProcessRptEntity>();
+
+            var users = list.Select(m => m.OwnerID).Distinct().ToList();
+            if (users != null)
+            {
+                users.ForEach(u =>
+                {
+                    var item = new SewnProcessRptEntity();
+                    item.UserName = OrganizationBusiness.GetUserCacheByUserID(u, CurrentUser.ClientID).Name;
+                    item.ProcessItems = new List<SewnProcessItemEntity>();
+                    process.ForEach(p =>
+                    {
+                        var processitem = list.Where(m => m.ProcessID == p.ProcessID && m.OwnerID == u).FirstOrDefault();
+                        if (processitem == null)
+                        {
+                            processitem = new SewnProcessItemEntity();
+                        }
+                        item.ProcessItems.Add(processitem);
+                    });
+                    rows.Add(item);
+                });
+            }
+            
+            JsonDictionary.Add("items", rows);
+            JsonDictionary.Add("process", process);
             return new JsonResult()
             {
                 Data = JsonDictionary,

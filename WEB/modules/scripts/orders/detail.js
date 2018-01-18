@@ -200,6 +200,7 @@
                                 }, function (data) {
                                     if (data.status) {
                                         $("#txtSewnPrice").text((price * 1).toFixed(2));
+                                        $("#lblOrderSewnPrice").text($("#txtSewnPrice").text());
                                     } else {
                                         alert("工价设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
                                     }
@@ -749,7 +750,7 @@
         $("#btnSaveSwen").click(function () {
             var id = ObjectJS.docID;
             if ($(".btn-save-" + id).length <= 0) {
-                var _save = $('<div class="hand btn-link right mLeft10 btn-save-' + id + '" data-id="' + id + '">保存</div>');
+                var _save = $('<div class="hand btn-link right mLeft10 btn-save-' + id + '" data-id="' + id + '" data-type="' + ObjectJS.docTypeReturn + '">保存</div>');
                 var _cancel = $('<div class="hand btn-link right mLeft10 btn-cancel-' + id + '" data-id="' + id + '">取消</div>');
                 var _input = $('<div class="right mLeft10 swen-quantity-' + id + '"><input class="mLeft10 quantity" type="text" style="width:40px;" value="0" /></div>');
 
@@ -774,7 +775,7 @@
                             Global.post("/Task/CreateGoodsDocReturn", {
                                 orderID: ObjectJS.orderid,
                                 taskID: '',
-                                docType: 6,
+                                docType: _thisBtn.data("type"),
                                 details: details,
                                 originalID: id
                             }, function (data) {
@@ -797,7 +798,7 @@
 
                                     alert("退回成功");
                                 } else if (data.result == 2) {
-                                    alert("退回数不能多于车缝数", 2);
+                                    alert("退回数不能多于完成数", 2);
                                 } else {
                                     alert("网络繁忙，请重试", 2);
                                 }
@@ -810,15 +811,6 @@
                 _input.find('.quantity').change(function () {
                     var _this = $(this);
                     if (!_this.val().isInt() || _this.val() * 1 <= 0) {
-                        _this.val(0);
-                        return false;
-                    }
-                    var swenTotal = _this.parents('tr').find('.swen-total').text() * 1;
-                    var swenQuantity = _this.val() * 1 + _this.parent().prev().text() * 1;
-                    if (swenTotal < swenQuantity) {
-                        _this.showTipLayer({
-                            content: "退回数不能大于车缝数"
-                        });
                         _this.val(0);
                         return false;
                     }
@@ -2489,7 +2481,17 @@
                 doT.exec("template/orders/" + templateInner + ".html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
+                    innerhtml.find(".ico-dropdown").click(function () {
+                        var _this = $(this);
+                        ObjectJS.docID = _this.data('id');
+                        ObjectJS.docTypeReturn = 22
+                        var position = _this.position();
+                        $("#setReturnSewn li").data("columnname", _this.data("columnname"));
+                        $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                        return false;
+                    });
                     _box.after(innerhtml);
 
                     if (templateInner == "senddocs") {
@@ -2524,6 +2526,17 @@
                 doT.exec("template/orders/cutoutdoc.html", function (template) {
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
+                    innerhtml.find(".ico-dropdown").click(function () {
+                        var _this = $(this);
+                        ObjectJS.docID = _this.data('id');
+                        ObjectJS.docTypeReturn = 21
+                        var position = _this.position();
+                        $("#setReturnSewn li").data("columnname", _this.data("columnname"));
+                        $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
+                            $(this).hide();
+                        });
+                        return false;
+                    });
                     _box.after(innerhtml);
                     var total = 0;
                     innerhtml.find('.cut1').each(function () {
@@ -2559,6 +2572,7 @@
                     innerhtml.find(".ico-dropdown").click(function () {
                         var _this = $(this);
                         ObjectJS.docID = _this.data('id');
+                        ObjectJS.docTypeReturn = 6;
                         var position = _this.position();
                         $("#setReturnSewn li").data("columnname", _this.data("columnname"));
                         $("#setReturnSewn").css({ "top": position.top + 20, "left": position.left - 70 }).show().mouseleave(function () {
@@ -2592,7 +2606,7 @@
             orderid: _self.orderid//_self.model.OrderType == 1 ? _self.orderid : _self.model.OriginalID
         }, function (data) {
             _box.nextAll().remove();
-            if (data.items.length > 0) {
+            if (data.items.length >= 0) {
                 _self.OrderCosts = data.items;
                 doT.exec("template/orders/orderCosts.html", function (template) {
                     var innerhtml = template(data.items);
@@ -2619,6 +2633,14 @@
                             });
                         }, "删除");
                     });
+                    $("#lblOrderSewnPrice").text($("#txtSewnPrice").text());
+                    if ($("#updateSewnPrice").length == 0) {
+                        innerhtml.find(".ico-edit").remove();
+                    } else {
+                        innerhtml.find(".ico-edit").click(function () {
+                            $("#updateSewnPrice").click();
+                        });
+                    }
 
                 });
             } else {

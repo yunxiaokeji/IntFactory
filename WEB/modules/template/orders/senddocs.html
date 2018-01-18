@@ -12,31 +12,46 @@
 <tr class="item-header">
     <td class="tLeft">规格</td>
     <td class="">数量</td>
+    <td class="tLeft btn-swen-box-{%=item.DocID%}">
+        退回数
+    </td>
     <td>小计</td>
     <td class="">快递单号</td>
     <td class="">快递公司</td>
     <td class="">发货人</td>
     <td class="">发货时间</td>
-    <td>操作</td>
+    <td>
+        操作
+        <div class="iconfont dropdown right" data-status="0"><span data-id="{%=item.DocID%}" class="ico-dropdown mTop3" style="display:block;"></span></div>
+        <div class="clear"></div>
+    </td>
 </tr>
 {%
 for(var j=0,jj=item.Details.length;j<jj;j++)
 {
     var detail=item.Details[j];
 %}
-<tr class="item">
+<tr class="item" data-id="{%=detail.GoodsDetailID%}">
     <td class="tLeft bBottom">
         {%=detail.Remark%}
     </td>
-    <td class="center bBottom">
+    <td class="center bBottom swen-total">
         {%=detail.Quantity%}
     </td>
+    <td class="tLeft bBottom input-swen-box-{%=item.DocID%}">
+        <div class="mLeft2 left mTop4">{%=detail.ReturnQuantity%}</div>
+    </td>
     {%
-    if(j==0)
-   {
+    if(j==0){
+        var total=item.Quantity;
+        for(var k=0;k<item.Details.length;k++)
+        {
+            var quantity=item.Details[k].ReturnQuantity;
+            total-=quantity;
+        }
     %}
-    <td class="center bBottom bLeft cut1" rowspan="{%=jj%}">
-        {%=item.Quantity%}
+    <td class="center bBottom bLeft cut1" data-quantity="{%=item.Quantity%}" rowspan="{%=jj%}">
+        {%=total%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=jj%}">
         {%=item.ExpressCode%}

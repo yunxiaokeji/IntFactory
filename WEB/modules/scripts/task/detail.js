@@ -419,6 +419,7 @@
                                 }, function (data) {
                                     if (data.status) {
                                         $("#txtSewnPrice").text((price * 1).toFixed(2));
+                                        $("#lblOrderSewnPrice").text($("#txtSewnPrice").html());
                                     } else {
                                         alert("工价设置失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
                                     }

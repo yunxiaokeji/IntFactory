@@ -1,0 +1,53 @@
+﻿{%
+    var items=$data.items;
+    var process=$data.process;
+%}
+<tr class="tr-header">
+    <td class="tLeft" rowspan="2">员工</td>
+    {%
+	    for(var i=0, j=process.length; i < j; i++){
+	    var item = process[i];
+    %}
+        <td colspan="4">{%=item.ProcessName%}</td>
+    {% } %}
+</tr>
+<tr class="tr-header">
+    {%
+	    for(var i=0, j=process.length; i < j; i++){
+	    var item = process[i];
+    %}
+        <td>数量</td>
+        <td>金额</td>
+        <td>退回数</td>
+        <td>退回金额</td>
+    {% } %}
+</tr>
+<tr class="total-item">
+    <td class="center">合计：</td>
+   {%
+	    for(var i=0, j=process.length; i < j; i++){
+	    var item = process[i];
+    %}
+        <td class="center" data-class="a{%=i%}">0.00</td>
+        <td class="center" data-class="b{%=i%}">0.00</td>
+        <td class="center" data-class="c{%=i%}">0.00</td>
+        <td class="center" data-class="d{%=i%}">0.00</td>
+    {% } %}
+</tr>
+{%
+	for(var i=0, j=items.length; i < j; i++){
+	var item = items[i];
+%}
+<tr class="list-item">
+    <td>{%=item.UserName%}</td>
+    {%
+	    for(var ii=0, jj=item.ProcessItems.length; ii < jj; ii++){
+	    var processitem = item.ProcessItems[ii];
+    %}
+        <td class="center a{%=ii%}">{%=processitem.Quantity%}</td>
+        <td class="center b{%=ii%}">{%=processitem.Price%}</td>
+        <td class="center c{%=ii%}">{%=processitem.ReturnQuantity%}</td>
+        <td class="center d{%=ii%}">{%=processitem.ReturnPrice%}</td>
+    {% } %}
+</tr>
+{% } %}

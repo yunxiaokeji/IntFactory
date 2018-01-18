@@ -14,21 +14,17 @@
     <td>数量
         {%=item.ProcessName?"（"+item.ProcessName+"）":""%}
     </td>
-    {%if(item.DocType==11){%}
     <td class="tLeft btn-swen-box-{%=item.DocID%}">
         退回数
     </td>
-    {%}%}
     <td>小计</td>
     <td>登记时间</td>
     <td>操作人</td>
     <td>登记人</td>
     <td class="">
         操作
-        {%if(item.DocType==11){%}
         <div class="iconfont dropdown right" data-status="0"><span data-id="{%=item.DocID%}" class="ico-dropdown mTop3" style="display:block;"></span></div>
         <div class="clear"></div>
-        {%}%}
     </td>
 </tr>
 {%
@@ -43,25 +39,21 @@ for(var j=0;j<item.Details.length;j++)
     <td class="center bBottom swen-total"">
         {%=detail.Quantity%}
     </td>
-    {%if(item.DocType==11){%}
     <td class="tLeft bBottom input-swen-box-{%=item.DocID%}">
         <div class="mLeft2 left mTop4">{%=detail.ReturnQuantity%}</div>
     </td>
-    {%}%}
     {%
     if(j==0)
     {
-        if(item.DocType==11){
-            var total=item.Quantity;
-            for(var k=0;k<item.Details.length;k++)
-            {
-                var quantity=item.Details[k].ReturnQuantity;
-                total-=quantity;
-            }
+        var total=item.Quantity;
+        for(var k=0;k<item.Details.length;k++)
+        {
+            var quantity=item.Details[k].ReturnQuantity;
+            total-=quantity;
         }
     %}
     <td class="center bBottom bLeft cut1" data-quantity="{%=item.Quantity%}" rowspan="{%=item.Details.length%}">
-        {%=item.DocType==11?total:item.Quantity%}
+        {%=total%}
     </td>
     <td class="center bBottom bLeft" rowspan="{%=item.Details.length%}">
         {%=item.CreateTime.toDate('yyyy-MM-dd hh:mm:ss')%}

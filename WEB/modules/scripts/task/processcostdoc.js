@@ -66,26 +66,28 @@
                     $("#navCosts .tr-header").after(innerhtml);
 
                     if ($("#addOtherCost").length == 1) {
-                        if (_self.orderType == 1) {
-                            innerhtml.find(".ico-del").click(function () {
-                                var _this = $(this);
-                                confirm("删除后不可恢复，确认删除吗？", function () {
-                                    Global.post("/Task/DeleteOrderCost", {
-                                        orderid: _self.orderID,
-                                        autoid: _this.data("id")
-                                    }, function (data) {
-                                        if (data.status) {
-                                            $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
-                                            _this.parents("tr").first().remove();
-                                        }
-                                    });
-                                }, "删除");
-                            });
-                        }
+                        innerhtml.find(".ico-del").click(function () {
+                            var _this = $(this);
+                            confirm("删除后不可恢复，确认删除吗？", function () {
+                                Global.post("/Task/DeleteOrderCost", {
+                                    orderid: _self.orderID,
+                                    autoid: _this.data("id")
+                                }, function (data) {
+                                    if (data.status) {
+                                        $("#lblCostMoney").text(($("#lblCostMoney").text() - _this.parents("tr").find(".cost-price").text()).toFixed(2));
+                                        _this.parents("tr").first().remove();
+                                    }
+                                });
+                            }, "删除");
+                        });
+                        innerhtml.find(".ico-edit").click(function () {
+                            $("#updateSewnPrice").click();
+                        });
                     }
                     else {
-                        innerhtml.find(".ico-del").remove();
+                        innerhtml.find(".ico-del,.ico-edit").remove();
                     }
+                    $("#lblOrderSewnPrice").text($("#txtSewnPrice").html());
                 });
             } else {
                 $("#navCosts .tr-header").after("<tr><td colspan='10'><div class='nodata-txt' >暂无数据!</div></td></tr>");

@@ -803,6 +803,7 @@
     <Content Include="modules\template\report\orderproduction.html" />
     <Content Include="modules\template\report\customerrate.html" />
     <Content Include="modules\template\report\usercutreport.html" />
+    <Content Include="modules\template\report\user-sewnprocess-rpt.html" />
     <Content Include="modules\template\system\taskprocess.html" />
     <Content Include="modules\template\system\taskprocess-detail.html" />
     <Content Include="modules\template\system\orderprocess-detail.html" />

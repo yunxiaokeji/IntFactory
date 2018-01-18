@@ -39,6 +39,19 @@ namespace IntFactoryDAL
             return dt;
         }
 
+        public DataTable GetUserSewnProcessReport(string begintime, string endtime, string UserID, string TeamID, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@BeginTime",begintime),
+                                       new SqlParameter("@EndTime",endtime),
+                                       new SqlParameter("@UserID",UserID),
+                                       new SqlParameter("@TeamID",TeamID),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            DataTable dt = GetDataTable("R_GetUserSewnProcessReport", paras, CommandType.StoredProcedure);
+            return dt;
+        }
+
         public DataTable GetOrderProductionRPT(int timeType, string begintime, string endtime, string keyWords, string UserID, string TeamID, string clientid)
         {
             SqlParameter[] paras = { 

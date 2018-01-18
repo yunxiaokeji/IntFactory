@@ -78,6 +78,37 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<SewnProcessItemEntity> GetUserSewnProcessReport(string begintime, string endtime, string userid, string teamid, string clientid)
+        {
+            if (string.IsNullOrEmpty(begintime))
+            {
+                begintime = "1990-1-1 00:00:00";
+            }
+            else
+            {
+                begintime = Convert.ToDateTime(begintime).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            if (string.IsNullOrEmpty(endtime))
+            {
+                endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            DataTable dt = RPTDAL.BaseProvider.GetUserSewnProcessReport(begintime, endtime, userid, teamid, clientid);
+
+            List<SewnProcessItemEntity> list = new List<SewnProcessItemEntity>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                SewnProcessItemEntity model = new SewnProcessItemEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
         public List<OrderProductionRptEntity> GetOrderProductionRPT(int timeType, string begintime, string endtime, string keyWords, string userid, string teamid, string clientid)
         {
             if (string.IsNullOrEmpty(begintime))
