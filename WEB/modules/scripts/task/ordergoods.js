@@ -46,9 +46,8 @@
                     data.items.taskDesc = taskDesc;
                     var innerhtml = template(data.items);
                     innerhtml = $(innerhtml);
-
                     /*车缝退回操作*/
-                    if ($("#btnSewnOrder").length == 1 && type == 11 && isOwner) {
+                    if ($("#btnSewnOrder,#btnCutoutOrder,#btnSendOrder").length > 0 && isOwner) {
                         innerhtml.find(".ico-dropdown").click(function () {
                             var _this = $(this);
                             ObjectJS.docID = _this.data('id');

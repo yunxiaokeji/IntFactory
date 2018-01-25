@@ -139,7 +139,7 @@
                 <span class="column-title">加工成本：</span>
                 <label id="lblCostMoney">@(model.CostPrice.ToString("f2"))</label>
             </li>
-            <li class="">
+            <li class="hide">
                 <span class="column-title">整件工价(单)：</span>
                 <label class="left" id="txtSewnPrice">@((model.SewnPrice).ToString("f2"))</label>
                  @if (model.IsSelf && model.OrderStatus == 1)

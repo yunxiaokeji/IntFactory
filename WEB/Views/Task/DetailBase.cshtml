@@ -105,7 +105,7 @@
                     }
                     if (task.Mark == 16 || task.Mark == 26)
                     {
-                        <li>
+                        <li class="hide">
                             <span class="column-title">整件工价：</span>
                             <span id="txtSewnPrice">@(order.SewnPrice.ToString("f2"))</span>
                             @if (task.FinishStatus == 1 && task.Status == 1 && taskModel.IsTaskOwner)

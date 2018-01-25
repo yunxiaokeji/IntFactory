@@ -100,7 +100,7 @@
                 }
             }
             CutoutDoc = require("scripts/task/cutoutdoc");
-            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc);
+            CutoutDoc.initCutoutDoc(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, taskDesc, task);
         }
         else if (ObjectJS.mark === 14 && ObjectJS.orderType == 2) {
            var taskDesc="车缝";
@@ -136,11 +136,11 @@
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 2) {
             SendOrders = require("scripts/task/sendorders");
-            SendOrders.initSendOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
+            SendOrders.initSendOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, task);
         }
         else if (ObjectJS.mark === 15 && ObjectJS.orderType == 1) {
             SendDYOrders = require("scripts/task/senddyorders");
-            SendDYOrders.initSendDYOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog);
+            SendDYOrders.initSendDYOrders(ObjectJS.orderid, ObjectJS.taskid, Global, DoT, Easydialog, task);
         }
         else if (ObjectJS.mark === 16) {
             ProcessDYCosts = require("scripts/task/processcostdoc");
@@ -1485,14 +1485,14 @@
     ObjectJS.bindSetVariation = function () {
         $(".normal-plate-ipt").unbind().bind("blur", function () {
             var variation = $(this).val();
-            if (variation == '' || !variation.isDouble()) {
+            if (variation && !variation.isDouble()) {
                 $(this).val('');
                 return;
             }
 
             var $td = $(this).parent().parent().find(".normal-plate");
             var markvalue = $td.find(".tbContentIpt").val();
-            if (markvalue == "" || !markvalue.isDouble() ) {
+            if (markvalue && !markvalue.isDouble()) {
                 $(this).parents('tr').find('.normal-plate .tbContentIpt').showTipLayer({
                     content: "标码值有误"
                 });
