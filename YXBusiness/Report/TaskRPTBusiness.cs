@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using IntFactoryDAL;
 using IntFactoryEntity;
+using IntFactoryEntity.Manage.Report;
 
 namespace IntFactoryBusiness
 {
@@ -171,6 +172,96 @@ namespace IntFactoryBusiness
             }
             return list;
         }
-        
+
+        public List<KanbanRptEntity> GetKanbanRPT(string begintime, string endtime,int dateType, string clientid)
+        {
+            if (string.IsNullOrEmpty(begintime))
+            {
+                begintime = "1990-1-1 00:00:00";
+            }
+            else
+            {
+                begintime = Convert.ToDateTime(begintime).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            if (string.IsNullOrEmpty(endtime))
+            {
+                endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            string todaybegin, todayend, lastbegin, lastend;
+            if (dateType == 1)
+            {
+                todaybegin = DateTime.Today.ToString("yyyy-MM-dd HH:mm:ss");
+                todayend= DateTime.Today.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+                lastbegin = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss");
+                lastend = DateTime.Today.AddSeconds(-1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else if (dateType == 2)
+            {
+                var day = (int)DateTime.Today.DayOfWeek;
+                day = day == 0 ? 6 : day - 1;
+                todaybegin = DateTime.Today.AddDays(-day).ToString("yyyy-MM-dd HH:mm:ss");
+                todayend = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+                lastbegin = DateTime.Today.AddDays(-day).AddDays(-7).ToString("yyyy-MM-dd HH:mm:ss");
+                lastend = DateTime.Today.AddDays(-day).AddSeconds(-1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else  
+            {
+                var day = DateTime.Today.Day - 1;
+                todaybegin = DateTime.Today.AddDays(-day).ToString("yyyy-MM-dd HH:mm:ss");
+                todayend = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+                lastbegin = DateTime.Today.AddDays(-day).AddMonths(-1).ToString("yyyy-MM-dd HH:mm:ss");
+                lastend = DateTime.Today.AddDays(-day).AddSeconds(-1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            DataTable dt = RPTDAL.BaseProvider.GetKanbanRPT(begintime, endtime, todaybegin, todayend, lastbegin, lastend, clientid);
+
+            List<KanbanRptEntity> list = new List<KanbanRptEntity>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                KanbanRptEntity model = new KanbanRptEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public static List<ClientVitalityItem> GetKanbanItemRPT(int dateType, string itemType,string begintime, string endtime,string clientid)
+        {
+            if(string.IsNullOrEmpty(begintime))
+            {
+                begintime = "1990-1-1 00:00:00";
+            }
+            else
+            {
+                begintime = Convert.ToDateTime(begintime).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            if (string.IsNullOrEmpty(endtime))
+            {
+                endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                endtime = Convert.ToDateTime(endtime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            List<ClientVitalityItem> list = new List<ClientVitalityItem>();
+
+            DataTable dt = RPTDAL.BaseProvider.GetKanbanItemRPT(itemType, dateType, begintime, endtime, clientid);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ClientVitalityItem model = new ClientVitalityItem();
+                model.Name = dr["CreateTime"].ToString();
+                model.Value = Convert.ToDecimal(dr["TotalNum"]);
+                list.Add(model);
+            }
+            return list;
+        }
+
     }
 }

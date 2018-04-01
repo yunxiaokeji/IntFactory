@@ -78,5 +78,32 @@ namespace IntFactoryDAL
             DataTable dt = GetDataTable("R_GetCustomerRateRPT", paras, CommandType.StoredProcedure);
             return dt;
         }
+
+        public DataTable GetKanbanRPT(string begintime, string endtime, string todaybegintime, string todayendtime, string lastbegintime, string lastendtime, string clientid)
+        {
+            SqlParameter[] paras = {
+                                       new SqlParameter("@BeginTime",begintime),
+                                       new SqlParameter("@EndTime",endtime),
+                                       new SqlParameter("@TodayBeginTime",todaybegintime),
+                                       new SqlParameter("@TodayEndTime",todayendtime),
+                                       new SqlParameter("@LastBeginTime",lastbegintime),
+                                       new SqlParameter("@LastEndTime",lastendtime),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            DataTable dt = GetDataTable("R_GetKanbanRPT", paras, CommandType.StoredProcedure);
+            return dt;
+        }
+
+        public DataTable GetKanbanItemRPT(string itemType,int dateType, string begintime, string endtime,string clientid)
+        {
+            SqlParameter[] paras = {
+                                    new SqlParameter("@DateType",dateType),
+                                    new SqlParameter("@ItemType",itemType),
+                                    new SqlParameter("@BeginTime",begintime),
+                                    new SqlParameter("@EndTime",endtime),
+                                    new SqlParameter("@ClientID",clientid)
+                                   };
+            return GetDataTable("R_GetKanbanItemRPT", paras, CommandType.StoredProcedure);
+        }
     }
 }

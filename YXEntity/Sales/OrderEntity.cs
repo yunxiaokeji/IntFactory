@@ -256,6 +256,8 @@ namespace IntFactoryEntity
         public int IsPublic { get; set; }
 
         public List<OrderAttrEntity> OrderAttrs { get; set; }
+
+        public bool IsEntrustClient { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

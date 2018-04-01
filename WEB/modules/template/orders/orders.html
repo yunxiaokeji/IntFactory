@@ -73,12 +73,14 @@
             </div>
         </td>
         <td class="order-customer tLeft">
-           <div class="mTop5">
+            <div class="mTop5">
                 <span class="iconfont left">&#xe601;</span><span class="column-title">客户：</span>
-                {% if(item.CustomerID != ""){%}
-                    <a href="/Customer/Detail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName?item.CustomerName:"--"%}</a> 
+                {% if(item.IsEntrustClient){%}
+                    {%=item.CustomerName%}
+                {% }else if(item.CustomerID != ""){ %}
+                    <a href="/Customer/Detail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName%}</a>
                 {% }else { %}
-                    --
+                --
                 {% } %}
             </div>
             <div>

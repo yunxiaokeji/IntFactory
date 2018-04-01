@@ -74,6 +74,7 @@
     <Compile Include="Open\ApiModuleEntity.cs" />
     <Compile Include="Report\OrderProductionRptEntity.cs" />
     <Compile Include="Report\SewnProcessEntity.cs" />
+    <Compile Include="Report\KanbanRptEntity.cs" />
     <Compile Include="Report\UserWorkLoadRptEntity.cs" />
     <Compile Include="Report\UserTaskQuantityRptEntity.cs" />
     <Compile Include="Report\CustomerRateRptEntity.cs" />

@@ -1,0 +1,8 @@
+﻿.kanban-box { height:120px; margin-left:20px; }
+.kanban-box li { float: left; width: 105px; border:solid 2px #fff; height:25px; line-height:25px; margin-left:5px; height:110px; cursor:pointer; }
+.kanban-box li.hover { border-color: #2F73B8; }
+
+.kanban-box li h1, .kanban-box li h2 { text-align: center; font-size:16px; color:#666; }
+.kanban-box div { text-align: center; }
+.kanban-box div span { display: inline-block; width: 40px; text-align: center; }
+

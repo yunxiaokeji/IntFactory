@@ -9,6 +9,10 @@ namespace IntFactoryEntity
     {
         public string OwnerID { get; set; }
 
+        public string OrderID { get; set; }
+
+        public string CustomerID { get; set; }
+
         public string UserName { get; set; }
 
         public string IntGoodsCode { get; set; }

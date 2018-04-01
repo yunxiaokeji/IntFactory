@@ -66,6 +66,7 @@
     <Compile Include="Manage\ManageSystemBusiness.cs" />
     <Compile Include="Open\ApiModuleBusiness.cs" />
     <Compile Include="Report\TaskRPTBusiness.cs" />
+    <Compile Include="Sales\OrderHelper.cs" />
     <Compile Include="Sales\OrdersBusiness.cs" />
     <Compile Include="Manage\IndustryBusiness.cs" />
     <Compile Include="Stock\AgentOrderBusiness.cs" />
@@ -82,6 +83,10 @@
     <Compile Include="Task\TaskBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IntFactoryService\IntFactoryService.csproj">
+      <Project>{98e8b47c-0a25-4516-a016-393a12b40fb8}</Project>
+      <Name>IntFactoryService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YX.SDK\AlibabaSdk.csproj">
       <Project>{c6cd2682-4dca-4ee8-a5e5-a0e117073390}</Project>
       <Name>AlibabaSdk</Name>

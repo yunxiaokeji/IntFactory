@@ -15,6 +15,7 @@ namespace YXERP.Controllers
 
         public ActionResult MyWorkReport()
         {
+            ViewBag.Status = ExpandClass.IsExistMenu("105040000");
             return View();
         }
 
@@ -41,6 +42,29 @@ namespace YXERP.Controllers
         public ActionResult CustomerRateRPT()
         {
             return View();
+        }
+
+        public JsonResult GetKanBanReport(int dateType, string beginTime, string endTime)
+        {
+            var list = TaskRPTBusiness.BaseBusiness.GetKanbanRPT(beginTime, endTime, dateType, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetKanBanItemReport(int dateType, string itemType, string beginTime, string endTime)
+        {
+            var list = TaskRPTBusiness.GetKanbanItemRPT(dateType, itemType, beginTime, endTime, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         #region 任务统计
@@ -135,6 +159,7 @@ namespace YXERP.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         #endregion 
 
         #region 客户统计

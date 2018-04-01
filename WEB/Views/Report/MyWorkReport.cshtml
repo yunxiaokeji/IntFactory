@@ -1,4 +1,87 @@
 ﻿@{
-    ViewBag.Title = "MyReport";
-}
 
+    ViewBag.Title = "核心看板";
+}
+<style type="text/css">
+    .source-box { height: 400px; }
+</style>
+<link href="/modules/css/report.css" rel="stylesheet" />
+<link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+@section scripts{
+    <script src="/modules/plug/laydate/laydate.js"></script>
+    <script src="/Scripts/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        seajs.use(["scripts/report/kanbanreport"], function (obj) {
+            obj.init();
+        });
+    </script>
+}
+@if (ViewBag.Status)
+{
+    <div class="header-box">
+        <span class="header-title left">核心看板</span>
+    </div>
+    <div class="search-box">
+        <div class="search-header">
+            <ul class="search-tab search-type">
+                <li data-id="clientsActionRPT" data-type="1" class="hover">按日统计</li>
+                <li data-id="clientsActionRPT" data-type="2">按周统计</li>
+                <li data-id="clientsActionRPT" data-type="3">按月统计</li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-body">
+        <div class="left mBottom10">
+            <input type="text" id="rptBeginTime" placeholder="请选择时间段" class="ipt-date mLeft20" />
+        </div>
+        <div class="clear"></div>
+        <ul class="kanban-box">
+            <li id="customerItem" class="hover">
+                <h1>客户数</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="needItem">
+                <h1>需求单数</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="dyItem">
+                <h1>打样单数</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="dhItem">
+                <h1>大货单数</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="taskItem">
+                <h1>任务</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="moneyItem">
+                <h1>支付金额</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+            <li id="sendItem">
+                <h1>发货数</h1>
+                <h2 class="total">0</h2>
+                <div class="today mTop5"><span>今天：</span><label>0</label></div>
+                <div class="last"><span>昨天：</span><label>0</label></div>
+            </li>
+        </ul>
+        <div id="kanbanRPT" class="source-box">
+
+        </div>
+    </div>
+
+}

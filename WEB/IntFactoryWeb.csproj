@@ -27,6 +27,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -205,6 +207,7 @@
     <Content Include="modules\css\inquire\online-pay.css" />
     <Content Include="modules\css\myaccount\feedbacklist.css" />
     <Content Include="modules\css\order\platemakingprocess.css" />
+    <Content Include="modules\css\report.css" />
     <Content Include="modules\css\task.css" />
     <Content Include="modules\images\author-image.png" />
     <Content Include="modules\images\bg-loginBackground.png" />
@@ -559,6 +562,7 @@
     <Content Include="modules\plug\choosemenu\choosemenu.css" />
     <Content Include="modules\plug\choosemenu\choosemenu.js" />
     <Content Include="modules\scripts\orders\goods.js" />
+    <Content Include="modules\scripts\report\kanbanreport.js" />
     <Content Include="modules\scripts\report\userworkload.js" />
     <Content Include="modules\scripts\report\usertaskreport.js" />
     <Content Include="modules\scripts\report\orderproductionreport.js" />
@@ -798,6 +802,7 @@
     <Content Include="modules\plug\quicklyaddproduct\product_qulickly_add.html" />
     <Content Include="modules\template\purchase\audit_storagein.html" />
     <Content Include="modules\template\purchase\audit_details.html" />
+    <Content Include="modules\template\report\orderdetails.html" />
     <Content Include="modules\template\report\user-workload.html" />
     <Content Include="modules\template\report\user-taskquantity.html" />
     <Content Include="modules\template\report\orderproduction.html" />

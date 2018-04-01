@@ -7,15 +7,20 @@
     <td class="center" data-class="c5"></td>
     <td class=""></td>
     <td class="center" data-class="c6"></td>
+    <td class="center" data-class=""></td>
 </tr>
 {%
 	for(var i=0, j=$data.length; i < j; i++){
 	var item = $data[i];
 %}
 <tr class="list-item">
-    <td class="">{%=item.IntGoodsCode%}</td>
+    <td class="">
+        <a href="/Orders/OrderDetail/{%=item.OrderID%}" class="blue" target="_blank">{%=item.IntGoodsCode%}</a>
+    </td>
     <td class="">{%=item.UserName%}</td>
-    <td class="">{%=item.CustomerName%}</td>
+    <td class="">
+        <a target="_blank" class="blue" href="/Customer/Detail/{%=item.CustomerID%}">{%=item.CustomerName%}</a>
+    </td>
     <td class="center c1">{%=item.OrderQuantity%}</td>
     <td class="center c2">{%=item.CutQuantity%}</td>
     <td class="center c3">{%=item.Complete%}</td>
@@ -23,6 +28,9 @@
     <td class="center c5">{%=item.Complete-item.SendQuantity%}</td>
     <td class="center">{%=item.FinalPrice%}</td>
     <td class="center c6">{%=item.FinalPrice*item.SendQuantity%}</td>
+    <td class="center dropdown" data-id="{%=item.OrderID%}">
+        <span class="ico-dropdown"></span>
+    </td>
 </tr>
 {% } %}
 

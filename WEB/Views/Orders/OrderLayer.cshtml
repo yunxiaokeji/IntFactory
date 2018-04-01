@@ -52,18 +52,18 @@
                 <span class="column-title">联系方式：</span>
                 <label>@(model.MobileTele)</label>
             </li>  
-            <li>
+            @*<li>
                 <span class="column-title">收货地区：</span>
                 <label>@(model.City != null ? (model.City.Province + " " + model.City.City + " " + model.City.Counties) : "")</label>
             </li>
             <li>
                 <span class="column-title">详细地址：</span>
                 <label>@(model.Address)</label>
-            </li>
+            </li>*@
          </ul>
          <h1>成本信息</h1>
          <ul class="@(ExpandClass.IsLimits(HttpContext.Current, "102010502"))">
-             @if(model.OrderType==1)
+             @if (model.OrderType == 1)
              {
                 <li>
                     <span class="column-title">期望价格：</span>

@@ -15,7 +15,7 @@ define(function (require, exports, module) {
     };
 
     var ObjectJS = {};
-
+    var CacheDetails = [];
     //列表页初始化
     ObjectJS.init = function () {
         var _self = this;
@@ -107,6 +107,32 @@ define(function (require, exports, module) {
                     innerText = $(innerText);
                     $("#userTotalRPT .tr-header").after(innerText);
 
+                    //展开明细
+                    innerText.find(".dropdown").click(function () {
+                        var _this = $(this);
+                        if (!_this.data("first") || _this.data("first") == 0) {
+                            _this.data("first", 1).data("status", "open");
+                            if (CacheDetails[_this.data("id")]) {
+                                _self.bindDetails(CacheDetails[_this.data("id")], _this.parent())
+                            } else {
+                                Global.post("/Task/GetOrderGoods", {
+                                    id: _this.data("id")
+                                }, function (details) {
+                                    CacheDetails[_this.data("id")] = details.list;
+                                    _self.bindDetails(details.list, _this.parent());
+                                });
+                            }
+                        } else {
+                            if (_this.data("status") == "open") {
+                                _this.data("status", "close");
+                                _this.parent().nextAll("tr[data-pid='" + _this.data("id") + "']").hide();
+                            } else {
+                                _this.data("status", "open");
+                                _this.parent().nextAll("tr[data-pid='" + _this.data("id") + "']").show();
+                            }
+                        }
+                    });
+
                     $(".total-item td").each(function () {
                         var _this = $(this), _total = 0;
                         if (_this.data("class")) {
@@ -120,6 +146,15 @@ define(function (require, exports, module) {
             } else {
                 $("#userTotalRPT .tr-header").after("<tr><td colspan='208'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+        });
+    }
+    ObjectJS.bindDetails = function (items, ele) {
+        var _self = this;
+
+        doT.exec("template/report/orderdetails.html", function (template) {
+            var innerhtml = template(items);
+            innerhtml = $(innerhtml);
+            ele.after(innerhtml);
         });
     }
     module.exports = ObjectJS;

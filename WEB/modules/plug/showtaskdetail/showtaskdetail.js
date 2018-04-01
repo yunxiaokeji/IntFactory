@@ -180,7 +180,9 @@ define(function (require, exports, module) {
                         });
                     }
                     else {
+                        $("#taskOwnerID").html("***");
                         $("#changeTaskOwner").hide();
+                        $(".tast-link-controller").attr("href","javascript:void(0);")
                     }
 
                     TalkReply.initTalkReply({

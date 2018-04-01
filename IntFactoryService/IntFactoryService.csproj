@@ -42,14 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MaterialService.cs" />
+    <Compile Include="Helper\OrderHelper.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\YXBusiness\IntFactoryBusiness.csproj">
-      <Project>{6322cb56-2693-4600-922d-0dec06a8f59c}</Project>
-      <Name>IntFactoryBusiness</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

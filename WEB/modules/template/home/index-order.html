@@ -31,14 +31,14 @@
             <li class="right">
                 <span class="iconfont view-detail right" style="font-size:18px;" data-id="{%=item.OrderID%}" data-code="{%=item.OrderCode%}">&#xe627;</span>
             </li>
-            
+
         </ul>
         <ul class="order-detail">
             <li class="order-image">
                 <a href="/Orders/OrderDetail/{%=item.OrderID%}" >
                     <img src="{%= item.OrderImage||'/modules/images/img-noimg.png' %}" onerror="$(this).attr('src','/modules/images/img-noimg.png')" />
-                </a> 
-            </li>  
+                </a>
+            </li>
             <li class="order-info">
                 <div>
                     {% if(item.OrderStatus==0){ %}
@@ -74,18 +74,18 @@
                     <span class="column-title">进度：</span>
                     <span style="color:#49b3f5;">{%=item.TaskCount==0?"0.00%":(item.TaskOver/item.TaskCount*100).toFixed(2)+"%"%}</span>
                 </div>
-            </li>  
+            </li>
             <li class="order-time right">
                 {% if(item.OrderStatus==0){ %}
                     <div class="mTop10 left">
-                        <div class="order-progress left">                    
+                        <div class="order-progress left">
                             <div class="center pTop20 red">
                                 未处理
-                            </div>                       
+                            </div>
                             <div class="center mTop20">交货日期：{%=item.PlanTime.toDate("yyyy-MM-dd")<="1900-01-01"||item.PlanTime.toDate("yyyy-MM-dd")=="2040-01-01"?"未设置":item.PlanTime.toDate("yyyy-MM-dd")%}</div>
                             <div class="clear"></div>
                         </div>
-                    </div>    
+                    </div>
                 {% }else{ %}
                     <div class="mTop40 left">
                         <div class="order-progress left">
@@ -102,19 +102,21 @@
                         </div>
                         <div class="center pTop20">
                             {%=totalDay%}天
-                        </div>                
+                        </div>
                         <div class="mTop20">{%=item.WarningStatus==3?"完成":"交货"%}日期：{%=item.WarningStatus==3?item.EndTime.toDate("yyyy-MM-dd"):item.PlanTime.toDate("yyyy-MM-dd")%}</div>
                         <div class="clear"></div>
                     </div>
-                {% } %}        
+                {% } %}
             </li>
             <li class="order-customer right">
                 <div class="mTop5">
                     <span class="iconfont left">&#xe601;</span><span class="column-title">客户：</span>
-                    {% if(item.CustomerID != ""){%}
-                        <a href="/Customer/Detail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName%}</a> 
+                    {% if(item.IsEntrustClient){%}
+                         {%=item.CustomerName%}
+                    {% }else if(item.CustomerID != ""){ %}
+                    <a href="/Customer/Detail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName%}</a>
                     {% }else { %}
-                        --
+                    --
                     {% } %}
                 </div>
                 <div>
@@ -124,8 +126,8 @@
                 <div>
                     <span class="iconfont left">&#xe64f;</span><span class="column-title">联系电话：</span>
                     {%=item.MobileTele||"--"%}
-                </div>     
-            </li>   
+                </div>
+            </li>
         </ul>
     </div>
 {%}%}
