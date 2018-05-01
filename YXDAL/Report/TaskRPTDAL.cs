@@ -25,12 +25,13 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetUserLoadReport(string begintime, string endtime, int docType, string UserID, string TeamID, string clientid)
+        public DataTable GetUserLoadReport(string begintime, string endtime, int docType, string keyWords, string UserID, string TeamID, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@BeginTime",begintime),
                                        new SqlParameter("@EndTime",endtime),
                                        new SqlParameter("@DocType",docType),
+                                       new SqlParameter("@KeyWords",keyWords),
                                        new SqlParameter("@UserID",UserID),
                                        new SqlParameter("@TeamID",TeamID),
                                        new SqlParameter("@ClientID",clientid)
@@ -52,10 +53,11 @@ namespace IntFactoryDAL
             return dt;
         }
 
-        public DataTable GetOrderProductionRPT(int timeType, string begintime, string endtime, string keyWords, string UserID, string TeamID, string clientid)
+        public DataTable GetOrderProductionRPT(int timeType, int entrustType, string begintime, string endtime, string keyWords, string UserID, string TeamID, string clientid)
         {
             SqlParameter[] paras = { 
                                        new SqlParameter("@TimeType",timeType),
+                                       new SqlParameter("@EntrustType",entrustType),
                                        new SqlParameter("@BeginTime",begintime),
                                        new SqlParameter("@EndTime",endtime),
                                        new SqlParameter("@KeyWords",keyWords),
@@ -104,6 +106,19 @@ namespace IntFactoryDAL
                                     new SqlParameter("@ClientID",clientid)
                                    };
             return GetDataTable("R_GetKanbanItemRPT", paras, CommandType.StoredProcedure);
+        }
+
+        public DataTable GetUserLoadDetailByOrderID(string begintime, string endtime, int docType, string userid, string orderid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@BeginTime",begintime),
+                                       new SqlParameter("@EndTime",endtime),
+                                       new SqlParameter("@DocType",docType),
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@OrderID",orderid)
+                                   };
+            DataTable dt = GetDataTable("R_GetUserLoadDetailByOrderID", paras, CommandType.StoredProcedure);
+            return dt;
         }
     }
 }

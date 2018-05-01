@@ -251,7 +251,23 @@ namespace YXERP.Controllers
 
             ViewBag.Model = model;
             return View();
-        }       
+        }
+
+        public ActionResult Provider()
+        {
+            return View();
+        }
+
+        public ActionResult ProviderDetail(string id)
+        {
+            var item = IntFactoryBusiness.Manage.ClientBusiness.GetClientDetail(id);
+            if (item == null)
+            {
+                return Redirect("ProviderDetail");
+            }
+            ViewBag.Item = item;
+            return View();
+        }
 
         #region Ajax
 
@@ -306,6 +322,22 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetOrdersByClientID(string keyWords, bool isProvider, string clientid, int ordertype, int orderstatus, int pagesize, int pageindex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = OrdersBusiness.BaseBusiness.GetOrderByClientID(keyWords, clientid, isProvider, ordertype, orderstatus, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrdersByOriginalID(string originalid, int ordertype, int pagesize, int pageindex)
         {
             int totalCount = 0;
@@ -328,6 +360,22 @@ namespace YXERP.Controllers
             int pageCount = 0;
 
             var list = OrdersBusiness.BaseBusiness.GetNeedsOrderByCustomerID(keyWords, customerid, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID,CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetNeedsOrderByClientID(string keyWords, bool isProvider, string clientid, int pagesize, int pageindex)
+        {
+            int totalCount = 0;
+            int pageCount = 0;
+
+            var list = OrdersBusiness.BaseBusiness.GetOrderByClientID(keyWords, clientid, isProvider, -1, -1, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);

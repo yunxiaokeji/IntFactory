@@ -1,30 +1,23 @@
 ﻿@{
     
-    ViewBag.Title = "员工车缝统计";
+    ViewBag.Title = "发货统计";
 }
  <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
 @section scripts{
     <script src="/Scripts/jquery-1.11.1.js"></script>
     <script type="text/javascript">
         seajs.use(["scripts/report/userworkload"], function (obj) {
-            obj.init(11);
+            obj.init(2);
         });
     </script>
 }
 <div class="header-box">
     <span class="header-title left">
-       员工车缝统计
+       发货统计
     </span>
-</div>
-<div class="search-header">
-    <ul class="search-tab search-reporttype">
-        <li data-id="1" class="item hover" data-nav="userTotalRPT">整件成品</li>
-        <li data-id="2" class="item" data-nav="userProcessRPT">工序统计</li>
-    </ul>
 </div>
 <div class="content-body pBottom50">
     <div class="search-items">
-        <div class="left mRight20" id="chooseBranch"></div>
         <div class="left">
             <input type="text" id="iptCreateTime" placeholder="统计日期"  class="ipt-date"  />
         </div>
@@ -32,21 +25,18 @@
     </div>
     <table id="userTotalRPT" class="table-list-rpt">
         <tr class="tr-header">
-            <td class="tLeft" style="width:10%;">员工</td>
             <td>订单</td>
             <td>客户</td>
             <td style="">下单数</td>
             <td style="">裁片数</td>
-            <td style="">已车缝总数</td>
-            <td style="">该员工车缝数</td>
-            <td style="">剩余车缝</td>
+            <td style="">已车缝数</td>
+            <td style="">未车缝数</td>
+            <td style="">已发货数</td>
+            <td style="">未发货数</td>
             <td style="">返修数量</td>
             <td style="">返修率</td>
             <td style="">明细</td>
         </tr>
-    </table>
-    <table id="userProcessRPT" class="table-list-rpt hide">
-        
     </table>
 </div>
 

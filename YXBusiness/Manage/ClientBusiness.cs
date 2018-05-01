@@ -89,6 +89,45 @@ namespace IntFactoryBusiness.Manage
             return list;
         }
 
+        public static List<Clients> GetProviderClients(string keyWords, bool isProvider, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string clientid)
+        {
+            string sqlWhere = "c.Status<>9", table = "";
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                sqlWhere += " and ( c.MobilePhone = '" + keyWords + "' or  c.ClientCode = '" + keyWords + "' ";
+                if (keyWords.Length > 3)
+                {
+                    sqlWhere += " or c.CompanyName like '%" + keyWords + "%'  ";
+                }
+                sqlWhere += ")";
+            }
+            if (isProvider)
+            {
+                table = "Clients c join ProviderClient pc on c.ClientID=pc.ProviderClientID";
+                sqlWhere += " and pc.ClientID= '" + clientid + "' ";
+            }
+            else
+            {
+                table = "Clients c join ProviderClient pc on c.ClientID=pc.ClientID";
+                sqlWhere += " and pc.ProviderClientID= '" + clientid + "' ";
+            }
+            string sqlColumn = @" c.*,pc.GoodsNum,pc.OrderNum ,pc.LastTime";
+
+            DataTable dt = CommonBusiness.GetPagerData(table, sqlColumn, sqlWhere, "pc.LastTime", pageSize, pageIndex, out totalCount, out pageCount, false);
+            List<Clients> list = new List<Clients>();
+            Clients model;
+            foreach (DataRow item in dt.Rows)
+            {
+                model = new Clients();
+                model.FillData(item);
+
+                model.City = CommonBusiness.Citys.Where(c => c.CityCode == model.CityCode).FirstOrDefault();
+                list.Add(model);
+            }
+
+            return list;
+        }
+
         public static Clients GetClientDetail(string clientid)
         {
             if (!Clients.ContainsKey(clientid))

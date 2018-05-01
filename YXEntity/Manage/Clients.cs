@@ -107,6 +107,12 @@ namespace IntFactoryEntity.Manage
 
         public int GuideStep { get; set; }
 
+        public int GoodsNum { get; set; }
+
+        public int OrderNum { get; set; }
+
+        public DateTime LastTime { get; set; }
+
         /// <summary>
         /// 填充数据
         /// </summary>

@@ -71,7 +71,7 @@ namespace YXManage.Controllers
             return View();
         }
 
-        public ActionResult ChooseDetail(int type, string did, string pid)
+        public ActionResult ChooseDetail(string did, string pid)
         {
             if (string.IsNullOrEmpty(pid))
             {

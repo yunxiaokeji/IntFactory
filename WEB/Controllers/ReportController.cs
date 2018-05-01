@@ -34,6 +34,11 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult UserSendReport()
+        {
+            return View();
+        }
+
         public ActionResult OrderProductionRPT()
         {
             return View();
@@ -83,16 +88,7 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetUserWorkLoad(string beginTime, string endTime, int docType, string UserID, string TeamID)
-        {
-            var list = TaskRPTBusiness.BaseBusiness.GetUserLoadReport(beginTime, endTime, docType, UserID, TeamID, CurrentUser.ClientID);
-            JsonDictionary.Add("items", list);
-            return new JsonResult()
-            {
-                Data = JsonDictionary,
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-        }
+        
 
         public JsonResult GetUserSewnProcess(string beginTime, string endTime, string UserID, string TeamID)
         {
@@ -149,9 +145,31 @@ namespace YXERP.Controllers
         /// <summary>
         /// 订单生产数据统计
         /// </summary>
-        public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords, string UserID, string TeamID, int TimeType)
+        public JsonResult GetOrderProductionRPT(string beginTime, string endTime, string keyWords, string UserID, string TeamID, int TimeType, int entrustType)
         {
-            var list = TaskRPTBusiness.BaseBusiness.GetOrderProductionRPT(TimeType, beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            var list = OrderRPTBusiness.BaseBusiness.GetOrderProductionRPT(TimeType, entrustType, beginTime, endTime, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetUserWorkLoad(string beginTime, string endTime, int docType, string keyWords, string UserID, string TeamID)
+        {
+            var list = OrderRPTBusiness.BaseBusiness.GetUserLoadReport(beginTime, endTime, docType, keyWords, UserID, TeamID, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            return new JsonResult()
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetUserLoadDetailByOrderID(string beginTime, string endTime,int docType,string UserID, string OrderID)
+        {
+            var list = OrderRPTBusiness.BaseBusiness.GetUserLoadDetailByOrderID(beginTime, endTime, docType, UserID, OrderID);
             JsonDictionary.Add("items", list);
             return new JsonResult()
             {

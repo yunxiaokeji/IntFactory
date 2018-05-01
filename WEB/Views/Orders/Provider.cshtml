@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "供应商列表";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/customer/factorys"], function (client) {
+            client.init(true);
+        });
+    </script>
+}
+
+<div class="header-box">
+    <span class="left header-title">供应商列表</span>
+</div>
+
+<div class="content-body">
+    <div class="search-items mTop20">
+         <div class="right searth-module"> </div>
+    </div>
+    <div class="clear"></div>
+    <table class="table-list mTop10">
+        <tr class="tr-header" id="client-header">    
+            <td class="tLeft">供应商编码</td>        
+            <td class="tLeft">供应商名称</td>
+            <td class="tLeft">联系人</td>
+            <td class="tLeft">移动电话</td>
+            <td class="tLeft">省份城市</td>
+            <td class="">打样单</td>
+            <td class="">大货单</td>
+            <td class="">
+                <span class="td-span" data-column="EndTime"> 最后协作时间
+                    <span class="asc"></span>
+                    <span class="desc"></span>
+               </span>
+             </td>
+        </tr>
+    </table>
+
+    <div id="pager" class="mTop20"></div>
+</div>
+

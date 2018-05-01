@@ -10,6 +10,7 @@ define(function (require, exports, module) {
         beginTime: Date.now().toString().toDate("yyyy-MM-01"),
         endTime: Date.now().toString().toDate("yyyy-MM-dd"),
         TimeType: 1,
+        entrustType:-1,
         UserID: "",
         TeamID: ""
     };
@@ -82,6 +83,19 @@ define(function (require, exports, module) {
                 }
             });
         });
+
+        //切换订单来源类型
+        $(".search-entrustclientid .item").click(function () {
+            var _this = $(this);
+
+            if (!_this.hasClass("hover")) {
+                _this.siblings().removeClass("hover");
+                _this.addClass("hover");
+                Params.PageIndex = 1;
+                Params.entrustType = _this.data("id");
+                _self.getList();
+                }
+            });
 
         //关键字搜索
         require.async("search", function () {

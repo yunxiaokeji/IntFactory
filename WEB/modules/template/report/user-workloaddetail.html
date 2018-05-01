@@ -1,0 +1,19 @@
+﻿{%
+	for(var i=0, j=$data.length; i < j; i++){
+	var item = $data[i];
+%}
+<tr class="list-item" data-pid="{%=item.OrderID+item.UserID%}">
+    <td colspan="3" class="tRight">{%=item.Remark%}</td>
+    <td class="center c1">{%=item.OrderQuantity%}</td>
+    <td class="center c2">{%=item.CutQuantity%}</td>
+    <td class="center c3">{%=item.Complete%}</td>
+    <td class="center c3">{%=item.Quantity%}</td>
+    <td class="center c6">{%=item.CutQuantity-item.Complete%}</td>
+    <td class="center c7">{%=item.ReturnQuantity%}</td>
+    <td class="center">{%=(item.Quantity==0?0:item.ReturnQuantity/item.Quantity*100).toFixed(2)%}%</td>
+    <td class="center">
+       
+    </td>
+</tr>
+{% } %}
+

@@ -184,7 +184,7 @@
                 }
                 else if (!string.IsNullOrEmpty(model.CustomerID) && !model.IsSelf)
                 {
-                    @(model.CustomerName)
+                    <a href="/Customer/FactoryDetail/@(model.CustomerID)">@(model.CustomerName)</a> 
                 }
                 else if (string.IsNullOrEmpty(model.CustomerID) && model.IsSelf)
                 {
@@ -246,7 +246,7 @@
                     data-orderid="@(model.OrderID)" data-taskid="@(stage.TaskID)" data-mark="@(stage.Mark)" class="@(stage.FinishStatus == 0 ? "normal" : stage.FinishStatus == 1 ? "ing" : "over") task-item">
                     <span class="long bold">@(stage.Title)</span>
                     <span class="long status">状态：@(stage.FinishStatus == 0 ? "未接受" : stage.FinishStatus == 1 ? "进行中" : "已完成")</span>
-                    <span class="long">负责人：@(IsDoClient?stage.Owner.Name:"***")</span>
+                    <span class="long">负责人：@(stage.Owner.Name)</span>
                     <span class="long">开始日期：@(stage.FinishStatus == 0 ? "--" : stage.AcceptTime.ToString("yyyy-MM-dd"))</span>
                     <span class="long">结束日期：@(stage.FinishStatus == 0 ? "--" : stage.FinishStatus == 1 ? stage.EndTime.ToString("yyyy-MM-dd") : stage.CompleteTime.ToString("yyyy-MM-dd"))</span>
                     @if (stage.LockStatus == 2)
@@ -262,7 +262,7 @@
             { 
                 <li data-id="@(stage.StageID)" class="normal">
                     <span class="long bold">@(stage.StageName)</span>
-                    <span class="long">负责人：@(IsDoClient?stage.Owner.Name:"***")</span>
+                    <span class="long">负责人：@(stage.Owner.Name)</span>
                 </li>
             }
         }

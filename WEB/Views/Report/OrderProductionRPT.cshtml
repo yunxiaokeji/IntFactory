@@ -15,13 +15,22 @@
     <span class="header-title left">订单生产数据统计</span>
 </div>
 <div class="content-body pBottom50">
-    <div class="search-items">
+     <div class="search-body left">
+    <ul class="search-item search-entrustclientid">
+            <li class="column-name">类型：</li>
+            <li class="item hover" data-id="-1">全部</li>
+            <li class="item" data-id="1">本厂</li>
+            <li class="item" data-id="2">协助</li>
+            <li class="item" data-id="3">委托</li>
+        </ul>
+    <div class="search-item">
         <div class="left mRight20" id="chooseBranch"></div>
         <div class="left" id="ddlTimeType"></div>
-        <div class="left mLeft10">
+        <div class="left">
             <input type="text" id="iptCreateTime" placeholder="统计日期"  class="ipt-date"  />
         </div>
-         <div class="right searth-module" data-text="输入款式编码/客户名称..." data-width="200"> </div>
+        <div class="right searth-module" data-text="输入款式编码/客户名称..." data-width="200"> </div>
+    </div>
     </div>
     <table id="userTotalRPT" class="table-list-rpt">
         <tr class="tr-header">

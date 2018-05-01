@@ -16,10 +16,14 @@ define(function (require, exports, module) {
     };
 
     var ObjectJS = {};
+    var CacheDetails = [];
 
     //列表页初始化
     ObjectJS.init = function (docType) {
         var _self = this;
+        if (docType) {
+            Params.docType = docType;
+        }
         _self.getList();
         _self.bindEvent();
     }
@@ -50,6 +54,14 @@ define(function (require, exports, module) {
         });
 
         $("#iptCreateTime").val(Params.beginTime + ' 至 ' + Params.endTime);
+
+        //关键字搜索
+        require.async("search", function () {
+            $(".searth-module").searchKeys(function (keyWords) {
+                Params.keyWords = keyWords;
+                _self.getList();
+            });
+        });
 
         $(".search-reporttype .item").click(function () {
             var _this = $(this);
@@ -96,30 +108,66 @@ define(function (require, exports, module) {
     ObjectJS.getList = function () {
         var _self = this;
         $("#userTotalRPT .tr-header").nextAll().remove();
-        $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='data-loading'><div></td></tr>");
+        $("#userTotalRPT .tr-header").after("<tr><td colspan='20'><div class='data-loading'><div></td></tr>");
         Global.post("/Report/GetUserWorkLoad", Params, function (data) {
 
             $("#userTotalRPT .tr-header").nextAll().remove();
-
+            var template = "template/report/user-workload.html";
+            var detailtemplate = "template/report/user-workloaddetail.html";
+            if (Params.docType == 2){
+                template = "template/report/order-sendrpt.html";
+                detailtemplate = "template/report/order-senddetail.html";
+            }
             if (data.items.length > 0) {
-                doT.exec("template/report/user-workload.html", function (templateFun) {
+                doT.exec(template, function (templateFun) {
                     var innerText = templateFun(data.items);
                     innerText = $(innerText);
 
                     $("#userTotalRPT .tr-header").after(innerText);
-                    $(".total-item td").each(function () {
-                        var _this = $(this), _total = 0;
-                        if (_this.data("class")) {
-                            innerText.find("." + _this.data("class")).each(function () {
-                                _total += $(this).html() * 1;
-                            });
-                            _this.html(_total.toFixed(0));
+                   
+                    //展开明细
+                    innerText.find(".dropdown").click(function () {
+                        var _this = $(this);
+                        if (!_this.data("first") || _this.data("first") == 0) {
+                            _this.data("first", 1).data("status", "open");
+                            if (CacheDetails[_this.data("id") + _this.data("uid")]) {
+                                _self.bindDetails(CacheDetails[_this.data("id")], _this.parent())
+                            } else {
+                                Global.post("/Report/GetUserLoadDetailByOrderID", {
+                                    orderId: _this.data("id"),
+                                    userId: _this.data("uid"),
+                                    docType: _this.data("type"),
+                                    beginTime: Params.beginTime,
+                                    endTime: Params.endTime
+                                }, function (details) {
+                                    CacheDetails[_this.data("id") + _this.data("uid")] = details.items;
+                                    _self.bindDetails(details.items, _this.parent(), detailtemplate);
+                                });
+                            }
+                        } else {
+                            if (_this.data("status") == "open") {
+                                _this.data("status", "close");
+                                _this.parent().nextAll("tr[data-pid='" + _this.data("id") + _this.data("uid") + "']").hide();
+                            } else {
+                                _this.data("status", "open");
+                                _this.parent().nextAll("tr[data-pid='" + _this.data("id") + _this.data("uid") + "']").show();
+                            }
                         }
                     });
                 });
             } else {
-                $("#userTotalRPT .tr-header").after("<tr><td colspan='8'><div class='nodata-txt' >暂无数据!<div></td></tr>");
+                $("#userTotalRPT .tr-header").after("<tr><td colspan='100'><div class='nodata-txt' >暂无数据!<div></td></tr>");
             }
+        });
+    }
+
+    ObjectJS.bindDetails = function (items, ele, template) {
+        var _self = this;
+
+        doT.exec(template, function (template) {
+            var innerhtml = template(items);
+            innerhtml = $(innerhtml);
+            ele.after(innerhtml);
         });
     }
     ObjectJS.getProcessList = function () {

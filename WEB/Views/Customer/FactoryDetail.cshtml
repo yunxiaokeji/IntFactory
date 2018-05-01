@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "协作客户详情";
+    var model = (IntFactoryEntity.Manage.Clients)ViewBag.Item;
+}
+
+@section css{
+    <link href="/modules/css/customer.css" rel="stylesheet" />
+    <link href="/modules/css/system.css" rel="stylesheet" />
+    <link href="/modules/plug/daterangepicker/daterangepicker.css" rel="stylesheet" />
+     <link href="/modules/css/common/order-task-list.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        seajs.use(["scripts/customer/factorys"], function (client) {
+            client.initDetail(false);
+        });
+    </script>
+}
+<div class="header-box">
+    <span class="header-title left">协作客户信息</span>
+</div>
+<div class="content-title">
+    <div id="spCustomerName" class="left titlename">@(model.CompanyName)</div>
+    <input type="hidden" id="iptClientID" value="@(model.ClientID)" />
+</div>
+<div class="content-body pBottom50">
+    <ul class="content-info">
+        <li><span class="column-title">工厂号：</span><label id="ckey">@(model.ClientCode)</label></li>
+        <li><span class="column-title">联系人：</span><label id="ContactName">@(model.ContactName)</label> </li>
+        <li><span class="column-title">地址：</span><label id="address">@(model.City!=null?model.City.Description:"")</label></li>
+        <li><span class="column-title">联系电话：</span><label id="MobilePhone">@(model.MobilePhone)</label></li>
+        <li><span class="column-title">详细地址：</span> <label id="lblReamrk">@(model.Address)</label></li>
+        <li><span class="column-title">办公电话：</span><label id="OfficePhone">@(model.OfficePhone)</label></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="module-header mTop20">
+    <ul class="module-tab left">
+       <li class="hover" data-id="navOppor">需求列表</li>
+        <li class="" data-id="navOrder">打样订单</li>
+        <li class="" data-id="navDHOrder">大货订单</li>
+    </ul>    
+</div>
+<div class="content-body pBottom50">
+    <div class="nav-partdiv" id="navOppor">
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+        </table>         
+        <div id="pagerOppor" class="mTop10"></div>
+    </div>
+    <div class="nav-partdiv hide" id="navOrder">
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+        </table>         
+        <div id="pagerOrder" class="mTop10"></div>
+    </div>
+    <div class="nav-partdiv hide" id="navDHOrder">
+        <div class="right searth-module" data-text="关键字搜索..." data-width="260"></div>
+        <div class="clear"></div>
+        <table class="table-items-detail mTop10">
+            <tr class="hide table-header">
+            <td class="tLeft">款式</td>
+            <td>成本</td>
+            <td>客户</td>
+            <td>到期日期</td>
+        </tr>
+        </table>         
+        <div id="pagerDHOrder" class="mTop10"></div>
+    </div>
+</div>
+<div class="order-layer">
+    <div class="layer-header">
+        订单详情概览 <span id="closeLayer" class="iconfont right mRight10">&#xe606;</span>
+    </div>
+</div>

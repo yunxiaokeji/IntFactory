@@ -736,9 +736,7 @@ namespace IntFactoryBusiness
             if (ds.Tables.Contains("Product") && ds.Tables["Product"].Rows.Count > 0)
             {
                 model.FillData(ds.Tables["Product"].Rows[0]);
-
-                model.SmallUnit = GetUnitByID(model.UnitID);
-
+                model.SmallUnit = !string.IsNullOrEmpty(model.UnitID) ? GetUnitByID(model.UnitID) : new ProductUnit();
                 model.AttrLists = new List<ProductAttr>();
                 model.SaleAttrs = new List<ProductAttr>();
 

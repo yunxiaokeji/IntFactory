@@ -19,7 +19,13 @@
     </td>
     <td class="">{%=item.UserName%}</td>
     <td class="">
-        <a target="_blank" class="blue" href="/Customer/Detail/{%=item.CustomerID%}">{%=item.CustomerName%}</a>
+        {% if(item.IsEntrustClient){%}
+            <a href="/Customer/FactoryDetail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName%}</a>
+        {% }else if(item.CustomerID != ""){ %}
+            <a href="/Customer/Detail/{%=item.CustomerID%}" class="width150 long" target="_blank">{%=item.CustomerName%}</a>
+        {% }else { %}
+        --
+        {% } %}
     </td>
     <td class="center c1">{%=item.OrderQuantity%}</td>
     <td class="center c2">{%=item.CutQuantity%}</td>

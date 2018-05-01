@@ -29,6 +29,12 @@ namespace IntFactoryEntity
 
         public decimal FinalPrice { get; set; }
 
+        public string ClientID { get; set; }
+
+        public string EntrustClientID { get; set; }
+
+        public bool IsEntrustClient { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

@@ -232,6 +232,55 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderEntity> GetOrderByClientID(string keyWords, string providerId, bool isProvider, int orderType, int orderStatus, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
+        {
+            List<OrderEntity> list = new List<OrderEntity>();
+            string condition = " OrderStatus<>9 ";
+            //大货或者打样
+            if (orderType != -1)
+            {
+                condition += " and Status<>0 and OrderType=" + orderType;
+            }
+            //需求单
+            else
+            {
+                condition += " and Status= 0";
+            }
+
+            if (orderStatus != -1)
+            {
+                condition += " and OrderStatus= " + orderStatus;
+            }
+
+            if (isProvider)
+            {
+                condition += " and ClientID='" + clientid + "' and EntrustClientID='" + providerId + "'";
+            }
+            else
+            {
+                condition += " and ClientID='" + providerId + "' and EntrustClientID='" + clientid + "'";
+            }
+            
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%')";
+            }
+            DataTable dt = CommonBusiness.GetPagerData("Orders", "*", condition, "AutoID", pageSize, pageIndex, out totalCount, out pageCount, false);
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderEntity model = new OrderEntity();
+                model.FillData(dr);
+                model.StatusStr = CommonBusiness.GetEnumDesc((EnumOrderStageStatus)model.Status);
+
+                OrderHelper.HandleEntrustOrder(model, userid, clientid);
+
+                GetWarningData(model);
+
+                list.Add(model);
+            }
+            return list;
+        }
+
         public List<OrderEntity> GetOrdersByOriginalID(string originalid, int ordertype, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();

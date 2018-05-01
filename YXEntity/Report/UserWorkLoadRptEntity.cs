@@ -11,13 +11,33 @@ namespace IntFactoryEntity
 
         public string UserName { get; set; }
 
+        public string OrderID { get; set; }
+
+        public string IntGoodsCode { get; set; }
+
+        public int Quantity { get; set; }
+
+        public int ReturnQuantity { get; set; }
+
+        public int OrderQuantity { get; set; }
+
         public int CutQuantity { get; set; }
 
-        public int SewnQuantity { get; set; }
+        public int Complete { get; set; }
 
-        public int SewnReturn { get; set; }
+        public int SendQuantity { get; set; }
 
-        public int DocType { get; set; }
+        public string ClientID { get; set; }
+
+        public string EntrustClientID { get; set; }
+
+        public bool IsEntrustClient { get; set; }
+
+        public string CustomerID { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string Remark { get; set; }
 
         public void FillData(System.Data.DataRow dr)
         {

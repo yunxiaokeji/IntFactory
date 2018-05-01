@@ -69,7 +69,7 @@
         <li class="long">联系人：@(model.Providers.Contact)</li>
         <li class="long">联系电话：@(model.Providers.MobileTele)</li>
         <li class="long">地址：@(model.Providers.Address)</li>
-        <li class="long">添加日期：@(model.OnlineTime.ToString("yyyy-MM-dd"))</li>
+        <li class="long">添加日期：@(model.CreateTime.ToString("yyyy-MM-dd"))</li>
         @foreach (var attr in model.AttrLists)
         { 
             <li class="long">@attr.AttrName：@attr.AttrValues[0].ValueName</li>

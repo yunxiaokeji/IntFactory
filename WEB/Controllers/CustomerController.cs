@@ -54,6 +54,21 @@ namespace YXERP.Controllers
             return View();
         }
 
+        public ActionResult FactoryCustomer()
+        {
+            return View();
+        }
+        public ActionResult FactoryDetail(string id)
+        {
+            var item = IntFactoryBusiness.Manage.ClientBusiness.GetClientDetail(id);
+            if (item == null)
+            {
+                return Redirect("ProviderDetail");
+            }
+            ViewBag.Item = item;
+            return View();
+        }
+
         #region Ajax
 
         public JsonResult SaveCustomer(string entity)
@@ -234,6 +249,34 @@ namespace YXERP.Controllers
             int totalCount = 0, pageCount = 0;
             var list = IntFactoryBusiness.Manage.ClientBusiness.GetClients(keywords, EnumRegisterType.All, "", 20, 1, ref totalCount, ref pageCount);
             JsonDictionary.Add("items", list);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetProviderClientByKeywords(string keywords, int pageIndex)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list = IntFactoryBusiness.Manage.ClientBusiness.GetProviderClients(keywords, true, 20, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetFactoryCustomerByKeywords(string keywords, int pageIndex)
+        {
+            int totalCount = 0, pageCount = 0;
+            var list = IntFactoryBusiness.Manage.ClientBusiness.GetProviderClients(keywords, false, 20, pageIndex, ref totalCount, ref pageCount, CurrentUser.ClientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
             return new JsonResult
             {
                 Data = JsonDictionary,

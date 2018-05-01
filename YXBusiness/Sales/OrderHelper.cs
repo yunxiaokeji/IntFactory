@@ -36,13 +36,6 @@ namespace IntFactoryBusiness
             {
                 var entrustClient = ClientBusiness.GetClientDetailBase(model.EntrustClientID);
                 model.Owner = new CacheUserEntity() { UserID = "", Name = entrustClient.CompanyName + "（供应商）" };
-                if (model.Tasts != null && model.Tasts.Count > 0)
-                {
-                    model.Tasts.ForEach(t =>
-                    {
-                        t.Owner = new CacheUserEntity() { UserID = "", Name = "***" };
-                    });
-                }
             }
         }
     }

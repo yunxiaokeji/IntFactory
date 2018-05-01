@@ -154,19 +154,22 @@ define(function (require, exports, module) {
                     //绑定启用插件
 
                     innerText.find(".auditproduct").click(function () {
-                        if (confirm("确认通过材料的公开申请吗？")) {
-                            _self.editIsPublic($(this).data("id"), 2);
-                        }
+                        var _id = $(this).data("id");
+                        confirm("确认通过材料的公开申请吗？", function () {
+                            _self.editIsPublic(_id, 2);
+                        });
                     });
                     innerText.find(".cancelproduct").click(function () {
-                        if (confirm("确认驳回材料的公开申请吗？")) {
-                            _self.editIsPublic($(this).data("id"), 3);
-                        }
+                        var _id = $(this).data("id");
+                        confirm("确认驳回材料的公开申请吗？", function () {
+                            _self.editIsPublic(_id, 3);
+                        });
                     });
                     innerText.find(".deleteproduct").click(function () {
-                        if (confirm("确认取消材料的公开状态吗？")) {
-                            _self.cancelIsPublic($(this).data("id"));
-                        }
+                        var _id = $(this).data("id");
+                        confirm("确认取消材料的公开状态吗？", function () {
+                            _self.cancelIsPublic(_id);
+                        });
                     });
                     innerText.find("img").each(function () {
                         var _this = $(this);
