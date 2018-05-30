@@ -124,6 +124,16 @@ define(function (require, exports, module) {
                     innerText = $(innerText);
 
                     $("#userTotalRPT .tr-header").after(innerText);
+
+                    $(".total-item td").each(function () {
+                        var _this = $(this), _total = 0;
+                        if (_this.data("class")) {
+                            innerText.find("." + _this.data("class")).each(function () {
+                                _total += $(this).html() * 1;
+                            });
+                            _this.html(_total.toFixed(0));
+                        }
+                    });
                    
                     //展开明细
                     innerText.find(".dropdown").click(function () {

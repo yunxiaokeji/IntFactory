@@ -30,6 +30,21 @@ namespace WeiXin.Sdk
             return url;
         }
 
+        public static string GetMPAuthorizeUrl(string returnUrl)
+        {
+            string apiUrl = "https://open.weixin.qq.com";
+            apiUrl += "/connect/oauth2/authorize";
+
+            string url = string.Format("{0}?appid={1}&redirect_uri={2}&response_type={3}&scope={4}",
+               apiUrl, AppConfig.AppKey, AppConfig.CallBackUrl, "code", "snsapi_userinfo");
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                url += "&state=" + returnUrl;
+            }
+            return url;
+        }
+
         public static TokenEntity GetAccessToken(string code)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();

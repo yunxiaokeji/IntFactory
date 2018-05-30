@@ -999,6 +999,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderArchiving(string orderid, string operateid, string ip, string clientid)
+        {
+            bool bl = CommonBusiness.Update("Orders", "ArchivingStatus", 1, "OrderID='" + orderid + "' and OrderStatus=2");
+            if (bl)
+            {
+                string msg = "归档订单";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderProcess(string orderid, string processid, string categoryid, string name, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, categoryid, operateid, clientid);

@@ -31,7 +31,7 @@
             <span class="red mLeft10 font18">（已终止）</span>
         }
 
-        @if (model.OrderStatus < 2)
+        @if (model.OrderStatus <= 2)
         {
             <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         }
@@ -70,21 +70,21 @@
          }
      }
     
-    @if (model.IsSelf && model.OrderStatus < 2)
+    @if (model.OrderStatus < 2)
     {
         <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
     }
     <ul class="right">
         <li>
             <span class="left">加工品类：@(model.ProcessCategoryName)</span>
-            @if (IsDoClient && model.OrderStatus == 0 && string.IsNullOrEmpty(model.OriginalID))
+            @if (model.OrderStatus == 0 && string.IsNullOrEmpty(model.OriginalID))
             {
                 <i title="更换订单加工品类" class="iconfont change-ico left mTop2 mLeft5 btn-change-process-category" data-processid="@(model.ProcessID)" data-id="@(model.OrderID)">&#xe60b;</i>
             }
         </li>
         <li title="订单类别">
             <span class="left">类别：@(model.CategoryName)</span>
-            @if (model.IsSelf && model.OrderStatus == 0 && string.IsNullOrEmpty(model.OriginalID) && model.OrderGoods.Count == 0)
+            @if (model.OrderStatus == 0 && string.IsNullOrEmpty(model.OriginalID) && model.OrderGoods.Count == 0)
             {
                 <i title="更换订单类别" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOrderCategory">&#xe60b;</i>
             }
@@ -139,7 +139,7 @@
              <li class="hide">
                 <span class="column-title">整件工价(单)：</span>
                 <label class="left" id="txtSewnPrice">@((model.SewnPrice).ToString("f2"))</label>
-                 @if (model.IsSelf && model.OrderStatus == 1)
+                 @if (model.OrderStatus == 1)
                  { 
                     <div id="updateSewnPrice" title="编辑工价" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                  }
@@ -319,7 +319,7 @@
                 <tr class="item cart-item" >
                     <td>@(detail.YRemark + detail.XRemark)</td>
                     <td class="center update-quantity-td">
-                        @if (model.IsSelf && model.OrderStatus < 2 && ExpandClass.IsExistMenu("102019002"))
+                        @if (model.OrderStatus < 2 && ExpandClass.IsExistMenu("102019002"))
                         {
                             <input type="text" data-remark="@(detail.YRemark + detail.XRemark)" data-id="@detail.AutoID" data-value="@(detail.Quantity)" class="hide center" value="@(detail.Quantity)" />
                         }
@@ -510,6 +510,10 @@
     {
         <li class="btn-create-ordergoods" data-type="2">生产补单</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnOverOrder" >终止订单</li>
+    }
+    else if (model.IsSelf && model.OrderStatus == 2 && model.ArchivingStatus == 0)
+    {
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving">订单归档</li>
     }
    
 </ul>

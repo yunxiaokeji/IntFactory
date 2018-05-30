@@ -798,6 +798,17 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult UpdateOrderArchiving(string orderid)
+        {
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderArchiving(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            JsonDictionary.Add("status", bl);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult EffectiveOrderProduct(string orderid)
         {
             int result = 0;

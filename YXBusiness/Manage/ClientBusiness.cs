@@ -53,9 +53,11 @@ namespace IntFactoryBusiness.Manage
             string sqlWhere = "Status<>9";
             if (!string.IsNullOrEmpty(keyWords))
             {
-                sqlWhere += " and ( MobilePhone = '" + keyWords + "' or  ClientCode = '" + keyWords + "' ";
-                if (keyWords.Length > 3) {
-                    sqlWhere += " or CompanyName like '%" + keyWords + "%'  ";
+                sqlWhere += " and (ClientCode = '" + keyWords + "' ";
+                if (keyWords.Length > 2) 
+                {
+                    sqlWhere += " or MobilePhone like '%" + keyWords + "%' ";
+                    sqlWhere += " or CompanyName like '%" + keyWords + "%' ";
                 }
                 sqlWhere += ")";
             }
@@ -69,7 +71,8 @@ namespace IntFactoryBusiness.Manage
             {
                 orderBy = "AutoID";
             }
-            else {
+            else 
+            {
                 isAsc = orderBy.IndexOf(" asc") > -1 ? true : false; 
                 orderBy = orderBy.Replace(" desc", "").Replace(" asc", "");
             }

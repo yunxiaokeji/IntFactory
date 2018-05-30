@@ -258,6 +258,8 @@ namespace IntFactoryEntity
         public List<OrderAttrEntity> OrderAttrs { get; set; }
 
         public bool IsEntrustClient { get; set; }
+
+        public int ArchivingStatus { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

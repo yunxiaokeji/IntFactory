@@ -47,11 +47,11 @@
         {
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-type="1" id="btnCreateOrderGoods">确认打样规格</div>
         }
-        else if (model.IsSelf && model.Status == 2)
+        else if (IsDoClient && model.Status == 2)
         { 
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">完成核价</div>
         }
-        else if (model.Status == 3)
+        else if (model.IsSelf && model.Status == 3)
         { 
             <div class="btn right mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="changeOrderStatus">大货下单</div>
         }
@@ -60,7 +60,7 @@
 
 <div class="content-title">
     <div class="left titlename">款式编码：@(model.IntGoodsCode)</div>
-    @if (model.IsSelf && model.OrderStatus < 2)
+    @if (model.OrderStatus < 2)
     {
         <div id="updateOrderInfo" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
     }
@@ -76,7 +76,7 @@
         {
             <li title="订单类别">
                 <span class="left">类别：@(model.CategoryName)</span> 
-                @if (model.IsSelf && model.Status == 0)
+                @if (model.Status == 0)
                 {
                     <i title="更换订单类别" class="iconfont left change-ico mTop2 mLeft5 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" data-userid="@(model.OwnerID)" data-id="@(model.OrderID)" id="changeOrderCategory">&#xe60b;</i>
                 }
@@ -142,7 +142,7 @@
             <li class="hide">
                 <span class="column-title">整件工价(单)：</span>
                 <label class="left" id="txtSewnPrice">@((model.SewnPrice).ToString("f2"))</label>
-                 @if (model.IsSelf && model.OrderStatus == 1)
+                 @if (model.OrderStatus == 1)
                 { 
                     <div id="updateSewnPrice" title="编辑工价" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                 }
@@ -150,7 +150,7 @@
             <li>
                 <span class="column-title">利润比例(%)：</span>
                 <label class="left" id="profitPrice">@((model.ProfitPrice * 100).ToString("f2"))</label>
-                 @if (model.IsSelf && model.OrderStatus == 1)
+                 @if (model.OrderStatus == 1)
                  { 
                     <div id="updateProfitPrice" class="left ico-edit iconfont mLeft20 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                  }
@@ -302,7 +302,7 @@
                     { 
                         <td class="">
                             <span class="">@detail.AttrName</span>
-                            @if (model.IsSelf && model.OrderStatus < 2)
+                            @if (model.OrderStatus < 2)
                             {
                                 <div data-id="@detail.OrderAttrID" data-type="1" data-text="@detail.AttrName" class="ico-edit update-attrname iconfont mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                             }
@@ -315,7 +315,7 @@
                 <tr class="item">
                     <td class="tLeft">
                         <span class="">@detail.AttrName</span>
-                            @if (model.IsSelf && model.OrderStatus < 2)
+                            @if (model.OrderStatus < 2)
                             {
                                 <div data-id="@detail.OrderAttrID" data-type="2" data-text="@detail.AttrName" class="ico-edit update-attrname iconfont mLeft10 @(ExpandClass.IsLimits(HttpContext.Current, "102019002"))"></div>
                             }
@@ -520,7 +520,7 @@
            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnreturn" >退回委托</li>
         }
     }
-    else if (model.IsSelf && model.OrderStatus == 1)
+    else if (model.OrderStatus == 1)
     {
         <li class="sample-report" data-type="1">打样报价</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnOverOrder" >终止订单</li>
@@ -531,6 +531,10 @@
         if (model.IsSelf && model.OrderStatus == 2)
         { 
             <li><a href="/orders/GoodsSetting/@(model.GoodsID)">款式管理</a></li>
+             if(model.ArchivingStatus == 0)
+             {
+                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving">订单归档</li>
+             }
         }
     }
     
