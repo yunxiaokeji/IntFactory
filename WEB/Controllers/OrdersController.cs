@@ -306,12 +306,12 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int orderstatus, int pagesize, int pageindex)
+        public JsonResult GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int orderstatus, int pagesize, int pageindex, int archiving)
         {
             int totalCount = 0;
             int pageCount = 0;
 
-            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(keyWords, customerid, ordertype, orderstatus, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
+            var list = OrdersBusiness.BaseBusiness.GetOrdersByCustomerID(keyWords, customerid, ordertype, orderstatus, archiving, pagesize, pageindex, ref totalCount, ref pageCount, CurrentUser.UserID, CurrentUser.ClientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
@@ -798,9 +798,9 @@ namespace YXERP.Controllers
             };
         }
 
-        public JsonResult UpdateOrderArchiving(string orderid)
+        public JsonResult UpdateOrderArchiving(string orderid, int archiving)
         {
-            var bl = OrdersBusiness.BaseBusiness.UpdateOrderArchiving(orderid, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
+            var bl = OrdersBusiness.BaseBusiness.UpdateOrderArchiving(orderid, archiving, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", bl);
             return new JsonResult
             {

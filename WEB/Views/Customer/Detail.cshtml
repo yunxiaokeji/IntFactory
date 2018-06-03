@@ -56,10 +56,11 @@
         <li data-id="navLog">日志</li>
     </ul>
     <ul class="search-tab-status search-orderstatus hide">
-        <li data-id="-1" class="item hover">全部</li>
-        <li data-id="1" class="item">进行中</li>
-        <li data-id="2" class="item">已完成</li>
-        <li data-id="8" class="item">已终止</li>
+        <li data-id="-1" data-archiving="0" class="item hover">全部</li>
+        <li data-id="1" data-archiving="0" class="item">进行中</li>
+        <li data-id="2" data-archiving="0" class="item">已完成</li>
+        <li data-id="8" data-archiving="0" class="item">已终止</li>
+        <li data-id="-1" data-archiving="1" class="item">已归档</li>
     </ul>
     <div id="addContact" class="btn-add right @(ExpandClass.IsLimits(HttpContext.Current,"101019006"))">添加联系人</div>
     

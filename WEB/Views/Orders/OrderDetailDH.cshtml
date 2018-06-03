@@ -30,7 +30,10 @@
         {
             <span class="red mLeft10 font18">（已终止）</span>
         }
-
+        @if (model.ArchivingStatus == 1)
+        {
+            <span class="red mLeft10 font18">（已归档）</span> 
+        }
         @if (model.OrderStatus <= 2)
         {
             <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
@@ -511,9 +514,10 @@
         <li class="btn-create-ordergoods" data-type="2">生产补单</li>
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002"))" id="btnOverOrder" >终止订单</li>
     }
-    else if (model.IsSelf && model.OrderStatus == 2 && model.ArchivingStatus == 0)
+    else if (model.IsSelf && model.OrderStatus == 2)
     {
-        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving">订单归档</li>
+        <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving" data-archiving="@(model.ArchivingStatus)">
+                    @(model.ArchivingStatus==0?"订单归档":"取消归档")</li>
     }
    
 </ul>

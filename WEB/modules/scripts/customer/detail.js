@@ -14,7 +14,8 @@
         customerid: "",
         filterType: 1,
         ordertype: 1,
-        orderstatus:-1,
+        orderstatus: -1,
+        archiving: 0,
         pagesize: 10,
         pageindex: 1
     };
@@ -243,6 +244,7 @@
                 _this.addClass("hover");
                 Params.pageindex = 1;
                 Params.orderstatus = _this.data("id");
+                Params.archiving = _this.data("archiving");
                 _self.getList();
             }
         });

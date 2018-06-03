@@ -36,7 +36,10 @@
         {
             <span class="red mLeft10 font18">（已终止）</span>
         }
-
+        @if (model.ArchivingStatus == 1)
+        {
+            <span class="red mLeft10 font18">（已归档）</span> 
+        }
         <span id="btnOperateMore" class="btn-dropdown right mLeft10">更多操作</span>
         <a class="btn-back right mLeft10" href="javascript:if(history.length>1){ history.go(-1);} else{}">返回</a>
         @if (IsDoClient && model.Status == 0 && model.OrderAttrs.Count > 0)
@@ -531,10 +534,8 @@
         if (model.IsSelf && model.OrderStatus == 2)
         { 
             <li><a href="/orders/GoodsSetting/@(model.GoodsID)">款式管理</a></li>
-             if(model.ArchivingStatus == 0)
-             {
-                <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving">订单归档</li>
-             }
+            <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving" data-archiving="@(model.ArchivingStatus)">
+                    @(model.ArchivingStatus==0?"订单归档":"取消归档")</li>
         }
     }
     

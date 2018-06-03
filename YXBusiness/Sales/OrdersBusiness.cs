@@ -179,7 +179,7 @@ namespace IntFactoryBusiness
             return OrdersDAL.BaseProvider.GetExceedOrderCount(ownerID, orderType, clientID);
         }
 
-        public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int orderstatus, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
+        public List<OrderEntity> GetOrdersByCustomerID(string keyWords, string customerid, int ordertype, int orderstatus, int archiving, int pageSize, int pageIndex, ref int totalCount, ref int pageCount, string userid, string clientid)
         {
             List<OrderEntity> list = new List<OrderEntity>();
             string condition="CustomerID='" + customerid + "' and OrderType=" + ordertype;
@@ -191,6 +191,9 @@ namespace IntFactoryBusiness
             {
                 condition += " and OrderStatus= " + orderstatus;
             }
+
+            condition += " and ArchivingStatus= " + archiving;
+
             if (!string.IsNullOrEmpty(keyWords))
             {
                 condition += " and ( OrderCode like '%" + keyWords + "%' or GoodsCode like '%" + keyWords + "%' or MobileTele like '%" + keyWords + "%' or PersonName like '%" + keyWords + "%' or IntGoodsCode like '%" + keyWords + "%')";
@@ -999,12 +1002,12 @@ namespace IntFactoryBusiness
             return bl;
         }
 
-        public bool UpdateOrderArchiving(string orderid, string operateid, string ip, string clientid)
+        public bool UpdateOrderArchiving(string orderid, int archiving, string operateid, string ip, string clientid)
         {
-            bool bl = CommonBusiness.Update("Orders", "ArchivingStatus", 1, "OrderID='" + orderid + "' and OrderStatus=2");
+            bool bl = CommonBusiness.Update("Orders", "ArchivingStatus", archiving, "OrderID='" + orderid + "' and OrderStatus=2");
             if (bl)
             {
-                string msg = "归档订单";
+                string msg = archiving == 1 ? "归档订单" : "取消订单归档";
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
             }
             return bl;

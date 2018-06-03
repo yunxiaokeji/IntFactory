@@ -965,8 +965,10 @@
 
         //归档订单
         $(".order-archiving").click(function () {
-            confirm("订单归档后不可恢撤销，确认归档吗？", function () {
-                Global.post("/Orders/UpdateOrderArchiving", { orderid: _self.orderid }, function (data) {
+            var _this = $(this);
+            var msg = _this.data("archiving") == "0" ? "确认归档订单吗？" : "确认取消订单归档吗？";
+            confirm(msg, function () {
+                Global.post("/Orders/UpdateOrderArchiving", { orderid: _self.orderid, archiving: (_this.data("archiving") * 1 + 1) % 2 }, function (data) {
                     if (data.status) {
                         location.href = location.href;
                     } else if (data.result = "10001") {
@@ -975,7 +977,7 @@
                         alert("订单归档失败，请刷新页面后重试！", 2);
                     }
                 });
-            }, "归档");
+            });
         });
     }
 
