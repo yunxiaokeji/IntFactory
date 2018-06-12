@@ -120,5 +120,16 @@ namespace IntFactoryDAL
             DataTable dt = GetDataTable("R_GetUserLoadDetailByOrderID", paras, CommandType.StoredProcedure);
             return dt;
         }
+
+        public DataTable GetTaskTabCount(string userid, int searchType,string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@SearchType",searchType),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            DataTable dt = GetDataTable("R_GetTaskTabCount", paras, CommandType.StoredProcedure);
+            return dt;
+        }
     }
 }

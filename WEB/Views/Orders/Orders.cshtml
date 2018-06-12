@@ -24,11 +24,11 @@
     @if (ViewBag.SearchType > 0)
     {
         <ul class="search-tab search-orderstatus">
-            <li data-id="1" data-archiving="-1" class="hover">进行中</li>
-            <li data-id="2" data-archiving="-1" class="">已完成</li>
-            <li data-id="8" data-archiving="-1" class="">已终止</li>
-            <li data-id="-1" data-archiving="-1" >全部订单</li>
-            <li data-id="-1" data-archiving="9" >已归档</li>
+            <li data-id="1" data-archiving="-1" class="hover">进行中( @(ViewBag.Normal) )</li>
+            <li data-id="2" data-archiving="-1" class="">已完成( @(ViewBag.Complete) )</li>
+            <li data-id="-1" data-archiving="-1" >全部订单( @(ViewBag.Normal+ViewBag.Complete) )</li>
+            <li data-id="8" data-archiving="-1" class="">已终止( @(ViewBag.Over) )</li>
+            <li data-id="-1" data-archiving="9" >已归档( @(ViewBag.Archiving) )</li>
         </ul>
         <ul class="search-tab-status search-warning">
             <li data-id="-1" class="item hover">全部</li>
@@ -39,9 +39,9 @@
     else
     {
         <ul class="search-tab search-ordertype">
-            <li data-id="" class="item hover">全部</li>
-            <li data-id="1" data-hide="2" class="item">打样</li>
-            <li data-id="2" data-hide="1" class="item">大货</li>
+            <li data-id="" class="item hover">全部( @(ViewBag.DY+ViewBag.DH) )</li>
+            <li data-id="1" data-hide="2" class="item">打样( @(ViewBag.DY) )</li>
+            <li data-id="2" data-hide="1" class="item">大货( @(ViewBag.DH) )</li>
         </ul>
     }
 </div>

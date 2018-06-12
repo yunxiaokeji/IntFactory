@@ -23,10 +23,10 @@
 <div class="search-box">
     <div class="search-header">
         <ul class="search-tab search-stages">
-            <li data-id="-1">全部</li>
-            <li data-id="0"  class="hover">未接受</li>
-            <li data-id="1">进行中</li>
-            <li data-id="2">已完成</li>
+            <li data-id="-1">全部 ( @(ViewBag.Normal+ViewBag.Complete+ViewBag.NoBegin) )</li>
+            <li data-id="0"  class="hover">未接受 ( @(ViewBag.NoBegin) )</li>
+            <li data-id="1">进行中 ( @(ViewBag.Normal) )</li>
+            <li data-id="2">已完成 ( @(ViewBag.Complete) )</li>
         </ul>
         <ul class="search-tab-status search-warning">
             <li data-id="-1" class="item hover">全部</li>

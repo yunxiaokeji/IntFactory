@@ -200,5 +200,19 @@ namespace IntFactoryBusiness
             return list;
         }
 
+        public List<OrderTabCountEntity> GetTaskTabCount(string userid, int searchType, string clientid)
+        {
+            DataTable dt = RPTDAL.BaseProvider.GetTaskTabCount(userid, searchType, clientid);
+
+            List<OrderTabCountEntity> list = new List<OrderTabCountEntity>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderTabCountEntity model = new OrderTabCountEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
+
     }
 }

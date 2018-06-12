@@ -38,5 +38,15 @@ namespace IntFactoryDAL
             DataTable dt = GetDataTable("R_GetOrderMapReport", paras, CommandType.StoredProcedure);
             return dt;
         }
+
+        public DataTable GetOrderTabCount(string userid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+            DataTable dt = GetDataTable("R_GetOrderTabCount", paras, CommandType.StoredProcedure);
+            return dt;
+        }
     }
 }

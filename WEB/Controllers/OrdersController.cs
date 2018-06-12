@@ -42,16 +42,30 @@ namespace YXERP.Controllers
 
         public ActionResult DemandOrders()
         {
+            List<OrderTabCountEntity> list;
             if (ExpandClass.IsExistMenu("102010601"))
             {
                 ViewBag.Title = "所有需求单";
                 ViewBag.Type = (int)EnumSearchType.All;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(string.Empty, CurrentUser.ClientID);
             }
             else
             {
                 ViewBag.Title = "我的需求单";
                 ViewBag.Type = (int)EnumSearchType.Myself;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(CurrentUser.UserID, CurrentUser.ClientID);
             }
+            int dh = 0, dy = 0;
+            if (list.Count(m => m.OrderStatus == 0 && m.OrderType == 1) > 0)
+            {
+                dy = list.Where(m => m.OrderStatus == 0 && m.OrderType == 1).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 0 && m.OrderType == 2) > 0)
+            {
+                dh = list.Where(m => m.OrderStatus == 0 && m.OrderType == 2).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.DH = dh;
+            ViewBag.DY = dy;
             ViewBag.SearchType = (int)EnumOrderSearchType.Need;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
             return View("Orders");
@@ -59,16 +73,40 @@ namespace YXERP.Controllers
 
         public ActionResult GoodsOrders()
         {
+            List<OrderTabCountEntity> list;
             if (ExpandClass.IsExistMenu("102010701"))
             {
                 ViewBag.Title = "所有打样单";
                 ViewBag.Type = (int)EnumSearchType.All;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(string.Empty, CurrentUser.ClientID);
             }
             else
             {
                 ViewBag.Title = "我的打样单";
                 ViewBag.Type = (int)EnumSearchType.Myself;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(CurrentUser.UserID, CurrentUser.ClientID);
             }
+            int normal = 0, complete = 0, over = 0, archiving = 0, ordertype = 1;
+            if (list.Count(m => m.OrderStatus == 1 && m.OrderType == ordertype) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2 && m.OrderType == ordertype) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 8 && m.OrderType == ordertype) > 0)
+            {
+                over = list.Where(m => m.OrderStatus == 8 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 999 && m.OrderType == ordertype) > 0)
+            {
+                archiving = list.Where(m => m.OrderStatus == 999 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.Normal = normal;
+            ViewBag.Complete = complete;
+            ViewBag.Over = over;
+            ViewBag.Archiving = archiving;
             ViewBag.SearchType = (int)EnumOrderSearchType.DY;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
             return View("Orders");
@@ -76,16 +114,40 @@ namespace YXERP.Controllers
 
         public ActionResult Orders(string id)
         {
+            List<OrderTabCountEntity> list;
             if (ExpandClass.IsExistMenu("102010801"))
             {
                 ViewBag.Title = "所有大货单";
                 ViewBag.Type = (int)EnumSearchType.All;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(string.Empty, CurrentUser.ClientID);
             }
             else
             {
                 ViewBag.Title = "我的大货单";
                 ViewBag.Type = (int)EnumSearchType.Myself;
+                list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(CurrentUser.UserID, CurrentUser.ClientID);
             }
+            int normal = 0, complete = 0, over = 0, archiving = 0, ordertype = 2;
+            if (list.Count(m => m.OrderStatus == 1 && m.OrderType == ordertype) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2 && m.OrderType == ordertype) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 8 && m.OrderType == ordertype) > 0)
+            {
+                over = list.Where(m => m.OrderStatus == 8 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 999 && m.OrderType == ordertype) > 0)
+            {
+                archiving = list.Where(m => m.OrderStatus == 999 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.Normal = normal;
+            ViewBag.Complete = complete;
+            ViewBag.Over = over;
+            ViewBag.Archiving = archiving;
             ViewBag.SearchType = (int)EnumOrderSearchType.DH;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Orders).ToList();
             return View("Orders");
