@@ -444,5 +444,12 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult DeleteReply(EnumLogObjectType type, string replyid)
+        {
+            bool flag = ReplyBusiness.DeleteReply(type, replyid);
+            JsonDictionary.Add("result", flag ? 1 : 0);
+            return Json(JsonDictionary);
+        }
+
     }
 }

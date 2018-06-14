@@ -231,6 +231,27 @@
             });
         });
 
+        //删除讨论（只能删除自己发表的）
+        replys.find(".btn-del").click(function () {
+            var _this = $(this);
+            confirm("确定删除讨论吗?", function () {
+                Global.post("/Plug/DeleteReply", {
+                    replyid: _this.data('replyid'),
+                    type: Reply.type
+                }, function (data) {
+                    if (data.result == 1) {
+                        alert("删除成功");
+                        _this.parents('tr').remove();
+                        if ($(".content-list#replyList tr").length == 0) {
+                            ObjectJS.getTaskReplys(1);
+                        }
+                    } else {
+                        alert("删除失败,请重试");
+                    }
+                });
+            });
+        });
+
         //保存讨论
         replys.find(".save-reply").click(function () {
             var _this = $(this);

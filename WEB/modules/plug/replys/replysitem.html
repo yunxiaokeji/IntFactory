@@ -75,10 +75,20 @@
             <div class="clear"></div>
             <div class="mTop5">
                 <div class="left" style="color:#999;">{%=item.CreateTime.toDate("yyyy-MM-dd hh:mm:ss") %}</div>
-                <div class="right hand btn-reply" data-replyid="{%=item.ReplyID%}">
+                <div class="right hand btn-reply mLeft10" data-replyid="{%=item.ReplyID%}">
                     <div class="left" style="padding-top:3px;"><img src="/modules/images/ico-reply-gray.png"/></div>
                     <div class="left mLeft5" style="color:#777;font-size:14px;">回复</div>
                     <div class="clear"></div>
+                </div>
+                <div class="right hand btn-del " data-replyid="{%=item.ReplyID%}">
+                    {%
+                    if(item.CreateUserID==$("#hideCurrentUserID").val()){
+                    %}
+                    <div class="clearfix right">
+                        <div class="left iconfont ico-del" style="color:#666;font-size:15px"></div>
+                        <div class="left mLeft5" style="color:#777;font-size:14px;">删除</div>
+                    </div>
+                    {%}%}
                 </div>
                 <div class="clear"></div>
                 <div class="mTop10 hide reply-box" id="reply-box{%=item.ReplyID%}" data-replyid="{%=item.ReplyID%}">
