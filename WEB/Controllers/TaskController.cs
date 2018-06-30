@@ -128,10 +128,29 @@ namespace YXERP.Controllers
                     nowDate = DateTime.Now.ToString("yyyy-MM-dd");
                 }
             }
+            
             ViewBag.NowDate = nowDate;
             ViewBag.filterType = 1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
+
+            var list = TaskRPTBusiness.BaseBusiness.GetTaskTabCount(CurrentUser.UserID, 0, CurrentUser.ClientID);
+            int normal = 0, complete = 0, nobegin = 0;
+            if (list.Count(m => m.OrderStatus == 0) > 0)
+            {
+                nobegin = list.Where(m => m.OrderStatus == 0).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 1) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.Normal = normal;
+            ViewBag.Complete = complete;
+            ViewBag.NoBegin = nobegin;
 
             return View();
         }
@@ -142,6 +161,23 @@ namespace YXERP.Controllers
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
 
+            var list = TaskRPTBusiness.BaseBusiness.GetTaskTabCount(CurrentUser.UserID, 1, CurrentUser.ClientID);
+            int normal = 0, complete = 0, nobegin = 0;
+            if (list.Count(m => m.OrderStatus == 0) > 0)
+            {
+                nobegin = list.Where(m => m.OrderStatus == 0).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 1) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.Normal = normal;
+            ViewBag.Complete = complete;
+            ViewBag.NoBegin = nobegin;
             return View("MyTask");
         }
 
@@ -150,7 +186,23 @@ namespace YXERP.Controllers
             ViewBag.filterType = -1;
             ViewBag.list = SystemBusiness.BaseBusiness.GetLableColor(CurrentUser.ClientID, EnumMarkType.Tasks).ToList();
             ViewBag.UserID = CurrentUser.UserID;
-
+            var list = TaskRPTBusiness.BaseBusiness.GetTaskTabCount(string.Empty, 1, CurrentUser.ClientID);
+            int normal = 0, complete = 0, nobegin = 0;
+            if (list.Count(m => m.OrderStatus == 0) > 0)
+            {
+                nobegin = list.Where(m => m.OrderStatus == 0).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 1) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2).FirstOrDefault().OrderQuantity;
+            }
+            ViewBag.Normal = normal;
+            ViewBag.Complete = complete;
+            ViewBag.NoBegin = nobegin;
             return View("MyTask");
         }
 

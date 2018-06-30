@@ -125,5 +125,19 @@ namespace IntFactoryBusiness
             }
             return list;
         }
+
+        public List<OrderTabCountEntity> GetOrderTabCount(string userid, string clientid)
+        {
+            DataTable dt = SalesRPTDAL.BaseProvider.GetOrderTabCount(userid, clientid);
+
+            List<OrderTabCountEntity> list = new List<OrderTabCountEntity>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                OrderTabCountEntity model = new OrderTabCountEntity();
+                model.FillData(dr);
+                list.Add(model);
+            }
+            return list;
+        }
     }
 }

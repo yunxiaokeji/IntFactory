@@ -141,11 +141,10 @@
                 //隐藏状态
                 var dataID = $(".search-orderstatus li.hover").data('id');
                 var dataHide = _this.data('hide');
-                if (dataID != '8'&&dataID != '-1') {
+                if (dataID != '8' && dataID != '-1') {
                     $(".search-status .item[data-type=" + dataID + "]").show();
                     $(".search-status .item[data-type!=" + dataID + "]").hide();
-                }
-                else {
+                } else {
                     $(".search-status .item").show();
                 }
                 $(".search-status .item[data-id='-1']").show();
@@ -246,6 +245,7 @@
                 }
 
                 Params.OrderStatus = _this.data("id");
+                Params.WarningStatus = _this.data("archiving");
                 Params.PageIndex = 1;
                 _self.getList();
             }
