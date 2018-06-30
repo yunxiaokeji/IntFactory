@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 
 using IntFactoryBusiness;
+using System.Web.Script.Serialization;
+using YXERP.Models;
+using IntFactoryEntity;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -52,5 +55,27 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        public JsonResult GetCustomers(string filter, string userID, string clientID)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            FilterCustomer model = serializer.Deserialize<FilterCustomer>(filter);
+            int totalCount = 0;
+            int pageCount = 0;
+
+            List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomers(model.SearchType, model.Type, model.SourceType,
+                model.SourceID, model.StageID, model.Status, model.Mark, model.UserID,
+                model.TeamID, model.BeginTime, model.EndTime,
+                model.FirstName, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex,
+                ref totalCount, ref pageCount, userID, clientID);
+
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }

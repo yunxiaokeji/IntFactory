@@ -9,6 +9,7 @@ using IntFactoryBusiness.Manage;
 using IntFactoryEntity;
 using IntFactoryEnum;
 using Newtonsoft.Json;
+using YXERP.Models;
 namespace YXERP.Areas.Api.Controllers
 {
     [YXERP.Common.ApiAuthorize]
@@ -170,6 +171,28 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        [HttpPost]
+        public JsonResult GetOrders(string filter, string userID, string clientID)
+        {
+            var model = new FilterOrders();
+            if (!string.IsNullOrEmpty(filter))
+            {
+                model = JsonConvert.DeserializeObject<FilterOrders>(filter);
+            }
+            int pageCount = 0;
+            int totalCount = 0;
+
+            var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchOrderType, model.SearchType, model.EntrustType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.PublicStatus, model.Mark,
+                                                             model.PayStatus, model.WarningStatus, model.ReturnStatus,model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, userID, clientID);
+            JsonDictionary.Add("items", list);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
         //新建大货订单
         public JsonResult CreateDHOrder(string orderID, decimal price, string details, string clientID, string yxOrderID,string yxClientID="",string personname="",string mobiletele="",string citycode="",string address="")
         {

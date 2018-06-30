@@ -33,6 +33,7 @@ namespace YXERP.Areas.Api.Controllers
                         string domainUrl = Request.Url.Scheme + "://" + Request.Url.Host;
                         userObj.Add("userID", model.UserID);
                         userObj.Add("clientID", model.ClientID);
+                        userObj.Add("companyName", model.Client.CompanyName);
                         userObj.Add("name", model.Name);
                         userObj.Add("avatar", domainUrl + model.Avatar);
                         resultObj.Add("user", userObj);
