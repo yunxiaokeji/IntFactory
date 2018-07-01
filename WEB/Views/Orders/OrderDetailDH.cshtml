@@ -175,6 +175,19 @@
                 <span class="column-title">付款金额：</span>
                 <label id="infoPayMoney">@(model.PayMoney.ToString("f2"))</label>
             </li>
+            <li class="">
+                <span class="column-title">成员：</span>
+                <div class="left width300">
+                    @foreach (var item in model.OrderMember)
+                    {
+                         <span class='pRight5 member-item' data-id='@(item.MemberID)'>@(item.Name)<span class='delete-member'  data-id='@(item.MemberID)'>×</span> </span>
+                    }
+                    @if (ExpandClass.IsExistMenu("102019002"))
+                    {
+                        <span class="add-member ico-add"></span>
+                    }
+                </div>
+            </li>
         </ul>
         <ul class="cutomerinfo right @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
             <li class="">
@@ -517,7 +530,7 @@
     else if (model.IsSelf && model.OrderStatus == 2)
     {
         <li class="@(ExpandClass.IsLimits(HttpContext.Current, "102019002")) order-archiving" data-archiving="@(model.ArchivingStatus)">
-                    @(model.ArchivingStatus==0?"订单归档":"取消归档")</li>
+                    @(model.ArchivingStatus == 0 ? "订单归档" : "取消归档")</li>
     }
    
 </ul>

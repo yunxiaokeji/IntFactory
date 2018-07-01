@@ -67,7 +67,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@CustomerID",customerid),
                                        new SqlParameter("@ClientID",clientid)
                                    };
-            return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer");
+            return GetDataSet("P_GetCustomerByID", paras, CommandType.StoredProcedure, "Customer|Members");
         }
 
         public DataTable GetContactsByCustomerID(string customerid)
@@ -210,7 +210,37 @@ namespace IntFactoryDAL
 
             return ExecuteNonQuery("P_SetCustomerYXinfo", paras, CommandType.StoredProcedure) > 0;
         }
-        
+
+        public bool AddMembers(string customerid, string userid, string operateID, string clientid, out int result)
+        {
+            result = 0;
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",SqlDbType.Int),
+                                       new SqlParameter("@CustomerID",customerid),
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@OperateID",operateID),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_AddCustomerMembers", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
+        }
+
+        public bool RemoveMember(string customerid, string userid)
+        {
+            string sqltext = "update CustomerMember set status=9  where CustomerID=@CustomerID and MemberID=@MemberID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@CustomerID",customerid),
+                                       new SqlParameter("@MemberID",userid)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
+        }
+
         #endregion
     }
 }

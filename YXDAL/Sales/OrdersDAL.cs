@@ -159,7 +159,7 @@ namespace IntFactoryDAL
                                        new SqlParameter("@ClientID",clientid)
                                    };
 
-            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Details|Goods|Tasks|Attrs");
+            DataSet ds = GetDataSet("P_GetOrderByID", paras, CommandType.StoredProcedure, "Order|Details|Goods|Tasks|Attrs|Members");
             return ds;
         }
 
@@ -847,6 +847,36 @@ namespace IntFactoryDAL
                                    };
 
             return ExecuteNonQuery("P_UpdateOrderGoodsQuantity", paras, CommandType.StoredProcedure) > 0;
+        }
+
+        public bool AddOrderMembers(string orderid, string userid, string operateID, string clientid, out int result)
+        {
+            result = 0;
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@Result",SqlDbType.Int),
+                                       new SqlParameter("@OrderID",orderid),
+                                       new SqlParameter("@UserID",userid),
+                                       new SqlParameter("@OperateID",operateID),
+                                       new SqlParameter("@ClientID",clientid)
+                                   };
+
+            paras[0].Value = result;
+            paras[0].Direction = ParameterDirection.InputOutput;
+            ExecuteNonQuery("P_AddOrderMembers", paras, CommandType.StoredProcedure);
+            result = Convert.ToInt32(paras[0].Value);
+
+            return result == 1;
+        }
+
+        public bool RemoveOrderMember(string orderid, string userid)
+        {
+            string sqltext = "update OrderMember set status=9  where OrderID=@OrderID and MemberID=@MemberID";
+            SqlParameter[] paras = { 
+                                       new SqlParameter("@OrderID",orderid),
+                                       new SqlParameter("@MemberID",userid)
+                                   };
+
+            return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
         #endregion

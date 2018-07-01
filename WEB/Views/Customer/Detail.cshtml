@@ -42,6 +42,19 @@
         <li><span class="column-title">详细地址：</span><label id="lblAddress" class="wordbreak" style="display:inline;"></label></li>
         <li><span class="column-title">创建时间：</span><label id="lblTime"></label></li>
         <li><span class="column-title">创建人：</span><label id="lblUser"></label></li>
+        <li style="width:100%;">
+                <span class="column-title">成员：</span>
+                <div class="left width300">
+                    @*@foreach (var item in model.OrderMember)
+                    {
+                         <span class='pRight5 member-item' data-id='@(item.MemberID)'>@(item.Name)<span class='delete-member'  data-id='@(item.MemberID)'>×</span> </span>
+                    }*@
+                    @if (ExpandClass.IsExistMenu("101019002"))
+                    {
+                        <span class="add-member ico-add"></span>
+                    }
+                </div>
+            </li>
         <li style="width:100%;"><span class="column-title">备注：</span> <label id="lblReamrk" class="wordbreak" style="display:inline;"></label></li>
     </ul>
     <div class="clear"></div>

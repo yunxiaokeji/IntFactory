@@ -260,6 +260,8 @@ namespace IntFactoryEntity
         public bool IsEntrustClient { get; set; }
 
         public int ArchivingStatus { get; set; }
+
+        public List<OrderMemberEntity> OrderMember { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>
@@ -269,6 +271,22 @@ namespace IntFactoryEntity
             dr.FillData(this);
         }
 
+    }
+
+    public class OrderMemberEntity
+    {
+        public string OrderID { get; set; }
+
+        public string MemberID { get; set; }
+
+        public string Name { get; set; }
+
+        public string ClientID { get; set; }
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
     }
 
     public class OrderAttrEntity

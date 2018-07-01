@@ -528,6 +528,21 @@ namespace YXERP.Controllers
             };
         }
 
+        public JsonResult GetSearchUsers(string keyWords = "", string departid = "", string roleid = "", int pageSize = 10, int pageIndex = 1)
+        {
+            int totalCount = 1;
+            int pageCount = 1;
+            var items = OrganizationBusiness.GetUsers(keyWords, departid, roleid, CurrentUser.ClientID, pageSize, pageIndex, ref totalCount, ref pageCount);
+            JsonDictionary.Add("items", items);
+            JsonDictionary.Add("totalCount", totalCount);
+            JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         #endregion
 
     }

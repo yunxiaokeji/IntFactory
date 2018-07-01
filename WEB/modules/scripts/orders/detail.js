@@ -15,6 +15,7 @@
     require("pager");
     require("colormark");
     require("tiplayer");
+    require("dropdownmore");
 
     var ObjectJS = {}, CacheItems = [];
 
@@ -23,6 +24,12 @@
         _self.orderid = orderid;
         _self.status = status;
         _self.isLoading = false;
+
+        //没有操作项隐藏更多操作按钮
+        if ($("#ddlOperateOrder li").length <= 0) {
+            $("#btnOperateMore").hide();
+        }
+
         _self.model = JSON.parse(model.replace(/&quot;/g, '"'));
         if (list) {
             _self.ColorList = JSON.parse(list.replace(/&quot;/g, '"'));
@@ -979,8 +986,67 @@
                 });
             });
         });
-    }
 
+        $(".add-member").dropdownSearch({
+            isCreate: false,
+            PostUrl: "/Organization/GetSearchUsers",
+            dataText: "Name",
+            dataValue: "UserID",
+            isposition: true,
+            moreDataParams: {
+                width: 85,
+                dataTexts: ["MobilePhone"]
+            },
+            width: 200,
+            onChange: function (data) {
+                var _obj = data && data.item;
+                if (_obj && _obj.UserID) {
+                    var userid = _obj.UserID.toLowerCase();
+                    if ($(".member-item[data-id='" + userid + "']").length > 0) {
+                        alert("此员工已是成员");
+                        return false;
+                    }
+                    if ($("#changeOwner").length > 0 && $("#changeOwner").data("userid").toLowerCase() == userid) {
+                        alert("此员工已是负责人");
+                        return;
+                    }
+                    Global.post("/Orders/AddOrderMembers", {
+                        id: _self.orderid,
+                        userid: userid
+                    }, function (data) {
+                        if (data.result) {
+                            var element = $("<span class='pRight5 member-item' data-id='" + userid + "'>" + _obj.Name + "<span class='delete-member' data-id='" + userid + "'>×</span> </span>");
+                            ObjectJS.bindDeleteMember(element);
+                            $(".add-member").before(element);
+                        } else {
+                            alert("添加失败");
+                        }
+                    });
+                }
+            }
+        });
+
+        //删除成员事件绑定
+        ObjectJS.bindDeleteMember($(".member-item"));
+    }
+    ObjectJS.bindDeleteMember = function (element) {
+        var _self = this;
+        element.find(".delete-member").click(function () {
+            var _this = $(this);
+            confirm("确认删除此成员吗？", function () {
+                Global.post("/Orders/RemoveOrderMember", {
+                    id: _self.orderid,
+                    userid: _this.data("id")
+                }, function (data) {
+                    if (data.result) {
+                        _this.parent().remove();
+                    } else {
+                        alert("添加失败");
+                    }
+                });
+            });
+        });
+    }
     //加载缓存
     ObjectJS.bingCache = function () {
         var _self = this;

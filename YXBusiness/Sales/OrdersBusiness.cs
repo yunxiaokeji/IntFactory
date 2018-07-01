@@ -413,6 +413,20 @@ namespace IntFactoryBusiness
                     model.OrderAttrs.Add(attr);
                 }
 
+                model.OrderMember = new List<OrderMemberEntity>();
+                foreach (DataRow dr in ds.Tables["Members"].Rows)
+                {
+                    OrderMemberEntity item = new OrderMemberEntity();
+                    item.FillData(dr);
+                    var user = OrganizationBusiness.GetUserCacheByUserID(item.MemberID, item.ClientID);
+                    if (user == null)
+                    {
+                        continue;
+                    }
+                    item.Name = user.Name;
+                    model.OrderMember.Add(item);
+                }
+
                 OrderHelper.HandleEntrustOrder(model, string.Empty, clientid);
             }
             return model;
@@ -1305,6 +1319,37 @@ namespace IntFactoryBusiness
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid.ToString(), clientid);
             }
             return bl;
+        }
+
+        public bool AddOrderMembers(string orderid, string userid, string operateid, string ip, string clientid, out int result)
+        {
+            bool flag = OrdersDAL.BaseProvider.AddOrderMembers(orderid, userid, operateid, clientid, out result);
+
+            if (flag)
+            {
+                var user = OrganizationBusiness.GetUserByUserID(userid, clientid);
+                var userName = user != null ? user.Name : "";
+                string msg = "添加成员：" + userName;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+
+            return flag;
+        }
+
+        public bool RemoveOrderMember(string orderid, string userid, string operateid, string ip, string clientid)
+        {
+            bool flag = OrdersDAL.BaseProvider.RemoveOrderMember(orderid, userid);
+
+            if (flag)
+            {
+                var user = OrganizationBusiness.GetUserByUserID(userid, clientid);
+                var userName = user != null ? user.Name : "";
+
+                string msg = "删除成员" + userName;
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+
+            return flag;
         }
         #endregion
 

@@ -74,6 +74,8 @@ seajs.config({
         //下拉框
         "dropdown": "plug/dropdown/dropdown.js",
         //搜索下拉框
+        "dropdownmore": "plug/dropdown_more/dropdown_more.js",
+        //搜索下拉框
         "autocomplete": "plug/autocomplete/autocomplete.js",
         //显示用户名片层
         "businesscard": "plug/businesscard/businesscard.js",

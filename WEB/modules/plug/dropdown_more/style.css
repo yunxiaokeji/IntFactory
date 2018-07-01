@@ -1,0 +1,29 @@
+﻿
+/*下拉框插件样式*/
+.dropdown-module { position: relative; height:28px; border:solid 1px #ccc; border-radius:2px; cursor:pointer;z-index:1000; }
+.dropdown-module .dropdown-text { height:28px; line-height:28px; margin-left:5px; color:#666;position:absolute; }
+.dropdown-module .dropdown-ico { height:16px; width:16px; position:relative; float:right; margin-top:10px; }
+
+.dropdown-module .dropdown-ico .top { border-top:solid 6px #ccc; border-left:solid 6px transparent ;border-right:solid 6px transparent;
+                                      position:absolute; }
+.dropdown-module .dropdown-ico .bottom { border-top:solid 6px #fff; border-left:solid 6px transparent ;
+                                    border-right:solid 6px transparent; position:absolute; top:-2px; left:0; }
+
+.dropdown-module:hover { border:solid 1px #318ae4; }
+.dropdown-module:hover .dropdown-text { color:#318ae4; }
+.dropdown-module:hover .dropdown-ico .top{ border-top-color:#318ae4; }
+
+.dropdown-module.hover { border:solid 1px #318ae4; }
+.dropdown-module.hover .dropdown-text { color:#318ae4; }
+.dropdown-module.hover .dropdown-ico .top{ border-top-color:#318ae4; }
+
+.dropdown-search-body {min-height:35px; max-height:300px; overflow-x:hidden; overflow-y:auto; border:solid 1px #ccc; position:absolute; z-index:1005; background-color:#fff; }
+.dropdown-search-modules { max-height:200px; overflow-x:hidden; overflow-y:auto; width:100%;}
+.dropdown-search-modules li { padding: 0; margin: 0; height: 35px !important; line-height: 35px; text-indent: 5px; color: #666; cursor: pointer; width: 100%; white-space: nowrap; }
+.dropdown-search-modules li div { height:35px;}
+.dropdown-search-modules li div.item { text-align:left !important;height:35px;}
+
+.dropdown-search-body:hover { border:solid 1px #318ae4; }
+.dropdown-search-body li:hover{ color:#fff; background-color:#318ae4; }
+
+

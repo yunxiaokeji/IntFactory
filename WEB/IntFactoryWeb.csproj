@@ -316,6 +316,8 @@
     <Content Include="modules\plug\colormark\style.css" />
     <Content Include="modules\plug\detaillayer\detaillayer.html" />
     <Content Include="modules\plug\detaillayer\detaillayer.js" />
+    <Content Include="modules\plug\dropdown_more\dropdown_more.js" />
+    <Content Include="modules\plug\dropdown_more\style.css" />
     <Content Include="modules\plug\e-smart-zoom-jquery.js" />
     <Content Include="modules\plug\logs\logitem.html" />
     <Content Include="modules\plug\logs\logs.html" />

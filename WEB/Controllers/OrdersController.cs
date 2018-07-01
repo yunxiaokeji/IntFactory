@@ -196,6 +196,7 @@ namespace YXERP.Controllers
             {
                 ViewBag.Client = ClientBusiness.GetClientDetail(model.ClientID);
             }
+            
             ViewBag.Model = model;
             ProcessCategoryEntity item = SystemBusiness.BaseBusiness.GetProcessCategoryByID(model.BigCategoryID);
             ViewBag.Tabs = item.CategoryItems.Where(m => m.Type == 1 && m.OrderType == model.OrderType).ToList();
@@ -1173,6 +1174,31 @@ namespace YXERP.Controllers
         {
             var status = IntFactoryBusiness.OrdersBusiness.BaseBusiness.UpdateOrderGoodsQuantity(orderid, autoid, quantity, remark, oldQuantity, CurrentUser.UserID, OperateIP, CurrentUser.ClientID);
             JsonDictionary.Add("status", status);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult AddOrderMembers(string id, string userid)
+        {
+            int result = 0;
+            bool flag = OrdersBusiness.BaseBusiness.AddOrderMembers(id, userid, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
+            JsonDictionary.Add("result", flag );
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult RemoveOrderMember(string id, string userid)
+        {
+            bool flag = OrdersBusiness.BaseBusiness.RemoveOrderMember(id, userid, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag );
 
             return new JsonResult
             {

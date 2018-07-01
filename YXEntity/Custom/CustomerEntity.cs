@@ -111,6 +111,24 @@ namespace IntFactoryEntity
 
         public int DHCount { get; set; }
 
+        public List<CustomerMemberEntity> Members { get; set; }
+
+        public void FillData(System.Data.DataRow dr)
+        {
+            dr.FillData(this);
+        }
+    }
+
+    public class CustomerMemberEntity
+    {
+        public string CustomerID { get; set; }
+
+        public string MemberID { get; set; }
+
+        public string Name { get; set; }
+
+        public string ClientID { get; set; }
+
         public void FillData(System.Data.DataRow dr)
         {
             dr.FillData(this);

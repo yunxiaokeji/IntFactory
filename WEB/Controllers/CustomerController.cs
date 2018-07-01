@@ -34,7 +34,7 @@ namespace YXERP.Controllers
             else
             {
                 ViewBag.Title = "客户列表";
-                ViewBag.Type = (int)EnumSearchType.Branch;
+                ViewBag.Type = (int)EnumSearchType.Myself;
             }
             ViewBag.CurrentUserID = CurrentUser.UserID;
             ViewBag.FirstNames=new char[]{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
@@ -277,6 +277,31 @@ namespace YXERP.Controllers
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult AddMembers(string id, string userid)
+        {
+            int result = 0;
+            bool flag = CustomBusiness.BaseBusiness.AddMembers(id, userid, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID, out result);
+            JsonDictionary.Add("result", flag);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult RemoveMember(string id, string userid)
+        {
+            bool flag = CustomBusiness.BaseBusiness.RemoveMember(id, userid, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag);
+
             return new JsonResult
             {
                 Data = JsonDictionary,

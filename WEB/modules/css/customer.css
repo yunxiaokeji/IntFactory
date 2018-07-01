@@ -93,3 +93,10 @@
     left:200px;
     right:200px; 
 }
+
+/*成员*/
+.delete-member {
+    padding:0 5px; color:#2F73B8; cursor:pointer; 
+}
+.add-member { margin-top:5px; }
+.member-item, .add-member { float:left; margin-right:5px;}

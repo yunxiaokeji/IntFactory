@@ -8,6 +8,7 @@
     var CustomerReply = require("replys");       
     require("pager");
     require("colormark");
+    require("dropdownmore");
     
     var Params = {
         keyWords: "",
@@ -86,6 +87,13 @@
         $(".module-tab li[data-id='navOppor']").html("需求列表（" + model.DemandCount + "）");
         $(".module-tab li[data-id='navOrder']").html("打样订单（" + model.DYCount + "）");
         $(".module-tab li[data-id='navDHOrder']").html("大货订单（" + model.DHCount + "）");
+
+        for (var i = 0; i < model.Members.length; i++) {
+            var member = model.Members[i];
+            var element = $("<span class='pRight5 member-item' data-id='" + member.MemberID + "'>" + member.Name + "<span class='delete-member' data-id='" + member.MemberID + "'>×</span> </span>");
+            ObjectJS.bindDeleteMember(element);
+            $(".add-member").before(element);
+        }
 
         //if (model.Type == 0) {
         //    $("#lblType").html("人")
@@ -347,6 +355,63 @@
         if (navid) {
             $(".module-tab li[data-id='" + navid + "']").click();
         }
+        $(".add-member").dropdownSearch({
+            isCreate: false,
+            PostUrl: "/Organization/GetSearchUsers",
+            dataText: "Name",
+            dataValue: "UserID",
+            isposition: true,
+            moreDataParams: {
+                width: 85,
+                dataTexts: ["MobilePhone"]
+            },
+            width: 200,
+            onChange: function (data) {
+                var _obj = data && data.item;
+                if (_obj && _obj.UserID) {
+                    var userid = _obj.UserID.toLowerCase();
+                    if ($(".member-item[data-id='" + userid + "']").length > 0) {
+                        alert("此员工已是成员");
+                        return false;
+                    }
+                    if ($("#changeOwner").data("userid").toLowerCase() == userid) {
+                        alert("此员工已是负责人");
+                        return;
+                    }
+                    Global.post("/Customer/AddMembers", {
+                        id: _self.guid,
+                        userid: userid
+                    }, function (data) {
+                        if (data.result) {
+                            var element = $("<span class='pRight5 member-item' data-id='" + userid + "'>" + _obj.Name + "<span class='delete-member' data-id='" + userid + "'>×</span> </span>");
+                            ObjectJS.bindDeleteMember(element);
+                            $(".add-member").before(element);
+                        } else {
+                            alert("添加失败");
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    ObjectJS.bindDeleteMember = function (element) {
+        var _self = this;
+        element.find(".delete-member").click(function () {
+            var _this = $(this);
+            confirm("确认删除此成员吗？", function () {
+                Global.post("/Customer/RemoveMember", {
+                    id: _self.guid,
+                    userid: _this.data("id")
+                }, function (data) {
+                    if (data.result) {
+                        _this.parent().remove();
+                    } else {
+                        alert("添加失败");
+                    }
+                });
+            });
+        });
     }
 
     //获取日志
