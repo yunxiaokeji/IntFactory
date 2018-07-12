@@ -35,8 +35,19 @@ namespace YXERP.Areas.Api.Controllers
             }
             int pageCount = 0;
             int totalCount = 0;
-            string ownerID = userID;
-            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.filtertype, paras.status, paras.finishStatus,-1,-1,
+            string ownerID = string.Empty;
+            if (paras.filtertype == -1)
+            {
+                if (!string.IsNullOrEmpty(paras.userID))
+                {
+                    ownerID = paras.userID;
+                }
+            }
+            else
+            {
+                ownerID = userID;
+            }
+            List<TaskEntity> list = TaskBusiness.GetTasks(paras.keyWords.Trim(), ownerID,paras.filtertype, paras.status, paras.finishStatus,paras.invoiceStatus,-1,
                 paras.colorMark, paras.taskType, paras.beginDate, paras.endDate,string.Empty,string.Empty,
                 paras.orderType, paras.orderProcessID, paras.orderStageID,
                 (EnumTaskOrderColumn)paras.taskOrderColumn, paras.isAsc, clientID,
@@ -84,6 +95,37 @@ namespace YXERP.Areas.Api.Controllers
             JsonDictionary.Add("items", tasks);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetTaskTotalCount(int filterType, string userID, string clientID)
+        {
+            int searchType = 0;
+            if (filterType == 2) {
+                searchType = 1;
+            }
+            var list = TaskRPTBusiness.BaseBusiness.GetTaskTabCount(userID, searchType, clientID);
+            int normal = 0, complete = 0, nobegin = 0;
+            if (list.Count(m => m.OrderStatus == 0) > 0)
+            {
+                nobegin = list.Where(m => m.OrderStatus == 0).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 1) > 0)
+            {
+                normal = list.Where(m => m.OrderStatus == 1).FirstOrDefault().OrderQuantity;
+            }
+            if (list.Count(m => m.OrderStatus == 2) > 0)
+            {
+                complete = list.Where(m => m.OrderStatus == 2).FirstOrDefault().OrderQuantity;
+            }
+            JsonDictionary.Add("nobegin", nobegin);
+            JsonDictionary.Add("normal", normal);
+            JsonDictionary.Add("complete", complete);
 
             return new JsonResult
             {

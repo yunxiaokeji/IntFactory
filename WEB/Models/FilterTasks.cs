@@ -25,6 +25,8 @@ namespace YXERP.Models
 
         public int finishStatus = 0;
 
+        public int invoiceStatus = -1;
+
         public string beginDate = string.Empty;
 
         public string endDate = string.Empty;
