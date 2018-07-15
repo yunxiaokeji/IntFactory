@@ -183,10 +183,59 @@ namespace YXERP.Areas.Api.Controllers
             int totalCount = 0;
 
             var list = OrdersBusiness.BaseBusiness.GetOrders(model.SearchOrderType, model.SearchType, model.EntrustType, model.TypeID, model.Status, (EnumOrderSourceType)model.SourceType, model.OrderStatus, model.PublicStatus, model.Mark,
-                                                             model.PayStatus, model.WarningStatus, model.ReturnStatus,model.UserID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, userID, clientID);
+                                                             model.PayStatus, model.WarningStatus, model.ReturnStatus,userID, model.TeamID, model.BeginTime, model.EndTime, model.Keywords, model.OrderBy, model.PageSize, model.PageIndex, ref totalCount, ref pageCount, userID, clientID);
             JsonDictionary.Add("items", list);
             JsonDictionary.Add("totalCount", totalCount);
             JsonDictionary.Add("pageCount", pageCount);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetOrderTotalCount(int searchOrderType, string userID, string clientID)
+        {
+            int ordertype = searchOrderType;
+            int dh = 0, dy = 0;
+            int normal = 0, complete = 0, over = 0, archiving = 0;
+
+            var list = OrderRPTBusiness.BaseBusiness.GetOrderTabCount(userID, clientID);
+            if (searchOrderType == 0) {
+                if (list.Count(m => m.OrderStatus == 0 && m.OrderType == 1) > 0)
+                {
+                    dy = list.Where(m => m.OrderStatus == 0 && m.OrderType == 1).FirstOrDefault().OrderQuantity;
+                }
+                if (list.Count(m => m.OrderStatus == 0 && m.OrderType == 2) > 0)
+                {
+                    dh = list.Where(m => m.OrderStatus == 0 && m.OrderType == 2).FirstOrDefault().OrderQuantity;
+                }
+            }
+            else{
+                if (list.Count(m => m.OrderStatus == 1 && m.OrderType == ordertype) > 0)
+                {
+                    normal = list.Where(m => m.OrderStatus == 1 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+                }
+                if (list.Count(m => m.OrderStatus == 2 && m.OrderType == ordertype) > 0)
+                {
+                    complete = list.Where(m => m.OrderStatus == 2 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+                }
+                if (list.Count(m => m.OrderStatus == 8 && m.OrderType == ordertype) > 0)
+                {
+                    over = list.Where(m => m.OrderStatus == 8 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+                }
+                if (list.Count(m => m.OrderStatus == 999 && m.OrderType == ordertype) > 0)
+                {
+                    archiving = list.Where(m => m.OrderStatus == 999 && m.OrderType == ordertype).FirstOrDefault().OrderQuantity;
+                }
+            }
+            JsonDictionary.Add("dy", dy);
+            JsonDictionary.Add("dh", dh);
+            JsonDictionary.Add("normal", normal);
+            JsonDictionary.Add("complete", complete);
+            JsonDictionary.Add("over", over);
+            JsonDictionary.Add("archiving", archiving);
+
             return new JsonResult
             {
                 Data = JsonDictionary,
