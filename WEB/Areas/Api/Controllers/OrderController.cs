@@ -194,6 +194,22 @@ namespace YXERP.Areas.Api.Controllers
             };
         }
 
+        public JsonResult GetOrderDetail(string id, string userID, string clientID)
+        {
+            var model = OrdersBusiness.BaseBusiness.GetOrderByID(id, clientID);
+            if (model.OrderType == 2)
+            {
+                model.OrderAttrs = OrdersBusiness.BaseBusiness.GetOrderArrrsByOrderID(model.OriginalID);
+            }
+
+            JsonDictionary.Add("item", model);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public JsonResult GetOrderTotalCount(int searchOrderType, string userID, string clientID)
         {
             int ordertype = searchOrderType;
