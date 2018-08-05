@@ -11,7 +11,7 @@ namespace YXERP.Common
 {
     public class Common
     {
-        public static string Version = "20180601";
+        public static string Version = "20180701";
         //支付宝对接页面
         public static string AlipaySuccessPage = System.Configuration.ConfigurationManager.AppSettings["AlipaySuccessPage"] ?? string.Empty;
         public static string AlipayNotifyPage = System.Configuration.ConfigurationManager.AppSettings["AlipayNotifyPage"] ?? string.Empty;

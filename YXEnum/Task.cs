@@ -11,7 +11,9 @@ namespace IntFactoryEnum
         [DescriptionAttribute("创建时间")]
         CreateTime = 0,
         [DescriptionAttribute("到期时间")]
-        EndTime = 1
+        EndTime = 1,
+        [DescriptionAttribute("标签")]
+        ColorMark = 2
     }
 
     public enum TaskMemberPermissionType
