@@ -62,6 +62,7 @@ namespace IntFactoryEntity
 
         public OrderProcessEntity OrderProcess { get; set; }
 
+        public int IsTop { get; set; }
 
         public decimal Price { get; set; }
 

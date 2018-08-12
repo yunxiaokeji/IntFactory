@@ -939,6 +939,16 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderIsTop(string orderid, int isTop, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateIsTop(orderid, isTop, clientid);
+            if (bl)
+            {
+               
+            }
+            return bl;
+        }
+
         public bool UpdateProductQuantity(string orderid, string taskid, string autoid, string name, decimal quantity, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateProductQuantity(orderid, taskid, autoid, quantity, operateid, clientid);

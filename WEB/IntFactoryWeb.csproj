@@ -1293,6 +1293,7 @@
     <Content Include="modules\plug\umeditor\third-party\video-js\font\vjs.eot" />
     <Content Include="modules\plug\umeditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="modules\plug\umeditor\third-party\video-js\font\vjs.woff" />
+    <None Include="Properties\PublishProfiles\allenweb.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
     <Content Include="Views\Auction\ExtendNow.cshtml" />
     <Content Include="Views\Auction\BuyUserQuantity.cshtml" />

@@ -826,6 +826,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
         }
 
+        public bool UpdateIsTop(string orderid, int isTop, string clientid)
+        {
+            string sql = " update Orders set IsTop=@IsTop where OrderID=@OrderID and (ClientID=@ClientID or EntrustClientID=@ClientID)";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@IsTop",isTop),
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@ClientID",clientid)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
+
         public bool UpdateOrderAttrName(string orderid,string orderAttrID, string name, int type)
         {
             SqlParameter[] paras = { 
