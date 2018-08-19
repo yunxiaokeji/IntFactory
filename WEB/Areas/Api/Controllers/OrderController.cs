@@ -285,14 +285,14 @@ namespace YXERP.Areas.Api.Controllers
         }
 
         //
-        public JsonResult CreateOrder(string entity, string clientid, string opearid)
+        public JsonResult CreateOrder(string entity, string clientid, string userID)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
             //string qiniuImgUrl =Common.Common.UploadAttachment(model.OrderImage);
             string orderid = OrdersBusiness.BaseBusiness.CreateOrder(model.CustomerID, model.GoodsCode, model.Title, model.PersonName, model.MobileTele, EnumOrderSourceType.FactoryOrder,
                                                                     (EnumOrderType)model.OrderType, model.OrderGoods, model.BigCategoryID, model.CategoryID, model.PlanPrice, model.PlanQuantity, model.PlanTime,
-                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, opearid, clientid);
+                                                                     model.OrderImage, model.CityCode, model.Address, model.ExpressCode, model.Remark, userID, clientid);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -317,6 +317,30 @@ namespace YXERP.Areas.Api.Controllers
             }
 
             JsonDictionary.Add("processs", processss);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetClientProcessCategorys(string clientID)
+        {
+            var processCategorys = ProductsBusiness.BaseBusiness.GetClientProcessCategorys(clientID);
+
+            JsonDictionary.Add("items", processCategorys);
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetProductChildCategorysByID(string clientID)
+        {
+            var productCategorys = ProductsBusiness.BaseBusiness.GetChildCategorysByID("", EnumCategoryType.Order);
+
+            JsonDictionary.Add("items", productCategorys);
             return new JsonResult
             {
                 Data = JsonDictionary,
@@ -415,6 +439,7 @@ namespace YXERP.Areas.Api.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
 
     }
 }
