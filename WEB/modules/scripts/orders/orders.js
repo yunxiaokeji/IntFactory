@@ -7,6 +7,7 @@
         ChooseUser = require("chooseuser"),
         moment = require("moment");
     require("daterangepicker");
+    require("switch");
     require("pager");
     require("colormark");
 
@@ -596,6 +597,19 @@
                 });
                 innerhtml.find('.layer-line').css({ width: 0, left: "160px" });
 
+                innerhtml.find(".update-top").switch({
+                    open_title: "点击置顶",
+                    close_title: "取消置顶",
+                    value_key: "top",
+                    change: function (data, callback) {
+                        if (!$("#batchChangeOwner").hasClass("nolimits")) {
+                            _self.editIsTop(data.data("id"), data.data("top"), callback);
+                        } else {
+                            alert("您暂无操作订单的权限！");
+                        }
+                    }
+                });
+
                 innerhtml.find(".mark").markColor({
                     isAll: false,
                     data: _self.ColorList,
@@ -698,6 +712,16 @@
                 ObjectJS.AliStartTime = data.plan.CreateTime.toDate("yyyy-MM-dd");
                 ObjectJS.DownBeginTime = data.downBeginTime.toDate("yyyy-MM-dd");
             }
+        });
+    }
+
+    ObjectJS.editIsTop = function (id, top, callback) {
+        var _self = this;
+        Global.post("/Orders/UpdateOrderIsTop", {
+            id: id,
+            isTop: top ? 0 : 1
+        }, function (data) {
+            !!callback && callback(data.result);
         });
     }
 

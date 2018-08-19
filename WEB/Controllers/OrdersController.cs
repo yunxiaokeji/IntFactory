@@ -503,7 +503,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, isCreate == 1, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, isCreate == 1, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.ClientID, customerid: model.CustomerID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {
@@ -1199,6 +1199,18 @@ namespace YXERP.Controllers
         {
             bool flag = OrdersBusiness.BaseBusiness.RemoveOrderMember(id, userid, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
             JsonDictionary.Add("result", flag );
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult UpdateOrderIsTop(string id, int isTop)
+        {
+            bool flag = OrdersBusiness.BaseBusiness.UpdateOrderIsTop(id, isTop, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag);
 
             return new JsonResult
             {

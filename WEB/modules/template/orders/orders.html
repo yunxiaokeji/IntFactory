@@ -21,7 +21,9 @@
                     </div>
                 </div>
             {% } %}
+           
             <span class="iconfont view-detail right" data-id="{%=item.OrderID%}" data-code="{%=item.OrderCode%}">&#xe627;</span>
+            <span class="update-top right" data-id="{%=item.OrderID%}" data-top="{%=item.IsTop==1%}"></span>
         </td>
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner && item.Owner.Name||"--")%}

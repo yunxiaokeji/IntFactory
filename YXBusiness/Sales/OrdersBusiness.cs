@@ -769,7 +769,7 @@ namespace IntFactoryBusiness
             return "";
         }
 
-        public string CreateDHOrder(string orderid, int ordertype, bool isCreate, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "")
+        public string CreateDHOrder(string orderid, int ordertype, bool isCreate, decimal discount, decimal price, List<OrderGoodsEntity> details, string operateid, string clientid, string yxOrderID = "", string yxClientID = "", string personname = "", string mobiletele = "", string citycode = "", string address = "", string customerid = "")
         {
             var dal = new OrdersDAL();
 
@@ -807,7 +807,7 @@ namespace IntFactoryBusiness
                     bool bl = true;
                     if (isCreate)
                     {
-                        bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID, personname, mobiletele, citycode, address);
+                        bl = dal.CreateDHOrder(id, orderid, discount, price, operateid, clientid, yxOrderID, tran, yxClientID, personname, mobiletele, citycode, address, customerid);
                     }
                     else
                     {
@@ -935,6 +935,16 @@ namespace IntFactoryBusiness
             {
                 string msg = "修改材料" + name + "价格：" + price;
                 LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, autoid, clientid);
+            }
+            return bl;
+        }
+
+        public bool UpdateOrderIsTop(string orderid, int isTop, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateIsTop(orderid, isTop, clientid);
+            if (bl)
+            {
+               
             }
             return bl;
         }

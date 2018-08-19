@@ -1403,6 +1403,7 @@
                         var orderModel = {};
                         orderModel.OrderID = _self.orderid;
                         orderModel.OrderGoods = [];
+                        orderModel.CustomerID = $(".change-order-customer").data("id");
                         $(".child-product-table .quantity").each(function () {
                             var _this = $(this);
                             if (_this.val() > 0) {
@@ -1460,9 +1461,34 @@
                     }
                 }
             });
+            
             //新建大货明细
             if (ordertype == 2) {
                 $(".dh-order-tr").show();
+                if (isExists) {
+                    $(".change-order-customer-li").hide();
+                } else {
+                    $("#lblOrderCustomer").text($("#hideCustomerName").val());
+                    $(".change-order-customer").dropdownSearch({
+                        isCreate: false,
+                        PostUrl: "/Customer/GetCustomersByKeywords",
+                        dataText: "Name",
+                        dataValue: "CustomerID",
+                        isposition: true,
+                        moreDataParams: {
+                            width: 85,
+                            dataTexts: []
+                        },
+                        width: 200,
+                        onChange: function (data) {
+                            var _obj = data && data.item;
+                            if (_obj && _obj.CustomerID) {
+                                $(".change-order-customer").data("id", _obj.CustomerID);
+                                $("#lblOrderCustomer").text(_obj.Name);
+                            }
+                        }
+                    });
+                }
                 $("#lblOrderFinalPrice").text(_self.model.FinalPrice);
                 $("#iptOrderNewPrice").val(_self.model.FinalPrice).data("value", _self.model.FinalPrice);
                 //折扣
