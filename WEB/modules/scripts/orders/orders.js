@@ -602,7 +602,11 @@
                     close_title: "取消置顶",
                     value_key: "top",
                     change: function (data, callback) {
-                        _self.editIsTop(data.data("id"), data.data("top"), callback);
+                        if (!$("#batchChangeOwner").hasClass("nolimits")) {
+                            _self.editIsTop(data.data("id"), data.data("top"), callback);
+                        } else {
+                            alert("您暂无操作订单的权限！");
+                        }
                     }
                 });
 

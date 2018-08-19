@@ -503,7 +503,7 @@ namespace YXERP.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             OrderEntity model = serializer.Deserialize<OrderEntity>(entity);
 
-            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, isCreate == 1, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.ClientID);
+            string orderid = OrdersBusiness.BaseBusiness.CreateDHOrder(model.OrderID, ordertype, isCreate == 1, discount, price, model.OrderGoods, CurrentUser.UserID, CurrentUser.ClientID, customerid: model.CustomerID);
             JsonDictionary.Add("id", orderid);
             return new JsonResult()
             {

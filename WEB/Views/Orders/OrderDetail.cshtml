@@ -194,6 +194,7 @@
         <ul class="cutomerinfo right @(ExpandClass.IsLimits(HttpContext.Current, "102010501"))">
            <li class="">
                 <span class="column-title bold">客户名称：</span> 
+                <input type="hidden" id="hideCustomerName" value="@(model.CustomerName)" />
                 @if (!string.IsNullOrEmpty(model.CustomerID) && model.IsSelf)
                 {
                     <a href="/Customer/Detail/@(model.CustomerID)" class="left">@(model.CustomerName)</a> 
