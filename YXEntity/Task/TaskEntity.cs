@@ -99,6 +99,8 @@ namespace IntFactoryEntity.Task
         public int UseDays { get; set; }
 
         public string OpenID { get; set; }
+
+        public int IsTop { get; set; }
         /// <summary>
         /// 填充数据
         /// </summary>

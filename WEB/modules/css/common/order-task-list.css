@@ -16,7 +16,7 @@
 .table-items-detail .order-customer { width: 270px; padding-left:10px; border-left:solid 1px #ddd;}
 .table-items-detail .order-customer div{ height:45px; line-height:45px; color:#333; }
 .table-items-detail .order-customer a,.table-items-detail .order-customer span{ display:inline-block; height:45px; line-height:45px; float:left;}
-.table-items-detail .order-customer .column-title { width:80px; margin-left:5px;}
+.table-items-detail .order-customer .column-title { width:100px; margin-left:5px;}
 
 /*阿里标记*/
 .colordiv { padding: 0px 5px; cursor: pointer; }

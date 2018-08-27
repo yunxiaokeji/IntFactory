@@ -560,6 +560,16 @@ namespace IntFactoryBusiness
         {
             return TaskDAL.BaseProvider.DeleteTaskReplyAttachment(attachmentid, operateid, out result);
         }
+
+        public static bool UpdateTaskIsTop(string taskid, int isTop, string operateid, string ip, string clientid)
+        {
+            bool bl = TaskDAL.BaseProvider.UpdateIsTop(taskid, isTop, operateid, clientid);
+            if (bl)
+            {
+
+            }
+            return bl;
+        }
         #endregion
 
         #region 制版工艺

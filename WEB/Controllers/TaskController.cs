@@ -620,5 +620,17 @@ namespace YXERP.Controllers
             return false;
         }
 
+        public JsonResult UpdateTaskIsTop(string id, int isTop)
+        {
+            bool flag = TaskBusiness.UpdateTaskIsTop(id, isTop, CurrentUser.UserID, Common.Common.GetRequestIP(), CurrentUser.ClientID);
+            JsonDictionary.Add("result", flag);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
     }
 }

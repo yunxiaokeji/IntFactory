@@ -5,6 +5,7 @@
         moment = require("moment");
         require("daterangepicker");
         require("pager");
+        require("switch");
         require("colormark");
 
         var Params = {
@@ -355,6 +356,15 @@
                             ObjectJS.markTasks(obj.data("id"), obj.data("value"), callback);
                         }
                     });
+
+                    innerhtml.find(".update-top").switch({
+                        open_title: "点击置顶",
+                        close_title: "取消置顶",
+                        value_key: "top",
+                        change: function (data, callback) {
+                            ObjectJS.editIsTop(data.data("id"), data.data("top"), callback);
+                        }
+                    });
                 });
             }else {
                 $(".table-header").after("<tr><td colspan='10' style='padding:0;'><div class='nodata-txt' >暂无数据!<div></td></tr>");
@@ -396,6 +406,16 @@
                 callback && callback(data.status);
             }
             ObjectJS.isLoading = true;
+        });
+    }
+
+    ObjectJS.editIsTop = function (id, top, callback) {
+        var _self = this;
+        Global.post("/Task/UpdateTaskIsTop", {
+            id: id,
+            isTop: top ? 0 : 1
+        }, function (data) {
+            !!callback && callback(data.result);
         });
     }
 

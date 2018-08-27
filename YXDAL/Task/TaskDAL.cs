@@ -386,6 +386,16 @@ namespace IntFactoryDAL
             return ExecuteNonQuery(sqltext, paras, CommandType.Text) > 0;
         }
 
+        public bool UpdateIsTop(string taskid, int isTop, string ownerid,string clientid)
+        {
+            string sql = " update OrderTask set IsTop=@IsTop where TaskID=@TaskID and OwnerID='" + ownerid+"'";
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@IsTop",isTop),
+                                     new SqlParameter("@TaskID",taskid)
+                                   };
+
+            return ExecuteNonQuery(sql, paras, CommandType.Text) > 0;
+        }
 
         #region PlateMaking
         public DataTable GetPlateMakings(string orderID)

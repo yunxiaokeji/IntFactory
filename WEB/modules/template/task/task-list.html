@@ -11,10 +11,10 @@
                 任务名称：{%=item.Title==""?"--":item.Title%}
             </a>
             <span style="position:absolute;right:8px;top:5px;" 
-                class="iconfont ico-reply font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
-               data-stageid="{%=item.StageID%}" data-lock="no"
-                    data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
+                  class="iconfont ico-reply font20 show-task-reply stage-items {%=(item.FinishStatus == 0 ? 'normal' : item.FinishStatus == 1 ? 'ing' : 'over')%}"
+                  data-stageid="{%=item.StageID%}" data-lock="no" data-orderid="{%=item.OrderID%}" data-taskid="{%=item.TaskID%}" data-mark="{%=item.Mark%}">
             </span>
+            <span class="update-top" style="position:absolute;right:50px;top:10px;" data-id="{%=item.TaskID%}" data-top="{%=item.IsTop==1%}"></span>
         </td>
         <td class="width300 tLeft bold">
             负责人：{%=(item.Owner ? item.Owner.Name:"--")%}
