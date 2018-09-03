@@ -6,6 +6,7 @@ define(function (require, exports, module) {
         ChooseUser = require("chooseuser");
     var doT = require("dot");
     var TalkReply = require("replys");
+    require("switch");
 
     (function ($) {
         //默认参数
@@ -151,8 +152,25 @@ define(function (require, exports, module) {
                             $("#taskDetailContent").animate({ width: '0px' }, 100);
                         }
                     });
+                    //置顶
+                    $("#updateTaskTop").switch({
+                        open_title: "点击置顶",
+                        close_title: "取消置顶",
+                        value_key: "top",
+                        change: function (data, callback) {
+                            if (defaultParas.self == 1) {
+                                Global.post("/Task/UpdateTaskIsTop", {
+                                    id: data.data("id"),
+                                    isTop: data.data("top") ? 0 : 1
+                                }, function (result) {
+                                    !!callback && callback(result.result);
+                                });
+                            }
+                        }
+                    });
                     //转移
                     if (defaultParas.self == 1) {
+                        
                         $("#changeTaskOwner").click(function () {
                             var _this = $(this);
                             ChooseUser.create({
