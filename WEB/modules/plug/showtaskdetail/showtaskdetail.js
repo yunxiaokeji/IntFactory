@@ -158,7 +158,8 @@ define(function (require, exports, module) {
                         close_title: "取消置顶",
                         value_key: "top",
                         change: function (data, callback) {
-                            if (defaultParas.self == 1) {
+                            console.log(!defaultParas.lock);
+                            if (!defaultParas.lock) {
                                 Global.post("/Task/UpdateTaskIsTop", {
                                     id: data.data("id"),
                                     isTop: data.data("top") ? 0 : 1

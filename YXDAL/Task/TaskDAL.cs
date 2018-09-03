@@ -388,7 +388,7 @@ namespace IntFactoryDAL
 
         public bool UpdateIsTop(string taskid, int isTop, string ownerid,string clientid)
         {
-            string sql = " update OrderTask set IsTop=@IsTop where TaskID=@TaskID and OwnerID='" + ownerid+"'";
+            string sql = " update OrderTask set IsTop=@IsTop where TaskID=@TaskID";
             SqlParameter[] paras = { 
                                      new SqlParameter("@IsTop",isTop),
                                      new SqlParameter("@TaskID",taskid)
