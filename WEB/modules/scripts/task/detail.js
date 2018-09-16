@@ -36,8 +36,9 @@
         /*任务模块别名*/
         var taskModeleDescs = JSON.parse(taskDescs.replace(/&quot;/g, '"'));
 
-        if (attrValues != "")
+        if (attrValues != "") {
             CacheAttrValues = JSON.parse(attrValues.replace(/&quot;/g, '"'));//制版属性缓存
+        }
         ObjectJS.orderid = task.OrderID;
         ObjectJS.guid = task.OrderID;
         ObjectJS.originalID = originalID;
@@ -1357,7 +1358,10 @@
                                     }
                                     _self.find(".tbContentIpt").val(value);
                                 }
-
+                            }
+                            if ($("#platemakingBody td.remark").length > 0) {
+                                //备注
+                                newColumn += '<td class="tLeft width100"><span class="tbContent"></span><input class="width200 tbContentIpt" value="" type="text" /></td>';
                             }
                         });
 
@@ -1602,6 +1606,7 @@
                         });
 
                         newColumnHeadr += '<td class="width150 tLeft">档差</td>';
+                        newColumnHeadr += '<td class="width150 tLeft remark">备注</td>';
                         newColumnHeadr += '<td class="width150 center">操作</td>';
                         newColumnHeadr += '</tr>';
 
@@ -1609,6 +1614,10 @@
                         newColumn += '<span class="tbContent"></span>';
                         newColumn += '<input class="tbContentIpt normal-plate-ipt" maxlength="20" value="" type="text"/>';
                         newColumn += '</td>';
+
+                        //备注
+                        newColumn += '<td class="tLeft width100"><span class="tbContent"></span><input class="width200 tbContentIpt" value="" type="text" /></td>';
+
                         newColumn += '<td class="width150 center">';
                         newColumn += '    <div class="platemakingOperate">';
                         newColumn += '        <div class="btn-addRow btn-create left" title="添加新行"></div>';
