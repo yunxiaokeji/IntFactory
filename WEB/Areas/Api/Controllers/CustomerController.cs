@@ -13,6 +13,17 @@ namespace YXERP.Areas.Api.Controllers
     [YXERP.Common.ApiAuthorize]
     public class CustomerController : BaseAPIController
     {
+        /// <summary>
+        /// 登录IP
+        /// </summary>
+        protected string OperateIP
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Request.Headers.Get("X-Real-IP")) ? Request.UserHostAddress : Request.Headers["X-Real-IP"];
+            }
+        }
+
         //根据客户ID获取客户信息
         public JsonResult GetCustomerByID(string customerID, string clientID)
         {
@@ -84,6 +95,49 @@ namespace YXERP.Areas.Api.Controllers
             List<CustomerEntity> list = CustomBusiness.BaseBusiness.GetCustomersByKeywords(keywords, string.Empty, clientID);
             JsonDictionary.Add("items", list);
 
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult GetCitys()
+        {
+            var list = CommonBusiness.Citys;
+            foreach (var item in list) {
+                item.ChildCity = list.FindAll(c => c.PCode == item.CityCode);
+            }
+            list = list.FindAll(c => c.Level ==1);
+            JsonDictionary.Add("items", list);
+
+            return new JsonResult
+            {
+                Data = JsonDictionary,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        public JsonResult SaveCustomer(string entity , string userID, string clientID)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            CustomerEntity model = serializer.Deserialize<CustomerEntity>(entity);
+
+            if (string.IsNullOrEmpty(model.CustomerID))
+            {
+                model.CustomerID = new CustomBusiness().CreateCustomer(model.Name, model.Type, model.SourceID, model.IndustryID, model.Extent, model.CityCode,
+                                                                       model.Address, model.ContactName, model.MobilePhone, model.OfficePhone, model.Email, model.Jobs, model.Description, userID, userID, clientID);
+            }
+            else
+            {
+                bool bl = new CustomBusiness().UpdateCustomer(model.CustomerID, model.Name, model.Type, model.IndustryID, model.Extent, model.CityCode, model.Address, model.MobilePhone, model.OfficePhone,
+                                                model.Email, model.Jobs, model.Description, userID, OperateIP, clientID);
+                if (!bl)
+                {
+                    model.CustomerID = "";
+                }
+            }
+            JsonDictionary.Add("model", model);
             return new JsonResult
             {
                 Data = JsonDictionary,
