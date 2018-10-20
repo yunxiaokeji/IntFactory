@@ -730,6 +730,18 @@ namespace IntFactoryDAL
             return ExecuteNonQuery("P_UpdateOrderOver", paras, CommandType.StoredProcedure) > 0;
         }
 
+        public bool UpdateOrderProcessStatus(string orderid, int processStatus, string operateid, string clientid)
+        {
+            SqlParameter[] paras = { 
+                                     new SqlParameter("@OrderID",orderid),
+                                     new SqlParameter("@ProcessStatus",processStatus),
+                                     new SqlParameter("@OperateID" , operateid),
+                                     new SqlParameter("@ClientID" , clientid)
+                                   };
+
+            return ExecuteNonQuery("P_UpdateOrderProcessStatus", paras, CommandType.StoredProcedure) > 0;
+        }
+
         public bool EditOrder(string orderid, string goodsCode, string goodsName, string personName, string mobileTele, string cityCode, string address,
                                 string postalcode, int expresstype, string remark, string operateid, string clientid, out int result)
         {

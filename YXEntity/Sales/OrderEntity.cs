@@ -51,6 +51,8 @@ namespace IntFactoryEntity
 
         public int Status { get; set; }
 
+        public int ProcessStatus { get; set; }
+
         public string StatusStr { get; set; }
 
         public int OrderStatus { get; set; }

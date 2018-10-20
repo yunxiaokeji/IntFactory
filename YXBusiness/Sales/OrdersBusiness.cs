@@ -1037,6 +1037,17 @@ namespace IntFactoryBusiness
             return bl;
         }
 
+        public bool UpdateOrderProcessStatus(string orderid, int status, string operateid, string ip, string clientid)
+        {
+            bool bl = OrdersDAL.BaseProvider.UpdateOrderProcessStatus(orderid, status, operateid, clientid);
+            if (bl)
+            {
+                string msg = status == 1 ? "关闭流程" : "开启流程";
+                LogBusiness.AddLog(orderid, EnumLogObjectType.Orders, msg, operateid, ip, "", clientid);
+            }
+            return bl;
+        }
+
         public bool UpdateOrderProcess(string orderid, string processid, string categoryid, string name, string operateid, string ip, string clientid)
         {
             bool bl = OrdersDAL.BaseProvider.UpdateOrderProcess(orderid, processid, categoryid, operateid, clientid);

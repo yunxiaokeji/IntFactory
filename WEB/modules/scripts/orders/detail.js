@@ -383,6 +383,23 @@
             }
         });
 
+        //关闭开启流程
+        $("#btnChangeProcessStatus").click(function () {
+            var _this = $(this);
+            confirm("确认" + (_this.data("status") == 1 ? "开启" : "关闭") + "流程吗?", function () {
+                Global.post("/Orders/UpdateOrderProcessStatus", {
+                    orderid: ObjectJS.orderid,
+                    status: _this.data("status") == 1 ? 0 : 1
+                }, function (data) {
+                    if (data.status) {
+                        location.href = location.href;
+                    } else {
+                        alert("操作失败，可能因为订单状态已改变，请刷新页面后重试！", 2);
+                    }
+                });
+            });
+        });
+
         if ($(".repeatorder-times").length > 0) {
             require.async("tip", function () {
                 $(".repeatorder-times").Tip({
