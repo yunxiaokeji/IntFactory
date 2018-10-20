@@ -15,6 +15,7 @@
 *└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 using System.Data;
 namespace IntFactoryEntity
 {
@@ -50,6 +51,8 @@ namespace IntFactoryEntity
         public string PostalCode { get; set; }
 
         public string Description { get; set; }
+
+        public List<CityEntity> ChildCity { get; set; }
 
         /// <summary>
         /// 填充数据
